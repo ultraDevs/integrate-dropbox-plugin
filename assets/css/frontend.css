@@ -1,0 +1,96 @@
+.ud-ud-id-overlay {
+  position: fixed;
+  background: #111;
+  top: 0;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: .25;
+  z-index: 9999999;
+  display: none;
+}
+
+.ud-ud-id-opener {
+  position: fixed;
+  top: 50%;
+  left: var(--panel-opener-left, auto);
+  right: var(--panel-opener-right, auto);
+  z-index: 99999999;
+  -webkit-transform: translate(0px, -50%);
+          transform: translate(0px, -50%);
+}
+
+.ud-ud-id-opener img {
+  max-height: 50px;
+}
+
+.ud-ud-id-opener.ud-ud-id-opener-open a {
+  color: var(--panel-opener-hover-color, #fff) !important;
+  background: var(--panel-opener-hover-bg-color, #111);
+}
+
+.ud-ud-id-opener .ud-ud-id-pi-h {
+  display: none;
+}
+
+.ud-ud-id-opener a {
+  background: var(--panel-opener-bg-color, gold);
+  color: var(--panel-opener-color, #fff);
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.ud-ud-id-opener a:hover {
+  color: var(--panel-opener-hover-color, #fff) !important;
+  background: var(--panel-opener-hover-bg-color, #111);
+}
+
+.ud-ud-id-content {
+  position: fixed;
+  top: 0px;
+  width: var(--panel-width, 300px);
+  background: var(--panel-bg, #fff);
+  height: 100%;
+  z-index: 999999999;
+  left: var(--panel-left, auto);
+  right: var(--panel-right, auto);
+  overflow-y: auto;
+}
+
+.ud-ud-id-content--wrap {
+  padding: 20px;
+  font-family: var(--panel-font, "Karla", sans-serif);
+  font-size: var(--panel-font-size, 18px);
+}
+
+.ud-ud-id-content-c h1, .ud-ud-id-content-c h2, .ud-ud-id-content-c h3, .ud-ud-id-content-c h4, .ud-ud-id-content-c h5, .ud-ud-id-content-c h6 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ud-ud-id-content::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #cdcdcd;
+  background-color: #F5F5F5;
+}
+
+.ud-ud-id-content::-webkit-scrollbar {
+  width: 5px;
+  background-color: #F5F5F5;
+}
+
+.ud-ud-id-content::-webkit-scrollbar-thumb {
+  background-color: #cdcdcd;
+  border: 1px solid #cdcdcd;
+}
+
+.ud-ud-id-content .ud-ud-id-title {
+  margin: 0 0 10px;
+  padding: 3px 10px;
+  font-family: var(--panel-title-font, "Karla", sans-serif);
+  font-size: var(--panel-title-font-size, 25px);
+  background-color: var(--panel-title-bg, #111);
+  color: var(--panel-title-color, #fff);
+}
+/*# sourceMappingURL=frontend.css.map */

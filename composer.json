@@ -1,0 +1,17 @@
+{
+    "name": "ultradevs/integrate-dropbox",
+    "description": "StickyList",
+    "authors": [
+        {
+            "name": "mhimon",
+            "email": "mahbubhasanimon@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "ultraDevs\\IntegrateDropbox\\": "includes/"
+        },
+        "files": [ "includes/functions.php" ]
+    }
+}

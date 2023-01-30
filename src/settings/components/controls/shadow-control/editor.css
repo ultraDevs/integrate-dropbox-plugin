@@ -1,0 +1,22 @@
+.pb-shadow-control {
+  margin: 10px 0;
+}
+
+.pb-shadow-control .pb-shadow-control--dropdown {
+  float: right;
+}
+
+.pb-shadow-control--content .css-c3bpo-BackdropUI {
+  border-color: #ddd !important;
+}
+
+.pb-shadow-control--content .css-1u6yfd4-Wrapper {
+  color: #f30d55;
+}
+
+.pb-shadow-control--content .css-5p7d2w-ThumbWrapper {
+  height: 10px;
+  width: 10px;
+  margin-top: 10px;
+}
+/*# sourceMappingURL=editor.css.map */

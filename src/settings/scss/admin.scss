@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#wpcontent {
+	padding-left: 0px !important;
+}
+
+ol, ul {
+	list-style: auto !important;
+	margin: auto !important;
+	padding: auto !important;
+}
+
+#ud-id-app {
+	.ud-tab-panel {
+		.components-tab-panel__tabs {
+			@apply bg-white w-full border-b-[1px] border-[#f7f7f7];
+		}
+
+		.components-tab-panel__tab-content {
+			@apply bg-white w-full p-4;
+
+			.components-input-control__container {
+				input {
+					padding-left: 15px;
+					min-height: 35px;
+				}
+			}
+
+			.css-c3bpo-BackdropUI,
+			.components-textarea-control__input {
+				border-color: #ddd !important;
+			}
+
+			.components-input-control__backdrop {}
+
+			.components-checkbox-control__input {
+				&[type=checkbox] {
+					@apply border-[#ddd];
+
+					&:focus {
+						@apply shadow-none;
+					}
+
+					&:checked {
+						@apply bg-secondary border-[#5820e5];
+					}
+				}
+
+			}
+		}
+
+		.components-tab-panel__tabs-item {
+			@apply bg-white border-gray-50 px-4 py-2;
+
+			&:focus {
+				@apply shadow-none;
+			}
+
+			&:hover {
+				@apply text-secondary;
+			}
+
+			&.is-active {
+				@apply shadow-none text-secondary;
+				border-bottom: 2px solid #5820e5;
+			}
+		}
+	}
+}
+
+.ud-social-icons {
+	list-style: none !important;
+	li {
+		@apply mb-6;
+
+		a {
+			@apply inline-flex items-center justify-center w-10 h-10 p-3 text-center text-gray-600 bg-white rounded-full shadow-lg;
+
+			img {
+				@apply w-4 h-4 border-none;
+			}
+		}
+	}
+}
+
+li.toplevel_page_sticky-list {
+	img {
+		padding: 6px !important;
+		@apply border-none h-[33px];
+	}
+}
+
+/** Controls **/
+.ud-a-textcontrol {
+
+	.css-29yhbg.css-29yhbg.css-29yhbg {
+		@apply border-[#ddd] text-black px-2 py-3;
+	}
+
+	// @apply ;
+	.components-base-control__field {
+		label {
+			@apply text-black text-sm;
+			margin-bottom: 5px !important;
+		}
+
+		input {
+			@apply bg-white border-[#ddd] text-black px-2 py-3;
+		}
+	}
+}
+
+.ud-a-selectcontrol {
+	label {
+		@apply text-black text-sm;
+		margin-bottom: 5px !important;
+	}
+
+	.css-ebmrdk-Container {
+		@apply text-black px-2 py-2;
+	}
+
+	select {
+		width: 100%;
+		min-height: 35px !important;
+		max-width: 100% !important;
+	}
+
+	.components-input-control__backdrop {
+		border-color: #ddd !important;
+	}
+}
+
+/** Control **/
+.components-base-control {
+	width: 100%;
+}
+.pb-panel-inspect--tabs {
+	// display: flex;
+	// justify-content: flex-start;
+	// margin-bottom: 20px;
+	.pb-panel-inspect--tab {
+		background: #fff;
+		color: #111;
+		box-shadow: none;
+		border-radius: 0px;
+		// padding: 17px;
+		font-size: 15px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center !important;
+		flex: 1;
+		margin: 0px !important;
+		border: 1px solid #ddd;
+		height: 35px;
+		span {
+			margin-bottom: 5px;
+			font-size: 22px;
+		}
+		&:first-child {
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+			border-right: 0px;
+		}
+		&:last-child {
+			border-top-right-radius: 4px;
+			border-bottom-right-radius: 4px;
+			border-left: 0px;
+		}
+		&.pb-pi-tab--active {
+			background-color: #888 !important;
+			color: #fff;
+		}
+		&:hover {
+			background-color: #999 !important;
+			color: #fff !important;
+		}
+		&:focus {
+			outline: none;
+			box-shadow: none;
+		}
+	}
+	.components-tab-panel__tab-content {
+		padding: 0px 0 !important;
+	}
+	.pb-panel-inspect--tabs__controls {
+		margin-top: 15px;
+	}
+}
+
+/** Toastify **/
+.Toastify__toast-container {
+	z-index: 99999;
+}
+
+.ud-ud-id-preview {
+	width: var( --panel-w, 300px);
+	background-color: var( --panel-bg, #fff);
+	padding: 20px;
+	&__title {
+		font-family: var( --panel-title-font, 'Karla', sans-serif );
+		font-size: var( --panel-title-font-size, 25px );
+		background-color: var( --panel-title-bg, #111);
+		color: var( --panel-title-color, #fff);
+		margin: 0 0 10px;
+		padding: 3px 10px;
+	}
+	&__content {
+		// white-space: pre-line;
+		font-family: var( --panel-font, 'Karla', sans-serif );
+		font-size: var( --panel-font-size, 18px );
+		h2 {
+			font-weight: bold;
+			// display: inline-block;
+		}
+		a {
+			color: #111;
+		}
+	}
+	
+}
