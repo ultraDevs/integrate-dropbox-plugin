@@ -13,5 +13,8 @@
             "ultraDevs\\IntegrateDropbox\\": "includes/"
         },
         "files": [ "includes/functions.php" ]
+    },
+    "require": {
+        "kunalvarma05/dropbox-php-sdk": "dev-master"
     }
 }

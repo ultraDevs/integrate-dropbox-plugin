@@ -24,8 +24,15 @@ class Activate {
 	 */
 	public function run() {
 		$this->plugin_data();
+		$this->settings_data();
 	}
 
+	/**
+	 * Settings Data
+	 */
+	public function settings_data() {
+		update_option( 'ud_integrate_dropbox_settings', ud_idb_get_settings() );
+	}
 
 	/**
 	 * Save Plugin's Data

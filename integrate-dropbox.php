@@ -29,38 +29,54 @@ define( 'INTEGRATE_DROPBOX_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTEGRATE_DROPBOX_ASSETS', INTEGRATE_DROPBOX_DIR_URL . 'assets/' );
 define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 
-if ( ! function_exists( 'ud_id_fs' ) ) {
-	// Create a helper function for easy SDK access.
-	function ud_id_fs() {
-		global $ud_id_fs;
-
-		if ( ! isset( $ud_id_fs ) ) {
-			// Include Freemius SDK.
-			require_once dirname(__FILE__) . '/freemius/start.php';
-
-			$ud_id_fs = fs_dynamic_init( array(
-				'id'                  => '11947',
-				'slug'                => 'integrate-dropbox',
-				'type'                => 'plugin',
-				'public_key'          => 'pk_a176432ddab9116ca5cb857548db3',
-				'is_premium'          => false,
-				'has_addons'          => false,
-				'has_paid_plans'      => false,
-				'menu'                => array(
-					'slug'           => 'integrate-dropbox',
-					'first-path'     => 'admin.php?page=integrate-dropbox',
-				),
-			) );
+if ( function_exists( 'ud_id_fs' ) ) {
+	ud_id_fs()->set_basename( true, __FILE__ );
+} else {
+	if ( ! function_exists( 'ud_id_fs' ) ) {
+		// Create a helper function for easy SDK access.
+		function ud_id_fs() {
+			global $ud_id_fs;
+	
+			if ( ! isset( $ud_id_fs ) ) {
+				// Include Freemius SDK.
+				require_once dirname(__FILE__) . '/freemius/start.php';
+	
+				$ud_id_fs = fs_dynamic_init( array(
+					'id'                  => '11947',
+					'slug'                => 'integrate-dropbox',
+					'type'                => 'plugin',
+					'public_key'          => 'pk_a176432ddab9116ca5cb857548db3',
+					'is_premium'          => true,
+					'premium_suffix'      => 'PRO',
+					// If your plugin is a serviceware, set this option to false.
+					'has_premium_version' => true,
+					'has_addons'          => false,
+					'has_paid_plans'      => true,
+					'trial'               => array(
+						'days'               => 3,
+						'is_require_payment' => true,
+					),
+					'menu'                => array(
+						'slug'           => 'integrate-dropbox',
+						'first-path'     => 'admin.php?page=integrate-dropbox',
+						'support'        => false,
+					),
+					// Set the SDK to work in a sandbox mode (for development & testing).
+					// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+					'secret_key'          => 'sk_uZK$}43?:LyzW%B)PHfQWj()yEzYY',
+				) );
+			}
+	
+			return $ud_id_fs;
 		}
-
-		return $ud_id_fs;
+	
+		// Init Freemius.
+		ud_id_fs();
+		// Signal that SDK was initiated.
+		do_action( 'ud_id_fs_loaded' );
 	}
-
-	// Init Freemius.
-	ud_id_fs();
-	// Signal that SDK was initiated.
-	do_action( 'ud_id_fs_loaded' );
 }
+
 
 /**
  * Require Composer Autoload
@@ -125,9 +141,8 @@ final class IntegrateDropbox {
 		// Dashboard.
 		$dashboard = new ultraDevs\IntegrateDropbox\Admin\Dashboard();
 
-		// add_action( 'admin_init', array( $dashboard, 'register_setting_options' ) );
-
-		// add_action( 'rest_api_init', array( $dashboard, 'register_setting_options' ) );
+		// App.
+		$app = new ultraDevs\IntegrateDropbox\App\App();
 
 		if ( is_admin() ) {
 
