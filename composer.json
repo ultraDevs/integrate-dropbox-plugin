@@ -10,7 +10,9 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "ultraDevs\\IntegrateDropbox\\": "includes/"
+            "ultraDevs\\IntegrateDropbox\\": "includes/",
+            "ultraDevs\\IntegrateDropbox\\App\\": "app/"
+
         },
         "files": [ "includes/functions.php" ]
     },

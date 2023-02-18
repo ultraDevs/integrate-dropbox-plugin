@@ -8,6 +8,8 @@
 
 namespace ultraDevs\IntegrateDropbox\Admin;
 
+use ultraDevs\IntegrateDropbox\App\App;
+use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\Helper;
 use ultraDevs\IntegrateDropbox\Assets_Manager;
 
@@ -37,6 +39,7 @@ class Dashboard {
 	 */
 	public function register() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
+		add_action( 'admin_init', array( $this, 'handle_authorization' ) );
 
 		if ( is_admin() && isset( $_GET[ 'page' ] ) && INTEGRATE_DROPBOX_MENU_SLUG === wp_unslash( $_GET['page'] ) ) { // phpcs:ignore
 			add_action( 'in_admin_header', array( $this, 'remove_notices' ) );
@@ -61,6 +64,14 @@ class Dashboard {
 	 */
 	public static function view_main() {
 		echo '<div id="ud-id-app"></div>';
+	}
+
+	public function handle_authorization() {
+		if ( isset( $_GET['action'] ) && 'authorization' === $_GET['action'] ) {
+			
+			$app = new App();
+			$app->process_authorization();
+		}
 	}
 
 	/**

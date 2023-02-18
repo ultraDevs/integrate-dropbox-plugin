@@ -9,6 +9,8 @@
 namespace ultraDevs\IntegrateDropbox;
 
 use ultraDevs\IntegrateDropbox\Admin\Dashboard;
+use ultraDevs\IntegrateDropbox\App\Account;
+use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\Helper;
 
 /**
@@ -29,10 +31,6 @@ class Assets_Manager {
 	 */
 	public function admin_assets() {
 
-		if ( ! did_action( 'wp_enqueue_media' ) ) {
-			wp_enqueue_media();
-		}
-
 		wp_enqueue_style( 'ud-id-admin', INTEGRATE_DROPBOX_ASSETS . 'admin/index.css', array( 'wp-components' ), INTEGRATE_DROPBOX_VERSION );
 
 		$script_assets = file_exists( INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/index.asset.php' ) ? require INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/index.asset.php' : array();
@@ -41,16 +39,11 @@ class Assets_Manager {
 
 		wp_localize_script(
 			'ud-id-admin',
-			'SLAdmin',
-			array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'version' => INTEGRATE_DROPBOX_VERSION,
-				'assets'  => INTEGRATE_DROPBOX_ASSETS,
-			)
+			'IDBAdmin',
+			$this->localization_data()
 		);
 
 	}
-
 
 	/**
 	 * Frontend Assets
@@ -60,6 +53,27 @@ class Assets_Manager {
 	public function frontend_assets() {
 		wp_enqueue_style( 'ud-id-frontend', INTEGRATE_DROPBOX_ASSETS . 'css/frontend.css', '', INTEGRATE_DROPBOX_VERSION );
 		wp_enqueue_script( 'ud-id-frontend', INTEGRATE_DROPBOX_ASSETS . 'js/frontend.js', array( 'jquery' ), INTEGRATE_DROPBOX_VERSION, true );
+	}
+
+	/**
+	 * Localize Data.
+	 *
+	 * @return array
+	 */
+	public function localization_data() {
+		$client   = new Client();
+		$auth_url = $client->get_auth_url( [ 'prompt' => 'login' ] );
+
+		$localization_data = array(
+			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+			'version'       => INTEGRATE_DROPBOX_VERSION,
+			'assets'        => INTEGRATE_DROPBOX_ASSETS,
+			'authUrl'       => $auth_url,
+			'accounts'      => Account::get_accounts(),
+			'activeAccount' => Account::get_active_account(),
+		);
+
+		return apply_filters( 'ud_id_localization_data', $localization_data );
 	}
 
 }

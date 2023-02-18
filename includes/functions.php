@@ -40,3 +40,12 @@ function ud_idb_get_settings( $key = null, $default = null ) {
 
 	return isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
 }
+
+function ud_vd() {
+	$args = func_get_args();
+	foreach ( $args as $arg ) {
+		echo '<pre>';
+		var_dump( $arg );
+		echo '</pre>';
+	}
+}

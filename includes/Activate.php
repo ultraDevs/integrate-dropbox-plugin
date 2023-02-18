@@ -38,11 +38,11 @@ class Activate {
 	 * Save Plugin's Data
 	 */
 	public function plugin_data() {
-		Helper::update_option( 'integrate_dropbox_version', INTEGRATE_DROPBOX_VERSION );
+		Helper::update_option( 'ud_integrate_dropbox_version', INTEGRATE_DROPBOX_VERSION );
 
-		$installed_time = Helper::get_option( 'integrate_dropbox_installed_datetime', false );
+		$installed_time = Helper::get_option( 'ud_integrate_dropbox_installed_datetime', false );
 		if ( ! $installed_time ) {
-			Helper::update_option( 'integrate_dropbox_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
+			Helper::update_option( 'ud_integrate_dropbox_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
 		}
 	}
 
@@ -51,9 +51,9 @@ class Activate {
 	 */
 	public function activation_redirect() {
 
-		if ( get_option( 'integrate_dropbox_do_activation_redirect', false ) ) {
+		if ( get_option( 'ud_integrate_dropbox_do_activation_redirect', false ) ) {
 
-			delete_option( 'integrate_dropbox_do_activation_redirect' );
+			delete_option( 'ud_integrate_dropbox_do_activation_redirect' );
 			wp_safe_redirect( admin_url( 'admin.php?page=' . INTEGRATE_DROPBOX_MENU_SLUG ) );
 			exit();
 		}

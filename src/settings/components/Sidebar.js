@@ -15,27 +15,27 @@ const Sidebar = ( ) => {
                     <ul className='flex flex-row space-x-3 ud-social-icons'>
                         <li>
                             <a href="https://facebook.com/hello.ultradevs" target='_blank'>
-                                <img src={ SLAdmin.assets + 'images/social/facebook.svg' } title='ultraDevs - Facebook' alt='ultraDevs - Facebook' />
+                                <img src={ IDBAdmin.assets + 'images/social/facebook.svg' } title='ultraDevs - Facebook' alt='ultraDevs - Facebook' />
                             </a>
                         </li>
                         <li>
                             <a href="https://twitter.com/ultraDevsBD" target='_blank'>
-                                <img src={ SLAdmin.assets + 'images/social/twitter.svg' } title='ultraDevs - Twitter' alt='ultraDevs - Twitter' />
+                                <img src={ IDBAdmin.assets + 'images/social/twitter.svg' } title='ultraDevs - Twitter' alt='ultraDevs - Twitter' />
                             </a>
                         </li>
                         <li>
                             <a href="https://www.instagram.com/ultradevs/" target='_blank'>
-                                <img src={ SLAdmin.assets + 'images/social/instagram.svg' } title='ultraDevs - Instagram' alt='ultraDevs - Instagram' />
+                                <img src={ IDBAdmin.assets + 'images/social/instagram.svg' } title='ultraDevs - Instagram' alt='ultraDevs - Instagram' />
                             </a>
                         </li>
                         <li>
                             <a href="https://www.youtube.com/channel/UCc2yL-QGQjscXpPx9Pp7J8w" target='_blank'>
-                                <img src={ SLAdmin.assets + 'images/social/youtube.svg' } title='ultraDevs - Youtube' alt='ultraDevs - Youtube' />
+                                <img src={ IDBAdmin.assets + 'images/social/youtube.svg' } title='ultraDevs - Youtube' alt='ultraDevs - Youtube' />
                             </a>
                         </li>
                         <li>
                             <a href="https://www.linkedin.com/in/ultradevs/" target='_blank'>
-                                <img src={ SLAdmin.assets + 'images/social/linked-in.svg' } title='ultraDevs - Linked In' alt='ultraDevs - Linked In' />
+                                <img src={ IDBAdmin.assets + 'images/social/linked-in.svg' } title='ultraDevs - Linked In' alt='ultraDevs - Linked In' />
                             </a>
                         </li>
                     </ul>

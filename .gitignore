@@ -29,8 +29,6 @@ node_modules/
 .DS_Store
 .travis.yml
 
-/vendor/
-
 /assets/**/*.map
 
 .sass-cache

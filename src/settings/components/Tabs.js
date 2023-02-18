@@ -1,9 +1,9 @@
 import React from 'react';
 import { TabPanel } from '@wordpress/components';
 import General from './Contents/General';
-import Content from './Contents/Content';
-import Styling from './Contents/Styling';
-import Advanced from './Contents/Advanced';
+// import Content from './Contents/Content';
+// import Styling from './Contents/Styling';
+// import Advanced from './Contents/Advanced';
 
 
 const Tabs = ( ) => {
@@ -40,7 +40,8 @@ const Tabs = ( ) => {
                         ( tab ) => {
                             if ( 'general' === tab.name ) {
                                 return <General />;
-                            } else if ( 'content' === tab.name ) {
+                            }
+                            {/* } else if ( 'content' === tab.name ) {
                                 return <Content />;
                             } else if ( 'styling' === tab.name ) {
                                 return <Styling />;
@@ -48,7 +49,7 @@ const Tabs = ( ) => {
                                 return <Advanced />;
                             } else {
                                 return 'ultraDevs';
-                            }
+                            } */}
                         }
                     }
                 </TabPanel>
