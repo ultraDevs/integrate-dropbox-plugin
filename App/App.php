@@ -52,8 +52,15 @@ class App {
 		}
 
 		$this->account_id = $account_id;
+
+		// add_filter( 'ud_idb_root_id', array( 'ultraDevs\IntegrateDropbox\App\Account', 'get_root_id' ), 10, 1 );
 	}
 
+	/**
+	 * Process Authorization
+	 *
+	 * @return void
+	 */
 	public function process_authorization() {
 		$redirect = admin_url( 'admin.php?page=integrate-dropbox' );
 

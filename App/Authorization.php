@@ -52,6 +52,9 @@ class Authorization {
 	 */
 	public function __construct( $account ) {
 		$this->account_id = $account['id'];
+
+		// Callback for refresh token.
+		// add_action( 'ud_idb_refresh_token', array( $this, 'refresh_token' ), 10, 1 );
 	}
 
 	/**
@@ -146,12 +149,11 @@ class Authorization {
 	 *
 	 * @return boolean
 	 */
-	public function revoke_token( $account ) {
+	public function revoke_token( $account = null ) {
 		error_log( INTEGRATE_DROPBOX_ERROR . __( 'Authorization Lost', 'integrate-dropbox' ) );
 
 		try {
 			$this->get_client($account)->getAuthHelper()->revokeAccessToken();
-            // Accounts::instance()->remove_account($account->get_id());
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error revoking token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 		}
@@ -168,7 +170,7 @@ class Authorization {
 	 *
 	 * @param array $account Account.
 	 */
-	public function refresh_token( $account ) {
+	public function refresh_token( $account = null ) {
 		$refresh_token = $this->get_client()->getRefreshToken();
 
 		if ( empty ( $refresh_token ) ) {
