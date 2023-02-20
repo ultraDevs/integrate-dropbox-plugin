@@ -160,9 +160,6 @@ final class IntegrateDropbox {
 			$review->register();
 
 		} else {
-			// View.
-			new \ultraDevs\IntegrateDropbox\Display();
-
 			// Frontend Assets.
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
