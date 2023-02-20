@@ -60,6 +60,13 @@ class AccessToken extends BaseModel
     protected $teamId;
 
     /**
+     * Created.
+     *
+     * @var string
+     */
+    protected $created;
+
+    /**
      * Create a new AccessToken instance
      *
      * @param array $data
@@ -76,6 +83,16 @@ class AccessToken extends BaseModel
         $this->teamId = $this->getDataProperty('team_id');
         $this->expiryTime = $this->getDataProperty('expires_in');
         $this->refreshToken = $this->getDataProperty('refresh_token');
+        $this->created = $this->getDataProperty( 'created' );
+
+        if ( empty( $this->refreshToken ) ) {
+            // Long lived Tokens don't have a refresh token and don't expire
+            $this->expiresIn = -1;
+        }
+
+        if ( empty( $this->created ) ) {
+            $this->created = time();
+        }
     }
 
     /**
@@ -146,6 +163,16 @@ class AccessToken extends BaseModel
     public function getAccountId()
     {
         return $this->accountId;
+    }
+
+    /**
+     * Get created.
+     *
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     /**

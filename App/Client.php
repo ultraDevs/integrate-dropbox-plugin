@@ -76,6 +76,9 @@ class Client {
 			$this->account = Account::get_accounts( $account_id );
 		}
 
+		// Callback for refresh token.
+		add_action( 'ud_idb_refresh_token', array( $this, 'refresh_token' ), 10, 1 );
+
 		$this->client_id    = apply_filters( 'ud_idb_client_id', 'mp6f0by845hzuzw' );
 		$this->app_secret   = apply_filters( 'ud_idb_app_secret', 'osnj0do9if83yrh' );
 		$this->redirect_uri = apply_filters( 'ud_idb_redirect_uri', 'https://oauth.ultradevs.com/integrate-dropbox-wp.php' );
@@ -132,10 +135,14 @@ class Client {
 
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to start Dropbox Client: %s', 'integrate-dropbox' ), $e->getMessage() ) );
-
 			return $e;
 		}
 
+		if ( $this->client->getOAuth2Client()->isAccessTokenExpired() ) {
+			// Refresh token.
+			$this->refresh_token( $account );
+		}
+	
 		return $this->client;
 	}
 
@@ -225,6 +232,60 @@ class Client {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Refresh Token.
+	 *
+	 * @param array $account Account.
+	 */
+	public function refresh_token( $account = null ) {
+		if ( empty( $account ) ) {
+			$account = $this->account;
+		}
+		$authorization = new Authorization( $account );
+		$refresh_token = $authorization->get_refresh_token();
+
+		$active_token = Account::get_token( $account['id'] );
+
+		if ( empty ( $refresh_token ) ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . __( 'No refresh token found!', 'integrate-dropbox' ) );
+
+			$authorization->set_valid_token( false );
+			$authorization->revoke_token();
+
+			return false;
+		}
+
+		try {
+			$token = $this->get_client()->getAuthHelper()->getRefreshedAccessToken( $active_token );
+
+			$authorization->set_access_token( $token );
+			$this->get_client()->setAccessToken( $token );
+
+			// Remove Authorization Lost Notice.
+			if ( $timestamp = wp_next_scheduled( 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
+				wp_unschedule_event( $timestamp, 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
+
+				$account['is_lost'] = false;
+				Account::update_account( $account );
+			}
+
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error refreshing token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
+
+			$authorization->set_valid_token( false );
+
+			// Schedule Authorization Lost Notice.
+			if ( ! wp_next_scheduled( 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
+				wp_schedule_event( time(), 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
+
+				$account['is_lost'] = true;
+				Account::update_account( $account );
+			}
+		}
+
+		return $this->get_client();
 	}
 
 	/**

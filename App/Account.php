@@ -116,6 +116,24 @@ class Account {
 	}
 
 	/**
+	 * Get Tokens
+	 *
+	 * @param string $account_id Account ID.
+	 *
+	 * @return object | array
+	 */
+	public static function get_token( $account_id = null ) {
+		if ( ! $account_id ) {
+			$active_account = self::get_active_account();
+			$account_id     = ! empty( $active_account ) ? $active_account['id'] : null;
+		}
+
+		$tokens = get_option( 'ud_idb_tokens', array() );
+
+		return ! empty( $tokens[ $account_id ] ) ? $tokens[ $account_id ] : array();
+	}
+
+	/**
 	 * Get Root ID
 	 *
 	 * @param string $account_id Account ID.

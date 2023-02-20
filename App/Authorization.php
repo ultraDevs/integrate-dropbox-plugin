@@ -52,9 +52,6 @@ class Authorization {
 	 */
 	public function __construct( $account ) {
 		$this->account_id = $account['id'];
-
-		// Callback for refresh token.
-		// add_action( 'ud_idb_refresh_token', array( $this, 'refresh_token' ), 10, 1 );
 	}
 
 	/**
@@ -69,7 +66,6 @@ class Authorization {
 
 		return $this->client;
 	}
-
 	/**
 	 * Get Token By ID.
 	 *
@@ -143,6 +139,20 @@ class Authorization {
 	}
 
 	/**
+	 * Get Refresh token.
+	 *
+	 * @param number $account_id Account ID.
+	 *
+	 * @return string | false
+	 */
+	public function get_refresh_token( $account_id = null ) {
+		$account_id = ! empty ( $account_id ) ? $account_id : $this->account_id;
+
+		$token = Account::get_token( $account_id );
+		return $token->refresh_token;
+	}
+
+	/**
 	 * Revoke Token.
 	 *
 	 * @param array $account Account.
@@ -153,7 +163,7 @@ class Authorization {
 		error_log( INTEGRATE_DROPBOX_ERROR . __( 'Authorization Lost', 'integrate-dropbox' ) );
 
 		try {
-			$this->get_client($account)->getAuthHelper()->revokeAccessToken();
+			$this->get_client($account)->getAuthHelper()->revokeAccessToken(); // @TODO 
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error revoking token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 		}
@@ -163,54 +173,6 @@ class Authorization {
 
 		return true;
 
-	}
-
-	/**
-	 * Refresh Token.
-	 *
-	 * @param array $account Account.
-	 */
-	public function refresh_token( $account = null ) {
-		$refresh_token = $this->get_client()->getRefreshToken();
-
-		if ( empty ( $refresh_token ) ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . __( 'No refresh token found!', 'integrate-dropbox' ) );
-
-			$this->set_valid_token( false );
-			$this->revoke_token();
-
-			return false;
-		}
-
-		try {
-			$token = $this->get_client()->getAuthHelper()->refreshToken();
-
-			$this->set_access_token( $token );
-			$this->get_client()->setAccessToken( $token );
-
-			// Remove Authorization Lost Notice.
-			if ( $timestamp = wp_next_scheduled( 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
-				wp_unschedule_event( $timestamp, 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
-
-				$account['is_lost'] = false;
-				Account::update_account( $account );
-			}
-
-		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error refreshing token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
-
-			$this->set_valid_token( false );
-
-			// Schedule Authorization Lost Notice.
-			if ( ! wp_next_scheduled( 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
-				wp_schedule_single_event( time(), 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
-
-				$account['is_lost'] = true;
-				Account::update_account( $account );
-			}
-
-			return false;
-		}
 	}
 
 }
