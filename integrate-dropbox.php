@@ -145,6 +145,9 @@ final class IntegrateDropbox {
 		// App.
 		$app = new ultraDevs\IntegrateDropbox\App\App();
 
+		// Rest API.
+		$rest_api = new ultraDevs\IntegrateDropbox\Rest_API();
+
 		if ( is_admin() ) {
 
 			// Activation_Redirect.

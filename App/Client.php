@@ -303,7 +303,5 @@ class Client {
 			'allocated' => $allocation,
 			'percent' => round( ( $used / $allocation ) * 100 ),
 		);
-
 	}
-
 }

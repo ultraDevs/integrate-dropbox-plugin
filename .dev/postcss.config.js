@@ -1,6 +1,5 @@
 module.exports = {
-	ident: 'postcss',
-	plugins: [
-		require( 'autoprefixer' ),
-	],
+	postcssOptions: {
+		plugins: [require("autoprefixer")],
+	},
 };

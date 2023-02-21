@@ -1,4 +1,3 @@
-import React from '@wordpress/element';
 import { ToastContainer } from 'react-toastify';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';

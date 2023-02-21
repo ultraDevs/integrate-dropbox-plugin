@@ -16,45 +16,22 @@ import {
     TabPanel,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-
+import apiFetch from '@wordpress/api-fetch';
 
 const General = ( props ) => {
 
-    // if ( 'object' !== typeof props.options || 0 === Object.keys( props.options ).length ) {
-    //     return (
-    //         <>
-    //             { __( 'Loading.......', 'sticky-list' ) }
-    //         </>
-    //     );
-    // }
-    // const locationList = [
-    //     {
-    //         label: 'All',
-    //         value: 'all',
-    //     },
-    //     {
-    //         label: 'Home Page',
-    //         value: 'home-page',
-    //     },
-    //     {
-    //         label: 'Posts',
-    //         value: 'posts',
-    //     },
-    //     {
-    //         label: 'Pages',
-    //         value: 'pages',
-    //     },
-    //     {
-    //         label: 'Category archives',
-    //         value: 'category-archives',
-    //     },
-    //     {
-    //         label: 'Date archives',
-    //         value: 'category-archives',
-    //     },
-    // ];
+	const switchAccount = (id) => {
+		apiFetch({
+			path: "/idb/v1/switch-account",
+			method: "POST",
+			data: {
+				id: id,
+			},
+		}).then((response) => {
+			console.log(response);
+		});
+	}
     
-
     return (
         <>
             <div className='flex flex-wrap justify-between'>
@@ -71,7 +48,25 @@ const General = ( props ) => {
                     <h3>{IDBAdmin?.activeAccount?.name}</h3>
                 </div>
                 <div className='w-full sm:w-2/4'>
-					{/* <Previewer options={ options } /> */}
+					<h3>Switch Account</h3>
+					{
+						Object.entries(IDBAdmin?.accounts).map((account, index) => {
+							return (
+								<div key={index}>
+									<h3>{account[1].name}</h3>
+									<button 
+										onClick={
+											() => {
+												switchAccount(account[1].id);
+												toast.success('Account switched successfully');
+											}
+										}
+										className='button button-primary'
+									>Switch to this</button>
+								</div>
+							)
+						})
+					}
 				</div>
             </div>
         </>

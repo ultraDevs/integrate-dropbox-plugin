@@ -163,7 +163,7 @@ class Authorization {
 		error_log( INTEGRATE_DROPBOX_ERROR . __( 'Authorization Lost', 'integrate-dropbox' ) );
 
 		try {
-			$this->get_client($account)->getAuthHelper()->revokeAccessToken(); // @TODO 
+			$this->get_client($account)->getAuthHelper()->revokeAccessToken();
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error revoking token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 		}
