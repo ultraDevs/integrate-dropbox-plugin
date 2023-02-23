@@ -5,6 +5,8 @@ import { withSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import swal from "sweetalert";
+
 import {
     CheckboxControl,
     TextControl,
@@ -17,6 +19,7 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
+
 
 const General = ( props ) => {
 
@@ -31,7 +34,23 @@ const General = ( props ) => {
 			console.log(response);
 		});
 	}
-    
+
+	swal(
+		{
+			title: "An input!",
+			text: "Write something interesting:",
+			type: "input",
+			showCancelButton: true,
+			closeOnConfirm: false,
+			animation: "slide-from-top",
+			inputPlaceholder: "Write something",
+			getState: () => {
+				console.log('getState');
+			}
+		
+		}
+	);
+
     return (
         <>
             <div className='flex flex-wrap justify-between'>
