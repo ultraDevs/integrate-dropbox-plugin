@@ -31,25 +31,27 @@ const General = ( props ) => {
 				id: id,
 			},
 		}).then((response) => {
-			console.log(response);
+			if ( 'success' === response.status ) {
+				window.location.reload();
+			}
 		});
 	}
 
-	swal(
-		{
-			title: "An input!",
-			text: "Write something interesting:",
-			type: "input",
-			showCancelButton: true,
-			closeOnConfirm: false,
-			animation: "slide-from-top",
-			inputPlaceholder: "Write something",
-			getState: () => {
-				console.log('getState');
-			}
+	// swal(
+	// 	{
+	// 		title: "An input!",
+	// 		text: "Write something interesting:",
+	// 		type: "input",
+	// 		showCancelButton: true,
+	// 		closeOnConfirm: false,
+	// 		animation: "slide-from-top",
+	// 		inputPlaceholder: "Write something",
+	// 		getState: () => {
+	// 			console.log('getState');
+	// 		}
 		
-		}
-	);
+	// 	}
+	// );
 
     return (
         <>

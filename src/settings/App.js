@@ -5,14 +5,14 @@ import './scss/admin.scss';
 
 const App = ( ) => {
     return (
-        <>
+		<div className="ud-c-file-browser">
 			<Header />
-			<div className='flex flex-wrap w-[90%] mx-auto sm:w-[90%] justify-between'>
-				<Tabs />
+			<div className="ud-c-file-browser__body">
 				<Sidebar />
+				<Tabs />
 			</div>
-		</>
-    );
+		</div>
+	);
 };
 
 export default App;

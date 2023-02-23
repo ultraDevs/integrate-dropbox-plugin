@@ -1,6 +1,7 @@
 import React from 'react';
 import { TabPanel } from '@wordpress/components';
 import General from './Contents/General';
+import Menu from './Sidebar';
 // import Content from './Contents/Content';
 // import Styling from './Contents/Styling';
 // import Advanced from './Contents/Advanced';
@@ -9,39 +10,45 @@ import General from './Contents/General';
 const Tabs = ( ) => {
 
     return (
-        <>
-            <div className='w-full sm:w-[74%] mb-4 sm:mb-0 rounded-md overflow-hidden'>
-                <TabPanel className="ud-tab-panel"
-                    activeClass="is-active"
-                    initialTabName="general"
-                    tabs={ [
-                        {
-                            name: 'general',
-                            title: 'General',
-                            className: 'tab-general',
-                        },
-                        {
-                            name: 'content',
-                            title: 'Content',
-                            className: 'tab-content',
-                        },
-                        {
-                            name: 'styling',
-                            title: 'Styling',
-                            className: 'tab-styling',
-                        },
-                        // {
-                        //     name: 'advanced',
-                        //     title: 'Advanced',
-                        //     className: 'tab-advanced',
-                        // },
-                    ] }>
-                    {
-                        ( tab ) => {
-                            if ( 'general' === tab.name ) {
-                                return <General />;
-                            }
-                            {/* } else if ( 'content' === tab.name ) {
+		<>
+			<div className="ud-c-file-browser__content">
+				<TabPanel
+					className="ud-tab-panel"
+					activeClass="is-active"
+					initialTabName="general"
+					tabs={[
+						{
+							name: "general",
+							title: "General",
+							className: "tab-general",
+						},
+						{
+							name: "content",
+							title: "Content",
+							className: "tab-content",
+						},
+						{
+							name: "styling",
+							title: "Styling",
+							className: "tab-styling",
+						},
+						// {
+						//     name: 'advanced',
+						//     title: 'Advanced',
+						//     className: 'tab-advanced',
+						// },
+					]}
+				>
+					{(tab) => {
+						if ("general" === tab.name) {
+							return (
+								<>
+									<General />
+								</>
+							);
+						}
+						{
+							/* } else if ( 'content' === tab.name ) {
                                 return <Content />;
                             } else if ( 'styling' === tab.name ) {
                                 return <Styling />;
@@ -49,13 +56,13 @@ const Tabs = ( ) => {
                                 return <Advanced />;
                             } else {
                                 return 'ultraDevs';
-                            } */}
-                        }
-                    }
-                </TabPanel>
-            </div>
-        </>
-    );
+                            } */
+						}
+					}}
+				</TabPanel>
+			</div>
+		</>
+	);
 };
 
 export default Tabs;

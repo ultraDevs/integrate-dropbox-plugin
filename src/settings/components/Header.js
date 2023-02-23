@@ -1,13 +1,85 @@
 import React from 'react';
 
 
-const Header = ( ) => {
+const Header = () => {
+	const { activeAccount } = IDBAdmin;
+
     return (
-        <div className='flex items-center justify-center py-6 mb-5 bg-white shadow-xs'>
-            <h1 className='mr-2 text-3xl'>Integrate Dropbox</h1>
-            <span className='px-2 py-0.5 text-[10px] text-white bg-indigo-400 rounded-xs'>{ IDBAdmin.version }</span>
-        </div>
-    );
+		<div className="ud-c-file-browser__header">
+			<nav
+				className="flex ud-c-file-browser__header__breadcrumb"
+				aria-label="Breadcrumb"
+			>
+				<ol>
+					<li>
+						<a href="#">
+							<svg
+								aria-hidden="true"
+								class="w-4 h-4 mr-2"
+								fill="currentColor"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+							</svg>
+							Home
+						</a>
+					</li>
+					<li aria-current="page">
+						<div class="flex items-center">
+							<svg
+								aria-hidden="true"
+								class="w-6 h-6 text-gray-400"
+								fill="currentColor"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									fill-rule="evenodd"
+									d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+									clip-rule="evenodd"
+								></path>
+							</svg>
+							<a
+								href="#"
+								class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
+							>
+								Projects
+							</a>
+						</div>
+					</li>
+				</ol>
+			</nav>
+			<div className="ud-c-file-browser__header__right">
+				<div className="ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn">
+					<img src={IDBAdmin.assets + "images/search.svg"} />
+				</div>
+				<div className="ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn">
+					<img src={IDBAdmin.assets + "images/refresh.svg"} />
+				</div>
+				<div className="ud-c-file-browser__header__right__filter ud-c-file-browser__header__right__btn">
+					<img src={IDBAdmin.assets + "images/filter.svg"} />
+				</div>
+				<div className="ud-c-file-browser__header__right__more ud-c-file-browser__header__right__btn">
+					<img src={IDBAdmin.assets + "images/more.svg"} />
+				</div>
+
+				<div className="ud-c-file-browser__header__right__user ud-c-file-browser__header__right__btn">
+					<div className='ud-c-file-browser__header__right__user__info'>
+						<img src={activeAccount.photo} alt={activeAccount.name} />
+						<div className='ud-c-file-browser__header__right__user__info__more'>
+							<div className='ud-c-file-browser__header__right__user__info__more__name'>
+								{activeAccount.name}
+							</div>
+							<div className='ud-c-file-browser__header__right__user__info__more__email'>
+								{activeAccount.email}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default Header;
