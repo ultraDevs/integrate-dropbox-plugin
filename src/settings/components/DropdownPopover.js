@@ -1,44 +1,36 @@
-import React, { useState, useRef } from "react";
-import { Popover } from "@headlessui/react";
+import React, { Fragment } from "react";
+import { Popover, Transition } from "@headlessui/react";
+import classnames from "classnames";
 
-const DropdownPopover = ({ title, options }) => {
-	const [selectedOption, setSelectedOption] = useState(options[0]);
-	const popoverRef = useRef(null);
-
-	const handleOptionClick = (option) => {
-		setSelectedOption(option);
-		popoverRef.current.click();
-	};
-
+const DropdownPopover = ({ btnData, content }) => {
 	return (
-		<Popover>
-			<Popover.Button
-				ref={popoverRef}
-				className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
-			>
-				{title}
-				
+		<Popover className="relative">
+			<Popover.Button className={btnData.className}>
+				<img src={btnData.icon} />
 			</Popover.Button>
 
-			<Popover.Panel className="absolute z-10 w-full max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0">
-				<div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-					<div className="relative grid gap-6 px-5 py-6 bg-white sm:gap-8 sm:p-8">
-						{options.map((option) => (
-							<button
-								key={option}
-								className={`${
-									option === selectedOption
-										? "bg-gray-100 text-gray-900"
-										: "text-gray-700 hover:bg-gray-50"
-								} block w-full rounded-md py-2 px-3 text-left text-sm font-medium`}
-								onClick={() => handleOptionClick(option)}
-							>
-								{option}
-							</button>
-						))}
+			<Transition
+				as={Fragment}
+				enter="transition ease-out duration-200"
+				enterFrom="opacity-0 translate-y-1"
+				enterTo="opacity-100 translate-y-0"
+				leave="transition ease-in duration-150"
+				leaveFrom="opacity-100 translate-y-0"
+				leaveTo="opacity-0 translate-y-1"
+			>
+				<Popover.Panel className="ud-c-popover">
+					<div className="ud-c-popover__content">
+						<div
+							className={classnames(
+								"ud-c-popover__content__wrap",
+								btnData.contentClass
+							)}
+						>
+							{content}
+						</div>
 					</div>
-				</div>
-			</Popover.Panel>
+				</Popover.Panel>
+			</Transition>
 		</Popover>
 	);
 };

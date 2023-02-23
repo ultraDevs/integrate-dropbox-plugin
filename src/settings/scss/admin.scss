@@ -79,3 +79,14 @@ ol, ul {
 		@apply w-full sm:w-[79%] mb-4 sm:mb-0 rounded-md overflow-hidden;
 	}
 }
+
+/** Popover **/
+.ud-c-popover {
+	@apply absolute z-10 w-full max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0;
+	&__content {
+		@apply rounded-lg shadow-lg ring-1 ring-black ring-opacity-5;
+		&__wrap {
+			@apply relative grid gap-6 px-5 py-6 bg-white sm:gap-8 sm:p-8;
+		}
+	}
+}
