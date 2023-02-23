@@ -48,6 +48,7 @@
         "webpack-fix-style-only-entries": "^0.6.1"
     },
     "dependencies": {
+        "@headlessui/react": "^1.7.11",
         "@wordpress/dom-ready": "^3.27.0",
         "@wordpress/icons": "^9.18.0",
         "grunt-contrib-rename": "^0.2.0",
