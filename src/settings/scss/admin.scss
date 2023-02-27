@@ -115,7 +115,52 @@ ol, ul {
 		@apply h-screen sticky top-24 bg-white shadow-sm border-r-2 border-gray-200;
 		min-height: calc(100vh - 92px);
 		width: 100%;
-		&__content {
+		&__upload {
+			@apply flex justify-center items-center border-b-[2px] border-gray-50 py-3;
+			button {
+				@apply flex items-center;
+				img {
+					@apply h-6 w-6;
+				}
+				span {
+					@apply ml-2 text-sm font-medium text-gray-700;
+				}
+			}
+		}
+		&__items {
+			@apply border-b-[2px] border-gray-50 py-3;
+		}
+		&__item {
+			@apply flex items-center p-3 cursor-pointer border-l-[4px] border-transparent hover:border-secondary;
+			&--active {
+				@apply bg-gray-200 border-secondary;
+			}
+			img {
+				@apply h-8 w-8 mr-2;
+			}
+			span {
+				@apply text-[15px] font-medium text-gray-700;
+			}
+		}
+		&__storage-info {
+			@apply flex items-center p-3;
+			&__img {
+				img {
+					@apply h-8 w-8 mr-2;
+				}
+			}
+			&__more {
+				@apply flex items-center justify-between p-3 flex-col flex-1;
+				&__text {
+					@apply text-[15px] font-medium text-gray-700 mt-1;
+				}
+				&__progress {
+					@apply w-full bg-gray-200 dark:bg-neutral-600 h-2;
+					&__bar {
+						@apply bg-secondary p-0.5 text-[16px] font-medium leading-none h-full;
+					}
+				}
+			}
 		}
 	}
 	&__content {
@@ -141,7 +186,7 @@ ol, ul {
 			@apply bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500;
 		}
 		&--secondary {
-			@apply bg-gray-600 hover:bg-gray-700 focus:ring-gray-500;
+			@apply bg-gray-300 hover:bg-gray-200 focus:ring-gray-200;
 		}
 		
 	}
