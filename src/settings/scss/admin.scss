@@ -41,10 +41,29 @@ ol, ul {
 		&__right {
 			@apply flex items-center ml-auto space-x-2;
 			&__btn {
-				@apply rounded-lg bg-[#f7f7f7] hover:bg-[#ccc] text-gray-700 p-3 cursor-pointer;
+				@apply rounded-lg bg-[#f7f7f7] hover:bg-[#ccc] text-gray-700 p-3 cursor-pointer outline-none;
 				img {
 					height: 25px;
 					width: 25px;
+				}
+			}
+			&__filter {
+				&__content {
+					@apply p-5;
+					&__title {
+						@apply text-base font-medium text-[#222] mb-2 uppercase;
+					}
+					hr {
+						@apply -mx-5 py-2;
+					}
+					&__options {
+						&__item {
+							@apply text-sm text-gray-500 mb-2 cursor-pointer;
+							&--active {
+								@apply text-[#222] font-medium;
+							}
+						}
+					}
 				}
 			}
 			&__user {
@@ -63,15 +82,39 @@ ol, ul {
 						}
 					}
 				}
+				&__content {
+					h3 {
+						@apply text-base font-medium text-[#222] mb-2 p-3 border-b-[1px] border-gray-200 text-center;
+					}
+					.ud-c-file-browser__header__right__user__info {
+						@apply cursor-pointer p-3 border-b-[1px] border-gray-200;
+						
+						&--active {
+							@apply bg-[#f7f7f7];
+						}
+						&__more {
+							@apply overflow-hidden whitespace-nowrap overflow-ellipsis;
+							
+						}
+					}
+					&__add {
+						@apply cursor-pointer p-3 flex justify-center items-center;
+						
+					}
+				}
 			}
 		}
 	}
 	&__body {
-		@apply flex flex-wrap w-[100%] mx-auto justify-between;
+		@apply flex flex-wrap w-full mx-auto justify-between h-full;
+	}
+	&__l {
+		@apply w-full sm:w-1/5;
 	}
 	&__sidebar {
-		@apply h-screen sticky w-full sm:w-1/5 top-24 bg-white shadow-sm border-r-2 border-gray-200;
+		@apply h-screen sticky top-24 bg-white shadow-sm border-r-2 border-gray-200;
 		min-height: calc(100vh - 92px);
+		width: 100%;
 		&__content {
 		}
 	}
@@ -86,7 +129,20 @@ ol, ul {
 	&__content {
 		@apply rounded-lg shadow-lg ring-1 ring-black ring-opacity-5;
 		&__wrap {
-			@apply relative grid gap-6 px-5 py-6 bg-white sm:gap-8 sm:p-8;
+			@apply relative bg-white;
 		}
+	}
+}
+/** Button **/
+.ud-c {
+	&-btn {
+		@apply px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+		&--primary {
+			@apply bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500;
+		}
+		&--secondary {
+			@apply bg-gray-600 hover:bg-gray-700 focus:ring-gray-500;
+		}
+		
 	}
 }

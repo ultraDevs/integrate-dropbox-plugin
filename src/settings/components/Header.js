@@ -1,10 +1,32 @@
 import React, { Fragment } from 'react';
+import { useState } from '@wordpress/element';
 import { Popover, Transition } from "@headlessui/react";
 import DropdownPopover from './DropDownPopover';
+import classnames from "classnames";
+import apiFetch from "@wordpress/api-fetch";
 
 const Header = () => {
-	const { activeAccount } = IDBAdmin;
-	const options = ["Option 1", "Option 2", "Option 3"];
+	const { activeAccount, accounts } = IDBAdmin;
+
+	const [filter, setFilter] = useState('name');
+	const [sort, setSort] = useState('asc');
+
+	const [aAccount, setActiveAccount] = useState(activeAccount);
+	
+	const switchAccount = (id) => {
+		apiFetch({
+			path: "/idb/v1/switch-account",
+			method: "POST",
+			data: {
+				id: id,
+			},
+		}).then((response) => {
+			if ("success" === response.status) {
+				// window.location.reload();
+			}
+		});
+	};
+
 
     return (
 		<div className="ud-c-file-browser__header">
@@ -59,10 +81,6 @@ const Header = () => {
 				<div className="ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn">
 					<img src={IDBAdmin.assets + "images/refresh.svg"} />
 				</div>
-				{/* <button
-					data-dropdown-toggle="dropdown"
-					className="ud-c-file-browser__header__right__filter ud-c-file-browser__header__right__btn"
-				></button> */}
 
 				<DropdownPopover
 					className="relative"
@@ -72,12 +90,90 @@ const Header = () => {
 						icon: IDBAdmin.assets + "images/filter.svg",
 						contentClass: "min-w-[200px]",
 					}}
-					content={<h2>Filter</h2>}
+					content={
+						<>
+							<div className="ud-c-file-browser__header__right__filter__content">
+								<div className="ud-c-file-browser__header__right__filter__content__title">
+									Filter by
+								</div>
+								<div className="ud-c-file-browser__header__right__filter__content__options">
+									<ul>
+										<li
+											className={classnames(
+												"ud-c-file-browser__header__right__filter__content__options__item",
+												{
+													"ud-c-file-browser__header__right__filter__content__options__item--active":
+														filter === "name",
+												}
+											)}
+											onClick={() => setFilter("name")}
+										>
+											Name
+										</li>
+										<li
+											className={classnames(
+												"ud-c-file-browser__header__right__filter__content__options__item",
+												{
+													"ud-c-file-browser__header__right__filter__content__options__item--active":
+														filter === "size",
+												}
+											)}
+											onClick={() => setFilter("size")}
+										>
+											Size
+										</li>
+										<li
+											className={classnames(
+												"ud-c-file-browser__header__right__filter__content__options__item",
+												{
+													"ud-c-file-browser__header__right__filter__content__options__item--active":
+														filter === "modified",
+												}
+											)}
+											onClick={() =>
+												setFilter("modified")
+											}
+										>
+											Modified
+										</li>
+									</ul>
+								</div>
+								<hr />
+								<div className="ud-c-file-browser__header__right__filter__content__title">
+									Sort Direction
+								</div>
+								<div className="ud-c-file-browser__header__right__filter__content__options">
+									<ul>
+										<li
+											className={classnames(
+												"ud-c-file-browser__header__right__filter__content__options__item",
+												{
+													"ud-c-file-browser__header__right__filter__content__options__item--active":
+														sort === "asc",
+												}
+											)}
+											onClick={() => setSort("asc")}
+										>
+											ASC
+										</li>
+										<li
+											className={classnames(
+												"ud-c-file-browser__header__right__filter__content__options__item",
+												{
+													"ud-c-file-browser__header__right__filter__content__options__item--active":
+														sort === "desc",
+												}
+											)}
+											onClick={() => setSort("desc")}
+										>
+											DESC
+										</li>
+									</ul>
+								</div>
+							</div>
+						</>
+					}
 				/>
-
-				{/* <div className="ud-c-file-browser__header__right__more ud-c-file-browser__header__right__btn">
-					<img src={IDBAdmin.assets + "images/more.svg"} />
-				</div> */}
 
 				<DropdownPopover
 					className="relative"
@@ -90,22 +186,106 @@ const Header = () => {
 					content={<h2>More</h2>}
 				/>
 
-				<div className="ud-c-file-browser__header__right__user ud-c-file-browser__header__right__btn">
-					<div className="ud-c-file-browser__header__right__user__info">
-						<img
-							src={activeAccount.photo}
-							alt={activeAccount.name}
-						/>
-						<div className="ud-c-file-browser__header__right__user__info__more">
-							<div className="ud-c-file-browser__header__right__user__info__more__name">
-								{activeAccount.name}
+				<DropdownPopover
+					className="relative"
+					btnData={{
+						className:
+							"ud-c-file-browser__header__right__user ud-c-file-browser__header__right__btn relative",
+						contentClass: "min-w-[200px]",
+					}}
+					btnContent={
+						<>
+							{accounts ? (
+								<div className="ud-c-file-browser__header__right__user__info">
+									<img
+										src={aAccount.photo}
+										alt={aAccount.name}
+									/>
+									<div className="ud-c-file-browser__header__right__user__info__more">
+										<div className="ud-c-file-browser__header__right__user__info__more__name">
+											{aAccount.name}
+										</div>
+										<div className="ud-c-file-browser__header__right__user__info__more__email">
+											{aAccount.email}
+										</div>
+									</div>
+								</div>
+							) : (
+								<button
+									onClick={() => {
+										window.open(
+											IDBAdmin.authUrl,
+											"_blank",
+											"width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes"
+										);
+									}}
+									className="ud-c-btn ud-c-btn--primary"
+								>
+									Add Account
+								</button>
+							)}
+						</>
+					}
+					content={
+						<>
+							<div className="ud-c-file-browser__header__right__user__content">
+								{
+									accounts && (
+										<>
+									<h3>Switch Account</h3>
+									{ Object.entries(accounts).map((account) => {
+										account = account[1];
+										return (
+											<>
+												<div
+													className={classnames(
+														"ud-c-file-browser__header__right__user__info",
+														account.id === aAccount.id
+															? "ud-c-file-browser__header__right__user__info--active"
+															: ""
+													)}
+													onClick={() => {
+														console.log(account.id);
+														switchAccount(account.id);
+														setActiveAccount(account);
+													}}
+												>
+													<img
+														src={account.photo}
+														alt={account.name}
+													/>
+													<div className="ud-c-file-browser__header__right__user__info__more">
+														<div className="ud-c-file-browser__header__right__user__info__more__name">
+															{account.name}
+														</div>
+														<div className="ud-c-file-browser__header__right__user__info__more__email">
+															{account.email}
+														</div>
+													</div>
+												</div>
+											</>
+										);
+									})}
+								</>
+								)}
+								<div className="ud-c-file-browser__header__right__user__content__add">
+									<button
+										onClick={() => {
+											window.open(
+												IDBAdmin.authUrl,
+												"_blank",
+												"width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes"
+											);
+										}}
+										className="ud-c-btn ud-c-btn--primary"
+									>
+										Add Account
+									</button>
+								</div>
 							</div>
-							<div className="ud-c-file-browser__header__right__user__info__more__email">
-								{activeAccount.email}
-							</div>
-						</div>
-					</div>
-				</div>
+						</>
+					}
+				/>
 			</div>
 		</div>
 	);

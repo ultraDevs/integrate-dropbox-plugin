@@ -210,7 +210,7 @@ class Client {
 				'id'      => $account->getAccountId(),
 				'name'    => $account->getDisplayName(),
 				'email'   => $account->getEmail(),
-				'photo'   => $account->getProfilePhotoUrl(),
+				'photo'   => $account->getProfilePhotoUrl() ? $account->getProfilePhotoUrl() : INTEGRATE_DROPBOX_ASSETS . 'images/dropbox-logo.png',
 				'root_id' => $root_info['root_namespace_id'],
 				'lost'    => false,
 				'storage' => $this->get_storage_space_info(),

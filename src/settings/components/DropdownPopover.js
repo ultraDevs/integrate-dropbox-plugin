@@ -2,11 +2,11 @@ import React, { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import classnames from "classnames";
 
-const DropdownPopover = ({ btnData, content }) => {
+const DropdownPopover = ({ btnData, btnContent, content }) => {
 	return (
 		<Popover className="relative">
 			<Popover.Button className={btnData.className}>
-				<img src={btnData.icon} />
+				{btnContent ? btnContent : <img src={btnData.icon} />}
 			</Popover.Button>
 
 			<Transition
