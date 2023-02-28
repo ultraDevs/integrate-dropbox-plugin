@@ -1,5 +1,4 @@
 import React from 'react';
-import { TabPanel } from '@wordpress/components';
 
 const Browser = () => {
 
