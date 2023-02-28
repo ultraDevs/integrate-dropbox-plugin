@@ -13,6 +13,7 @@ use ultraDevs\IntegrateDropbox\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
+use ultraDevs\IntegrateDropbox\Helper;
 
 /**
  * Client Class
@@ -84,6 +85,21 @@ class Client {
 		$this->redirect_uri = apply_filters( 'ud_idb_redirect_uri', 'https://oauth.ultradevs.com/integrate-dropbox-wp.php' );
 
 		$this->get_client();
+	}
+
+	/**
+	 * Get Instance
+	 *
+	 * @return object
+	 */
+	public static function get_instance( $account_id = null ) {
+		static $instance = null;
+
+		if ( null === $instance ) {
+			$instance = new self( $account_id );
+		}
+
+		return $instance;
 	}
 
 	/**
@@ -165,6 +181,37 @@ class Client {
 		}
 
 		return $this->client_app;
+	}
+
+	/**
+	 * Get Folder.
+	 *
+	 * @param string $path Path.
+	 * @param bool   $is_allowed Is Allowed.
+	 * @param bool   $recursive Recursive.
+	 * @param bool   $hierarchical Hierarchical.
+	 *
+	 * @return array
+	 */
+	public function get_folder( $path = null, $is_allowed = true, $recursive = false, $hierarchical = false ) {
+		if ( null === $path ) {
+			$path = '/';
+		}
+
+		if ( false !== strpos( $path, '/' ) ) {
+			$path = Helper::clean_path( $path );
+		}
+
+		try {
+			$folder = APP::get_folder( $path, [ 'recursive' => $recursive, 'hierarchical' => $hierarchical ] );
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			return $e;
+		}
+		
+		// @TODO : Check if folder is allowed.
+
+		return $folder;
 	}
 
 	/**

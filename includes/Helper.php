@@ -8,6 +8,8 @@
 
 namespace ultraDevs\IntegrateDropbox;
 
+use ultraDevs\IntegrateDropbox\App\Client;
+
 /**
  * Helper Class
  *
@@ -122,11 +124,55 @@ class Helper {
 	}
 
 	/**
-	 * Plugin Icon
+	 * Get Icon
 	 *
 	 * @return string
 	 */
-	public static function get_icon() {
-		return '';
+	public static function get_icon(){
+
+	}
+
+	/**
+	 * Clean Path
+	 *
+	 * @param string $path Path.
+	 * @return string
+	 */
+	public static function clean_path( $path ) {
+		$path = str_replace( '\\', '/', $path );
+		$path = preg_replace( '/\/+/', '/', $path );
+		return $path;
+	}
+
+	/**
+	 * Get Path Info
+	 *
+	 * @param string $path Path.
+	 * @return string
+	 */
+	public static function get_path_info( $path ) {
+		return pathinfo( $path );
+	}
+
+	public static function get_breadcrumbs( $folder ) {
+		$folder = self::clean_path( $folder );
+		$folders = explode( '/', $folder );
+		$breadcrumbs = array();
+		
+		$folder_path = '';
+		foreach ( $folders as $folder ) {
+			$folder_path .= $folder . '/';
+			$breadcrumbs[] = array(
+				'name' => ! empty( $folder ) ? $folder : __( 'All Files', 'integrate-dropbox' ),
+				'path' => $folder_path,
+			);
+		}
+		return $breadcrumbs;
+	}
+
+	public static function get_thumbnail( $path, $size, $format ) {
+		$thumbnail = Client::get_instance()->get_client()->getThumbnail( $path, $size, $format );
+		$thumbnail = $thumbnail->getContents();
+		return $thumbnail;
 	}
 }

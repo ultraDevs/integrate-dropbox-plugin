@@ -5,6 +5,7 @@ const DEFAULT_STATE = {
 		filter: 'name',
 		refresh: false,
 		current_path: '',
+		breadcrumbs: [],
 	},
 };
 

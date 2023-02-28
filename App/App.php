@@ -12,7 +12,9 @@ if ( ! session_id() ) {
 	session_start();
 }
 
+use Kunnu\Dropbox\Models\FolderMetadata;
 use ultraDevs\IntegrateDropbox\App\Client;
+use ultraDevs\IntegrateDropbox\Helper;
 
 /**
  * App Class
@@ -92,6 +94,106 @@ class App {
 		echo '<script type="text/javascript">window.opener.parent.location.href="' . $redirect . '"; window.close();</script>';
 
 		exit();
+	}
+
+	/**
+	 * Get Folder
+	 *
+	 * @param string $path Path.
+	 * @param array  $params Params.
+	 *
+	 * @return void
+	 */
+	public static function get_folder( $path, $params = [ 'recursive' => false, 'hierarchical' => false ] ) {
+
+		if ( false !== strpos( $path, '/' ) ) {
+			$path = Helper::clean_path( $path );
+		}
+
+		if ( '/' === $path ) {
+			$path = '';
+		}
+
+		try {
+			$folder_contents = Client::get_instance()->get_client()->listFolder( $path, ['recursive' => $params['recursive'] ] );
+			$entries         = $folder_contents->getItems()->toArray();
+
+			while ( $folder_contents->hasMoreItems() ) {
+				$cursor = $folder_contents->getCursor();
+				$folder_contents = Client::get_instance()->get_client()->listFolderContinue( $cursor );
+				$entries = array_merge( $entries, $folder_contents->getItems()->toArray() );
+			}
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			return false;
+		}
+
+		$children = array();
+		if ( 0 < count( $entries ) ) {
+			foreach ( $entries as $entry ) {
+				$is_dir = false;
+				if ( $entry instanceof FolderMetadata) {
+					$is_dir = true;
+				}
+
+				$path_info = Helper::get_path_info( $entry->getPathLower());
+				$is_file = ! $is_dir;
+				$preview_support = [ 'txt', 'pdf', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gsheet', 'gslides' ];
+				$sharing_info = $entry->getSharingInfo();
+
+				$children[] = array(
+					'id'       => $entry->getId(),
+					'name'     => $entry->getName(),
+					'path'     => $entry->getPathLower(),
+					'path_raw' => $entry->getPathDisplay(),
+					'is_dir'   => $is_dir,
+					'is_file'  => ! $is_dir,
+					'can_preview' => $is_file ? in_array( $path_info['extension'], $preview_support ) : false,
+					'permission' => array(
+						'canDownload' => true,
+						'canDelete' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+						'canRename' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+						'canMove' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+						'canAdd' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+						'hasAccess' => empty( $sharing_info ) ? true : ! $sharing_info->hasAccess(),
+						'canShare' => true,
+					),
+					// 'is_image' => $is_file && in_array( $path_info['extension'], array( 'jpg', 'jpeg', 'png', 'gif' ) ),
+					// 'is_video' => $is_file && in_array( $path_info['extension'], array( 'mp4', 'mov', 'avi', 'wmv', 'flv' ) ),
+					// 'is_audio' => $is_file && in_array( $path_info['extension'], array( 'mp3', 'wav', 'ogg' ) ),
+					// 'is_pdf'   => $is_file && in_array( $path_info['extension'], array( 'pdf' ) ),
+					// 'is_doc'   => $is_file && in_array( $path_info['extension'], array( 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx' ) ),
+					// 'is_zip'   => $is_file && in_array( $path_info['extension'], array( 'zip', 'rar', 'tar', 'gz', '7z' ) ),
+					// 'is_code'  => $is_file && in_array( $path_info['extension'], array( 'php', 'js', 'css', 'html', 'htm', 'xml', 'json', 'txt' ) ),
+					// 'is_other' => $is_file && ! in_array( $path_info['extension'], array( 'jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi', 'wmv', 'flv', 'mp3', 'wav', 'ogg', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'rar', 'tar', 'gz', '7z', 'php', 'js', 'css', 'html', 'htm', 'xml', 'json', 'txt' ) ),
+					'ext'      => $is_file ? $path_info['extension'] : '',
+					'size'     => $is_file ? $entry->getSize() : '',
+					'created'  => $is_file ? $entry->getServerModified() : '',
+					'modified' => $is_file ? $entry->getServerModified() : '',
+					
+					// 'parent'   => $is_file && $entry->getParentSharedFolderId(),
+				);
+
+				// if ( $is_dir && $params['hierarchical'] ) {
+				// 	$children[ count( $children ) - 1 ]['children'] = self::get_folder( $entry->getPathLower(), $params );
+				// } elseif ( $is_dir && ! $params['hierarchical'] ) {
+				// 	$children[ count( $children ) - 1 ]['children'] = self::get_folder( $entry->getPathLower(), [ 'recursive' => false, 'hierarchical' => false ] );
+				// } elseif ( $is_file ) {
+				// 	$children[ count( $children ) - 1 ]['children'] = array();
+				// } else {
+				// 	$children[ count( $children ) - 1 ]['children'] = array();
+				// }
+
+				// // Recursive.
+				// if ( $params['recursive'] ) {
+				// 	$children = array_merge( $children, self::get_folder( $entry->getPathLower(), $params ) );
+				// }
+			}
+		}
+
+		// @TODO : Recursive and Hierarchical.
+
+		return $children;
 	}
 
 }

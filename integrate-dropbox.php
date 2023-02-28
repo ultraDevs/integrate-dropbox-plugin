@@ -5,6 +5,8 @@
  * @package IntegrateDropbox
  */
 
+use ultraDevs\IntegrateDropbox\App\Client;
+
 /**
  * Plugin Name:       Integrate Dropbox
  * Plugin URI:        https://ultradevs.com
@@ -166,6 +168,10 @@ final class IntegrateDropbox {
 			// Frontend Assets.
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
+
+		$folder = Client::get_instance()->get_folder();
+
+		ud_vd( $folder );
 	}
 
 	/**

@@ -8,9 +8,8 @@
 
 namespace ultraDevs\IntegrateDropbox;
 
-use ultraDevs\IntegrateDropbox\Admin\Dashboard;
 use ultraDevs\IntegrateDropbox\App\Account;
-use ultraDevs\IntegrateDropbox\Helper;
+use ultraDevs\IntegrateDropbox\App\Client;
 
 /**
  * Manage REST API Requests
@@ -42,12 +41,25 @@ class REST_API {
 	 * @return void
 	 */
 	public function register_api() {
+
+		// Switch Account.
 		register_rest_route(
 			$this->namespace,
 			'/switch-account',
 			array(
 				'methods'             => \WP_REST_Server::EDITABLE,
 				'callback'            => array( $this, 'switch_account' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+
+		// Get Files.
+		register_rest_route(
+			$this->namespace,
+			'/get-files',
+			array(
+				'methods'             => \WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'get_files' ),
 				'permission_callback' => '__return_true',
 			)
 		);
@@ -63,7 +75,7 @@ class REST_API {
 	public function switch_account( $request ) {
 		$account_id = $request->get_param( 'id' );
 
-		if ( ! $account_id ) {
+		if ( !$account_id ) {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
@@ -75,7 +87,7 @@ class REST_API {
 
 		$accounts = Account::get_accounts();
 
-		if ( ! isset( $accounts[ $account_id ] ) ) {
+		if ( !isset( $accounts[$account_id] ) ) {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
@@ -94,5 +106,60 @@ class REST_API {
 			),
 			200
 		);
+	}
+
+	/**
+	 * Get Files
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function get_files( $request ) {
+		$accountId = $request->get_param( 'accountId' );
+		$folder    = $request->get_param( 'folder' );
+
+		if ( ! $accountId ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account ID is required.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$account = Account::get_accounts( $accountId );
+
+		if ( ! $account ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account not found.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$active_account = Account::get_active_account();
+
+
+		if ( $accountId !== $active_account['id'] ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account is not active.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$data = [
+			'breadcrumbs' => Helper::get_breadcrumbs( $folder ),
+			'files' => Client::get_instance()->get_folder()
+		];
+
+		wp_send_json_success( $data );
+
 	}
 }

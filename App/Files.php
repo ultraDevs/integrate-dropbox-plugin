@@ -17,10 +17,24 @@ namespace ultraDevs\IntegrateDropbox\App;
 class Files {
 
 	/**
+	 * Folder
+	 *
+	 * @var string
+	 */
+	private $folder;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
-		echo 'Hola From Files';
+		
+	}
+
+	public static function get_files() {
+		$this->folder = Client::get_instance()->get_client();
+
+
+
 	}
 
 }
