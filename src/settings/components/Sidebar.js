@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from '@wordpress/element';
 import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-import { formatBytes } from './helper/common';
+import { formatBytes } from '../helper/common';
 
 const Sidebar = () => {
 
