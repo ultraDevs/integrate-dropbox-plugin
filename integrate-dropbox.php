@@ -29,6 +29,8 @@ define( 'INTEGRATE_DROPBOX_NAME', 'Integrate Dropbox' );
 define( 'INTEGRATE_DROPBOX_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'INTEGRATE_DROPBOX_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTEGRATE_DROPBOX_ASSETS', INTEGRATE_DROPBOX_DIR_URL . 'assets/' );
+define( 'INTEGRATE_DROPBOX_CACHE_DIR', WP_CONTENT_DIR . '/integrate-dropbox-cache/' );
+define( 'INTEGRATE_DROPBOX_CACHE_URL', content_url() . '/integrate-dropbox-cache/' );
 define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
 
@@ -169,9 +171,9 @@ final class IntegrateDropbox {
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
 
-		$folder = Client::get_instance()->get_folder();
+		// $folder = Client::get_instance()->get_folder();
 
-		ud_vd( $folder );
+		// ud_vd( $folder );
 	}
 
 	/**

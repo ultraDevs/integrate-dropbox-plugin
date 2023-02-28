@@ -25,6 +25,7 @@ class Activate {
 	public function run() {
 		$this->plugin_data();
 		$this->settings_data();
+		$this->create_tables();
 	}
 
 	/**
@@ -57,5 +58,29 @@ class Activate {
 			wp_safe_redirect( admin_url( 'admin.php?page=' . INTEGRATE_DROPBOX_MENU_SLUG ) );
 			exit();
 		}
+	}
+
+	/**
+	 * Create Tables
+	 */
+	public function create_tables() {
+		global $wpdb;
+		$charset_collate = $wpdb->get_charset_collate();
+		$table_name      = $wpdb->prefix . 'ud_idb_files';
+
+		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+			id bigint(20) NOT NULL AUTO_INCREMENT,
+			`name` text NOT NULL,
+			parent_id text NOT NULL,
+			account_id text NOT NULL,
+			mimetype varchar(255) NOT NULL,
+			`type` text DEFAULT NULL,
+			data longtext NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		dbDelta( $sql );
 	}
 }
