@@ -4,7 +4,7 @@ const DEFAULT_STATE = {
 	data: {
 		filter: 'name',
 		refresh: false,
-		current_path: '',
+		current_path: '/',
 		breadcrumbs: [],
 		'previous_path': ''
 	},

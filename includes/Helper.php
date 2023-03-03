@@ -46,7 +46,7 @@ class Helper {
 	public static function get_option( $key, $default = false ) {
 		// Get Option.
 		return get_option( $key, $default );
-		
+
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Helper {
 	public static function time_to_days( $time ) {
 
 		$current_time = current_time( 'timestamp' ); //phpcs:ignore
-		return round( ( $current_time - $time ) / 24 / 60 / 60 );
+		return round(  ( $current_time - $time ) / 24 / 60 / 60 );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function get_icon(){
+	public static function get_icon() {
 
 	}
 
@@ -159,19 +159,22 @@ class Helper {
 	/**
 	 * Get Breadcrumbs
 	 *
-	 * @param string $path Path.
+	 * @param string $folder Folder.
 	 * @return string
 	 */
 	public static function get_breadcrumbs( $folder ) {
 		$folder = self::clean_path( $folder );
 		$folders = explode( '/', $folder );
 		$breadcrumbs = array();
-		
+
 		$folder_path = '';
 		foreach ( $folders as $folder ) {
+			// if ( '//' === $folder ) {
+			// 	continue;
+			// }
 			$folder_path .= $folder . '/';
 			$breadcrumbs[] = array(
-				'name' => ! empty( $folder ) ? $folder : __( 'All Files', 'integrate-dropbox' ),
+				'name' => !empty( $folder ) ? ucwords( $folder ) : __( 'All Files', 'integrate-dropbox' ),
 				'path' => $folder_path,
 			);
 		}
@@ -200,10 +203,7 @@ class Helper {
 	 */
 	public static function get_previous_path( $path ) {
 		$path = self::clean_path( $path );
-		$folders = explode( '/', $path );
-		array_pop( $folders );
-		$previous_path = implode( '/', $folders );
-		return $previous_path;
+		return str_replace( '\\', '/', dirname( $path ) );
 	}
 
 	/**

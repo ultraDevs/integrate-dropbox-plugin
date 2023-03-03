@@ -11,7 +11,8 @@ const Header = () => {
 
 	const { dispatch, select } = wp.data;
 
-	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs') );
+	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs'));
+	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
 
 	const [filter, setFilter] = useState(select('dropbox-browser').getData('filter'));
 	const [sort, setSort] = useState('asc');
@@ -42,24 +43,30 @@ const Header = () => {
 		<div className='ud-c-file-browser__header'>
 			<nav className='flex ud-c-file-browser__header__breadcrumb' aria-label='Breadcrumb'>
 				<ol>
-				<li>
-					<a href='#'>
-						<svg
-							aria-hidden='true'
-							class='w-4 h-4 mr-2'
-							fill='currentColor'
-							viewBox='0 0 20 20'
-							xmlns='http://www.w3.org/2000/svg'
-						>
-							<path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z'></path>
-						</svg>
-						Home
-					</a>
-				</li>
-				{
-					breadcrumbs.map((item, index) => {
+					<li>
+						<a href='#'>
+							<svg
+								aria-hidden='true'
+								class='w-4 h-4 mr-2'
+								fill='currentColor'
+								viewBox='0 0 20 20'
+								xmlns='http://www.w3.org/2000/svg'
+							>
+								<path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z'></path>
+							</svg>
+							Home
+						</a>
+					</li>
+					{breadcrumbs.map((item, index) => {
 						return (
-							<li aria-current='page' key={index}>
+							<li
+								aria-current='page'
+								key={index}
+								onClick={() => {
+									// remove last slash from item.path and set it as current path
+									dispatch('dropbox-browser').setData('current_path', item.path.replace(/\/$/, ''));
+								}}
+							>
 								<div class='flex items-center'>
 									<svg
 										aria-hidden='true'
@@ -74,23 +81,23 @@ const Header = () => {
 											clip-rule='evenodd'
 										></path>
 									</svg>
-									<a
-										href='#'
-									>
-										{item.name}
-									</a>
+									<a href='#'>{item.name}</a>
 								</div>
 							</li>
-						)
-					})
-				}
+						);
+					})}
 				</ol>
 			</nav>
 			<div className='ud-c-file-browser__header__right'>
 				<div className='ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn'>
 					<img src={IDBAdmin.assets + 'images/search.svg'} />
 				</div>
-				<div className='ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn'>
+				<div
+					className='ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn'
+					onClick={() => {
+						dispatch('dropbox-browser').setData('refresh', !refresh);
+					}}
+				>
 					<img src={IDBAdmin.assets + 'images/refresh.svg'} />
 				</div>
 

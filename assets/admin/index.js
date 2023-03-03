@@ -57,6 +57,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const Browser = () => {
   const filter = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('filter'));
+  const refresh = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('refresh'));
+  const currentPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('current_path'));
+  const previousPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('previous_path'));
   const {
     activeAccount
   } = IDBAdmin;
@@ -64,34 +67,37 @@ const Browser = () => {
     dispatch
   } = wp.data;
   const [data, setData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [path, setPath] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('/');
-  const [previousPath, setPreviousPath] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('/');
+  // const [ path, setPath ] = useState(currentPath);
+  // const [previousPath, setPreviousPath] = useState('/');
+
+  const setPath = path => {
+    dispatch('dropbox-browser').setData('current_path', path);
+  };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
       path: '/idb/v1/get-files',
       method: 'POST',
       data: {
-        path: path,
+        path: currentPath,
         accountId: activeAccount['id']
       }
     }).then(response => {
       dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
       setData(response.data.files);
-      console.log(response.data.files);
-      if (response.data.files.length > 0) {
-        setPreviousPath(response.data.files[0].path);
-      }
-      console.log(previousPath);
+      dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
     }).catch(error => {
       console.log(error);
     });
-  }, [path]);
+  }, [currentPath, refresh]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__content"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder"
+    className: "ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder",
+    onClick: () => {
+      setPath(previousPath);
+    }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list__item__info"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
@@ -208,6 +214,7 @@ const Header = () => {
     select
   } = wp.data;
   const breadcrumbs = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('breadcrumbs'));
+  const refresh = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('refresh'));
   const [filter, setFilter] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(select('dropbox-browser').getData('filter'));
   const [sort, setSort] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('asc');
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -248,7 +255,11 @@ const Header = () => {
   })), "Home")), breadcrumbs.map((item, index) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
       "aria-current": "page",
-      key: index
+      key: index,
+      onClick: () => {
+        // remove last slash from item.path and set it as current path
+        dispatch('dropbox-browser').setData('current_path', item.path.replace(/\/$/, ''));
+      }
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       class: "flex items-center"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
@@ -271,7 +282,10 @@ const Header = () => {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: IDBAdmin.assets + 'images/search.svg'
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn"
+    className: "ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn",
+    onClick: () => {
+      dispatch('dropbox-browser').setData('refresh', !refresh);
+    }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: IDBAdmin.assets + 'images/refresh.svg'
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DropDownPopover__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -507,7 +521,7 @@ const DEFAULT_STATE = {
   data: {
     filter: 'name',
     refresh: false,
-    current_path: '',
+    current_path: '/',
     breadcrumbs: [],
     'previous_path': ''
   }

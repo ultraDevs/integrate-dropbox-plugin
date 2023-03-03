@@ -156,7 +156,8 @@ class REST_API {
 
 		$data = [
 			'breadcrumbs' => Helper::get_breadcrumbs( $path ),
-			'files' => Client::get_instance()->get_folder( $path )
+			'files' => Client::get_instance()->get_folder( $path ),
+			'previous_path' => Helper::get_previous_path( $path ),
 		];
 
 		wp_send_json_success( $data );
