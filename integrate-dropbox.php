@@ -171,7 +171,7 @@ final class IntegrateDropbox {
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
 
-		// $folder = Client::get_instance()->get_folder();
+		// $folder = Client::get_instance()->get_folder('/Snowmass Club');
 
 		// ud_vd( $folder );
 	}

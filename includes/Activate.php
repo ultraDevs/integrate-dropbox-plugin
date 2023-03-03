@@ -69,9 +69,9 @@ class Activate {
 		$table_name      = $wpdb->prefix . 'ud_idb_files';
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
-			id bigint(20) NOT NULL AUTO_INCREMENT,
+			id varchar(255) NOT NULL,
 			`name` text NOT NULL,
-			parent_id text NOT NULL,
+			`path` text NOT NULL,
 			account_id text NOT NULL,
 			mimetype varchar(255) NOT NULL,
 			`type` text DEFAULT NULL,

@@ -117,7 +117,7 @@ class REST_API {
 	 */
 	public function get_files( $request ) {
 		$accountId = $request->get_param( 'accountId' );
-		$folder    = $request->get_param( 'folder' );
+		$path    = $request->get_param( 'path' );
 
 		if ( ! $accountId ) {
 			return new \WP_REST_Response(
@@ -155,8 +155,8 @@ class REST_API {
 		}
 
 		$data = [
-			'breadcrumbs' => Helper::get_breadcrumbs( $folder ),
-			'files' => Client::get_instance()->get_folder()
+			'breadcrumbs' => Helper::get_breadcrumbs( $path ),
+			'files' => Client::get_instance()->get_folder( $path )
 		];
 
 		wp_send_json_success( $data );

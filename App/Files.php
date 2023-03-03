@@ -8,6 +8,8 @@
 
 namespace ultraDevs\IntegrateDropbox\App;
 
+use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
+
 /**
  * Files Class
  *
@@ -16,19 +18,14 @@ namespace ultraDevs\IntegrateDropbox\App;
  */
 class Files {
 
+	use Singleton;
+
 	/**
 	 * Table Name
 	 *
 	 * @var string
 	 */
 	private $table;
-
-	/**
-	 * Instance - Singleton Pattern
-	 *
-	 * @var Files
-	 */
-	protected static $instance = null;
 
 	/**
 	 * Account ID.
@@ -56,19 +53,6 @@ class Files {
 	}
 
 	/**
-	 * Get Instance
-	 *
-	 * @return Files
-	 */
-	public static function get_instance( $account_id = null ) {
-		if ( null === self::$instance ) {
-			self::$instance = new self( $account_id );
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Get Table Name
 	 *
 	 * @return string
@@ -80,12 +64,16 @@ class Files {
 	/**
 	 * Get Files By Parent ID
 	 *
-	 * @param string $parent_id Parent ID.
+	 * @param string $path Path.
 	 */
-	public function get_files( $parent_id ) {
+	public function get_files( $path ) {
 		global $wpdb;
 
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->get_table()} WHERE parent_id = %s AND account_id = %s", $parent_id, $this->account_id ), ARRAY_A );
+		if ( empty( $path ) ) {
+			$path = 'files_dir';
+		}
+
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->get_table()} WHERE path = %s AND account_id = %s", $path, $this->account_id ), ARRAY_A );
 
 		$files = array();
 
@@ -102,22 +90,37 @@ class Files {
 	 * Set Files
 	 *
 	 * @param array $files Files.
-	 * @param string $parent_id Parent ID.
 	 */
-	public function set_files( $file, $parent_id ) {
-		global $wpdb;
+	public function set_files( $files ) {
+		if ( ! empty( $files ) ) {
+			foreach ( $files as $file ) {
+				$this->insert_file( $file );
+			}
+		}
+	}
 
+	/**
+	 * Insert File
+	 *
+	 * @param array $data Data.
+	 */
+	public function insert_file( $file ) {
+		global $wpdb;
+		$dirname  = pathinfo( $file['path'], PATHINFO_DIRNAME );
 		$table_name = $this->get_table();
+		$id         = $file['id'];
 		$name       = $file['name'];
-		$mimetype   = $file['mime_type'];
+		$mimetype   = $file['ext'];
+		$path       = '/' === $dirname ? 'files_dir' : $dirname;
 		$data       = serialize( $file );
 
 		return $wpdb->query(
 			$wpdb->prepare(
 				"INSERT INTO $table_name
-				(parent_id, account_id, name, mimetype, data)
-				VALUES (%d, %d, %s, %s, %s)",
-				$parent_id,
+				(id, `path`, account_id, name, mimetype, data)
+				VALUES (%s, %s, %s, %s, %s, %s)",
+				$id,
+				$path,
 				$this->account_id,
 				$name,
 				$mimetype,
@@ -141,14 +144,18 @@ class Files {
 	}
 
 	/**
-	 * Delete Files By Parent ID
+	 * Delete Files By Path
 	 *
-	 * @param string $parent_id Parent ID.
+	 * @param string $path Path.
 	 */
-	public function delete_files( $parent_id ) {
+	public function delete_files( $path ) {
 		global $wpdb;
 
-		return $wpdb->delete( $this->get_table(), array( 'parent_id' => $parent_id ), array( '%s' ) );
+		if ( empty( $path ) ) {
+			$path = 'files_dir';
+		}
+
+		return $wpdb->delete( $this->get_table(), array( 'path' => $path ), array( '%s' ) );
 	}
 
 	/**

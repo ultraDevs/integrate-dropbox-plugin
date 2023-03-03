@@ -142,7 +142,7 @@ class Thumbnail {
 		$this->thumbnails_location_url = INTEGRATE_DROPBOX_CACHE_DIR_URL . 'thumbnails/';
 
 		$this->size = $this->get_size();
-		$this->thumbnail_name = '';
+		$this->thumbnail_name = $this->entry->getId() . '_' . $this->size . '_c' . $this->format;
 	}
 
 	/**

@@ -12,9 +12,12 @@ if ( ! session_id() ) {
 	session_start();
 }
 
+use Kunnu\Dropbox\Models\FileMetadata;
 use Kunnu\Dropbox\Models\FolderMetadata;
 use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\Helper;
+use ultraDevs\IntegrateDropbox\App\Files;
+use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
 
 /**
  * App Class
@@ -23,6 +26,8 @@ use ultraDevs\IntegrateDropbox\Helper;
  * @since 1.0.0
  */
 class App {
+
+	use Singleton;
 
 	/**
 	 * DropBox API Client.
@@ -104,7 +109,7 @@ class App {
 	 *
 	 * @return void
 	 */
-	public static function get_folder( $path, $params = [ 'recursive' => false, 'hierarchical' => false ] ) {
+	public function get_folder( $path, $params = [ 'recursive' => false, 'hierarchical' => false ] ) {
 
 		if ( false !== strpos( $path, '/' ) ) {
 			$path = Helper::clean_path( $path );
@@ -112,6 +117,10 @@ class App {
 
 		if ( '/' === $path ) {
 			$path = '';
+		}
+
+		if ( Helper::is_cached_folder( $path ) ) {
+			return Files::get_instance( $this->account_id)->get_files( $path );
 		}
 
 		try {
@@ -128,6 +137,13 @@ class App {
 			return false;
 		}
 
+		// $prevFolderPath = $entries->getPathDisplay();
+
+		// extract data from $entries object.
+
+		// ud_vd( $entries );
+
+
 		$children = array();
 		if ( 0 < count( $entries ) ) {
 			foreach ( $entries as $entry ) {
@@ -136,19 +152,34 @@ class App {
 					$is_dir = true;
 				}
 
+				// Get Meta Data based on file or folder.
+
+				// $meta_data = $is_dir ? $entry->getFolderInfo() : $entry->getFileInfo();
+
+				// ud_vd( $entry );
+
 				$path_info = Helper::get_path_info( $entry->getPathLower());
 				$is_file = ! $is_dir;
 				$preview_support = [ 'txt', 'pdf', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gsheet', 'gslides' ];
 				$sharing_info = $entry->getSharingInfo();
+
+				// // Get previous path from $entry->getPathLower() and add as previous path.
+				// $previous_path = '';
+				// if ( ! empty( $entry->getPathLower() ) ) {
+				// 	// extract previous path from $entry->getPathLower().
+				// 	$previous_path = Helper::get_previous_path( $entry->getPathLower() );
+				// }
 
 				$children[] = array(
 					'id'       => $entry->getId(),
 					'name'     => $entry->getName(),
 					'path'     => $entry->getPathLower(),
 					'path_raw' => $entry->getPathDisplay(),
+					// 'previous_path' => $previous_path,
 					'is_dir'   => $is_dir,
 					'is_file'  => ! $is_dir,
 					'can_preview' => $is_file ? in_array( $path_info['extension'], $preview_support ) : false,
+					// 'parent_id' => ! empty( $sharing_info->getParentSharedFolderId() ) ? $sharing_info->getParentSharedFolderId() : '',
 					'permission' => array(
 						'canDownload' => true,
 						'canDelete' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
@@ -190,6 +221,10 @@ class App {
 				// }
 			}
 		}
+
+		Files::get_instance( $this->account_id)->set_files( $children );
+
+		Helper::update_cached_folder( $path );
 
 		// @TODO : Recursive and Hierarchical.
 

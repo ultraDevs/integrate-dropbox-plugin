@@ -64,22 +64,28 @@ const Browser = () => {
     dispatch
   } = wp.data;
   const [data, setData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [path, setPath] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('/');
+  const [previousPath, setPreviousPath] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('/');
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
       path: '/idb/v1/get-files',
       method: 'POST',
       data: {
-        folder: '',
+        path: path,
         accountId: activeAccount['id']
       }
     }).then(response => {
       dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
       setData(response.data.files);
       console.log(response.data.files);
+      if (response.data.files.length > 0) {
+        setPreviousPath(response.data.files[0].path);
+      }
+      console.log(previousPath);
     }).catch(error => {
       console.log(error);
     });
-  }, []);
+  }, [path]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__content"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -95,7 +101,13 @@ const Browser = () => {
       className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('ud-c-file-browser__file-list__item', {
         'ud-c-file-browser__file-list__item--folder': item.is_dir === true,
         'ud-c-file-browser__file-list__item--file': item.is_file === true
-      })
+      }),
+      key: index,
+      onClick: () => {
+        if (item.is_dir) {
+          setPath(item.path);
+        }
+      }
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "ud-c-file-browser__file-list__item__info"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
@@ -496,7 +508,8 @@ const DEFAULT_STATE = {
     filter: 'name',
     refresh: false,
     current_path: '',
-    breadcrumbs: []
+    breadcrumbs: [],
+    'previous_path': ''
   }
 };
 const actions = {

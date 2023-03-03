@@ -194,6 +194,7 @@ class Client {
 	 * @return array
 	 */
 	public function get_folder( $path = null, $is_allowed = true, $recursive = false, $hierarchical = false ) {
+
 		if ( null === $path ) {
 			$path = '/';
 		}
@@ -203,7 +204,7 @@ class Client {
 		}
 
 		try {
-			$folder = APP::get_folder( $path, [ 'recursive' => $recursive, 'hierarchical' => $hierarchical ] );
+			$folder = APP::get_instance( $this->account['id'] )->get_folder( $path, [ 'recursive' => $recursive, 'hierarchical' => $hierarchical ] );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 			return $e;
