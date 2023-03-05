@@ -117,9 +117,9 @@ class REST_API {
 	 */
 	public function get_files( $request ) {
 		$accountId = $request->get_param( 'accountId' );
-		$path    = $request->get_param( 'path' );
+		$path = $request->get_param( 'path' );
 
-		if ( ! $accountId ) {
+		if ( !$accountId ) {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
@@ -131,7 +131,7 @@ class REST_API {
 
 		$account = Account::get_accounts( $accountId );
 
-		if ( ! $account ) {
+		if ( !$account ) {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
@@ -143,7 +143,6 @@ class REST_API {
 
 		$active_account = Account::get_active_account();
 
-
 		if ( $accountId !== $active_account['id'] ) {
 			return new \WP_REST_Response(
 				array(
@@ -154,11 +153,11 @@ class REST_API {
 			);
 		}
 
-		$data = [
-			'breadcrumbs' => Helper::get_breadcrumbs( $path ),
-			'files' => Client::get_instance()->get_folder( $path ),
+		$data = array(
+			'breadcrumbs'   => Helper::get_breadcrumbs( $path ),
+			'files'         => Client::get_instance()->get_folder( $path ),
 			'previous_path' => Helper::get_previous_path( $path ),
-		];
+		);
 
 		wp_send_json_success( $data );
 

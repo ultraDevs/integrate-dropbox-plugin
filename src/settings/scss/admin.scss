@@ -169,13 +169,23 @@ ol, ul {
 	&__file-list {
 		@apply flex flex-wrap overflow-y-auto;
 		&__item {
-			@apply flex relative justify-center m-2 overflow-hidden shadow-md rounded-md cursor-pointer;
+			@apply flex relative justify-center m-2 overflow-hidden shadow-md rounded-md cursor-pointer border-[#f7f7f7] border-[1px];
+			aspect-ratio: 1/1;
 			width: calc(20% - 1rem);
+			&--file {
+				@apply flex-col justify-end;
+				img {
+					@apply w-full h-full object-none absolute bottom-5
+				}
+			}
 			&--folder {
 				@apply h-[50px];
 			}
 			&__info {
-				@apply flex items-center p-2 bg-white dark:bg-black w-full overflow-hidden whitespace-nowrap overflow-ellipsis;
+				@apply flex items-center p-2 bg-white dark:bg-black w-full overflow-hidden whitespace-nowrap overflow-ellipsis gap-1;
+				span {
+					@apply overflow-hidden whitespace-nowrap overflow-ellipsis;
+				}
 			}
 		}
 	}

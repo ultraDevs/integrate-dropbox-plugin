@@ -63,7 +63,6 @@ const Header = () => {
 								aria-current='page'
 								key={index}
 								onClick={() => {
-									// remove last slash from item.path and set it as current path
 									dispatch('dropbox-browser').setData('current_path', item.path.replace(/\/$/, ''));
 								}}
 							>

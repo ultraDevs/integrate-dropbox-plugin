@@ -40,45 +40,87 @@ const Browser = () => {
 			});
 	}, [currentPath, refresh]);
 
+	const folders = data.filter((item) => {
+		return item.is_dir ? item : '';
+	});
+
+	const files = data.filter((item) => {
+		return item.is_file ? item : '';
+	});
+
 	return (
 		<>
 			<div className='ud-c-file-browser__content'>
-				<div className='ud-c-file-browser__file-list'>
-					<div
-						className='ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder'
-						onClick={() => {
-							setPath(previousPath);
-						}}
-					>
-						<div className='ud-c-file-browser__file-list__item__info'>
-							<i class='dashicons dashicons-arrow-left-alt2'></i>
-							<span>Previous Folder</span>
-						</div>
-					</div>
-					{data.map((item, index) => {
-						return (
+				{folders.length ? (
+					<>
+						<div className='ud-c-file-browser__file-list'>
 							<div
-								className={classnames('ud-c-file-browser__file-list__item', {
-									'ud-c-file-browser__file-list__item--folder':
-										item.is_dir === true,
-									'ud-c-file-browser__file-list__item--file':
-										item.is_file === true,
-								})}
-								key={index}
+								className='ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder'
 								onClick={() => {
-									if (item.is_dir) {
-										setPath(item.path);
-									}
+									setPath(previousPath);
 								}}
 							>
 								<div className='ud-c-file-browser__file-list__item__info'>
-									<i class='dashicons dashicons-open-folder'></i>
-									<span>{item.name}</span>
+									<i class='dashicons dashicons-arrow-left-alt2'></i>
+									<span>Previous Folder</span>
 								</div>
 							</div>
-						);
-					})}
-				</div>
+							{folders.map((item, index) => {
+								return (
+									<div
+										className={classnames(
+											'ud-c-file-browser__file-list__item',
+											'ud-c-file-browser__file-list__item--folder'
+										)}
+										key={index}
+										onClick={() => {
+											if (item.is_dir) {
+												setPath(item.path);
+											}
+										}}
+									>
+										<div className='ud-c-file-browser__file-list__item__info'>
+											<i class='dashicons dashicons-open-folder'></i>
+											<span>{item.name}</span>
+										</div>
+									</div>
+								);
+							})}
+						</div>
+					</>
+				) : (
+					''
+				)}
+
+				{files.length ? (
+					<>
+						<div className='ud-c-file-browser__file-list'>
+							{files.map((item, index) => {
+								return (
+									<div
+										className={classnames(
+											'ud-c-file-browser__file-list__item',
+											'ud-c-file-browser__file-list__item--file'
+										)}
+										key={index}
+										onClick={() => {
+											if (item.is_dir) {
+												setPath(item.path);
+											}
+										}}
+									>
+										<div className='ud-c-file-browser__file-list__item__info'>
+											<i class='dashicons dashicons-open-folder'></i>
+											<span>{item.name}</span>
+										</div>
+									</div>
+								);
+							})}
+						</div>
+					</>
+				) : (
+					''
+				)}
 			</div>
 		</>
 	);

@@ -164,20 +164,29 @@ class Helper {
 	 */
 	public static function get_breadcrumbs( $folder ) {
 		$folder = self::clean_path( $folder );
-		$folders = explode( '/', $folder );
-		$breadcrumbs = array();
+		$folder = str_replace( '\\', '/', $folder );
+		$folder = trim( $folder, '/' );
 
+		$breadcrumbs = array();
+		$breadcrumbs[] = array(
+			'name' => __( 'All Files', 'integrate-dropbox' ),
+			'path' => '/',
+		);
+
+		if ( empty( $folder ) ) {
+			return $breadcrumbs;
+		}
+
+		$folder = explode( '/', $folder );
 		$folder_path = '';
-		foreach ( $folders as $folder ) {
-			// if ( '//' === $folder ) {
-			// 	continue;
-			// }
-			$folder_path .= $folder . '/';
+		foreach ( $folder as $folder_name ) {
+			$folder_path .= '/' . $folder_name;
 			$breadcrumbs[] = array(
-				'name' => !empty( $folder ) ? ucwords( $folder ) : __( 'All Files', 'integrate-dropbox' ),
+				'name' => ucfirst( $folder_name ),
 				'path' => $folder_path,
 			);
 		}
+
 		return $breadcrumbs;
 	}
 
