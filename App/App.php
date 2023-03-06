@@ -154,34 +154,25 @@ class App {
 						$is_dir = true;
 					}
 
-					// Get Meta Data based on file or folder.
-
-					// $meta_data = $is_dir ? $entry->getFolderInfo() : $entry->getFileInfo();
-
-					// ud_vd( $entry );
-
 					$path_info = Helper::get_path_info( $entry->getPathLower());
 					$is_file = ! $is_dir;
-					$preview_support = [ 'txt', 'pdf', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gsheet', 'gslides' ];
 					$sharing_info = $entry->getSharingInfo();
 
-					// // Get previous path from $entry->getPathLower() and add as previous path.
-					// $previous_path = '';
-					// if ( ! empty( $entry->getPathLower() ) ) {
-					// 	// extract previous path from $entry->getPathLower().
-					// 	$previous_path = Helper::get_previous_path( $entry->getPathLower() );
-					// }
+					$thumbnail_loc = '';
+					if ( !$is_dir && Helper::can_generate_thumbnail( $path_info['extension'] ) ) {
+						$thumbnail = new Thumbnail( $entry, 'large' );
+						$thumbnail_loc = $thumbnail->generate_thumbnail();
+					}
 
 					$items[] = array(
 						'id'       => $entry->getId(),
 						'name'     => $entry->getName(),
 						'path'     => $entry->getPathLower(),
 						'path_raw' => $entry->getPathDisplay(),
-						// 'previous_path' => $previous_path,
+						'thumbnail' => $thumbnail_loc,
 						'is_dir'   => $is_dir,
 						'is_file'  => ! $is_dir,
-						'can_preview' => $is_file ? in_array( $path_info['extension'], $preview_support ) : false,
-						// 'parent_id' => ! empty( $sharing_info->getParentSharedFolderId() ) ? $sharing_info->getParentSharedFolderId() : '',
+						'can_preview' => $is_file ? Helper::can_generate_thumbnail( $path_info['extension'] ) : false,
 						'permission' => array(
 							'canDownload' => true,
 							'canDelete' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
@@ -191,20 +182,10 @@ class App {
 							'hasAccess' => empty( $sharing_info ) ? true : ! $sharing_info->hasAccess(),
 							'canShare' => true,
 						),
-						// 'is_image' => $is_file && in_array( $path_info['extension'], array( 'jpg', 'jpeg', 'png', 'gif' ) ),
-						// 'is_video' => $is_file && in_array( $path_info['extension'], array( 'mp4', 'mov', 'avi', 'wmv', 'flv' ) ),
-						// 'is_audio' => $is_file && in_array( $path_info['extension'], array( 'mp3', 'wav', 'ogg' ) ),
-						// 'is_pdf'   => $is_file && in_array( $path_info['extension'], array( 'pdf' ) ),
-						// 'is_doc'   => $is_file && in_array( $path_info['extension'], array( 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx' ) ),
-						// 'is_zip'   => $is_file && in_array( $path_info['extension'], array( 'zip', 'rar', 'tar', 'gz', '7z' ) ),
-						// 'is_code'  => $is_file && in_array( $path_info['extension'], array( 'php', 'js', 'css', 'html', 'htm', 'xml', 'json', 'txt' ) ),
-						// 'is_other' => $is_file && ! in_array( $path_info['extension'], array( 'jpg', 'jpeg', 'png', 'gif', 'mp4', 'mov', 'avi', 'wmv', 'flv', 'mp3', 'wav', 'ogg', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'rar', 'tar', 'gz', '7z', 'php', 'js', 'css', 'html', 'htm', 'xml', 'json', 'txt' ) ),
 						'ext'      => $is_file ? $path_info['extension'] : '',
 						'size'     => $is_file ? $entry->getSize() : '',
 						'created'  => $is_file ? $entry->getServerModified() : '',
 						'modified' => $is_file ? $entry->getServerModified() : '',
-						
-						// 'parent'   => $is_file && $entry->getParentSharedFolderId(),
 					);
 
 					// if ( $is_dir && $params['hierarchical'] ) {

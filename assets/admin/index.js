@@ -49,6 +49,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _helper_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../helper/common */ "./src/settings/helper/common.js");
+
 
 
 
@@ -67,10 +69,9 @@ const Browser = () => {
     dispatch
   } = wp.data;
   const [data, setData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  // const [ path, setPath ] = useState(currentPath);
-  // const [previousPath, setPreviousPath] = useState('/');
-
+  const [isLoading, setIsLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const setPath = path => {
+    setIsLoading(true);
     dispatch('dropbox-browser').setData('current_path', path);
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -85,6 +86,7 @@ const Browser = () => {
       dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
       setData(response.data.files);
       dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
+      setIsLoading(false);
     }).catch(error => {
       console.log(error);
     });
@@ -97,7 +99,17 @@ const Browser = () => {
   });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__content"
-  }, folders.length ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, isLoading ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__loading"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__loading__spinner"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__loading__spinner--bounce1"
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__loading__spinner--bounce2"
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__loading__spinner--bounce3"
+  }))) : '', folders.length ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder",
@@ -133,7 +145,15 @@ const Browser = () => {
           setPath(item.path);
         }
       }
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    }, item.can_preview && item.thumbnail ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "ud-c-file-browser__file-list__item__thumb"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+      src: item.thumbnail
+    })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "ud-c-file-browser__file-list__item__icon"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('dashicons', (0,_helper_common__WEBPACK_IMPORTED_MODULE_5__.getIcon)(item.ext))
+    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "ud-c-file-browser__file-list__item__info"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       class: "dashicons dashicons-open-folder"
@@ -510,16 +530,36 @@ const Sidebar = () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "formatBytes": function() { return /* binding */ formatBytes; }
+/* harmony export */   "formatBytes": function() { return /* binding */ formatBytes; },
+/* harmony export */   "getIcon": function() { return /* binding */ getIcon; }
 /* harmony export */ });
 const formatBytes = function (bytes) {
   let decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
-  if (!+bytes) return "0 Bytes";
+  if (!+bytes) return '0 Bytes';
   const k = 1024;
   const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+};
+const getIcon = ext => {
+  switch (ext) {
+    case 'mp3':
+      return 'dashicons-media-audio';
+    case 'mp4':
+      return 'dashicons-media-video';
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+    case 'gif':
+      return 'dashicons-format-image';
+    case 'pdf':
+      return 'dashicons-media-document';
+    case 'zip':
+      return 'dashicons-media-archive';
+    default:
+      return 'dashicons-media-default';
+  }
 };
 
 /***/ }),

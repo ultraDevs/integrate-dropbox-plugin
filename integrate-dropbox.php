@@ -30,7 +30,7 @@ define( 'INTEGRATE_DROPBOX_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'INTEGRATE_DROPBOX_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTEGRATE_DROPBOX_ASSETS', INTEGRATE_DROPBOX_DIR_URL . 'assets/' );
 define( 'INTEGRATE_DROPBOX_CACHE_DIR', WP_CONTENT_DIR . '/integrate-dropbox-cache/' );
-define( 'INTEGRATE_DROPBOX_CACHE_URL', content_url() . '/integrate-dropbox-cache/' );
+define( 'INTEGRATE_DROPBOX_CACHE_DIR_URL', content_url() . '/integrate-dropbox-cache/' );
 define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
 

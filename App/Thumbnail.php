@@ -15,27 +15,13 @@ namespace ultraDevs\IntegrateDropbox\App;
  * @since 1.0.0
  */
 class Thumbnail {
-	
+
 	/**
-	 * Thumbnail
+	 * Entry
 	 *
-	 * @var string
+	 * @var object
 	 */
 	private $entry;
-
-	/**
-	 * Width
-	 *
-	 * @var number
-	 */
-	private $width;
-
-	/**
-	 * Height
-	 *
-	 * @var number
-	 */
-	private $height;
 
 	/**
 	 * Format
@@ -66,53 +52,6 @@ class Thumbnail {
 	private $thumbnails_location_url;
 
 	/**
-	 * Image Data.
-	 *
-	 * @var string
-	 */
-	private $image_data;
-
-	/**
-	 * Sizes
-	 *
-	 * @var array
-	 */
-	private $sizes = [
-		'w2048h1536' => [
-			'width' => 2048,
-			'height' => 1536,
-		],
-		'w1024h768' => [
-			'width' => 1024,
-			'height' => 768,
-		],
-		'w640h480' => [
-			'width' => 640,
-			'height' => 480,
-		],
-		'w480h320' => [
-			'width' => 480,
-			'height' => 320,
-		],
-		'w250h250' => [
-			'width' => 250,
-			'height' => 250,
-		],
-		'w128h128' => [
-			'width' => 128,
-			'height' => 180,
-		],
-		'w64h64' => [
-			'width' => 64,
-			'height' => 64,
-		],
-		'w32h32' => [
-			'width' => 32,
-			'height' => 32,
-		],
-	];
-
-	/**
 	 * Size
 	 *
 	 * @var string
@@ -120,46 +59,46 @@ class Thumbnail {
 	private $size = 'w2048h1536';
 
 	/**
-	 * Loading Thumbnail
-	 *
-	 * @var boolean
-	 */
-	private $loading_thumbnail = false;
-
-	/**
 	 * Constructor
 	 *
 	 * @param string $entry Entry.
 	 */
-	public function __construct( $entry, $width, $height, $format, $image_data = null, $loading_thumbnail = false ) {
+	public function __construct( $entry, $size = 'large', $format = 'png' ) {
 		$this->entry                   = $entry;
-		$this->width                   = $width;
-		$this->height                  = $height;
 		$this->format                  = $format;
-		$this->image_data              = $image_data;
-		$this->loading_thumbnail       = $loading_thumbnail;
 		$this->thumbnails_location     = INTEGRATE_DROPBOX_CACHE_DIR . 'thumbnails/';
 		$this->thumbnails_location_url = INTEGRATE_DROPBOX_CACHE_DIR_URL . 'thumbnails/';
 
-		$this->size = $this->get_size();
-		$this->thumbnail_name = $this->entry->getId() . '_' . $this->size . '_c' . $this->format;
+		$this->size = $size;
+		$this->thumbnail_name = $this->entry->getId() . '_' . $this->size . '_ud.' . $this->format;
 	}
 
 	/**
-	 * Get Size
+	 * Get Name
 	 *
 	 * @return string
 	 */
-	public function get_size() {
-		$size = 'w2048h1536';
+	public function get_name() {
+		return str_replace( ':', '', $this->thumbnail_name );
+	}
 
-		foreach ( $this->sizes as $key => $value ) {
-			if ( $this->width <= $value['width'] && $this->height <= $value['height'] ) {
-				$size = $key;
-				break;
-			}
+	public function generate_thumbnail() {
+
+		$file = $this->thumbnails_location . $this->get_name();
+
+		if ( file_exists( $file ) ) {
+			return $this->thumbnails_location_url . $this->get_name();
 		}
 
-		return $size;
+		$thumbnail = Client::get_instance()->get_client()->getThumbnail( $this->entry->getPathLower(), $this->size, $this->format );
+		$thumbnail = $thumbnail->getContents();
+		
+		if ( ! file_exists( $this->thumbnails_location ) ) {
+			mkdir( $this->thumbnails_location, 0777, true );
+		}
+
+		file_put_contents( $file, $thumbnail );
+
+		return $this->thumbnails_location_url . $this->get_name();
 	}
 }

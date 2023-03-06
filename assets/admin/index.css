@@ -533,7 +533,8 @@ video {
   padding-left: 0px !important;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none !important;
   margin: auto !important;
   padding: auto !important;
@@ -547,6 +548,48 @@ ol, ul {
 }
 .ud-c-file-browser * {
   box-sizing: border-box;
+}
+.ud-c-file-browser__loading {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.ud-c-file-browser__loading__spinner {
+  height: 8rem;
+  width: 8rem;
+}
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.ud-c-file-browser__loading__spinner {
+  animation: spin 1s linear infinite;
+  border-radius: 9999px;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(17 24 39 / var(--tw-border-opacity));
+}
+.ud-c-file-browser__loading__spinner--bounce1 {
+  position: absolute;
+  border-width: 4px;
+  --tw-border-opacity: 1;
+  border-color: rgb(17 24 39 / var(--tw-border-opacity));
+}
+.ud-c-file-browser__loading__spinner--bounce2 {
+  position: absolute;
+  border-width: 4px;
+  --tw-border-opacity: 1;
+  border-color: rgb(17 24 39 / var(--tw-border-opacity));
+}
+.ud-c-file-browser__loading__spinner--bounce3 {
+  position: absolute;
+  border-width: 4px;
+  --tw-border-opacity: 1;
+  border-color: rgb(17 24 39 / var(--tw-border-opacity));
 }
 .ud-c-file-browser__header {
   position: sticky;
@@ -926,15 +969,36 @@ ol, ul {
   flex-direction: column;
   justify-content: flex-end;
 }
-.ud-c-file-browser__file-list__item--file img {
+.ud-c-file-browser__file-list__item__thumb {
+  position: relative;
+  padding-bottom: 81.25%; /* 16:9 ratio */
+  height: 0;
+  overflow: hidden;
+}
+.ud-c-file-browser__file-list__item__thumb img {
   position: absolute;
-  bottom: 1.25rem;
-  height: 100%;
+  top: 0;
+  left: 0;
   width: 100%;
-  object-fit: none;
+  height: 100%;
 }
 .ud-c-file-browser__file-list__item--folder {
   height: 50px;
+}
+.ud-c-file-browser__file-list__item__icon {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.ud-c-file-browser__file-list__item__icon span {
+  height: auto;
+  width: auto;
+  font-size: 6rem;
+  line-height: 1;
+  --tw-text-opacity: 1;
+  color: rgb(88 32 229 / var(--tw-text-opacity));
 }
 .ud-c-file-browser__file-list__item__info {
   display: flex;

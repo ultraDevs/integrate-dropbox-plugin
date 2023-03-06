@@ -191,15 +191,36 @@ class Helper {
 	}
 
 	/**
+	 * Supported extensions for thumbnails
+	 *
+	 * @param string $extension Extension.
+	 *
+	 * @return boolean
+	 */
+	public static function can_generate_thumbnail( $extension ) {
+		$extensions = ['csv', 'doc', 'docm', 'docx', 'ods', 'odt', 'pdf', 'rtf', 'xls', 'xlsm', 'xlsx', 'odp', 'pps', 'ppsm', 'ppsx', 'ppt', 'pptm', 'pptx', '3fr', 'ai', 'arw', 'bmp', 'cr2', 'crw', 'dcs', 'dcr', 'dng', 'eps', 'erf', 'gif', 'heic', 'jpg', 'jpeg', 'kdc', 'mef', 'mos', 'mrw', 'nef', 'nrw', 'orf', 'pef', 'png', 'psd', 'r3d', 'raf', 'rw2', 'rwl', 'sketch', 'sr2', 'svg', 'svgz', 'tif', 'tiff', 'x3f', '3gp', '3gpp', '3gpp2', 'asf', 'avi', 'dv', 'flv', 'm2t', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mts', 'oggtheora', 'ogv', 'rm', 'ts', 'vob', 'webm', 'wmv', 'paper', 'webp'];
+
+		return in_array( $extension, $extensions, true );
+	}
+
+	/**
 	 * Get Thumbnail
 	 *
 	 * @param string $path Path.
 	 * @param string $size Size.
 	 * @param string $format Format.
+	 * @param string $account_id Account ID.
+	 *
 	 * @return string
 	 */
-	public static function get_thumbnail( $path, $size, $format ) {
-		$thumbnail = Client::get_instance()->get_client()->getThumbnail( $path, $size, $format );
+	public static function get_thumbnail( $account_id, $path, $size, $format ) {
+
+		if ( empty( $account_id ) || empty( $path ) ) {
+			return '';
+		}
+
+
+		$thumbnail = Client::get_instance( $account_id )->get_client()->getThumbnail( $path, $size, $format );
 		$thumbnail = $thumbnail->getContents();
 		return $thumbnail;
 	}

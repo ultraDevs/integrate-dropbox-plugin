@@ -13,6 +13,7 @@ use ultraDevs\IntegrateDropbox\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
+use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
 use ultraDevs\IntegrateDropbox\Helper;
 
 /**
@@ -22,6 +23,8 @@ use ultraDevs\IntegrateDropbox\Helper;
  * @since 1.0.0
  */
 class Client {
+
+	use Singleton;
 
 	/**
 	 * DropBox API Client.
@@ -85,21 +88,6 @@ class Client {
 		$this->redirect_uri = apply_filters( 'ud_idb_redirect_uri', 'https://oauth.ultradevs.com/integrate-dropbox-wp.php' );
 
 		$this->get_client();
-	}
-
-	/**
-	 * Get Instance
-	 *
-	 * @return object
-	 */
-	public static function get_instance( $account_id = null ) {
-		static $instance = null;
-
-		if ( null === $instance ) {
-			$instance = new self( $account_id );
-		}
-
-		return $instance;
 	}
 
 	/**

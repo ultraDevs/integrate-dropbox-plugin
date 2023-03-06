@@ -6,19 +6,38 @@
 	padding-left: 0px !important;
 }
 
-ol, ul {
+ol,
+ul {
 	list-style: none !important;
 	margin: auto !important;
 	padding: auto !important;
 }
 
-#ud-id-app {}
+#ud-id-app {
+}
 
 .ud-c-file-browser {
 	* {
 		box-sizing: border-box;
 	}
 	@apply flex flex-col h-full w-full;
+	&__loading {
+		@apply flex items-center justify-center h-full;
+
+		&__spinner {
+			@apply animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900;
+
+			&--bounce1 {
+				@apply absolute border-4 border-gray-900;
+			}
+			&--bounce2 {
+				@apply absolute border-4 border-gray-900;
+			}
+			&--bounce3 {
+				@apply absolute border-4 border-gray-900;
+			}
+		}
+	}
 	&__header {
 		@apply sticky z-10 flex items-center w-full h-16 py-6 px-4 bg-white shadow-sm top-8;
 		h2 {
@@ -88,18 +107,16 @@ ol, ul {
 					}
 					.ud-c-file-browser__header__right__user__info {
 						@apply cursor-pointer p-3 border-b-[1px] border-gray-200;
-						
+
 						&--active {
 							@apply bg-[#f7f7f7];
 						}
 						&__more {
 							@apply overflow-hidden whitespace-nowrap overflow-ellipsis;
-							
 						}
 					}
 					&__add {
 						@apply cursor-pointer p-3 flex justify-center items-center;
-						
 					}
 				}
 			}
@@ -174,12 +191,31 @@ ol, ul {
 			width: calc(20% - 1rem);
 			&--file {
 				@apply flex-col justify-end;
+				// img {
+				// 	@apply w-full h-full object-cover absolute bottom-9;
+				// }
+			}
+			&__thumb {
+				position: relative;
+				padding-bottom: 81.25%; /* 16:9 ratio */
+				height: 0;
+				overflow: hidden;
 				img {
-					@apply w-full h-full object-none absolute bottom-5
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
 				}
 			}
 			&--folder {
 				@apply h-[50px];
+			}
+			&__icon {
+				@apply flex items-center justify-center w-full h-full;
+				span {
+					@apply text-8xl text-secondary w-auto h-auto;
+				}
 			}
 			&__info {
 				@apply flex items-center p-2 bg-white dark:bg-black w-full overflow-hidden whitespace-nowrap overflow-ellipsis gap-1;
@@ -211,6 +247,5 @@ ol, ul {
 		&--secondary {
 			@apply bg-gray-300 hover:bg-gray-200 focus:ring-gray-200;
 		}
-		
 	}
 }
