@@ -8,6 +8,7 @@ import { getIcon } from '../helper/common';
 const Browser = () => {
 	const filter = useSelect((select) => select('dropbox-browser').getData('filter'));
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
+	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
 	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
 
@@ -15,10 +16,9 @@ const Browser = () => {
 	const { dispatch } = wp.data;
 
 	const [data, setData] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
 
 	const setPath = (path) => {
-		setIsLoading(true);
+		dispatch('dropbox-browser').setData('isLoading', true);
 		dispatch('dropbox-browser').setData('current_path', path);
 	};
 
@@ -35,7 +35,7 @@ const Browser = () => {
 				dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
 				setData(response.data.files);
 				dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
-				setIsLoading(false);
+				dispatch('dropbox-browser').setData('isLoading', false);
 			})
 			.catch((error) => {
 				console.log(error);

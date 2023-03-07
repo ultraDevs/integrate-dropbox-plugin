@@ -35,6 +35,8 @@ const Header = () => {
 		}).then((response) => {
 			if ('success' === response.status) {
 				// window.location.reload();
+				dispatch('dropbox-browser').setData('refresh', true);
+				dispatch('dropbox-browser').setData('isLoading', true);
 			}
 		});
 	};
@@ -63,7 +65,10 @@ const Header = () => {
 								aria-current='page'
 								key={index}
 								onClick={() => {
-									dispatch('dropbox-browser').setData('current_path', item.path.replace(/\/$/, ''));
+									dispatch('dropbox-browser').setData(
+										'current_path',
+										item.path.replace(/\/$/, '')
+									);
 								}}
 							>
 								<div class='flex items-center'>
@@ -95,6 +100,7 @@ const Header = () => {
 					className='ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn'
 					onClick={() => {
 						dispatch('dropbox-browser').setData('refresh', !refresh);
+						dispatch('dropbox-browser').setData('isLoading', true);
 					}}
 				>
 					<img src={IDBAdmin.assets + 'images/refresh.svg'} />

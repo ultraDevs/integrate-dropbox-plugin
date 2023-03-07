@@ -60,6 +60,7 @@ __webpack_require__.r(__webpack_exports__);
 const Browser = () => {
   const filter = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('filter'));
   const refresh = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('refresh'));
+  const isLoading = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('isLoading'));
   const currentPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('current_path'));
   const previousPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('previous_path'));
   const {
@@ -69,9 +70,8 @@ const Browser = () => {
     dispatch
   } = wp.data;
   const [data, setData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [isLoading, setIsLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const setPath = path => {
-    setIsLoading(true);
+    dispatch('dropbox-browser').setData('isLoading', true);
     dispatch('dropbox-browser').setData('current_path', path);
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -86,7 +86,7 @@ const Browser = () => {
       dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
       setData(response.data.files);
       dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
-      setIsLoading(false);
+      dispatch('dropbox-browser').setData('isLoading', false);
     }).catch(error => {
       console.log(error);
     });
@@ -273,6 +273,8 @@ const Header = () => {
     }).then(response => {
       if ('success' === response.status) {
         // window.location.reload();
+        dispatch('dropbox-browser').setData('refresh', true);
+        dispatch('dropbox-browser').setData('isLoading', true);
       }
     });
   };
@@ -323,6 +325,7 @@ const Header = () => {
     className: "ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn",
     onClick: () => {
       dispatch('dropbox-browser').setData('refresh', !refresh);
+      dispatch('dropbox-browser').setData('isLoading', true);
     }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: IDBAdmin.assets + 'images/refresh.svg'
@@ -581,7 +584,8 @@ const DEFAULT_STATE = {
     refresh: false,
     current_path: '/',
     breadcrumbs: [],
-    'previous_path': ''
+    previous_path: '',
+    isLoading: false
   }
 };
 const actions = {

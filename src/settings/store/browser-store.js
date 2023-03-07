@@ -6,7 +6,8 @@ const DEFAULT_STATE = {
 		refresh: false,
 		current_path: '/',
 		breadcrumbs: [],
-		'previous_path': ''
+		previous_path: '',
+		isLoading: false,
 	},
 };
 
