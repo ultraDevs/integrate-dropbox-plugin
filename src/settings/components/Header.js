@@ -10,18 +10,31 @@ const Header = () => {
 	const { activeAccount, accounts } = IDBAdmin;
 
 	const { dispatch, select } = wp.data;
-
 	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs'));
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
+	const filterV = useSelect((select) => select('dropbox-browser').getData('filter'));
 
-	const [filter, setFilter] = useState(select('dropbox-browser').getData('filter'));
-	const [sort, setSort] = useState('asc');
+	const filter = filterV.by ? filterV.by : 'name';
+	const sortDirection = filterV.direction ? filterV.direction : 'asc';
 
-	useEffect(() => {
-		dispatch('dropbox-browser').setData('filter', filter);
-	}, [filter]);
+	console.log(filterV);
 
-	// dispatch('dropbox-browser').setData('filter', filter);
+	const setFilter = (filter) => {
+		dispatch('dropbox-browser').setData('isLoading', true);
+		// update FilterV's by property.
+		dispatch('dropbox-browser').setData('filter', {
+			...filterV,
+			by: filter,
+		});
+	};
+
+	const setSortDirection = (dir) => {
+		dispatch('dropbox-browser').setData('isLoading', true);
+		dispatch('dropbox-browser').setData('filter', {
+			...filterV,
+			direction: dir,
+		});
+	};
 
 	const [aAccount, setActiveAccount] = useState(activeAccount);
 
@@ -34,10 +47,11 @@ const Header = () => {
 			},
 		}).then((response) => {
 			if ('success' === response.status) {
-				// window.location.reload();
 				dispatch('dropbox-browser').setData('refresh', true);
 				dispatch('dropbox-browser').setData('isLoading', true);
 			}
+			// Reload the page.
+			window.location.reload();
 		});
 	};
 
@@ -171,10 +185,10 @@ const Header = () => {
 												'ud-c-file-browser__header__right__filter__content__options__item',
 												{
 													'ud-c-file-browser__header__right__filter__content__options__item--active':
-														sort === 'asc',
+														sortDirection === 'asc',
 												}
 											)}
-											onClick={() => setSort('asc')}
+											onClick={() => setSortDirection('asc')}
 										>
 											ASC
 										</li>
@@ -183,10 +197,10 @@ const Header = () => {
 												'ud-c-file-browser__header__right__filter__content__options__item',
 												{
 													'ud-c-file-browser__header__right__filter__content__options__item--active':
-														sort === 'desc',
+														sortDirection === 'desc',
 												}
 											)}
-											onClick={() => setSort('desc')}
+											onClick={() => setSortDirection('desc')}
 										>
 											DESC
 										</li>

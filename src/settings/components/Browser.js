@@ -4,6 +4,9 @@ import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
+import {
+	dispatch
+} from '@wordpress/data';
 
 const Browser = () => {
 	const filter = useSelect((select) => select('dropbox-browser').getData('filter'));
@@ -13,13 +16,18 @@ const Browser = () => {
 	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
 
 	const { activeAccount } = IDBAdmin;
-	const { dispatch } = wp.data;
+	// const { dispatch } = wp.data;
 
 	const [data, setData] = useState([]);
 
 	const setPath = (path) => {
 		dispatch('dropbox-browser').setData('isLoading', true);
 		dispatch('dropbox-browser').setData('current_path', path);
+		// if ( '/' === path ) {
+		// 	dispatch('dropbox-browser').setData('previous_path', '/');
+		// } else {
+		// 	dispatch('dropbox-browser').setData('current_path', path);
+		// }
 	};
 
 	useEffect(() => {
@@ -29,6 +37,7 @@ const Browser = () => {
 			data: {
 				path: currentPath,
 				accountId: activeAccount['id'],
+				filter: filter,
 			},
 		})
 			.then((response) => {
@@ -36,12 +45,11 @@ const Browser = () => {
 				setData(response.data.files);
 				dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
 				dispatch('dropbox-browser').setData('isLoading', false);
-				console.log(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-	}, [currentPath, refresh]);
+	}, [currentPath, refresh, filter]);
 
 	const folders = data.filter((item) => {
 		return item.is_dir ? item : '';
@@ -67,17 +75,19 @@ const Browser = () => {
 				)}
 
 				<div className='ud-c-file-browser__file-list'>
-					<div
-						className='ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder'
-						onClick={() => {
-							setPath(previousPath);
-						}}
-					>
-						<div className='ud-c-file-browser__file-list__item__info'>
-							<i class='dashicons dashicons-arrow-left-alt2'></i>
-							<span>Previous Folder</span>
+					{previousPath && (
+						<div
+							className='ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder'
+							onClick={() => {
+								setPath(previousPath);
+							}}
+						>
+							<div className='ud-c-file-browser__file-list__item__info'>
+								<i class='dashicons dashicons-arrow-left-alt2'></i>
+								<span>Previous Folder</span>
+							</div>
 						</div>
-					</div>
+					)}
 
 					{folders.length > 0 &&
 						folders.map((item, index) => {
@@ -135,7 +145,10 @@ const Browser = () => {
 											</div>
 										)}
 										<div className='ud-c-file-browser__file-list__item__info'>
-											<i class='dashicons dashicons-open-folder'></i>
+											<i class={classnames(
+														'dashicons',
+														getIcon(item.ext)
+													)}></i>
 											<span>{item.name}</span>
 										</div>
 									</div>

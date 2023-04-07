@@ -2,9 +2,12 @@ import { createReduxStore, register } from '@wordpress/data';
 
 const DEFAULT_STATE = {
 	data: {
-		filter: 'name',
+		filter: {
+			by: 'name',
+			direction: 'asc',
+		},
 		refresh: false,
-		current_path: '/',
+		current_path: '',
 		breadcrumbs: [],
 		previous_path: '',
 		isLoading: false,

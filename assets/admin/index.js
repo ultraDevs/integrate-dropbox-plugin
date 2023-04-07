@@ -57,6 +57,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const Browser = () => {
   const filter = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('filter'));
   const refresh = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('refresh'));
@@ -66,32 +67,37 @@ const Browser = () => {
   const {
     activeAccount
   } = IDBAdmin;
-  const {
-    dispatch
-  } = wp.data;
+  // const { dispatch } = wp.data;
+
   const [data, setData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const setPath = path => {
-    dispatch('dropbox-browser').setData('isLoading', true);
-    dispatch('dropbox-browser').setData('current_path', path);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('isLoading', true);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('current_path', path);
+    // if ( '/' === path ) {
+    // 	dispatch('dropbox-browser').setData('previous_path', '/');
+    // } else {
+    // 	dispatch('dropbox-browser').setData('current_path', path);
+    // }
   };
+
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
       path: '/idb/v1/get-files',
       method: 'POST',
       data: {
         path: currentPath,
-        accountId: activeAccount['id']
+        accountId: activeAccount['id'],
+        filter: filter
       }
     }).then(response => {
-      dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
       setData(response.data.files);
-      dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
-      dispatch('dropbox-browser').setData('isLoading', false);
-      console.log(response.data);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('previous_path', response.data.previous_path);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('isLoading', false);
     }).catch(error => {
       console.log(error);
     });
-  }, [currentPath, refresh]);
+  }, [currentPath, refresh, filter]);
   const folders = data.filter(item => {
     return item.is_dir ? item : '';
   });
@@ -112,7 +118,7 @@ const Browser = () => {
     className: "ud-c-file-browser__loading__spinner--bounce3"
   }))) : '', (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, previousPath && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder",
     onClick: () => {
       setPath(previousPath);
@@ -157,7 +163,7 @@ const Browser = () => {
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "ud-c-file-browser__file-list__item__info"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
-      class: "dashicons dashicons-open-folder"
+      class: classnames__WEBPACK_IMPORTED_MODULE_4___default()('dashicons', (0,_helper_common__WEBPACK_IMPORTED_MODULE_5__.getIcon)(item.ext))
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, item.name)));
   }))) : ''));
 };
@@ -255,14 +261,25 @@ const Header = () => {
   } = wp.data;
   const breadcrumbs = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('breadcrumbs'));
   const refresh = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('refresh'));
-  const [filter, setFilter] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(select('dropbox-browser').getData('filter'));
-  const [sort, setSort] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('asc');
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    dispatch('dropbox-browser').setData('filter', filter);
-  }, [filter]);
-
-  // dispatch('dropbox-browser').setData('filter', filter);
-
+  const filterV = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('filter'));
+  const filter = filterV.by ? filterV.by : 'name';
+  const sortDirection = filterV.direction ? filterV.direction : 'asc';
+  console.log(filterV);
+  const setFilter = filter => {
+    dispatch('dropbox-browser').setData('isLoading', true);
+    // update FilterV's by property.
+    dispatch('dropbox-browser').setData('filter', {
+      ...filterV,
+      by: filter
+    });
+  };
+  const setSortDirection = dir => {
+    dispatch('dropbox-browser').setData('isLoading', true);
+    dispatch('dropbox-browser').setData('filter', {
+      ...filterV,
+      direction: dir
+    });
+  };
   const [aAccount, setActiveAccount] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(activeAccount);
   const switchAccount = id => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
@@ -273,10 +290,11 @@ const Header = () => {
       }
     }).then(response => {
       if ('success' === response.status) {
-        // window.location.reload();
         dispatch('dropbox-browser').setData('refresh', true);
         dispatch('dropbox-browser').setData('isLoading', true);
       }
+      // Reload the page.
+      window.location.reload();
     });
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -364,14 +382,14 @@ const Header = () => {
       className: "ud-c-file-browser__header__right__filter__content__options"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
       className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('ud-c-file-browser__header__right__filter__content__options__item', {
-        'ud-c-file-browser__header__right__filter__content__options__item--active': sort === 'asc'
+        'ud-c-file-browser__header__right__filter__content__options__item--active': sortDirection === 'asc'
       }),
-      onClick: () => setSort('asc')
+      onClick: () => setSortDirection('asc')
     }, "ASC"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
       className: classnames__WEBPACK_IMPORTED_MODULE_3___default()('ud-c-file-browser__header__right__filter__content__options__item', {
-        'ud-c-file-browser__header__right__filter__content__options__item--active': sort === 'desc'
+        'ud-c-file-browser__header__right__filter__content__options__item--active': sortDirection === 'desc'
       }),
-      onClick: () => setSort('desc')
+      onClick: () => setSortDirection('desc')
     }, "DESC")))))
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DropDownPopover__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "relative",
@@ -581,9 +599,12 @@ __webpack_require__.r(__webpack_exports__);
 
 const DEFAULT_STATE = {
   data: {
-    filter: 'name',
+    filter: {
+      by: 'name',
+      direction: 'asc'
+    },
     refresh: false,
-    current_path: '/',
+    current_path: '',
     breadcrumbs: [],
     previous_path: '',
     isLoading: false
