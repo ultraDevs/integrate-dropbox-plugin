@@ -4,9 +4,7 @@ import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
-import {
-	dispatch
-} from '@wordpress/data';
+import { dispatch } from '@wordpress/data';
 
 const Browser = () => {
 	const filter = useSelect((select) => select('dropbox-browser').getData('filter'));
@@ -125,9 +123,7 @@ const Browser = () => {
 										)}
 										key={index}
 										onClick={() => {
-											if (item.is_dir) {
-												setPath(item.path);
-											}
+											console.log(item);
 										}}
 									>
 										{item.can_preview && item.thumbnail ? (
@@ -145,10 +141,9 @@ const Browser = () => {
 											</div>
 										)}
 										<div className='ud-c-file-browser__file-list__item__info'>
-											<i class={classnames(
-														'dashicons',
-														getIcon(item.ext)
-													)}></i>
+											<i
+												class={classnames('dashicons', getIcon(item.ext))}
+											></i>
 											<span>{item.name}</span>
 										</div>
 									</div>

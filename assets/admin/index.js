@@ -148,9 +148,7 @@ const Browser = () => {
       className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('ud-c-file-browser__file-list__item', 'ud-c-file-browser__file-list__item--file'),
       key: index,
       onClick: () => {
-        if (item.is_dir) {
-          setPath(item.path);
-        }
+        console.log(item);
       }
     }, item.can_preview && item.thumbnail ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "ud-c-file-browser__file-list__item__thumb"
