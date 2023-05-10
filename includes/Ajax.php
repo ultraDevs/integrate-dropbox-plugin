@@ -8,8 +8,7 @@
 
 namespace ultraDevs\IntegrateDropbox;
 
-use ultraDevs\IntegrateDropbox\Admin\Dashboard;
-use ultraDevs\IntegrateDropbox\Helper;
+use ultraDevs\IntegrateDropbox\App\App;
 
 /**
  * Manage All Ajax Request
@@ -25,34 +24,38 @@ class Ajax {
 	 * Constructor
 	 */
 	public function __construct() {
-		if ( is_admin() ) {
-			add_action( 'admin_post_pb_save_blocks_o', array( $this, 'pb_save_blocks_o_c' ) );
-		}
+		add_action( 'wp_ajax_file_preview', array( $this, 'file_preview' ) );
+		add_action( 'wp_ajax_nopriv_file_preview', array( $this, 'file_preview' ) );
 	}
 
 	/**
-	 * Save Blocks Options.
+	 * File Preview
 	 *
-	 * @return void
+	 * @since 1.0.0
 	 */
-	public function pb_save_blocks_o_c() {
-
-		if ( isset( $_POST['save-b'] ) ) {
-			if ( ! isset( $_POST['pb_save_ib_nonce'] )
-				|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pb_save_ib_nonce'] ) ), 'pb_save_ib_action' ) 
-			) {
-				echo 'Sorry, your nonce did not verify.';
-				return;
-			}
-
-			$blocks          = ! empty( $_POST['blocks'] ) ? Helper::sanitize_text_or_array_field( wp_unslash( $_POST['blocks'] ) ) : array();
-			$inactive_blocks = array_diff( array_keys( Dashboard::all_blocks() ), $blocks );
-
-			Dashboard::save_inactive_blocks( $inactive_blocks );
-
-			wp_safe_redirect( admin_url( 'admin.php?page=integrate-dropbox#blocks' ) );
-
-			exit();
+	public function file_preview() {
+		$nonce = sanitize_text_field( $_POST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'file_preview' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
+
+		$file_id    = sanitize_text_field( $_POST['file_id'] );
+		$account_id = sanitize_text_field( $_POST['account_id'] );
+
+		if ( empty( $file_id ) ) {
+			wp_send_json_error( array( 'message' => __( 'File ID is required', 'integrate-dropbox' ) ) );
+		}
+
+		if ( empty( $account_id ) ) {
+			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
+		}
+
+		$app  = App::get_instance( $account_id );
+		$file = $app->get_file_by_id( $file_id );
+		if ( empty( $file ) ) {
+			wp_send_json_error( array( 'message' => __( 'File not found', 'integrate-dropbox' ) ) );
+		}
+
+		$preview = $app->get_file_preview( $file_id );
 	}
 }

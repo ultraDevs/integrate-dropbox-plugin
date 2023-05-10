@@ -1,10 +1,18 @@
 import React from 'react';
-import { useEffect, useState } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
+import { useSelect, dispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
-import { dispatch } from '@wordpress/data';
+
+import LightGallery from 'lightgallery/react';
+
+// Plugins
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
+import 'lightgallery/scss/lightgallery.scss';
+import 'lightgallery/scss/lg-zoom.scss';
 
 const Browser = () => {
 	const filter = useSelect((select) => select('dropbox-browser').getData('filter'));
@@ -14,7 +22,6 @@ const Browser = () => {
 	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
 
 	const { activeAccount } = IDBAdmin;
-	// const { dispatch } = wp.data;
 
 	const [data, setData] = useState([]);
 
@@ -56,6 +63,36 @@ const Browser = () => {
 	const files = data.filter((item) => {
 		return item.is_file ? item : '';
 	});
+
+	// const lightGallery = useRef(null);
+	// const [lgItems, setLgItems] = useState(files);
+
+	// const onLGInit = useCallback((lg) => {
+	// 	if (lg) {
+	// 		lightGallery.current = lg.instance;
+	// 	}
+	// }, []);
+
+	// const getLGItems = useCallback(() => {
+	// 	return lgItems.map((item) => {
+	// 		console.log(item);
+	// 		return (
+	// 			<>
+	// 				{item.can_preview && item.thumbnail ? (
+	// 					<img src={item.thumbnail} />
+	// 				) : (
+	// 					<div className='ud-c-file-browser__file-list__item__icon'>
+	// 						<span className={classnames('dashicons', getIcon(item.ext))}></span>
+	// 					</div>
+	// 				)}
+	// 			</>
+	// 		);
+	// 	});
+	// }, [lgItems]);
+
+	// useEffect(() => {
+	// 	lightGallery.current.refresh();
+	// }, [files]);
 
 	return (
 		<>
@@ -155,6 +192,18 @@ const Browser = () => {
 					''
 				)}
 			</div>
+
+			{/* <div className='ud-c-file-browser__preview'>
+				<LightGallery
+					ref={lightGallery}
+					plugins={[lgZoom, lgThumbnail, lgVideo]}
+					thumbnail={true}
+					animateThumb={false}
+					onInit={onLGInit}
+				>
+					{getLGItems}
+				</LightGallery>
+			</div> */}
 		</>
 	);
 };
