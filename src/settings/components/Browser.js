@@ -5,6 +5,10 @@ import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
 
+// React Contextify.
+import { useContextMenu } from 'react-contexify';
+
+// Light Gallery
 import LightGallery from 'lightgallery/react';
 
 // Plugins
@@ -94,6 +98,19 @@ const Browser = () => {
 	// 	lightGallery.current.refresh();
 	// }, [files]);
 
+	const showContexify = (e, name, data) => {
+		const { show } = useContextMenu({
+			id: name,
+		});
+
+		show({
+			event: e,
+			props: {
+				data: data,
+			},
+		});
+	};
+
 	return (
 		<>
 			<div className='ud-c-file-browser__content'>
@@ -133,10 +150,16 @@ const Browser = () => {
 										'ud-c-file-browser__file-list__item--folder'
 									)}
 									key={index}
-									onClick={() => {
+									onClick={(e) => {
 										if (item.is_dir) {
 											setPath(item.path);
 										}
+									}}
+									onContextMenu={(e) => {
+										showContexify(e, 'file-browser', {
+											type: 'folder',
+											path: item.path,
+										});
 									}}
 								>
 									<div className='ud-c-file-browser__file-list__item__info'>

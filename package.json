@@ -55,6 +55,7 @@
         "grunt-contrib-rename": "^0.2.0",
         "lightgallery": "^2.7.1",
         "react": "^18.2.0",
+        "react-contexify": "^6.0.0",
         "react-dom": "^18.2.0",
         "react-toastify": "^9.1.1",
         "sass": "^1.58.3",

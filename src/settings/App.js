@@ -1,13 +1,15 @@
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import Browser from "./components/Browser";
+import Browser from './components/Browser';
 import './scss/admin.scss';
+import { Contexify } from './components/Contexify';
 
-const App = ( ) => {
-    return (
-		<div className="ud-c-file-browser">
+const App = () => {
+	return (
+		<div className='ud-c-file-browser'>
+			<Contexify />
 			<Header />
-			<div className="ud-c-file-browser__body">
+			<div className='ud-c-file-browser__body'>
 				<Sidebar />
 				<Browser />
 			</div>
