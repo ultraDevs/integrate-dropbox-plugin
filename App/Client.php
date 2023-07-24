@@ -142,9 +142,11 @@ class Client {
 			return $e;
 		}
 
-		if ( $this->client->getOAuth2Client()->isAccessTokenExpired() ) {
-			// Refresh token.
-			$this->refresh_token( $account );
+		if ( $account ) {
+			if ( $this->client->getOAuth2Client()->isAccessTokenExpired() ) {
+				// Refresh token.
+				$this->refresh_token( $account );
+			}
 		}
 	
 		return $this->client;
