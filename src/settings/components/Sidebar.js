@@ -70,18 +70,18 @@ const Sidebar = () => {
 									<div
 										className="ud-c-file-browser__sidebar__storage-info__more__progress__bar"
 										style={{
-											width: `${activeAccount.storage.percent}%`,
+											width: `${activeAccount?.storage?.percent}%`,
 										}}
 									></div>
 								</div>
 								{activeAccount.storage && (
 									<div className="ud-c-file-browser__sidebar__storage-info__more__text">
 										{formatBytes(
-											activeAccount.storage.used
+											activeAccount?.storage?.used
 										)}{" "}
 										of{" "}
 										{formatBytes(
-											activeAccount.storage.allocated
+											activeAccount?.storage?.allocated
 										)}
 									</div>
 								)}
