@@ -37,15 +37,15 @@ class Account {
 	 */
 	public static function get_active_account() {
 		$accounts = self::get_accounts();
-		
+
 		// check if cookie is set for ud_idb_active_account.
-		$active_account = isset ( $_COOKIE['ud_idb_active_account'] ) ? $_COOKIE['ud_idb_active_account'] : null;
-		
-		if ( ! empty ( $active_account ) ) {
+		$active_account = isset( $_COOKIE['ud_idb_active_account'] ) ? $_COOKIE['ud_idb_active_account'] : null;
+
+		if ( ! empty( $active_account ) ) {
 			$active_account = str_replace( "\\\"", "\"", $active_account );
 			$account        = json_decode( $active_account, true );
 
-			if ( ! empty ( $account['id']) && empty ( $accounts[ $account['id'] ] ) ) {
+			if ( ! empty( $account['id'] ) && empty( $accounts[ $account['id'] ] ) ) {
 				setcookie( 'ud_idb_active_account', '', time() - 3600, '/' );
 			} else {
 				return $account;

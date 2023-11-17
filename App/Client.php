@@ -85,7 +85,7 @@ class Client {
 
 		$this->client_id    = apply_filters( 'ud_idb_client_id', 'mp6f0by845hzuzw' );
 		$this->app_secret   = apply_filters( 'ud_idb_app_secret', 'osnj0do9if83yrh' );
-		$this->redirect_uri = apply_filters( 'ud_idb_redirect_uri', 'https://oauth.ultradevs.com/integrate-dropbox-wp.php' );
+		$this->redirect_uri = apply_filters( 'ud_idb_redirect_uri', 'https://www.oauth.ultradevs.com/integrate-dropbox-wp.php' );
 
 		$this->get_client();
 	}
@@ -144,6 +144,7 @@ class Client {
 
 		if ( $account ) {
 			if ( $this->client->getOAuth2Client()->isAccessTokenExpired() ) {
+				var_dump( $account );
 				// Refresh token.
 				$this->refresh_token( $account );
 			}

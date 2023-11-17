@@ -183,6 +183,10 @@ class OAuth2Client
     {
         $accessToken = $this->getApp()->getAccessToken();
 
+        if ( is_null( $accessToken ) ) {
+            return;
+        }
+
         if ($accessToken->getExpiryTime() < 0) {
             return false;
         }

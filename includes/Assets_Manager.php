@@ -68,9 +68,9 @@ class Assets_Manager {
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
 			'version'       => INTEGRATE_DROPBOX_VERSION,
 			'assets'        => INTEGRATE_DROPBOX_ASSETS,
-			'authUrl'       => $auth_url,
-			'accounts'      => Account::get_accounts(),
-			'activeAccount' => Account::get_active_account(),
+			'authUrl'       => $auth_url ? $auth_url : '',
+			'accounts'      => Account::get_accounts() ?: array(),
+			'activeAccount' => Account::get_active_account() ?: array(),
 		);
 
 		return apply_filters( 'ud_id_localization_data', $localization_data );

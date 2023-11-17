@@ -8,6 +8,7 @@
 
 namespace ultraDevs\IntegrateDropbox\Admin;
 
+use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\App;
 use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\Helper;
@@ -63,12 +64,21 @@ class Dashboard {
 	 * Main View
 	 */
 	public static function view_main() {
+
+		// $account = new Account();
+		// $active_account = $account->get_active_account();
+
+		// if ( ! empty( $active_account ) ) {
+		// 	$client = new Client( $active_account->id );
+		// 	var_dump( $client );
+		// }
+
+
 		echo '<div id="ud-id-app"></div>';
 	}
 
 	public function handle_authorization() {
 		if ( isset( $_GET['action'] ) && 'authorization' === $_GET['action'] ) {
-			
 			$app = new App();
 			$app->process_authorization();
 		}

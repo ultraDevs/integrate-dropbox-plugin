@@ -262,14 +262,22 @@ class Dropbox
         //Access Token
         $accessToken = $this->getAccessToken() ? $this->getAccessToken() : $accessToken;
 
-        //Make a DropboxRequest object
+        // Check if the token is set to expire in the next 120 seconds
+        // (or has already expired).
+        if ($this->getOAuth2Client()->isAccessTokenExpired()) {
+            // Call Update function of plugin itself
+            do_action('ud_idb_refresh_token', \ultraDevs\IntegrateDropbox\App\Account::get_active_account());
+            $accessToken = $this->getAccessToken();
+        }
+
+        // Make a DropboxRequest object
         $request = new DropboxRequest($method, $endpoint, $accessToken, $endpointType, $params);
 
         //Make a DropboxResponse object if a response should be saved to the file
         $response = $responseFile ? new DropboxResponseToFile($request, $responseFile) : null;
 
-        //Send Request through the DropboxClient
-        //Fetch and return the Response
+        // Send Request through the DropboxClient
+        // Fetch and return the Response
         return $this->getClient()->sendRequest($request, $response);
     }
 
