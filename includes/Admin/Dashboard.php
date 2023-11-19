@@ -64,16 +64,6 @@ class Dashboard {
 	 * Main View
 	 */
 	public static function view_main() {
-
-		// $account = new Account();
-		// $active_account = $account->get_active_account();
-
-		// if ( ! empty( $active_account ) ) {
-		// 	$client = new Client( $active_account->id );
-		// 	var_dump( $client );
-		// }
-
-
 		echo '<div id="ud-id-app"></div>';
 	}
 

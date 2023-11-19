@@ -287,7 +287,7 @@ class Client {
 
 		$active_token = Account::get_token( $account['id'] );
 
-		if ( empty ( $refresh_token ) ) {
+		if ( empty( $refresh_token ) ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . __( 'No refresh token found!', 'integrate-dropbox' ) );
 
 			$authorization->set_valid_token( false );
@@ -309,7 +309,6 @@ class Client {
 				$account['is_lost'] = false;
 				Account::update_account( $account );
 			}
-
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error refreshing token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 

@@ -229,6 +229,52 @@ class Dropbox
     }
 
     /**
+     * Get the Access Token.
+     *
+     * @return string Access Token
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Set the Access Token.
+     *
+     * @param string $accessToken Access Token
+     *
+     * @return \Kunnu\Dropbox\Dropbox Dropbox Client
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    /**
+     * Make Model from DropboxResponse
+     *
+     * @param  DropboxResponse $response
+     *
+     * @return \Kunnu\Dropbox\Models\ModelInterface
+     *
+     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
+     */
+    public function makeModelFromResponse(DropboxResponse $response)
+    {
+        //Get the Decoded Body
+        $body = $response->getDecodedBody();
+
+        if (is_null($body)) {
+            $body = [];
+        }
+
+        //Make and Return the Model
+        return ModelFactory::make($body);
+    }
+
+    /**
      * Make a HTTP POST Request to the API endpoint type
      *
      * @param  string $endpoint API Endpoint to send Request to
@@ -281,51 +327,6 @@ class Dropbox
         return $this->getClient()->sendRequest($request, $response);
     }
 
-    /**
-     * Get the Access Token.
-     *
-     * @return string Access Token
-     */
-    public function getAccessToken()
-    {
-        return $this->accessToken;
-    }
-
-    /**
-     * Set the Access Token.
-     *
-     * @param string $accessToken Access Token
-     *
-     * @return \Kunnu\Dropbox\Dropbox Dropbox Client
-     */
-    public function setAccessToken($accessToken)
-    {
-        $this->accessToken = $accessToken;
-
-        return $this;
-    }
-
-    /**
-     * Make Model from DropboxResponse
-     *
-     * @param  DropboxResponse $response
-     *
-     * @return \Kunnu\Dropbox\Models\ModelInterface
-     *
-     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
-     */
-    public function makeModelFromResponse(DropboxResponse $response)
-    {
-        //Get the Decoded Body
-        $body = $response->getDecodedBody();
-
-        if (is_null($body)) {
-            $body = [];
-        }
-
-        //Make and Return the Model
-        return ModelFactory::make($body);
-    }
 
     /**
      * Get the contents of a Folder

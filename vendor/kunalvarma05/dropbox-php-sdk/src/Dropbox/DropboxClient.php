@@ -93,7 +93,7 @@ class DropboxClient
      */
     protected function buildAuthHeader($accessToken = "")
     {
-        // var_dump( $accessToken );
+        // var_dump( $accessToken->getToken() );
         return ['Authorization' => 'Bearer '. $accessToken ];
     }
 
