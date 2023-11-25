@@ -68,7 +68,6 @@ class Client {
 	 */
 	public $redirect_uri;
 
-	
 	/**
 	 * Constructor
 	 */
@@ -144,7 +143,7 @@ class Client {
 
 		if ( $account ) {
 			if ( $this->client->getOAuth2Client()->isAccessTokenExpired() ) {
-				var_dump( $account );
+				// var_dump( $account );
 				// Refresh token.
 				$this->refresh_token( $account );
 			}
@@ -164,7 +163,7 @@ class Client {
 		
 		if ( empty( $this->client_app ) ) {
 			if ( ! empty( $account ) ) {
-				$authorization = new Authorization( $account );
+				$authorization    = new Authorization( $account );
 				$this->client_app = new DropboxApp( $this->get_app_key(), $this->get_app_secret(), $authorization->get_access_token() );
 			} else {
 				$this->client_app = new DropboxApp( $this->get_app_key(), $this->get_app_secret() );
@@ -203,7 +202,7 @@ class Client {
 		
 		// @TODO : Check if folder is allowed.
 
-		return $folder;
+		return $folder ? $folder : array();
 	}
 
 	/**
@@ -236,6 +235,8 @@ class Client {
 
 			// Fetch access token.
 			$access_token = $this->get_client()->getAuthHelper()->getAccessToken( $code, $state, $this->redirect_uri );
+
+			// ud_vd( $access_token->getToken() );
 
 			// Set access token.
 			$this->get_client()->setAccessToken( $access_token->getToken() );
@@ -333,13 +334,13 @@ class Client {
 	 */
 	public function get_storage_space_info() {
 		$space_usage = $this->client->getSpaceUsage();
-		$used = $space_usage['used'];
-		$allocation = $space_usage['allocation']['allocated'];
+		$used        = $space_usage['used'];
+		$allocation  = $space_usage['allocation']['allocated'];
 
 		return array(
-			'used' => $used,
+			'used'      => $used,
 			'allocated' => $allocation,
-			'percent' => round( ( $used / $allocation ) * 100 ),
+			'percent'   => round( ( $used / $allocation ) * 100 ),
 		);
 	}
 }

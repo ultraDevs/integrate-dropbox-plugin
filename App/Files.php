@@ -114,6 +114,14 @@ class Files {
 		$path       = '/' === $dirname ? 'files_dir' : $dirname;
 		$data       = serialize( $file );
 
+		// @TODO: Check if file is exists.
+
+		// $is_exists = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $table_name WHERE id = %s AND account_id = %s", $id, $this->account_id ) );
+
+		// if ( $is_exists	) {
+		// 	return;
+		// }
+
 		return $wpdb->query(
 			$wpdb->prepare(
 				"INSERT INTO $table_name

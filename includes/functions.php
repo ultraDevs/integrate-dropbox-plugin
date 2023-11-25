@@ -42,6 +42,7 @@ function ud_idb_get_settings( $key = null, $default = null ) {
 }
 
 function ud_vd() {
+	echo '<style>#adminmenuback { position: unset !important; }</style>';
 	$args = func_get_args();
 	foreach ( $args as $arg ) {
 		echo '<pre>';

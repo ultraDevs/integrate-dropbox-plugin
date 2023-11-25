@@ -250,3 +250,11 @@ if ( ! function_exists( 'integrate_dropbox' ) ) {
 	}
 }
 integrate_dropbox();
+
+
+// $tokens = get_option( 'ud_idb_tokens' );
+// ud_vd( $tokens['dbid:AADIzzWcZBgXxGv8iYuYk2Z0jdwrg88xiX0']->refresh_token );
+
+// $client = new ultraDevs\IntegrateDropbox\App\Authorization();
+
+// ud_vd( $client->get_refresh_token('dbid:AADIzzWcZBgXxGv8iYuYk2Z0jdwrg88xiX0') );

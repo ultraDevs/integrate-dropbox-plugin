@@ -187,13 +187,13 @@ class OAuth2Client
             return;
         }
 
-        if ($accessToken->getExpiryTime() < 0) {
-            return false;
-        }
+        // if ($accessToken->getExpiryTime() < 0) {
+        //     return false;
+        // }
 
-        // If the token is set to expire in the next 120 seconds.
-        return ($accessToken->getCreated()
-        + ($accessToken->getExpiryTime() - 120)) < time();
+        // // If the token is set to expire in the next 120 seconds.
+        // return ($accessToken->getCreated()
+        // + ($accessToken->getExpiryTime() - 120)) < time();
     }
 
     /**

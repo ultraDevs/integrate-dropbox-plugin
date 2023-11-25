@@ -93,7 +93,6 @@ class DropboxClient
      */
     protected function buildAuthHeader($accessToken = "")
     {
-        // var_dump( $accessToken->getToken() );
         return ['Authorization' => 'Bearer '. $accessToken ];
     }
 
@@ -220,6 +219,8 @@ class DropboxClient
             $this->buildContentTypeHeader($request->getContentType()),
             $request->getHeaders()
         );
+
+        // ud_vd( $headers );
 
         //Return the URL, Headers and Request Body
         return [$url, $headers, $requestBody];

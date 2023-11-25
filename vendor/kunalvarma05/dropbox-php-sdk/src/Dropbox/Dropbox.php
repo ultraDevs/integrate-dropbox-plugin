@@ -305,6 +305,8 @@ class Dropbox
      */
     public function sendRequest($method, $endpoint, $endpointType = 'api', array $params = [], $accessToken = null, DropboxFile $responseFile = null)
     {
+        // ud_vd( $this->getAccessToken() );
+
         //Access Token
         $accessToken = $this->getAccessToken() ? $this->getAccessToken() : $accessToken;
 
@@ -315,6 +317,8 @@ class Dropbox
             do_action('ud_idb_refresh_token', \ultraDevs\IntegrateDropbox\App\Account::get_active_account());
             $accessToken = $this->getAccessToken();
         }
+
+
 
         // Make a DropboxRequest object
         $request = new DropboxRequest($method, $endpoint, $accessToken, $endpointType, $params);

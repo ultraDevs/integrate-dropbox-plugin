@@ -50,7 +50,7 @@ class Authorization {
 	/**
 	 * Constructor
 	 */
-	public function __construct( $account ) {
+	public function __construct( $account = null ) {
 		if ( ! empty( $account ) ) {
 			$this->account_id = $account['id'];
 		}
@@ -76,7 +76,7 @@ class Authorization {
 	public function get_access_token() {
 		$tokens = get_option( $this->tokens_key, array() );
 
-		return ! empty( $tokens[ $this->account_id ] ) ? $tokens[ $this->account_id ] : false;
+		return ! empty( $tokens[ $this->account_id ] ) ? $tokens[ $this->account_id ]->access_token : false;
 	}
 
 	/**
@@ -148,13 +148,10 @@ class Authorization {
 	 * @return string | false
 	 */
 	public function get_refresh_token( $account_id = null ) {
-		if ( ! $account_id || ! $this->account_id ) {
-			return false;
-		}
+
 		$account_id = ! empty( $account_id ) ? $account_id : $this->account_id;
 
 		$token = Account::get_token( $account_id );
-		// var_dump( $token );
 		return $token->refresh_token;
 	}
 

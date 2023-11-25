@@ -117,9 +117,9 @@ class REST_API {
 	 */
 	public function get_files( $request ) {
 		$accountId = $request->get_param( 'accountId' );
-		$path = $request->get_param( 'path' );
+		$path      = $request->get_param( 'path' );
 
-		if ( !$accountId ) {
+		if ( ! $accountId ) {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
@@ -131,7 +131,7 @@ class REST_API {
 
 		$account = Account::get_accounts( $accountId );
 
-		if ( !$account ) {
+		if ( ! $account ) {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',

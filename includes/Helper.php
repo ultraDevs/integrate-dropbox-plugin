@@ -239,24 +239,26 @@ class Helper {
 	/**
 	 * Check if folder is cached
 	 *
+	 * @param string $account_id Account ID.
 	 * @param string $path Path.
 	 * @return boolean true|false true if cached, false if not cached
 	 */
-	public static function is_cached_folder( $path ) {
+	public static function is_cached_folder( $account_id, $path ) {
 		$cached_folders = get_option( self::$cached_folder_key, array() );
 
-		return in_array( $path, $cached_folders, true );
+		return in_array( $account_id . '/' . $path, $cached_folders, true );
 	}
 
 	/**
 	 * Save folder to cache
 	 *
+	 * @param string $account_id Account ID.
 	 * @param string $path Path.
 	 * @return boolean true|false true if saved, false if not saved
 	 */
-	public static function update_cached_folder( $path ) {
+	public static function update_cached_folder( $account_id, $path ) {
 		$cached_folders = get_option( self::$cached_folder_key, array() );
-		$cached_folders[] = $path;
+		$cached_folders[] = $account_id . '/' . $path;
 		return update_option( self::$cached_folder_key, $cached_folders, false );
 	}
 }

@@ -51,6 +51,7 @@ const Browser = () => {
 		})
 			.then((response) => {
 				dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
+				dispatch('dropbox-browser').setData('isLoading', true);
 				setData(response.data.files);
 				dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
 				dispatch('dropbox-browser').setData('isLoading', false);

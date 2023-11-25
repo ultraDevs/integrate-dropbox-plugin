@@ -121,11 +121,9 @@ class App {
 
 		$items = array();
 
-		if ( Helper::is_cached_folder( $path ) ) {
-			$items = Files::get_instance( $this->account_id)->get_files( $path );
+		if ( Helper::is_cached_folder( $this->account_id, $path ) ) {
+			$items = Files::get_instance( $this->account_id )->get_files( $path );
 		} else {
-			
-
 			try {
 				$folder_contents = Client::get_instance()->get_client()->listFolder( $path, ['recursive' => $params['recursive'] ] );
 				$entries         = $folder_contents->getItems()->toArray();
@@ -216,9 +214,9 @@ class App {
 
 			$items = array_merge( $folders, $files );
 
-			Files::get_instance( $this->account_id)->set_files( $items );
+			Files::get_instance( $this->account_id )->set_files( $items );
 
-			Helper::update_cached_folder( $path );
+			Helper::update_cached_folder( $this->account_id, $path );
 		}
 
 		// @TODO : Recursive and Hierarchical.
