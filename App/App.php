@@ -179,7 +179,7 @@ class App {
 							'canRename' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
 							'canMove' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
 							'canAdd' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-							'hasAccess' => empty( $sharing_info ) ? true : ! $sharing_info->hasAccess(),
+							// 'hasAccess' => empty( $sharing_info ) ? true : ! $sharing_info->hasAccess(),
 							'canShare' => true,
 						),
 						'ext'      => $is_file ? $path_info['extension'] : '',

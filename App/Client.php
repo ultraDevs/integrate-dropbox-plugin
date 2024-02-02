@@ -73,9 +73,8 @@ class Client {
 	 * Constructor
 	 */
 	public function __construct( $account_id = null ) {
-
 		if ( empty( $account_id) ) {
-			$this->account = Account::get_active_account();
+			$this->account = Account::get_active_account() ? Account::get_accounts( Account::get_active_account()['id'] ) : null;
 		} else {
 			$this->account = Account::get_accounts( $account_id );
 		}
@@ -129,6 +128,7 @@ class Client {
 	 * @return object
 	 */
 	public function create_client( $account = null ) {
+
 		try {
 			$this->client     = new Dropbox(
 				$this->get_app( $account ),
@@ -158,7 +158,6 @@ class Client {
 	 * @return object
 	 */
 	public function get_app( $account = null ) {
-		
 		if ( empty( $this->client_app ) ) {
 			if ( ! empty( $account ) ) {
 				$authorization = new Authorization( $account );
@@ -277,7 +276,7 @@ class Client {
 	 */
 	public function refresh_token( $account = null ) {
 		if ( empty( $account ) ) {
-			$account = $this->account;
+			return false;
 		}
 		$authorization = new Authorization( $account );
 		$refresh_token = $authorization->get_refresh_token();

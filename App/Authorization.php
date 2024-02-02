@@ -50,8 +50,12 @@ class Authorization {
 	/**
 	 * Constructor
 	 */
-	public function __construct( $account ) {
-		$this->account_id = $account['id'];
+	public function __construct( $account = null ) {
+		if ( ! empty ( $account ) || ! is_null( $account ) ) {
+			$this->account_id = $account['id'];
+		} else {
+			$this->account_id = null;
+		}
 	}
 
 	/**
@@ -66,6 +70,7 @@ class Authorization {
 
 		return $this->client;
 	}
+
 	/**
 	 * Get Token By ID.
 	 *
@@ -149,6 +154,11 @@ class Authorization {
 		$account_id = ! empty ( $account_id ) ? $account_id : $this->account_id;
 
 		$token = Account::get_token( $account_id );
+
+		if ( empty( $token ) ) {
+			return false;
+		}
+
 		return $token->refresh_token;
 	}
 

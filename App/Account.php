@@ -24,6 +24,7 @@ class Account {
 	 */
 	public static function get_accounts( $id = null ) {
 		$accounts = get_option( 'ud_integrate_dropbox_accounts', array() );
+		// ud_vd($accounts);
 		if ( $id ) {
 			return ! empty( $accounts[ $id ] ) ? $accounts[ $id ] : '';
 		}

@@ -34,53 +34,53 @@ define( 'INTEGRATE_DROPBOX_CACHE_DIR_URL', content_url() . '/integrate-dropbox-c
 define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
 
-if ( function_exists( 'ud_id_fs' ) ) {
-	ud_id_fs()->set_basename( true, __FILE__ );
-} else {
-	if ( ! function_exists( 'ud_id_fs' ) ) {
-		// Create a helper function for easy SDK access.
-		function ud_id_fs() {
-			global $ud_id_fs;
+// if ( function_exists( 'ud_id_fs' ) ) {
+// 	ud_id_fs()->set_basename( true, __FILE__ );
+// } else {
+// 	if ( ! function_exists( 'ud_id_fs' ) ) {
+// 		// Create a helper function for easy SDK access.
+// 		function ud_id_fs() {
+// 			global $ud_id_fs;
 	
-			if ( ! isset( $ud_id_fs ) ) {
-				// Include Freemius SDK.
-				require_once dirname(__FILE__) . '/freemius/start.php';
+// 			if ( ! isset( $ud_id_fs ) ) {
+// 				// Include Freemius SDK.
+// 				require_once dirname(__FILE__) . '/freemius/start.php';
 	
-				$ud_id_fs = fs_dynamic_init( array(
-					'id'                  => '11947',
-					'slug'                => 'integrate-dropbox',
-					'type'                => 'plugin',
-					'public_key'          => 'pk_a176432ddab9116ca5cb857548db3',
-					'is_premium'          => true,
-					'premium_suffix'      => 'PRO',
-					// If your plugin is a serviceware, set this option to false.
-					'has_premium_version' => true,
-					'has_addons'          => false,
-					'has_paid_plans'      => true,
-					'trial'               => array(
-						'days'               => 3,
-						'is_require_payment' => true,
-					),
-					'menu'                => array(
-						'slug'           => 'integrate-dropbox',
-						'first-path'     => 'admin.php?page=integrate-dropbox',
-						'support'        => false,
-					),
-					// Set the SDK to work in a sandbox mode (for development & testing).
-					// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-					'secret_key'          => 'sk_uZK$}43?:LyzW%B)PHfQWj()yEzYY',
-				) );
-			}
+// 				$ud_id_fs = fs_dynamic_init( array(
+// 					'id'                  => '11947',
+// 					'slug'                => 'integrate-dropbox',
+// 					'type'                => 'plugin',
+// 					'public_key'          => 'pk_a176432ddab9116ca5cb857548db3',
+// 					'is_premium'          => true,
+// 					'premium_suffix'      => 'PRO',
+// 					// If your plugin is a serviceware, set this option to false.
+// 					'has_premium_version' => true,
+// 					'has_addons'          => false,
+// 					'has_paid_plans'      => true,
+// 					'trial'               => array(
+// 						'days'               => 3,
+// 						'is_require_payment' => true,
+// 					),
+// 					'menu'                => array(
+// 						'slug'           => 'integrate-dropbox',
+// 						'first-path'     => 'admin.php?page=integrate-dropbox',
+// 						'support'        => false,
+// 					),
+// 					// Set the SDK to work in a sandbox mode (for development & testing).
+// 					// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+// 					'secret_key'          => 'sk_uZK$}43?:LyzW%B)PHfQWj()yEzYY',
+// 				) );
+// 			}
 	
-			return $ud_id_fs;
-		}
+// 			return $ud_id_fs;
+// 		}
 	
-		// Init Freemius.
-		ud_id_fs();
-		// Signal that SDK was initiated.
-		do_action( 'ud_id_fs_loaded' );
-	}
-}
+// 		// Init Freemius.
+// 		ud_id_fs();
+// 		// Signal that SDK was initiated.
+// 		do_action( 'ud_id_fs_loaded' );
+// 	}
+// }
 
 
 /**
@@ -132,7 +132,7 @@ final class IntegrateDropbox {
 	public function init() {
 
 		// Ajax Class.
-		$ajax = new ultraDevs\IntegrateDropbox\Ajax();
+		new ultraDevs\IntegrateDropbox\Ajax();
 
 		// Assets Manager Class.
 		$assets_manager = new ultraDevs\IntegrateDropbox\Assets_Manager();
@@ -147,10 +147,10 @@ final class IntegrateDropbox {
 		$dashboard = new ultraDevs\IntegrateDropbox\Admin\Dashboard();
 
 		// App.
-		$app = new ultraDevs\IntegrateDropbox\App\App();
+		new ultraDevs\IntegrateDropbox\App\App();
 
 		// Rest API.
-		$rest_api = new ultraDevs\IntegrateDropbox\Rest_API();
+		new ultraDevs\IntegrateDropbox\Rest_API();
 
 		if ( is_admin() ) {
 

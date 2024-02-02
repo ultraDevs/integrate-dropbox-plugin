@@ -670,11 +670,11 @@ const Sidebar = () => {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__sidebar__storage-info__more__progress__bar",
     style: {
-      width: `${activeAccount.storage.percent}%`
+      width: `${activeAccount?.storage?.percent}%`
     }
   })), activeAccount.storage && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__sidebar__storage-info__more__text"
-  }, (0,_helper_common__WEBPACK_IMPORTED_MODULE_4__.formatBytes)(activeAccount.storage.used), " ", "of", " ", (0,_helper_common__WEBPACK_IMPORTED_MODULE_4__.formatBytes)(activeAccount.storage.allocated))))))));
+  }, (0,_helper_common__WEBPACK_IMPORTED_MODULE_4__.formatBytes)(activeAccount?.storage?.used), " ", "of", " ", (0,_helper_common__WEBPACK_IMPORTED_MODULE_4__.formatBytes)(activeAccount?.storage?.allocated))))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Sidebar);
 
@@ -855,6 +855,21 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/clsx/dist/clsx.m.js":
+/*!******************************************!*\
+  !*** ./node_modules/clsx/dist/clsx.m.js ***!
+  \******************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "clsx": function() { return /* binding */ clsx; }
+/* harmony export */ });
+function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e))for(t=0;t<e.length;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);else for(t in e)e[t]&&(n&&(n+=" "),n+=t);return n}function clsx(){for(var e,t,f=0,n="";f<arguments.length;)(e=arguments[f++])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}/* harmony default export */ __webpack_exports__["default"] = (clsx);
+
+/***/ }),
+
 /***/ "./node_modules/lightgallery/plugins/thumbnail/lg-thumbnail.es5.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/lightgallery/plugins/thumbnail/lg-thumbnail.es5.js ***!
@@ -864,7 +879,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
- * lightgallery | 2.7.1 | January 11th 2023
+ * lightgallery | 2.7.2 | September 20th 2023
  * http://www.lightgalleryjs.com/
  * Copyright (c) 2020 Sachin Neravath;
  * @license GPLv3
@@ -1253,7 +1268,7 @@ var Thumbnail = /** @class */ (function () {
         }
         return thumbDragUtils;
     };
-    Thumbnail.prototype.getThumbHtml = function (thumb, index) {
+    Thumbnail.prototype.getThumbHtml = function (thumb, index, alt) {
         var slideVideoInfo = this.core.galleryItems[index].__slideVideoInfo || {};
         var thumbImg;
         if (slideVideoInfo.youtube) {
@@ -1272,12 +1287,13 @@ var Thumbnail = /** @class */ (function () {
         else {
             thumbImg = thumb;
         }
-        return "<div data-lg-item-id=\"" + index + "\" class=\"lg-thumb-item " + (index === this.core.index ? ' active' : '') + "\" \n        style=\"width:" + this.settings.thumbWidth + "px; height: " + this.settings.thumbHeight + ";\n            margin-right: " + this.settings.thumbMargin + "px;\">\n            <img data-lg-item-id=\"" + index + "\" src=\"" + thumbImg + "\" />\n        </div>";
+        var altAttr = alt ? 'alt="' + alt + '"' : '';
+        return "<div data-lg-item-id=\"" + index + "\" class=\"lg-thumb-item " + (index === this.core.index ? ' active' : '') + "\"\n        style=\"width:" + this.settings.thumbWidth + "px; height: " + this.settings.thumbHeight + ";\n            margin-right: " + this.settings.thumbMargin + "px;\">\n            <img " + altAttr + " data-lg-item-id=\"" + index + "\" src=\"" + thumbImg + "\" />\n        </div>";
     };
     Thumbnail.prototype.getThumbItemHtml = function (items) {
         var thumbList = '';
         for (var i = 0; i < items.length; i++) {
-            thumbList += this.getThumbHtml(items[i].thumb, i);
+            thumbList += this.getThumbHtml(items[i].thumb, i, items[i].alt);
         }
         return thumbList;
     };
@@ -1359,7 +1375,7 @@ var Thumbnail = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
- * lightgallery | 2.7.1 | January 11th 2023
+ * lightgallery | 2.7.2 | September 20th 2023
  * http://www.lightgalleryjs.com/
  * Copyright (c) 2020 Sachin Neravath;
  * @license GPLv3
@@ -1906,7 +1922,7 @@ var Video = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
- * lightgallery | 2.7.1 | January 11th 2023
+ * lightgallery | 2.7.2 | September 20th 2023
  * http://www.lightgalleryjs.com/
  * Copyright (c) 2020 Sachin Neravath;
  * @license GPLv3
@@ -1941,6 +1957,7 @@ var __assign = function() {
 var zoomSettings = {
     scale: 1,
     zoom: true,
+    infiniteZoom: true,
     actualSize: true,
     showZoomInOutIcons: false,
     actualSizeIcons: {
@@ -2264,6 +2281,10 @@ var Zoom = /** @class */ (function () {
      */
     Zoom.prototype.setActualSize = function (index, event) {
         var _this = this;
+        if (this.zoomInProgress) {
+            return;
+        }
+        this.zoomInProgress = true;
         var currentItem = this.core.galleryItems[this.core.index];
         this.resetImageTranslate(index);
         setTimeout(function () {
@@ -2283,10 +2304,13 @@ var Zoom = /** @class */ (function () {
             _this.setPageCords(event);
             _this.beginZoom(_this.scale);
             _this.zoomImage(_this.scale, _this.scale - prevScale, true, true);
-            setTimeout(function () {
-                _this.core.outer.removeClass('lg-grabbing').addClass('lg-grab');
-            }, 10);
         }, 50);
+        setTimeout(function () {
+            _this.core.outer.removeClass('lg-grabbing').addClass('lg-grab');
+        }, 60);
+        setTimeout(function () {
+            _this.zoomInProgress = false;
+        }, ZOOM_TRANSITION_DURATION + 110);
     };
     Zoom.prototype.getNaturalWidth = function (index) {
         var $image = this.core.getSlideItem(index).find('.lg-image').first();
@@ -2433,7 +2457,7 @@ var Zoom = /** @class */ (function () {
                     scale = 1;
                 }
                 _this.beginZoom(scale);
-                _this.zoomImage(scale, -_this.settings.scale, true, true);
+                _this.zoomImage(scale, -_this.settings.scale, true, !_this.settings.infiniteZoom);
             }, timeout);
         });
         this.core.getElementById('lg-zoom-in').on('click.lg', function () {
@@ -2457,6 +2481,7 @@ var Zoom = /** @class */ (function () {
             var prevIndex = event.detail.prevIndex;
             _this.scale = 1;
             _this.positionChanged = false;
+            _this.zoomInProgress = false;
             _this.resetZoom(prevIndex);
             _this.resetImageTranslate(prevIndex);
             if (_this.isImageSlide(_this.core.index)) {
@@ -2470,6 +2495,7 @@ var Zoom = /** @class */ (function () {
         // Store the zoomable timeout value just to clear it while closing
         this.zoomableTimeout = false;
         this.positionChanged = false;
+        this.zoomInProgress = false;
     };
     Zoom.prototype.zoomIn = function () {
         // Allow zoom only on image
@@ -2477,9 +2503,11 @@ var Zoom = /** @class */ (function () {
             return;
         }
         var scale = this.scale + this.settings.scale;
-        scale = this.getScale(scale);
+        if (!this.settings.infiniteZoom) {
+            scale = this.getScale(scale);
+        }
         this.beginZoom(scale);
-        this.zoomImage(scale, Math.min(this.settings.scale, scale - this.scale), true, true);
+        this.zoomImage(scale, Math.min(this.settings.scale, scale - this.scale), true, !this.settings.infiniteZoom);
     };
     // Reset zoom effect
     Zoom.prototype.resetZoom = function (index) {
@@ -2852,6 +2880,7 @@ var Zoom = /** @class */ (function () {
     };
     Zoom.prototype.closeGallery = function () {
         this.resetZoom();
+        this.zoomInProgress = false;
     };
     Zoom.prototype.destroy = function () {
         // Unbind all events added by lightGallery zoom plugin
@@ -2910,7 +2939,7 @@ function __rest(s, e) {
 }
 
 /*!
- * lightgallery | 2.7.1 | January 11th 2023
+ * lightgallery | 2.7.2 | September 20th 2023
  * http://www.lightgalleryjs.com/
  * Copyright (c) 2020 Sachin Neravath;
  * @license GPLv3
@@ -3060,6 +3089,7 @@ var lightGalleryCoreSettings = {
         nextSlide: 'Next slide',
         download: 'Download',
         playVideo: 'Play video',
+        mediaLoadingFailed: 'Oops... Failed to load content...',
     },
 };
 
@@ -4467,7 +4497,9 @@ var LightGallery = /** @class */ (function () {
             _this.triggerSlideItemLoad(currentSlide, index, delay, speed, isFirstSlide);
         }, function () {
             currentSlide.addClass('lg-complete lg-complete_');
-            currentSlide.html('<span class="lg-error-msg">Oops... Failed to load content...</span>');
+            currentSlide.html('<span class="lg-error-msg">' +
+                _this.settings.strings['mediaLoadingFailed'] +
+                '</span>');
         });
     };
     LightGallery.prototype.triggerSlideItemLoad = function ($currentSlide, index, delay, speed, isFirstSlide) {
@@ -5868,21 +5900,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/react-contexify/node_modules/clsx/dist/clsx.m.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/react-contexify/node_modules/clsx/dist/clsx.m.js ***!
-  \***********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "clsx": function() { return /* binding */ clsx; }
-/* harmony export */ });
-function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else if("object"==typeof e)if(Array.isArray(e))for(t=0;t<e.length;t++)e[t]&&(f=r(e[t]))&&(n&&(n+=" "),n+=f);else for(t in e)e[t]&&(n&&(n+=" "),n+=t);return n}function clsx(){for(var e,t,f=0,n="";f<arguments.length;)(e=arguments[f++])&&(t=r(e))&&(n&&(n+=" "),n+=t);return n}/* harmony default export */ __webpack_exports__["default"] = (clsx);
-
-/***/ }),
-
 /***/ "react":
 /*!************************!*\
   !*** external "React" ***!
@@ -6603,7 +6620,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "useContextMenu": function() { return /* binding */ Fe; }
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! clsx */ "./node_modules/react-contexify/node_modules/clsx/dist/clsx.m.js");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.m.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "react-dom");
 
 
