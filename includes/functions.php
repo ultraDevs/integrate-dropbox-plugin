@@ -43,6 +43,20 @@ function ud_idb_get_settings( $key = null, $default = null ) {
 
 function ud_vd() {
 	$args = func_get_args();
+	echo '
+		<style>
+			pre {
+				background: #f5f5f5;
+				padding: 10px;
+				border: 1px solid #ddd;
+				margin: 10px 0;
+				overflow: auto;
+			}
+			#adminmenuback {
+				position: unset !important;
+			}
+		</style>
+	';
 	foreach ( $args as $arg ) {
 		echo '<pre>';
 		var_dump( $arg );

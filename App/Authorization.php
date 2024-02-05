@@ -182,7 +182,5 @@ class Authorization {
 		Account::delete_account( $this->account_id );
 
 		return true;
-
 	}
-
 }

@@ -71,6 +71,8 @@ class Client {
 	
 	/**
 	 * Constructor
+	 *
+	 * @param string $account_id Account ID.
 	 */
 	public function __construct( $account_id = null ) {
 		if ( empty( $account_id) ) {
@@ -200,6 +202,37 @@ class Client {
 		// @TODO : Check if folder is allowed.
 
 		return $folder;
+	}
+	
+	
+	public function file_preview( $file, $account_id = null, $path = null ) {
+		if ( empty( $account_id ) ) {
+			$account = $this->account['id'];
+		}
+		
+		// IF after all we still don't have an account, return false.
+		if ( empty( $account ) ) {
+			return false;
+		}
+		
+		if ( empty( $path ) ) {
+			$path = '/';
+		}
+		
+		$details = $this->client->getMetadata( $file );
+		
+		return $details;
+		
+		do_action( 'ud_idb_log_event', $details, $account_id, $path ); 
+	
+		// Generate Preview for Media files.
+//		if ( in_array( $details['.tag'], array( 'audio', 'video', 'image' ) ) ) {
+//			$preview = $this->client->getThumbnail( $file, 'jpeg', 'w64h64' );
+//			$preview = $preview->getContents();
+//		} else {
+//			$preview = Helper::get_file_icon( $details['.tag'] );
+//		}
+		
 	}
 
 	/**

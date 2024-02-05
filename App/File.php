@@ -1,6 +1,6 @@
 <?php
 /**
- * API Class
+ * File Class
  *
  * @package IntegrateDropbox
  * @since 1.0.0
@@ -12,12 +12,12 @@ use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\Client;
 
 /**
- * API Class
+ * File Class
  *
  * @package IntegrateDropbox
  * @since 1.0.0
  */
-class API {
+class File {
 	use Singleton;
 	
 	/**

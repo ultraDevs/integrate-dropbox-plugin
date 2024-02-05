@@ -202,6 +202,19 @@ class Helper {
 
 		return in_array( $extension, $extensions, true );
 	}
+	
+	/**
+	 * Supported extensions for embed
+	 *
+	 * @param string $extension Extension.
+	 *
+	 * @return boolean
+	 */
+	public static function can_embed( $extension ) {
+		$extensions = ['pdf', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'webm', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'jpg', 'jpeg', 'gif', 'apng', 'png', 'svg', 'webp', 'flac', 'xls', 'xlsx', 'xlsm', 'doc', 'docx', 'docm', 'ppt', 'pptx', 'pptm', 'pps', 'ppsm', 'ppsx'];
+
+		return in_array( $extension, $extensions, true );
+	} 
 
 	/**
 	 * Get Thumbnail

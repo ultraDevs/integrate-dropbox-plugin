@@ -171,9 +171,10 @@ final class IntegrateDropbox {
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
 
-		// $folder = Client::get_instance()->get_folder('/Snowmass Club');
+//		 $file_preview = Client::get_instance()->file_preview( '/hello test/hello/features/img-1.png' );
+		 $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
 
-		// ud_vd( $folder );
+		 ud_vd( $file_preview );
 	}
 
 	/**

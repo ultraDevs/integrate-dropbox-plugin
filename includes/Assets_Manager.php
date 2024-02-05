@@ -35,7 +35,7 @@ class Assets_Manager {
 
 		$script_assets = file_exists( INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/index.asset.php' ) ? require INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/index.asset.php' : array();
 
-		wp_enqueue_script( 'ud-id-admin', INTEGRATE_DROPBOX_ASSETS . 'admin/index.js', $script_assets['dependencies'], $script_assets['version'], true );
+		wp_enqueue_script( 'ud-id-admin', INTEGRATE_DROPBOX_ASSETS . 'admin/index.js', $script_assets['dependencies'], $script_assets['version'] ? $script_assets['version'] : INTEGRATE_DROPBOX_VERSION, true );
 
 		wp_localize_script(
 			'ud-id-admin',

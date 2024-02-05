@@ -175,6 +175,7 @@ const Browser = () => {
 					<>
 						<div className='ud-c-file-browser__file-list'>
 							{files.map((item, index) => {
+								console.log(item);
 								return (
 									<div
 										className={classnames(
