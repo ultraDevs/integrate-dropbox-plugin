@@ -68,14 +68,14 @@ class Client {
 	 */
 	public $redirect_uri;
 
-	
+
 	/**
 	 * Constructor
 	 *
 	 * @param string $account_id Account ID.
 	 */
 	public function __construct( $account_id = null ) {
-		if ( empty( $account_id) ) {
+		if ( empty( $account_id ) ) {
 			$this->account = Account::get_active_account() ? Account::get_accounts( Account::get_active_account()['id'] ) : null;
 		} else {
 			$this->account = Account::get_accounts( $account_id );
@@ -132,7 +132,7 @@ class Client {
 	public function create_client( $account = null ) {
 
 		try {
-			$this->client     = new Dropbox(
+			$this->client = new Dropbox(
 				$this->get_app( $account ),
 				array(
 					'persistent_data_store' => new SessionPersistentDataStore( 'integrate-dropbox' ),
@@ -148,7 +148,7 @@ class Client {
 			// Refresh token.
 			$this->refresh_token( $account );
 		}
-	
+
 		return $this->client;
 	}
 
@@ -162,7 +162,7 @@ class Client {
 	public function get_app( $account = null ) {
 		if ( empty( $this->client_app ) ) {
 			if ( ! empty( $account ) ) {
-				$authorization = new Authorization( $account );
+				$authorization    = new Authorization( $account );
 				$this->client_app = new DropboxApp( $this->get_app_key(), $this->get_app_secret(), $authorization->get_access_token() );
 			} else {
 				$this->client_app = new DropboxApp( $this->get_app_key(), $this->get_app_secret() );
@@ -193,46 +193,45 @@ class Client {
 		}
 
 		try {
-			$folder = APP::get_instance( $this->account['id'] )->get_folder( $path, [ 'recursive' => $recursive, 'hierarchical' => $hierarchical ] );
+			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ) );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 			return $e;
 		}
-		
+
 		// @TODO : Check if folder is allowed.
 
 		return $folder;
 	}
-	
-	
+
+
 	public function file_preview( $file, $account_id = null, $path = null ) {
 		if ( empty( $account_id ) ) {
 			$account = $this->account['id'];
 		}
-		
+
 		// IF after all we still don't have an account, return false.
 		if ( empty( $account ) ) {
 			return false;
 		}
-		
+
 		if ( empty( $path ) ) {
 			$path = '/';
 		}
-		
+
 		$details = $this->client->getMetadata( $file );
-		
+
 		return $details;
-		
-		do_action( 'ud_idb_log_event', $details, $account_id, $path ); 
-	
+
+		do_action( 'ud_idb_log_event', $details, $account_id, $path );
+
 		// Generate Preview for Media files.
-//		if ( in_array( $details['.tag'], array( 'audio', 'video', 'image' ) ) ) {
-//			$preview = $this->client->getThumbnail( $file, 'jpeg', 'w64h64' );
-//			$preview = $preview->getContents();
-//		} else {
-//			$preview = Helper::get_file_icon( $details['.tag'] );
-//		}
-		
+		// if ( in_array( $details['.tag'], array( 'audio', 'video', 'image' ) ) ) {
+		// $preview = $this->client->getThumbnail( $file, 'jpeg', 'w64h64' );
+		// $preview = $preview->getContents();
+		// } else {
+		// $preview = Helper::get_file_icon( $details['.tag'] );
+		// }
 	}
 
 	/**
@@ -242,7 +241,7 @@ class Client {
 	 *
 	 * @return string
 	 */
-	public function get_auth_url( $params = array()) {
+	public function get_auth_url( $params = array() ) {
 		$auth_helper = $this->client->getAuthHelper();
 
 		$redirect_uri = admin_url( 'admin.php?page=integrate-dropbox&action=authorization' );
@@ -260,7 +259,7 @@ class Client {
 	public function create_access_token() {
 
 		try {
-			$code = $_REQUEST['code'];
+			$code  = $_REQUEST['code'];
 			$state = $_REQUEST['state'];
 
 			// Fetch access token.
@@ -316,7 +315,7 @@ class Client {
 
 		$active_token = Account::get_token( $account['id'] );
 
-		if ( empty ( $refresh_token ) ) {
+		if ( empty( $refresh_token ) ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . __( 'No refresh token found!', 'integrate-dropbox' ) );
 
 			$authorization->set_valid_token( false );
@@ -338,7 +337,6 @@ class Client {
 				$account['is_lost'] = false;
 				Account::update_account( $account );
 			}
-
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error refreshing token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 
@@ -363,13 +361,13 @@ class Client {
 	 */
 	public function get_storage_space_info() {
 		$space_usage = $this->client->getSpaceUsage();
-		$used = $space_usage['used'];
-		$allocation = $space_usage['allocation']['allocated'];
+		$used        = $space_usage['used'];
+		$allocation  = $space_usage['allocation']['allocated'];
 
 		return array(
-			'used' => $used,
+			'used'      => $used,
 			'allocated' => $allocation,
-			'percent' => round( ( $used / $allocation ) * 100 ),
+			'percent'   => round( ( $used / $allocation ) * 100 ),
 		);
 	}
 }

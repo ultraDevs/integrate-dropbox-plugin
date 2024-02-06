@@ -22,5 +22,4 @@ class Uploader {
 	public function __construct() {
 		echo 'Hola From Uploader';
 	}
-
 }

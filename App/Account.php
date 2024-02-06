@@ -24,7 +24,6 @@ class Account {
 	 */
 	public static function get_accounts( $id = null ) {
 		$accounts = get_option( 'ud_integrate_dropbox_accounts', array() );
-		// ud_vd($accounts);
 		if ( $id ) {
 			return ! empty( $accounts[ $id ] ) ? $accounts[ $id ] : '';
 		}
@@ -38,15 +37,15 @@ class Account {
 	 */
 	public static function get_active_account() {
 		$accounts = self::get_accounts();
-		
+
 		// check if cookie is set for ud_idb_active_account.
-		$active_account = isset ( $_COOKIE['ud_idb_active_account'] ) ? $_COOKIE['ud_idb_active_account'] : null;
-		
-		if ( ! empty ( $active_account ) ) {
-			$active_account = str_replace( "\\\"", "\"", $active_account );
+		$active_account = isset( $_COOKIE['ud_idb_active_account'] ) ? $_COOKIE['ud_idb_active_account'] : null;
+
+		if ( ! empty( $active_account ) ) {
+			$active_account = str_replace( '\\"', '"', $active_account );
 			$account        = json_decode( $active_account, true );
 
-			if ( ! empty ( $account['id']) && empty ( $accounts[ $account['id'] ] ) ) {
+			if ( ! empty( $account['id'] ) && empty( $accounts[ $account['id'] ] ) ) {
 				setcookie( 'ud_idb_active_account', '', time() - 3600, '/' );
 			} else {
 				return $account;
@@ -98,7 +97,7 @@ class Account {
 	 * @param string $account_id Account ID.
 	 */
 	public static function delete_account( $account_id ) {
-		$accounts = self::get_accounts();
+		$accounts        = self::get_accounts();
 		$removed_account = $accounts[ $account_id ];
 
 		// @ TODO - delete all files from this account.
@@ -110,7 +109,7 @@ class Account {
 		$active_account = self::get_active_account();
 
 		if ( $account_id === $active_account['id'] ) {
-			count( $accounts ) ? self::set_active_account( array_key_first( $accounts )) : self::set_active_account( null );
+			count( $accounts ) ? self::set_active_account( array_key_first( $accounts ) ) : self::set_active_account( null );
 		}
 
 		update_option( 'ud_integrate_dropbox_accounts', $accounts );

@@ -51,8 +51,8 @@ class Assets_Manager {
 	 * Enqueue Frontend Styles and Scripts
 	 */
 	public function frontend_assets() {
-		wp_enqueue_style( 'ud-id-frontend', INTEGRATE_DROPBOX_ASSETS . 'css/frontend.css', '', INTEGRATE_DROPBOX_VERSION );
-		wp_enqueue_script( 'ud-id-frontend', INTEGRATE_DROPBOX_ASSETS . 'js/frontend.js', array( 'jquery' ), INTEGRATE_DROPBOX_VERSION, true );
+		// wp_enqueue_style( 'ud-id-frontend', INTEGRATE_DROPBOX_ASSETS . 'css/frontend.css', '', INTEGRATE_DROPBOX_VERSION );
+		// wp_enqueue_script( 'ud-id-frontend', INTEGRATE_DROPBOX_ASSETS . 'js/frontend.js', array( 'jquery' ), INTEGRATE_DROPBOX_VERSION, true );
 	}
 
 	/**

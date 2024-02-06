@@ -69,7 +69,7 @@ class Thumbnail {
 		$this->thumbnails_location     = INTEGRATE_DROPBOX_CACHE_DIR . 'thumbnails/';
 		$this->thumbnails_location_url = INTEGRATE_DROPBOX_CACHE_DIR_URL . 'thumbnails/';
 
-		$this->size = $size;
+		$this->size           = $size;
 		$this->thumbnail_name = $this->entry->getId() . '_' . $this->size . '_ud.' . $this->format;
 	}
 
@@ -92,7 +92,7 @@ class Thumbnail {
 
 		$thumbnail = Client::get_instance()->get_client()->getThumbnail( $this->entry->getPathLower(), $this->size, $this->format );
 		$thumbnail = $thumbnail->getContents();
-		
+
 		if ( ! file_exists( $this->thumbnails_location ) ) {
 			mkdir( $this->thumbnails_location, 0777, true );
 		}

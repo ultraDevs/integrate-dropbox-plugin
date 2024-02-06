@@ -7,6 +7,8 @@
     <option name="transferred" value="true" />
   </component>
   <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="codingStandard" value="MySource" />
+    <option name="customRuleset" value="phpcs.xml" />
     <option name="highlightLevel" value="WARNING" />
     <option name="installedPaths" value="$USER_HOME$/.composer/vendor/bin/phpcs" />
     <option name="useInstalledPaths" value="true" />
@@ -14,7 +16,7 @@
   </component>
   <component name="PhpCodeSniffer">
     <phpcs_settings>
-      <PhpCSConfiguration beautifier_path="$USER_HOME$/.composer/vendor/bin/phpcbf" standards="MySource;PEAR;PSR1;PSR12;PSR2;Squiz;Zend" tool_path="$USER_HOME$/.composer/vendor/bin/phpcs" />
+      <PhpCSConfiguration beautifier_path="$USER_HOME$/.composer/vendor/bin/phpcbf" standards="Fatal;MySource;PEAR;PHP_CodeSniffer\Exceptions\DeepExitException:;PSR1;PSR12;PSR2;Squiz;Uncaught;Zend;error:" tool_path="$USER_HOME$/.composer/vendor/bin/phpcs" />
     </phpcs_settings>
   </component>
   <component name="PhpIncludePathManager">
@@ -38,7 +40,7 @@
       <path value="$PROJECT_DIR$/../../../../../wordpress" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.4">
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.3">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
   <component name="PhpStanOptionsConfiguration">

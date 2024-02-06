@@ -22,5 +22,4 @@ class Shortcode_Builder {
 	public function __construct() {
 		echo 'Hola From Shortcode_Builder';
 	}
-
 }
