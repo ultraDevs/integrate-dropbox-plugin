@@ -7,6 +7,7 @@
 
 use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\App\File;
+use ultraDevs\IntegrateDropbox\App\API;
 
 /**
  * Plugin Name:       Integrate Dropbox
@@ -178,9 +179,9 @@ final class IntegrateDropbox {
 		//  ud_vd( $file_preview );
 
 
-		// $file_class = File::get_instance()->test();
+		$api_class = API::get_instance()->get_file( '/get started with dropbox.pdf' );
 
-		// ud_vd( $file_class );
+		ud_vd( $api_class);
 	}
 
 	/**

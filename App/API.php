@@ -11,6 +11,7 @@ namespace ultraDevs\IntegrateDropbox\App;
 use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
 use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\Client;
+use ultraDevs\IntegrateDropbox\App\File;
 use ultraDevs\IntegrateDropbox\Helper;
 
 /**
@@ -27,14 +28,14 @@ class API {
 	 *
 	 * @var string
 	 */
-	protected $account_id = null;
+	public $account_id = null;
 
 	/**
 	 * DropBox API Client.
 	 *
 	 * @var object
 	 */
-	protected $client = null;
+	public $client = null;
 
 	/**
 	 * Constructor
@@ -43,9 +44,51 @@ class API {
 	 */
 	protected function __construct( $account_id = null ) {
 		$this->account_id = is_null( $account_id ) ? Account::get_active_account()['id'] : $account_id;
-
 		if ( ! is_null( $this->account_id ) ) {
-			$this->client = Client::get_instance( $this->account_id );
+			$this->client = Client::get_instance( $this->account_id )->get_client();
+		}
+	}
+
+	/**
+	 * Get File Data.
+	 *
+	 * @param string $file File.
+	 * @param string $account_id Account ID.
+	 * @param string $path Path.
+	 *
+	 * @return false|array $details Details.
+	 */
+	public function get_file( $file, $account_id = null, $path = null ) {
+
+		if ( empty( $account_id ) ) {
+			$account = $this->account_id;
+		}
+
+		// IF after all we still don't have an account, return false.
+		if ( empty( $account ) ) {
+			return false;
+		}
+
+		if ( empty( $path ) ) {
+			$path = '/';
+		} else {
+			$path = Helper::clean_path( $path );
+		}
+
+		do_action( 'ud_idb_log_event', $account_id, $file );
+
+		try {
+			$details = $this->client->getMetadata( $file );
+			$file    = File::get_instance()->convert_api_data_to_file_data( $details );
+
+			if ( $file->is_file() ) {
+				return $file;
+			}
+
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+
+			throw new \Exception( $e->getMessage() );
 		}
 	}
 
@@ -90,8 +133,6 @@ class API {
 			// $prevFolderPath = $entries->getPathDisplay();
 
 			// extract data from $entries object.
-
-			// ud_vd( $entries );
 
 			if ( 0 < count( $entries ) ) {
 				foreach ( $entries as $entry ) {

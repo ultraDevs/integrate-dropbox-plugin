@@ -6,6 +6,7 @@
  * @since 1.0.0
  */
 namespace ultraDevs\IntegrateDropbox\App;
+use ultraDevs\IntegrateDropbox\Helper;
 
 /**
  * Abstract File Class
@@ -14,6 +15,13 @@ namespace ultraDevs\IntegrateDropbox\App;
  * @since 1.0.0
  */
 abstract class FileAbstract {
+
+	/**
+	 * File Data From API.
+	 *
+	 * @var array|null
+	 */
+	public $file_data_from_api = null;
 
 	/**
 	 * File ID.
@@ -28,6 +36,20 @@ abstract class FileAbstract {
 	 * @var string
 	 */
 	public $name;
+
+	/**
+	 * Base Name.
+	 *
+	 * @var string
+	 */
+	public $basename;
+
+	/**
+	 * Rev
+	 *
+	 * @var string
+	 */
+	public $rev;
 
 	/**
 	 * File Path.
@@ -175,7 +197,24 @@ abstract class FileAbstract {
 	 */
 	public $additional_data = array();
 
-	// Generate wp phpcs based getter and setter methods.
+	/**
+	 * Constructor
+	 *
+	 * @param array $file_data_from_api File Data From API.
+	 */
+	protected function __construct( $file_data_from_api = null ) {
+		if ( ! is_null( $file_data_from_api ) ) {
+			$this->file_data_from_api = $this->convert_api_data_to_file_data( $file_data_from_api );
+		}
+	}
+
+	/**
+	 * Convert API Data To File Data
+	 *
+	 * @param array $file_data_from_api File Data From API.
+	 * @return array
+	 */
+	abstract public function convert_api_data_to_file_data( $file_data_from_api );
 
 	/**
 	 * Get ID
@@ -213,6 +252,44 @@ abstract class FileAbstract {
 	 */
 	public function set_name( $name ) {
 		$this->name = $name;
+	}
+
+	/**
+	 * Get Base Name
+	 *
+	 * @return string
+	 */
+	public function get_basename() {
+		return $this->basename;
+	}
+
+	/**
+	 * Set Base Name
+	 *
+	 * @param string $basename Base Name.
+	 * @return void
+	 */
+	public function set_basename( $basename ) {
+		$this->basename = $basename;
+	}
+
+	/**
+	 * Get Rev
+	 *
+	 * @return string
+	 */
+	public function get_rev() {
+		return $this->rev;
+	}
+
+	/**
+	 * Set Rev
+	 *
+	 * @param string $rev Rev.
+	 * @return void
+	 */
+	public function set_rev( $rev ) {
+		$this->rev = $rev;
 	}
 
 	/**
@@ -406,12 +483,21 @@ abstract class FileAbstract {
 	}
 
 	/**
-	 * Get Is Dir
+	 * Is Dir
 	 *
 	 * @return boolean
 	 */
-	public function get_is_dir() {
+	public function is_dir() {
 		return $this->is_dir;
+	}
+
+	/**
+	 * Is File
+	 *
+	 * @return boolean
+	 */
+	public function is_file() {
+		return ! $this->is_dir;
 	}
 
 	/**
@@ -593,5 +679,29 @@ abstract class FileAbstract {
 	 */
 	public function set_additional_data( $additional_data ) {
 		$this->additional_data = $additional_data;
+	}
+
+	/**
+	 * Get Mimetype From Extension.
+	 *
+	 * @return string
+	 */
+	public function set_mimetype_from_extension() {
+
+		if ( $this->is_dir() ) {
+			return null;
+		}
+
+		if ( empty( $this->extension ) ) {
+			return null;
+		}
+
+		$mimetype = Helper::get_mimetype( $this->extension );
+
+		if ( ! empty( $mimetype ) ) {
+			$this->set_mimetype( $mimetype );
+		}
+
+		return $this->mimetype;
 	}
 }
