@@ -59,6 +59,17 @@ class File extends FileAbstract {
 			$this->set_basename( $this->get_name() );
 		}
 
+		// Set Path.
+		$this->set_path( $file_data->path_lower);
+
+		// Set Parent Path.
+		if ( ! empty ( $file_data->path_lower ) ) {
+			$this->set_parent( $path_info['dirname'] );
+		}
+
+		// Set Path Display.
+		$this->set_path_display( $path_info['dirname'] );
+
 		// Set Size.
 		$this->set_size( $this->is_dir() ? 0 : $file_data->size );
 
@@ -67,7 +78,39 @@ class File extends FileAbstract {
 			$this->set_last_edited( strtotime( $file_data->client_modified ) );
 		}
 
-		ud_vd( $path_info );
+
+		// Set Save AS.
+		// if ( $this->is_file() && ! is_null( $file_data->export_info ) ) {
+		// 	$this->set_save_as( $file_data->getExportInfo()->getExportAs() );
+		// }
+
+		// Can file be previewed via Dropbox?
+		if ( Helper::can_preview_by_cloud( $this->get_extension() ) ) {
+			$this->set_can_preview_by_cloud( true );
+		}
+
+		// Get Info of Sharing.
+		$sharing_info = $file_data->getSharingInfo();
+
+		// Set Permission.
+		$this->set_permissions( array(
+			'canDownload' => true,
+			'canDelete'   => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+			'canRename'   => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+			'canMove'     => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+			'canAdd'      => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
+			'canShare'    => true,
+			'canPreview'  => $this->can_preview_by_cloud,
+		) );
+
+		// Set Access.
+		if ( $this->is_dir() ) {
+			$this->set_access(
+				empty( $sharing_info ) ? true : ! $sharing_info->hasAccess()
+			);
+		}
+
+		// ud_vd( $path_info );
 
 
 		return $this;

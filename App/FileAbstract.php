@@ -59,6 +59,13 @@ abstract class FileAbstract {
 	public $path;
 
 	/**
+	 * File Path Display.
+	 *
+	 * @var string
+	 */
+	public $path_display;
+
+	/**
 	 * Children.
 	 *
 	 * @var array
@@ -175,6 +182,13 @@ abstract class FileAbstract {
 		'canrename'  => false,
 		'canmove'    => false,
 	);
+
+	/**
+	 * Has Access.
+	 *
+	 * @var boolean
+	 */
+	public $has_access = true;
 
 	/**
 	 * Thumbnails
@@ -309,6 +323,25 @@ abstract class FileAbstract {
 	 */
 	public function set_path( $path ) {
 		$this->path = $path;
+	}
+
+	/**
+	 * Get Path Display
+	 *
+	 * @return string
+	 */
+	public function get_path_display() {
+		return $this->path_display;
+	}
+
+	/**
+	 * Set Path Display
+	 *
+	 * @param string $path_display File Path Display.
+	 * @return void
+	 */
+	public function set_path_display( $path_display ) {
+		$this->path_display = $path_display;
 	}
 
 	/**
@@ -622,6 +655,25 @@ abstract class FileAbstract {
 	 */
 	public function set_permissions( $permissions ) {
 		$this->permissions = $permissions;
+	}
+
+	/**
+	 * Get Has Access
+	 *
+	 * @return boolean
+	 */
+	public function get_access() {
+		return $this->has_access;
+	}
+
+	/**
+	 * Set Has Access
+	 *
+	 * @param boolean $has_access Has Access.
+	 * @return void
+	 */
+	public function set_access( $has_access ) {
+		$this->has_access = $has_access;
 	}
 
 	/**

@@ -181,7 +181,7 @@ final class IntegrateDropbox {
 
 		$api_class = API::get_instance()->get_file( '/get started with dropbox.pdf' );
 
-		ud_vd( $api_class);
+		ud_vd( $api_class );
 	}
 
 	/**

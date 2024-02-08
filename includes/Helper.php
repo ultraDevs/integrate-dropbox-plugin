@@ -313,6 +313,24 @@ class Helper {
 
 		return in_array( $extension, $extensions, true );
 	}
+
+	/**
+	 * Can file be previewed via Dropbox?
+	 *
+	 * @param string $extension Extension.
+	 *
+	 * @return boolean
+	 */
+	public static function can_preview_by_cloud( $extension ) {
+		$previewable = apply_filters(
+			'ud_idb_previewable_extensions',
+			[
+				'pdf', 'txt', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gslides', 'gsheet'
+			]
+		);
+
+		return in_array( $extension, $previewable );
+	}
 	
 	/**
 	 * Supported extensions for embed

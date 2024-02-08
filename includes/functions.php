@@ -41,6 +41,7 @@ function ud_idb_get_settings( $key = null, $default = null ) {
 	return isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
 }
 
+
 function ud_vd() {
 	$args = func_get_args();
 	echo '
@@ -51,14 +52,22 @@ function ud_vd() {
 				border: 1px solid #ddd;
 				margin: 10px 0;
 				overflow: auto;
-			}
-			#adminmenuback {
-				position: unset !important;
+				padding-left: 200px;
+				max-height: 700px;
+				overflow-y: auto;
+				position: fixed;
+				bottom: 0;
+				right: 0;
+				z-index: 9999;
+				left: 0;
+
 			}
 		</style>
 	';
 	foreach ( $args as $arg ) {
 		echo '<pre>';
+		__LINE__;
+		__FILE__;
 		var_dump( $arg );
 		echo '</pre>';
 	}
