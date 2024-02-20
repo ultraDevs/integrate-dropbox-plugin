@@ -196,12 +196,31 @@ class Client {
 			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ) );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() ) );
-			return $e;
+			return false;
 		}
 
-		// @TODO : Check if folder is allowed.
+		foreach ( $folder->get_children() as $k => $child ) {
+			if ( $is_allowed && false === $this->is_allowed( $child ) ) { 
+				unset( $folder->children[ $k ] );
+				continue;
+			}
+		}
+
 
 		return $folder;
+	}
+
+	/**
+	 * Is Allowed
+	 *
+	 * @param object $file File.
+	 *
+	 * @return bool
+	 */
+	public function is_allowed( $file ) {
+		$allowed = apply_filters( 'ud_idb_is_allowed', true, $file ); // @TODO : Sample filter.
+
+		return $allowed;
 	}
 
 

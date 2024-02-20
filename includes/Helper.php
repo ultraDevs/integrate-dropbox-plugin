@@ -343,7 +343,23 @@ class Helper {
 		$extensions = ['pdf', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'webm', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'jpg', 'jpeg', 'gif', 'apng', 'png', 'svg', 'webp', 'flac', 'xls', 'xlsx', 'xlsm', 'doc', 'docx', 'docm', 'ppt', 'pptx', 'pptm', 'pps', 'ppsm', 'ppsx'];
 
 		return in_array( $extension, $extensions, true );
-	} 
+	}
+
+	/**
+	 * Can create thumbnail
+	 *
+	 * @param string $extension Extension.
+	 *
+	 * @return boolean
+	 */
+	public static function can_create_thumbnail( $extension ) {
+		$extensions = apply_filters(
+			'ud_idb_thumbnail_extensions',
+			['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'pdf', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsm', 'ppsx', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'odp', 'ods', 'odt', 'rtf', 'csv', '3fr', 'ai', 'arw', 'cr2', 'crw', 'dcr', 'dng', 'eps', 'erf', 'heic', 'kdc', 'mef', 'mos', 'mrw', 'nef', 'nrw', 'orf', 'pef', 'psd', 'raf', 'raw', 'rw2', 'rwl', 'sr2', 'svg', 'tif', 'tiff', 'x3f', '3gp', '3gpp', '3gpp2', 'asf', 'avi', 'dv', 'flv', 'm2t', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mts', 'oggtheora', 'ogv', 'rm', 'ts', 'vob', 'webm', 'wmv', 'paper', 'webp']
+		);
+
+		return in_array( $extension, $extensions, true );
+	}
 
 	/**
 	 * Get Thumbnail
@@ -400,5 +416,78 @@ class Helper {
 		$cached_folders = get_option( self::$cached_folder_key, array() );
 		$cached_folders[] = $path;
 		return update_option( self::$cached_folder_key, $cached_folders, false );
+	}
+
+	/**
+	 * Remove folder from cache
+	 *
+	 * @param string $path Path.
+	 */
+	public static function remove_cached_folder( $path ) {
+		$cached_folders = get_option( self::$cached_folder_key, array() );
+		$key = array_search( $path, $cached_folders, true );
+		if ( false !== $key ) {
+			unset( $cached_folders[ $key ] );
+		}
+		return update_option( self::$cached_folder_key, $cached_folders, false );
+	}
+
+	/**
+	 * Reset Cache
+	 *
+	 * @return string
+	 */
+	public static function reset_cache() {
+		return delete_option( self::$cached_folder_key );
+	}
+
+	/**
+	 * Get Relative Path
+	 *
+	 * @param string|null $full_path Full Path.
+	 * @param string $from_path From Path.
+	 *
+	 * @return string
+	 */
+	public static function get_relative_path( $full_path, $from_path = null ) {
+		if ( empty( $from_path ) ) {
+			// @TODO: Update this later.
+			return $full_path;
+		}
+
+		$exact_from_path = explode( '/', $from_path );
+		$exact_full_path = explode( '/', $full_path );
+		$path_diff = ( count( $exact_full_path ) - count( $exact_from_path ) );
+
+		if ( $path_diff < 1 ) {
+			return '/';
+		}
+
+		if ( 1 === $path_diff ) {
+			return '/' . end( $exact_full_path );
+		}
+
+		return '/' . implode( '/', array_slice( $exact_full_path, - $path_diff ) );
+
+	}
+
+	/**
+	 * Find Array item in array with value.
+	 *
+	 * @param array  $array Array.
+	 * @param string $key Key.
+	 * @param string $search Search.
+	 *
+	 * @return mixed
+	 */
+	public static function find_array_item_with_value( $array, $key, $search ) {
+		$data = array_map(
+			function( $item ) use ( $key ) {
+				return is_object( $item ) ? $item->{$key} : $item[ $key ];
+			},
+			$array
+		);
+
+		$index = array_search( $search, $data );
 	}
 }

@@ -71,7 +71,7 @@ class File extends FileAbstract {
 		$this->set_path_display( $path_info['dirname'] );
 
 		// Set Size.
-		$this->set_size( $this->is_dir() ? 0 : $file_data->size );
+		$this->set_size( $this->is_dir() ? 0 : $file_data->getSize() );
 
 		// Set Last Edited.
 		if ( isset( $file_data->client_modified ) ) {
@@ -106,12 +106,21 @@ class File extends FileAbstract {
 		// Set Access.
 		if ( $this->is_dir() ) {
 			$this->set_access(
-				empty( $sharing_info ) ? true : ! $sharing_info->hasAccess()
+				empty( $sharing_info ) ? true : ! $sharing_info->hasAccess 
 			);
 		}
 
-		// ud_vd( $path_info );
+		// @TODO: Set Icon.
+		$this->set_icon( '' );
 
+		// Set Thumbnail.
+		if (
+			Helper::can_create_thumbnail( $this->get_extension() ) ||
+			$this->is_file() &&
+			isset( $file_data->media_info ) && ! is_null( $file_data->getMediaInfo() )
+		) {
+			$this->set_has_own_thumbnail( true );
+		}
 
 		return $this;
 

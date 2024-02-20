@@ -198,6 +198,13 @@ abstract class FileAbstract {
 	public $thumbnails = array();
 
 	/**
+	 * Has own Thumbnail.
+	 *
+	 * @var boolean
+	 */
+	public $has_own_thumbnail = false;
+
+	/**
 	 * Icon.
 	 *
 	 * @var string
@@ -205,11 +212,11 @@ abstract class FileAbstract {
 	public $icon;
 
 	/**
-	 * Additional Data.
+	 * Others Data.
 	 *
 	 * @var array
 	 */
-	public $additional_data = array();
+	public $others_data = array();
 
 	/**
 	 * Constructor
@@ -696,6 +703,25 @@ abstract class FileAbstract {
 	}
 
 	/**
+	 * Has Own Thumbnail
+	 *
+	 * @return boolean
+	 */
+	public function has_own_thumbnail() {
+		return $this->has_own_thumbnail;
+	}
+
+	/**
+	 * Set Has Own Thumbnail
+	 *
+	 * @param boolean $has_own_thumbnail Has Own Thumbnail.
+	 * @return void
+	 */
+	public function set_has_own_thumbnail( $has_own_thumbnail ) {
+		$this->has_own_thumbnail = $has_own_thumbnail;
+	}
+
+	/**
 	 * Get Icon
 	 *
 	 * @return string
@@ -715,22 +741,22 @@ abstract class FileAbstract {
 	}
 
 	/**
-	 * Get Additional Data
+	 * Get Others Data
 	 *
 	 * @return array
 	 */
-	public function get_additional_data() {
-		return $this->additional_data;
+	public function get_others_data() {
+		return $this->others_data;
 	}
 
 	/**
-	 * Set Additional Data
+	 * Set Others Data
 	 *
-	 * @param array $additional_data Additional Data.
+	 * @param array $others_data Additional Data.
 	 * @return void
 	 */
-	public function set_additional_data( $additional_data ) {
-		$this->additional_data = $additional_data;
+	public function set_others_data( $others_data ) {
+		$this->others_data = $others_data;
 	}
 
 	/**

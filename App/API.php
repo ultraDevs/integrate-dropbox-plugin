@@ -8,6 +8,7 @@
 
 namespace ultraDevs\IntegrateDropbox\App;
 
+use Kunnu\Dropbox\Models\FolderMetadata;
 use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
 use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\Client;
@@ -112,10 +113,10 @@ class API {
 
 		$items = array();
 
-		if ( Helper::is_cached_folder( $path ) ) {
+		// if ( Helper::is_cached_folder( $path ) ) { // @TODO: Implement Cache.
+		if ( 1 === 2  ) {
 			$items = Files::get_instance( $this->account_id )->get_files( $path );
 		} else {
-
 			try {
 				$folder_contents = Client::get_instance()->get_client()->listFolder( $path, array( 'recursive' => $params['recursive'] ) );
 				$entries         = $folder_contents->getItems()->toArray();
@@ -132,90 +133,70 @@ class API {
 
 			// $prevFolderPath = $entries->getPathDisplay();
 
-			// extract data from $entries object.
+			$children = array();
 
 			if ( 0 < count( $entries ) ) {
 				foreach ( $entries as $entry ) {
-					$is_dir = false;
-					if ( $entry instanceof FolderMetadata ) {
-						$is_dir = true;
-					}
+					$entry = File::get_instance()->convert_api_data_to_file_data( $entry );
+					$relative_path = Helper::get_relative_path( $entry->get_path_display() );
+					$entry->set_path( $relative_path );
+					$relative_path_display = Helper::get_relative_path( $entry->get_path_display() );
+					$entry->set_path_display( $relative_path_display );
 
-					$path_info    = Helper::get_path_info( $entry->getPathLower() );
-					$is_file      = ! $is_dir;
-					$sharing_info = $entry->getSharingInfo();
-
-					$thumbnail_loc = '';
-					if ( ! $is_dir && Helper::can_generate_thumbnail( $path_info['extension'] ) ) {
-						$thumbnail     = new Thumbnail( $entry, 'large' );
-						$thumbnail_loc = $thumbnail->generate_thumbnail();
-					}
-
-					$items[] = array(
-						'id'          => $entry->getId(),
-						'name'        => $entry->getName(),
-						'path'        => $entry->getPathLower(),
-						'path_raw'    => $entry->getPathDisplay(),
-						'thumbnail'   => $thumbnail_loc,
-						'is_dir'      => $is_dir,
-						'is_file'     => ! $is_dir,
-						'can_preview' => $is_file ? Helper::can_generate_thumbnail( $path_info['extension'] ) : false,
-						'permission'  => array(
-							'canDownload' => true,
-							'canDelete'   => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-							'canRename'   => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-							'canMove'     => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-							'canAdd'      => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-							// 'hasAccess' => empty( $sharing_info ) ? true : ! $sharing_info->hasAccess(),
-							'canShare'    => true,
-						),
-						'ext'         => $is_file ? $path_info['extension'] : '',
-						'size'        => $is_file ? $entry->getSize() : '',
-						'created'     => $is_file ? $entry->getServerModified() : '',
-						'modified'    => $is_file ? $entry->getServerModified() : '',
-					);
-
-					// if ( $is_dir && $params['hierarchical'] ) {
-					// $children[ count( $children ) - 1 ]['children'] = self::get_folder( $entry->getPathLower(), $params );
-					// } elseif ( $is_dir && ! $params['hierarchical'] ) {
-					// $children[ count( $children ) - 1 ]['children'] = self::get_folder( $entry->getPathLower(), [ 'recursive' => false, 'hierarchical' => false ] );
-					// } elseif ( $is_file ) {
-					// $children[ count( $children ) - 1 ]['children'] = array();
-					// } else {
-					// $children[ count( $children ) - 1 ]['children'] = array();
-					// }
-
-					// // Recursive.
-					// if ( $params['recursive'] ) {
-					// $children = array_merge( $children, self::get_folder( $entry->getPathLower(), $params ) );
-					// }
+					$children[ $entry->get_id() ] = $entry;
 				}
 			}
 
-			// Move all folder to first in order to show folder first.
-			$folders = array_filter(
-				$items,
-				function ( $item ) {
-					return $item['is_dir'];
+			if ( count( $children ) > 0 ) {
+				// @TODO: Sort filelist.
+				ksort( $children );
+				$children = $children;
+			}
+
+			// Recursive.
+			if ( $params['recursive'] && $params['hierarchical'] ) {
+				foreach ( $children as $id => $child ) {
+					$relative_path = Helper::get_relative_path( $child->get_parent() );
+					$parent_id = Helper::find_array_item_with_value( $children, 'path', $relative_path );
+
+					if ( false === $parent_id || $parent_id === $child->get_id() ) {
+						$child->f = false;
+
+						continue;
+					}
+
+					$parent = $children[ $parent_id ];
+					$parent_childs = $parent->get_children();
+					$parents_childs[ $child->get_id() ] = $child;
+					$parent->set_children( $parents_childs );
+
+					$child->f = true;
 				}
-			);
 
-			$files = array_filter(
-				$items,
-				function ( $item ) {
-					return ! $item['is_dir'];
+				foreach ( $children as $id => $child ) {
+					if ( $child->f ) {
+						unset( $children[ $id ] );
+					}
 				}
-			);
+			}
 
-			$items = array_merge( $folders, $files );
+			if ( '' === $path ) {
+				$folder_entry = File::get_instance();
+				$folder_entry->set_id( 'DropBox' );
+				$folder_entry->set_name( 'DropBox' );
+				$folder_entry->set_path( '/' );
+				$folder_entry->set_path_display( '/' );
+				$folder_entry->set_is_dir( true );
+				$folder_entry->set_children( $children );
+			} else if ( ! $params['recursive'] || ! $params['hierarchical'] ) {
+				$api_file = Client::get_instance()->get_client()->getMetaData( $path );
+				$folder_entry = File::get_instance()->convert_api_data_to_file_data( $api_file );
+				$folder_entry->set_children( $children );
+			} else {
+				$folder_entry = reset( $children );
+			}
 
-			Files::get_instance( $this->account_id )->set_files( $items );
-
-			Helper::update_cached_folder( $path );
+			return $folder_entry;
 		}
-
-		// @TODO : Recursive and Hierarchical.
-
-		return $items;
 	}
 }

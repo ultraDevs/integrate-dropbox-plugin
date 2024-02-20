@@ -179,9 +179,12 @@ final class IntegrateDropbox {
 		//  ud_vd( $file_preview );
 
 
-		$api_class = API::get_instance()->get_file( '/get started with dropbox.pdf' );
+		// $api_class = API::get_instance()->get_file( '/hello test/hello/features/img-1.png' );
 
-		ud_vd( $api_class );
+		// ud_vd( $api_class );
+
+		$client = Client::get_instance()->get_folder( '', true, true );
+		var_dump( $client );
 	}
 
 	/**
