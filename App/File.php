@@ -22,11 +22,6 @@ use ultraDevs\IntegrateDropbox\Helper;
 class File extends FileAbstract {
 	use Singleton;
 
-	/**
-	 * Constructor
-	 */
-	protected function __construct() {
-	}
 
 	/**
 	 * API Data to File Data

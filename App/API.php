@@ -136,12 +136,14 @@ class API {
 			$children = array();
 
 			if ( 0 < count( $entries ) ) {
-				foreach ( $entries as $entry ) {
-					$entry = File::get_instance()->convert_api_data_to_file_data( $entry );
+				foreach ( $entries as $entry_data ) {
+					$entry = new File( $entry_data );
 					$relative_path = Helper::get_relative_path( $entry->get_path_display() );
 					$entry->set_path( $relative_path );
 					$relative_path_display = Helper::get_relative_path( $entry->get_path_display() );
 					$entry->set_path_display( $relative_path_display );
+
+					// dump( $entry );
 
 					$children[ $entry->get_id() ] = $entry;
 				}
@@ -158,7 +160,7 @@ class API {
 				foreach ( $children as $id => $child ) {
 					$relative_path = Helper::get_relative_path( $child->get_parent() );
 					$parent_id = Helper::find_array_item_with_value( $children, 'path', $relative_path );
-
+					// dump( $child );
 					if ( false === $parent_id || $parent_id === $child->get_id() ) {
 						$child->f = false;
 
@@ -166,7 +168,7 @@ class API {
 					}
 
 					$parent = $children[ $parent_id ];
-					$parent_childs = $parent->get_children();
+					$parents_childs = $parent->get_children();
 					$parents_childs[ $child->get_id() ] = $child;
 					$parent->set_children( $parents_childs );
 

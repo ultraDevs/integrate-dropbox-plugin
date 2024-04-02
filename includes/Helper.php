@@ -488,6 +488,6 @@ class Helper {
 			$array
 		);
 
-		$index = array_search( $search, $data );
+		return array_search( $search, $data );
 	}
 }

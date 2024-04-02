@@ -50,13 +50,34 @@ class FileBrowser {
 	/**
 	 * Get File List.
 	 */
-	public function get_file_list() {
-		$this->folder = Client::get_instance()->get_folder( null, true );
+	public function get_file_list( $path = '/',  $is_allowed = true, $recursive = false, $hierarchical = false ) {
+		$this->folder = Client::get_instance()->get_folder( $path, $is_allowed, $recursive, $hierarchical );
 
 		if ( false === $this->folder ) {
 			return false;
 		}
 
 		$this->render_files();
+	}
+
+	/**
+	 * Render Files.
+	 */
+	public function render_files() {
+		$this->items = $this->folder->children;
+
+		$files = [];
+		if ( ! empty( $this->items ) ) {
+			foreach ( $this->items as $item ) {
+				// $file = File::get_instance();
+				// $file->convert_api_data_to_file_data( $item );
+				// $files[] = $file;
+		// dump( $item );
+				echo 'hola' . $item->get_path() . '<br>';
+
+			}
+		}
+
+		// dump( $files );
 	}
 }

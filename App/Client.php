@@ -199,10 +199,12 @@ class Client {
 			return false;
 		}
 
-		foreach ( $folder->get_children() as $k => $child ) {
-			if ( $is_allowed && false === $this->is_allowed( $child ) ) { 
-				unset( $folder->children[ $k ] );
-				continue;
+		if ( false !== $folder ) {
+			foreach ( $folder->get_children() as $k => $child ) {
+				if ( $is_allowed && false === $this->is_allowed( $child ) ) { 
+					unset( $folder->children[ $k ] );
+					continue;
+				}
 			}
 		}
 

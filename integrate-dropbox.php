@@ -8,6 +8,7 @@
 use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\App\File;
 use ultraDevs\IntegrateDropbox\App\API;
+use ultraDevs\IntegrateDropbox\App\FileBrowser;
 
 /**
  * Plugin Name:       Integrate Dropbox
@@ -183,8 +184,12 @@ final class IntegrateDropbox {
 
 		// ud_vd( $api_class );
 
-		$client = Client::get_instance()->get_folder( '', true, true );
-		var_dump( $client );
+		$client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
+		// foreach ( $client->children as $child ) {
+		// 	// dd( $child );
+		// 	dump( $child->basename );
+		// }
+		// dd( $client );
 	}
 
 	/**

@@ -223,7 +223,7 @@ abstract class FileAbstract {
 	 *
 	 * @param array $file_data_from_api File Data From API.
 	 */
-	protected function __construct( $file_data_from_api = null ) {
+	public function __construct( $file_data_from_api = null ) {
 		if ( ! is_null( $file_data_from_api ) ) {
 			$this->file_data_from_api = $this->convert_api_data_to_file_data( $file_data_from_api );
 		}
@@ -782,4 +782,23 @@ abstract class FileAbstract {
 
 		return $this->mimetype;
 	}
+
+	// /**
+	//  * Magic method to set properties
+	//  *
+	//  * @param string $key Property Name.
+	//  * @param mixed  $value Property Value.
+	//  */
+	// public function __set( $key, $value ) {
+	// 	$this->$key = $value;
+	// }
+
+	// /**
+	//  * Magic method to get properties
+	//  *
+	//  * @param string $key Property Name.
+	//  */
+	// public function __get( $key ) {
+	// 	return $this->$key;
+	// }
 }
