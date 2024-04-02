@@ -22,5 +22,4 @@ class Download {
 	public function __construct() {
 		echo 'Hola From Download';
 	}
-
 }

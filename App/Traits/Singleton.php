@@ -14,7 +14,7 @@ namespace ultraDevs\IntegrateDropbox\App\Traits;
  * @since 1.0.0
  */
 trait Singleton {
-	
+
 	/**
 	 * Instance - Singleton Pattern
 	 *
@@ -41,6 +41,6 @@ trait Singleton {
 	 * Wakeup
 	 */
 	public function __wakeup() {
-		throw new \Exception( "Cannot unserialize a singleton." );
+		throw new \Exception( 'Cannot unserialize a singleton.' );
 	}
 }

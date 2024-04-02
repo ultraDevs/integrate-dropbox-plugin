@@ -22,5 +22,4 @@ class Private_Folders {
 	public function __construct() {
 		echo 'Hola From Private_Folders';
 	}
-
 }

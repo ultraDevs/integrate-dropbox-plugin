@@ -22,5 +22,4 @@ class Zip {
 	public function __construct() {
 		echo 'Hola From Zip';
 	}
-
 }

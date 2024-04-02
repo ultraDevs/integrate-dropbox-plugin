@@ -51,7 +51,7 @@ class Authorization {
 	 * Constructor
 	 */
 	public function __construct( $account = null ) {
-		if ( ! empty ( $account ) || ! is_null( $account ) ) {
+		if ( ! empty( $account ) || ! is_null( $account ) ) {
 			$this->account_id = $account['id'];
 		} else {
 			$this->account_id = null;
@@ -79,7 +79,7 @@ class Authorization {
 	public function get_access_token() {
 		$tokens = get_option( $this->tokens_key, array() );
 
-		return ! empty ( $tokens[ $this->account_id ] ) ? $tokens[ $this->account_id ] : false;
+		return ! empty( $tokens[ $this->account_id ] ) ? $tokens[ $this->account_id ] : false;
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Authorization {
 			return false;
 		}
 
-		return ! empty ( $this->get_access_token() ) ? $this->get_access_token() : false;
+		return ! empty( $this->get_access_token() ) ? $this->get_access_token() : false;
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Authorization {
 	 * @return string | false
 	 */
 	public function get_refresh_token( $account_id = null ) {
-		$account_id = ! empty ( $account_id ) ? $account_id : $this->account_id;
+		$account_id = ! empty( $account_id ) ? $account_id : $this->account_id;
 
 		$token = Account::get_token( $account_id );
 
@@ -173,7 +173,7 @@ class Authorization {
 		error_log( INTEGRATE_DROPBOX_ERROR . __( 'Authorization Lost', 'integrate-dropbox' ) );
 
 		try {
-			$this->get_client($account)->getAuthHelper()->revokeAccessToken();
+			$this->get_client( $account )->getAuthHelper()->revokeAccessToken();
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error revoking token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 		}

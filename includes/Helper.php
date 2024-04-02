@@ -157,6 +157,117 @@ class Helper {
 	}
 
 	/**
+	 * Get Mimetype From Extension.
+	 *
+	 * @param string $extension Extension.
+	 *
+	 * @return string
+	 */
+	public static function get_mimetype( $extension = '' ) {
+
+		if ( empty( $extension ) ) {
+			return 'application/octet-stream';
+		}
+
+		$mime_types = [
+			'aac' => 'audio/aac',
+			'abw' => 'application/x-abiword',
+			'arc' => 'application/x-freearc',
+			'avif' => 'image/avif',
+			'avi' => 'video/x-msvideo',
+			'azw' => 'application/vnd.amazon.ebook',
+			'bin' => 'application/octet-stream',
+			'bmp' => 'image/bmp',
+			'bz' => 'application/x-bzip',
+			'bz2' => 'application/x-bzip2',
+			'cda' => 'application/x-cdf',
+			'csh' => 'application/x-csh',
+			'css' => 'text/css',
+			'csv' => 'text/csv',
+			'doc' => 'application/msword',
+			'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'eot' => 'application/vnd.ms-fontobject',
+			'epub' => 'application/epub+zip',
+			'gz' => 'application/gzip',
+			'gif' => 'image/gif',
+			'htm' => 'text/html',
+			'html' => 'text/html',
+			'ico' => 'image/vnd.microsoft.icon',
+			'ics' => 'text/calendar',
+			'jar' => 'application/java-archive',
+			'jpeg' => 'image/jpeg',
+			'jpg' => 'image/jpeg',
+			'js' => 'text/javascript',
+			'json' => 'application/json',
+			'jsonld' => 'application/ld+json',
+			'mid' => 'audio/midi audio/x-midi',
+			'midi' => 'audio/midi audio/x-midi',
+			'mjs' => 'text/javascript',
+			'mp3' => 'audio/mpeg',
+			'mp4' => 'video/mp4',
+			'mpeg' => 'video/mpeg',
+			'mpkg' => 'application/vnd.apple.installer+xml',
+			'odp' => 'application/vnd.oasis.opendocument.presentation',
+			'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+			'odt' => 'application/vnd.oasis.opendocument.text',
+			'oga' => 'audio/ogg',
+			'ogv' => 'video/ogg',
+			'ogx' => 'application/ogg',
+			'opus' => 'audio/opus',
+			'otf' => 'font/otf',
+			'png' => 'image/png',
+			'pdf' => 'application/pdf',
+			'php' => 'application/x-httpd-php',
+			'ppt' => 'application/vnd.ms-powerpoint',
+			'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+			'rar' => 'application/vnd.rar',
+			'rtf' => 'application/rtf',
+			'sh' => 'application/x-sh',
+			'svg' => 'image/svg+xml',
+			'swf' => 'application/x-shockwave-flash',
+			'tar' => 'application/x-tar',
+			'tif' => 'image/tiff',
+			'tiff' => 'image/tiff',
+			'ts' => 'video/mp2t',
+			'ttf' => 'font/ttf',
+			'txt' => 'text/plain',
+			'vsd' => 'application/vnd.visio',
+			'wav' => 'audio/wav',
+			'weba' => 'audio/webm',
+			'webm' => 'video/webm',
+			'webp' => 'image/webp',
+			'woff' => 'font/woff',
+			'woff2' => 'font/woff2',
+			'xhtml' => 'application/xhtml+xml',
+			'xls' => 'application/vnd.ms-excel',
+			'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+			'xml' => 'text/xml',
+			'xul' => 'application/vnd.mozilla.xul+xml',
+			'zip' => 'application/zip',
+			'3gp' => 'video/3gpp',
+			'3g2' => 'video/3gpp2',
+			'7z' => 'application/x-7z-compressed'
+		];
+
+		// Add Google Mime Types.
+		$mime_types = array_merge( $mime_types, [
+			'gdoc' => 'application/vnd.google-apps.document',
+			'gsheet' => 'application/vnd.google-apps.spreadsheet',
+			'gslides' => 'application/vnd.google-apps.presentation',
+			'gdraw' => 'application/vnd.google-apps.drawing',
+			'gscript' => 'application/vnd.google-apps.script',
+		]);
+
+		$extension = strtolower( $extension );
+
+		if ( isset( $mime_types[ $extension ] ) ) {
+			return $mime_types[ $extension ];
+		}
+
+		return 'application/octet-stream';
+	}
+
+	/**
 	 * Get Breadcrumbs
 	 *
 	 * @param string $folder Folder.
@@ -202,6 +313,24 @@ class Helper {
 
 		return in_array( $extension, $extensions, true );
 	}
+
+	/**
+	 * Can file be previewed via Dropbox?
+	 *
+	 * @param string $extension Extension.
+	 *
+	 * @return boolean
+	 */
+	public static function can_preview_by_cloud( $extension ) {
+		$previewable = apply_filters(
+			'ud_idb_previewable_extensions',
+			[
+				'pdf', 'txt', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gslides', 'gsheet'
+			]
+		);
+
+		return in_array( $extension, $previewable );
+	}
 	
 	/**
 	 * Supported extensions for embed
@@ -214,7 +343,23 @@ class Helper {
 		$extensions = ['pdf', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'webm', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'jpg', 'jpeg', 'gif', 'apng', 'png', 'svg', 'webp', 'flac', 'xls', 'xlsx', 'xlsm', 'doc', 'docx', 'docm', 'ppt', 'pptx', 'pptm', 'pps', 'ppsm', 'ppsx'];
 
 		return in_array( $extension, $extensions, true );
-	} 
+	}
+
+	/**
+	 * Can create thumbnail
+	 *
+	 * @param string $extension Extension.
+	 *
+	 * @return boolean
+	 */
+	public static function can_create_thumbnail( $extension ) {
+		$extensions = apply_filters(
+			'ud_idb_thumbnail_extensions',
+			['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'pdf', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsm', 'ppsx', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'odp', 'ods', 'odt', 'rtf', 'csv', '3fr', 'ai', 'arw', 'cr2', 'crw', 'dcr', 'dng', 'eps', 'erf', 'heic', 'kdc', 'mef', 'mos', 'mrw', 'nef', 'nrw', 'orf', 'pef', 'psd', 'raf', 'raw', 'rw2', 'rwl', 'sr2', 'svg', 'tif', 'tiff', 'x3f', '3gp', '3gpp', '3gpp2', 'asf', 'avi', 'dv', 'flv', 'm2t', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mts', 'oggtheora', 'ogv', 'rm', 'ts', 'vob', 'webm', 'wmv', 'paper', 'webp']
+		);
+
+		return in_array( $extension, $extensions, true );
+	}
 
 	/**
 	 * Get Thumbnail
@@ -271,5 +416,78 @@ class Helper {
 		$cached_folders = get_option( self::$cached_folder_key, array() );
 		$cached_folders[] = $path;
 		return update_option( self::$cached_folder_key, $cached_folders, false );
+	}
+
+	/**
+	 * Remove folder from cache
+	 *
+	 * @param string $path Path.
+	 */
+	public static function remove_cached_folder( $path ) {
+		$cached_folders = get_option( self::$cached_folder_key, array() );
+		$key = array_search( $path, $cached_folders, true );
+		if ( false !== $key ) {
+			unset( $cached_folders[ $key ] );
+		}
+		return update_option( self::$cached_folder_key, $cached_folders, false );
+	}
+
+	/**
+	 * Reset Cache
+	 *
+	 * @return string
+	 */
+	public static function reset_cache() {
+		return delete_option( self::$cached_folder_key );
+	}
+
+	/**
+	 * Get Relative Path
+	 *
+	 * @param string|null $full_path Full Path.
+	 * @param string $from_path From Path.
+	 *
+	 * @return string
+	 */
+	public static function get_relative_path( $full_path, $from_path = null ) {
+		if ( empty( $from_path ) ) {
+			// @TODO: Update this later.
+			return $full_path;
+		}
+
+		$exact_from_path = explode( '/', $from_path );
+		$exact_full_path = explode( '/', $full_path );
+		$path_diff = ( count( $exact_full_path ) - count( $exact_from_path ) );
+
+		if ( $path_diff < 1 ) {
+			return '/';
+		}
+
+		if ( 1 === $path_diff ) {
+			return '/' . end( $exact_full_path );
+		}
+
+		return '/' . implode( '/', array_slice( $exact_full_path, - $path_diff ) );
+
+	}
+
+	/**
+	 * Find Array item in array with value.
+	 *
+	 * @param array  $array Array.
+	 * @param string $key Key.
+	 * @param string $search Search.
+	 *
+	 * @return mixed
+	 */
+	public static function find_array_item_with_value( $array, $key, $search ) {
+		$data = array_map(
+			function( $item ) use ( $key ) {
+				return is_object( $item ) ? $item->{$key} : $item[ $key ];
+			},
+			$array
+		);
+
+		return array_search( $search, $data );
 	}
 }

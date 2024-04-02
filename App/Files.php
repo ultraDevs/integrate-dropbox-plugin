@@ -106,7 +106,7 @@ class Files {
 	 */
 	public function insert_file( $file ) {
 		global $wpdb;
-		$dirname  = pathinfo( $file['path'], PATHINFO_DIRNAME );
+		$dirname    = pathinfo( $file['path'], PATHINFO_DIRNAME );
 		$table_name = $this->get_table();
 		$id         = $file['id'];
 		$name       = $file['name'];
@@ -137,7 +137,7 @@ class Files {
 	 * @param array $format Format.
 	 * @param array $where_format Where Format.
 	 */
-	public function update_files( $data, $where, $format = [], $where_format = [] ) {
+	public function update_files( $data, $where, $format = array(), $where_format = array() ) {
 		global $wpdb;
 
 		return $wpdb->update( $this->get_table(), $data, $where, $format, $where_format );
@@ -175,7 +175,7 @@ class Files {
 	 * @param array $where Where.
 	 * @param array $where_format Where Format.
 	 */
-	public function delete( $where, $where_format = array()) {
+	public function delete( $where, $where_format = array() ) {
 		global $wpdb;
 
 		return $wpdb->delete( $this->get_table(), $where, $where_format );

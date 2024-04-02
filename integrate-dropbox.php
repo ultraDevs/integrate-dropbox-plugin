@@ -6,6 +6,9 @@
  */
 
 use ultraDevs\IntegrateDropbox\App\Client;
+use ultraDevs\IntegrateDropbox\App\File;
+use ultraDevs\IntegrateDropbox\App\API;
+use ultraDevs\IntegrateDropbox\App\FileBrowser;
 
 /**
  * Plugin Name:       Integrate Dropbox
@@ -172,9 +175,21 @@ final class IntegrateDropbox {
 		}
 
 //		 $file_preview = Client::get_instance()->file_preview( '/hello test/hello/features/img-1.png' );
-		 $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
+		//  $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
 
-		 ud_vd( $file_preview );
+		//  ud_vd( $file_preview );
+
+
+		// $api_class = API::get_instance()->get_file( '/hello test/hello/features/img-1.png' );
+
+		// ud_vd( $api_class );
+
+		$client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
+		// foreach ( $client->children as $child ) {
+		// 	// dd( $child );
+		// 	dump( $child->basename );
+		// }
+		// dd( $client );
 	}
 
 	/**

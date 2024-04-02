@@ -6,6 +6,7 @@
  * @since 1.0.0
  */
 namespace ultraDevs\IntegrateDropbox\App;
+use ultraDevs\IntegrateDropbox\Helper;
 
 /**
  * Abstract File Class
@@ -14,42 +15,70 @@ namespace ultraDevs\IntegrateDropbox\App;
  * @since 1.0.0
  */
 abstract class FileAbstract {
-	
+
+	/**
+	 * File Data From API.
+	 *
+	 * @var array|null
+	 */
+	public $file_data_from_api = null;
+
 	/**
 	 * File ID.
 	 *
 	 * @var string
 	 */
 	public $id;
-	
+
 	/**
 	 * File Name.
 	 *
 	 * @var string
 	 */
 	public $name;
-	
+
+	/**
+	 * Base Name.
+	 *
+	 * @var string
+	 */
+	public $basename;
+
+	/**
+	 * Rev
+	 *
+	 * @var string
+	 */
+	public $rev;
+
 	/**
 	 * File Path.
 	 *
 	 * @var string
 	 */
 	public $path;
-	
+
+	/**
+	 * File Path Display.
+	 *
+	 * @var string
+	 */
+	public $path_display;
+
 	/**
 	 * Children.
 	 *
 	 * @var array
 	 */
-	public $children = [];
-	
+	public $children = array();
+
 	/**
 	 * Parent.
 	 *
 	 * @var string
 	 */
 	public $parent;
-	
+
 	/**
 	 * Extension.
 	 *
@@ -63,136 +92,167 @@ abstract class FileAbstract {
 	 * @var string
 	 */
 	public $mimetype;
-	
+
 	/**
 	 * Size.
 	 *
 	 * @var string
 	 */
 	public $size;
-	
+
 	/**
 	 * Last Edited.
 	 *
 	 * @var string
 	 */
 	public $last_edited;
-	
+
 	/**
 	 * Last Modified.
 	 *
 	 * @var string
 	 */
 	public $last_modified;
-	
+
 	/**
 	 * Trashed.
 	 *
 	 * @var boolean
 	 */
 	public $trashed = false;
-	
+
 	/**
 	 * Description.
 	 *
 	 * @var string
 	 */
 	public $description;
-	
+
 	/**
 	 * Is Directory.
 	 *
 	 * @var boolean
 	 */
 	public $is_dir = false;
-	
+
 	/**
 	 * Preview Link.
 	 *
 	 * @var string
 	 */
 	public $preview_link;
-	
+
 	/**
 	 * Download Link.
 	 *
 	 * @var string
 	 */
 	public $download_link;
-	
+
 	/**
 	 * Share Link.
 	 *
 	 * @var string
 	 */
 	public $share_link;
-	
+
 	/**
 	 * Save AS.
 	 *
 	 * @var array
 	 */
-	public $save_as = [];
-	
+	public $save_as = array();
+
 	/**
 	 * Can Preview By Cloud.
 	 *
 	 * @var boolean
 	 */
 	public $can_preview_by_cloud = false;
-	
+
 	/**
 	 * Permissions.
 	 *
 	 * @var array
 	 */
-	public $permissions = [
+	public $permissions = array(
 		'canpreview' => false,
 		'canadd'     => false,
 		'candelete'  => false,
 		'canrename'  => false,
-		'canmove'     => false,
-	];
-	
+		'canmove'    => false,
+	);
+
+	/**
+	 * Has Access.
+	 *
+	 * @var boolean
+	 */
+	public $has_access = true;
+
 	/**
 	 * Thumbnails
 	 *
 	 * @var array
 	 */
-	public $thumbnails = [];
-	
+	public $thumbnails = array();
+
+	/**
+	 * Has own Thumbnail.
+	 *
+	 * @var boolean
+	 */
+	public $has_own_thumbnail = false;
+
 	/**
 	 * Icon.
 	 *
 	 * @var string
 	 */
 	public $icon;
-	
+
 	/**
-	 * Additional Data.
+	 * Others Data.
 	 *
 	 * @var array
 	 */
-	public $additional_data = [];
+	public $others_data = array();
 
+	/**
+	 * Constructor
+	 *
+	 * @param array $file_data_from_api File Data From API.
+	 */
+	public function __construct( $file_data_from_api = null ) {
+		if ( ! is_null( $file_data_from_api ) ) {
+			$this->file_data_from_api = $this->convert_api_data_to_file_data( $file_data_from_api );
+		}
+	}
+
+	/**
+	 * Convert API Data To File Data
+	 *
+	 * @param array $file_data_from_api File Data From API.
+	 * @return array
+	 */
+	abstract public function convert_api_data_to_file_data( $file_data_from_api );
 
 	/**
 	 * Get ID
 	 *
 	 * @return string
 	 */
-	public function getId(): string
-	{
+	public function get_id() {
 		return $this->id;
 	}
 
 	/**
 	 * Set ID
 	 *
-	 * @param string $id
+	 * @param string $id File ID.
+	 * @return void
 	 */
-	public function setId(string $id): void
-	{
+	public function set_id( $id ) {
 		$this->id = $id;
 	}
 
@@ -201,19 +261,56 @@ abstract class FileAbstract {
 	 *
 	 * @return string
 	 */
-	public function getName(): string
-	{
+	public function get_name() {
 		return $this->name;
 	}
 
 	/**
 	 * Set Name
 	 *
-	 * @param string $name
+	 * @param string $name File Name.
+	 * @return void
 	 */
-	public function setName(string $name): void
-	{
+	public function set_name( $name ) {
 		$this->name = $name;
+	}
+
+	/**
+	 * Get Base Name
+	 *
+	 * @return string
+	 */
+	public function get_basename() {
+		return $this->basename;
+	}
+
+	/**
+	 * Set Base Name
+	 *
+	 * @param string $basename Base Name.
+	 * @return void
+	 */
+	public function set_basename( $basename ) {
+		$this->basename = $basename;
+	}
+
+	/**
+	 * Get Rev
+	 *
+	 * @return string
+	 */
+	public function get_rev() {
+		return $this->rev;
+	}
+
+	/**
+	 * Set Rev
+	 *
+	 * @param string $rev Rev.
+	 * @return void
+	 */
+	public function set_rev( $rev ) {
+		$this->rev = $rev;
 	}
 
 	/**
@@ -221,324 +318,487 @@ abstract class FileAbstract {
 	 *
 	 * @return string
 	 */
-	public function getPath(): string
-	{
+	public function get_path() {
 		return $this->path;
 	}
 
 	/**
 	 * Set Path
 	 *
-	 * @param string $path
+	 * @param string $path File Path.
+	 * @return void
 	 */
-	public function setPath(string $path): void
-	{
+	public function set_path( $path ) {
 		$this->path = $path;
 	}
 
 	/**
+	 * Get Path Display
+	 *
+	 * @return string
+	 */
+	public function get_path_display() {
+		return $this->path_display;
+	}
+
+	/**
+	 * Set Path Display
+	 *
+	 * @param string $path_display File Path Display.
+	 * @return void
+	 */
+	public function set_path_display( $path_display ) {
+		$this->path_display = $path_display;
+	}
+
+	/**
+	 * Get Children
+	 *
 	 * @return array
 	 */
-	public function getChildren(): array
-	{
+	public function get_children() {
 		return $this->children;
 	}
 
 	/**
-	 * @param array $children
+	 * Set Children
+	 *
+	 * @param array $children Children.
+	 * @return void
 	 */
-	public function setChildren(array $children): void
-	{
+	public function set_children( $children ) {
 		$this->children = $children;
 	}
 
 	/**
+	 * Get Parent
+	 *
 	 * @return string
 	 */
-	public function getParent(): string
-	{
+	public function get_parent() {
 		return $this->parent;
 	}
 
 	/**
-	 * @param string $parent
+	 * Set Parent
+	 *
+	 * @param string $parent Parent.
+	 * @return void
 	 */
-	public function setParent(string $parent): void
-	{
+	public function set_parent( $parent ) {
 		$this->parent = $parent;
 	}
 
 	/**
+	 * Get Extension
+	 *
 	 * @return string
 	 */
-	public function getExtension(): string
-	{
+	public function get_extension() {
 		return $this->extension;
 	}
 
 	/**
-	 * @param string $extension
+	 * Set Extension
+	 *
+	 * @param string $extension Extension.
+	 * @return void
 	 */
-	public function setExtension(string $extension): void
-	{
+	public function set_extension( $extension ) {
 		$this->extension = $extension;
 	}
 
 	/**
+	 * Get Mimetype
+	 *
 	 * @return string
 	 */
-	public function getMimetype(): string
-	{
+	public function get_mimetype() {
 		return $this->mimetype;
 	}
 
 	/**
-	 * @param string $mimetype
+	 * Set Mimetype
+	 *
+	 * @param string $mimetype Mimetype.
+	 * @return void
 	 */
-	public function setMimetype(string $mimetype): void
-	{
+	public function set_mimetype( $mimetype ) {
 		$this->mimetype = $mimetype;
 	}
 
 	/**
+	 * Get Size
+	 *
 	 * @return string
 	 */
-	public function getSize(): string
-	{
+	public function get_size() {
 		return $this->size;
 	}
 
 	/**
-	 * @param string $size
+	 * Set Size
+	 *
+	 * @param string $size Size.
+	 * @return void
 	 */
-	public function setSize(string $size): void
-	{
+	public function set_size( $size ) {
 		$this->size = $size;
 	}
 
 	/**
+	 * Get Last Edited
+	 *
 	 * @return string
 	 */
-	public function getLastEdited(): string
-	{
+	public function get_last_edited() {
 		return $this->last_edited;
 	}
 
 	/**
-	 * @param string $last_edited
+	 * Set Last Edited
+	 *
+	 * @param string $last_edited Last Edited.
+	 * @return void
 	 */
-	public function setLastEdited(string $last_edited): void
-	{
+	public function set_last_edited( $last_edited ) {
 		$this->last_edited = $last_edited;
 	}
 
 	/**
+	 * Get Last Modified
+	 *
 	 * @return string
 	 */
-	public function getLastModified(): string
-	{
+	public function get_last_modified() {
 		return $this->last_modified;
 	}
 
 	/**
-	 * @param string $last_modified
+	 * Set Last Modified
+	 *
+	 * @param string $last_modified Last Modified.
+	 * @return void
 	 */
-	public function setLastModified(string $last_modified): void
-	{
+	public function set_last_modified( $last_modified ) {
 		$this->last_modified = $last_modified;
 	}
 
 	/**
-	 * @return bool
+	 * Get Trashed
+	 *
+	 * @return boolean
 	 */
-	public function isTrashed(): bool
-	{
+	public function get_trashed() {
 		return $this->trashed;
 	}
 
 	/**
-	 * @param bool $trashed
+	 * Set Trashed
+	 *
+	 * @param boolean $trashed Trashed.
+	 * @return void
 	 */
-	public function setTrashed(bool $trashed): void
-	{
+	public function set_trashed( $trashed ) {
 		$this->trashed = $trashed;
 	}
 
 	/**
+	 * Get Description
+	 *
 	 * @return string
 	 */
-	public function getDescription(): string
-	{
+	public function get_description() {
 		return $this->description;
 	}
 
 	/**
-	 * @param string $description
+	 * Set Description
+	 *
+	 * @param string $description Description.
+	 * @return void
 	 */
-	public function setDescription(string $description): void
-	{
+	public function set_description( $description ) {
 		$this->description = $description;
 	}
 
 	/**
-	 * @return bool
+	 * Is Dir
+	 *
+	 * @return boolean
 	 */
-	public function isIsDir(): bool
-	{
+	public function is_dir() {
 		return $this->is_dir;
 	}
 
 	/**
-	 * @param bool $is_dir
+	 * Is File
+	 *
+	 * @return boolean
 	 */
-	public function setIsDir(bool $is_dir): void
-	{
+	public function is_file() {
+		return ! $this->is_dir;
+	}
+
+	/**
+	 * Set Is Dir
+	 *
+	 * @param boolean $is_dir Is Directory.
+	 * @return void
+	 */
+	public function set_is_dir( $is_dir ) {
 		$this->is_dir = $is_dir;
 	}
 
 	/**
+	 * Get Preview Link
+	 *
 	 * @return string
 	 */
-	public function getPreviewLink(): string
-	{
+	public function get_preview_link() {
 		return $this->preview_link;
 	}
 
 	/**
-	 * @param string $preview_link
+	 * Set Preview Link
+	 *
+	 * @param string $preview_link Preview Link.
+	 * @return void
 	 */
-	public function setPreviewLink(string $preview_link): void
-	{
+	public function set_preview_link( $preview_link ) {
 		$this->preview_link = $preview_link;
 	}
 
 	/**
+	 * Get Download Link
+	 *
 	 * @return string
 	 */
-	public function getDownloadLink(): string
-	{
+	public function get_download_link() {
 		return $this->download_link;
 	}
 
 	/**
-	 * @param string $download_link
+	 * Set Download Link
+	 *
+	 * @param string $download_link Download Link.
+	 * @return void
 	 */
-	public function setDownloadLink(string $download_link): void
-	{
+	public function set_download_link( $download_link ) {
 		$this->download_link = $download_link;
 	}
 
 	/**
+	 * Get Share Link
+	 *
 	 * @return string
 	 */
-	public function getShareLink(): string
-	{
+	public function get_share_link() {
 		return $this->share_link;
 	}
 
 	/**
-	 * @param string $share_link
+	 * Set Share Link
+	 *
+	 * @param string $share_link Share Link.
+	 * @return void
 	 */
-	public function setShareLink(string $share_link): void
-	{
+	public function set_share_link( $share_link ) {
 		$this->share_link = $share_link;
 	}
 
 	/**
+	 * Get Save As
+	 *
 	 * @return array
 	 */
-	public function getSaveAs(): array
-	{
+	public function get_save_as() {
 		return $this->save_as;
 	}
 
 	/**
-	 * @param array $save_as
+	 * Set Save As
+	 *
+	 * @param array $save_as Save As.
+	 * @return void
 	 */
-	public function setSaveAs(array $save_as): void
-	{
+	public function set_save_as( $save_as ) {
 		$this->save_as = $save_as;
 	}
 
 	/**
-	 * @return bool
+	 * Get Can Preview By Cloud
+	 *
+	 * @return boolean
 	 */
-	public function isCanPreviewByCloud(): bool
-	{
+	public function get_can_preview_by_cloud() {
 		return $this->can_preview_by_cloud;
 	}
 
 	/**
-	 * @param bool $can_preview_by_cloud
+	 * Set Can Preview By Cloud
+	 *
+	 * @param boolean $can_preview_by_cloud Can Preview By Cloud.
+	 * @return void
 	 */
-	public function setCanPreviewByCloud(bool $can_preview_by_cloud): void
-	{
+	public function set_can_preview_by_cloud( $can_preview_by_cloud ) {
 		$this->can_preview_by_cloud = $can_preview_by_cloud;
 	}
 
 	/**
-	 * @return array|false[]
+	 * Get Permissions
+	 *
+	 * @return array
 	 */
-	public function getPermissions(): array
-	{
+	public function get_permissions() {
 		return $this->permissions;
 	}
 
 	/**
-	 * @param array|false[] $permissions
+	 * Set Permissions
+	 *
+	 * @param array $permissions Permissions.
+	 * @return void
 	 */
-	public function setPermissions(array $permissions): void
-	{
+	public function set_permissions( $permissions ) {
 		$this->permissions = $permissions;
 	}
 
 	/**
+	 * Get Has Access
+	 *
+	 * @return boolean
+	 */
+	public function get_access() {
+		return $this->has_access;
+	}
+
+	/**
+	 * Set Has Access
+	 *
+	 * @param boolean $has_access Has Access.
+	 * @return void
+	 */
+	public function set_access( $has_access ) {
+		$this->has_access = $has_access;
+	}
+
+	/**
+	 * Get Thumbnails
+	 *
 	 * @return array
 	 */
-	public function getThumbnails(): array
-	{
+	public function get_thumbnails() {
 		return $this->thumbnails;
 	}
 
 	/**
-	 * @param array $thumbnails
+	 * Set Thumbnails
+	 *
+	 * @param array $thumbnails Thumbnails.
+	 * @return void
 	 */
-	public function setThumbnails(array $thumbnails): void
-	{
+	public function set_thumbnails( $thumbnails ) {
 		$this->thumbnails = $thumbnails;
 	}
 
 	/**
+	 * Has Own Thumbnail
+	 *
+	 * @return boolean
+	 */
+	public function has_own_thumbnail() {
+		return $this->has_own_thumbnail;
+	}
+
+	/**
+	 * Set Has Own Thumbnail
+	 *
+	 * @param boolean $has_own_thumbnail Has Own Thumbnail.
+	 * @return void
+	 */
+	public function set_has_own_thumbnail( $has_own_thumbnail ) {
+		$this->has_own_thumbnail = $has_own_thumbnail;
+	}
+
+	/**
+	 * Get Icon
+	 *
 	 * @return string
 	 */
-	public function getIcon(): string
-	{
+	public function get_icon() {
 		return $this->icon;
 	}
 
 	/**
-	 * @param string $icon
+	 * Set Icon
+	 *
+	 * @param string $icon Icon.
+	 * @return void
 	 */
-	public function setIcon(string $icon): void
-	{
+	public function set_icon( $icon ) {
 		$this->icon = $icon;
 	}
 
 	/**
+	 * Get Others Data
+	 *
 	 * @return array
 	 */
-	public function getAdditionalData(): array
-	{
-		return $this->additional_data;
+	public function get_others_data() {
+		return $this->others_data;
 	}
 
 	/**
-	 * @param array $additional_data
+	 * Set Others Data
+	 *
+	 * @param array $others_data Additional Data.
+	 * @return void
 	 */
-	public function setAdditionalData(array $additional_data): void
-	{
-		$this->additional_data = $additional_data;
+	public function set_others_data( $others_data ) {
+		$this->others_data = $others_data;
 	}
-	
-	
+
+	/**
+	 * Get Mimetype From Extension.
+	 *
+	 * @return string
+	 */
+	public function set_mimetype_from_extension() {
+
+		if ( $this->is_dir() ) {
+			return null;
+		}
+
+		if ( empty( $this->extension ) ) {
+			return null;
+		}
+
+		$mimetype = Helper::get_mimetype( $this->extension );
+
+		if ( ! empty( $mimetype ) ) {
+			$this->set_mimetype( $mimetype );
+		}
+
+		return $this->mimetype;
+	}
+
+	// /**
+	//  * Magic method to set properties
+	//  *
+	//  * @param string $key Property Name.
+	//  * @param mixed  $value Property Value.
+	//  */
+	// public function __set( $key, $value ) {
+	// 	$this->$key = $value;
+	// }
+
+	// /**
+	//  * Magic method to get properties
+	//  *
+	//  * @param string $key Property Name.
+	//  */
+	// public function __get( $key ) {
+	// 	return $this->$key;
+	// }
 }
