@@ -143,8 +143,6 @@ class API {
 					$relative_path_display = Helper::get_relative_path( $entry->get_path_display() );
 					$entry->set_path_display( $relative_path_display );
 
-					// dump( $entry );
-
 					$children[ $entry->get_id() ] = $entry;
 				}
 			}

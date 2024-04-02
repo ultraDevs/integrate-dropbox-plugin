@@ -38,7 +38,11 @@ class File extends FileAbstract {
 			$this->set_is_dir( true );
 		}
 
-		$path_info = Helper::get_path_info( $file_data->path_lower );
+		// dump( $file_data->path_lower );
+
+		$path_lower = $file_data->path_lower;
+
+		$path_info = Helper::get_path_info( $path_lower );
 
 		if ( $this->is_file() && isset( $path_info['extension'] ) ) {
 			$this->set_extension( $path_info['extension'] );
@@ -55,10 +59,10 @@ class File extends FileAbstract {
 		}
 
 		// Set Path.
-		$this->set_path( $file_data->path_lower);
+		$this->set_path( $path_lower );
 
 		// Set Parent Path.
-		if ( ! empty ( $file_data->path_lower ) ) {
+		if ( ! empty ( $path_lower ) ) {
 			$this->set_parent( $path_info['dirname'] );
 		}
 
@@ -85,7 +89,7 @@ class File extends FileAbstract {
 		}
 
 		// Get Info of Sharing.
-		$sharing_info = $file_data->getSharingInfo();
+		$sharing_info = method_exists( $file_data, 'getSharingInfo' ) ? $file_data->getSharingInfo() : null;
 
 		// Set Permission.
 		$this->set_permissions( array(

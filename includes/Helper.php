@@ -450,9 +450,14 @@ class Helper {
 	 * @return string
 	 */
 	public static function get_relative_path( $full_path, $from_path = null ) {
+
+		$root_folder = ''; // @TODO: Update this later.
 		if ( empty( $from_path ) ) {
-			// @TODO: Update this later.
-			return $full_path;
+			if ( '' === $root_folder || '/' === $root_folder ) {
+				return $full_path;
+			}
+			
+			$from_path = $root_folder;
 		}
 
 		$exact_from_path = explode( '/', $from_path );
