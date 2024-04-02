@@ -10,6 +10,7 @@ namespace ultraDevs\IntegrateDropbox;
 
 use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\Client;
+use ultraDevs\IntegrateDropbox\App\FileBrowser;
 
 /**
  * Manage REST API Requests
@@ -155,31 +156,7 @@ class REST_API {
 
 		$data = array(
 			'breadcrumbs'   => Helper::get_breadcrumbs( $path ),
-			// 'files'         => Client::get_instance()->get_folder( $path ),
-			// $items[] = array(
-			// 	'id'       => $entry->getId(),
-			// 	'name'     => $entry->getName(),
-			// 	'path'     => $entry->getPathLower(),
-			// 	'path_raw' => $entry->getPathDisplay(),
-			// 	'thumbnail' => $thumbnail_loc,
-			// 	'is_dir'   => $is_dir,
-			// 	'is_file'  => ! $is_dir,
-			// 	'can_preview' => $is_file ? Helper::can_generate_thumbnail( $path_info['extension'] ) : false,
-			// 	'permission' => array(
-			// 		'canDownload' => true,
-			// 		'canDelete' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-			// 		'canRename' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-			// 		'canMove' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-			// 		'canAdd' => empty( $sharing_info ) ? true : ! $sharing_info->isReadOnly(),
-			// 		'hasAccess' => empty( $sharing_info ) ? true : ! $sharing_info->hasAccess(),
-			// 		'canShare' => true,
-			// 	),
-			// 	'ext'      => $is_file ? $path_info['extension'] : '',
-			// 	'size'     => $is_file ? $entry->getSize() : '',
-			// 	'created'  => $is_file ? $entry->getServerModified() : '',
-			// 	'modified' => $is_file ? $entry->getServerModified() : '',
-			// );
-			'files' => [],
+			'files'         => FileBrowser::get_instance()->get_file_list( $path, true, false, false ),
 			'previous_path' => Helper::get_previous_path( $path ),
 		);
 

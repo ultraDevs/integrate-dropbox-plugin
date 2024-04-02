@@ -208,7 +208,6 @@ class Client {
 			}
 		}
 
-
 		return $folder;
 	}
 

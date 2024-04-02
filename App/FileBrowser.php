@@ -32,6 +32,11 @@ class FileBrowser {
 	public $folder;
 
 	/**
+	 * Path
+	 */
+	public $path = '';
+
+	/**
 	 * Items.
 	 */
 	public $items;
@@ -51,13 +56,16 @@ class FileBrowser {
 	 * Get File List.
 	 */
 	public function get_file_list( $path = '/',  $is_allowed = true, $recursive = false, $hierarchical = false ) {
+
+		$this->path = $path;
+
 		$this->folder = Client::get_instance()->get_folder( $path, $is_allowed, $recursive, $hierarchical );
 
 		if ( false === $this->folder ) {
 			return false;
 		}
 
-		$this->render_files();
+		return $this->render_files();
 	}
 
 	/**
@@ -66,18 +74,51 @@ class FileBrowser {
 	public function render_files() {
 		$this->items = $this->folder->children;
 
-		$files = [];
+		$items = [];
 		if ( ! empty( $this->items ) ) {
 			foreach ( $this->items as $item ) {
-				// $file = File::get_instance();
-				// $file->convert_api_data_to_file_data( $item );
-				// $files[] = $file;
-		// dump( $item );
-				echo 'hola' . $item->get_path() . '<br>';
+				$items[] = [
+					'id' => $item->id,
+					'name' => $item->name,
+					'path' => $item->path,
+					'path_raw' => $item->path_display,
+					'thumbnail' => '', // You need to set this value
+					'is_dir' => $item->is_dir,
+					'is_file' => !$item->is_dir,
+					'can_preview' => $item->is_dir ? false : true, // Assuming directory cannot be previewed
+					'permission' => [
+						'canDownload' => $item->permissions['canDownload'],
+						'canDelete' => $item->permissions['canDelete'],
+						'canRename' => $item->permissions['canRename'],
+						'canMove' => $item->permissions['canMove'],
+						'canAdd' => $item->permissions['canAdd'],
+						'hasAccess' => $item->has_access,
+						'canShare' => $item->permissions['canShare'],
+					],
+					'ext' =>!$item->is_dir ? $item->extension : '',
+					'size' =>!$item->is_dir ? $item->size : '',
+					'created' =>!$item->is_dir ? $item->last_modified : '',
+					'modified' =>!$item->is_dir ? $item->last_modified : ''
+				];
 
 			}
 		}
 
-		// dump( $files );
+		// Move all folder to first in order to show folder first.
+		// $folders = array_filter( $items, function( $item ) {
+		// 	return $item['is_dir'];
+		// } );
+
+		// $files = array_filter( $items, function( $item ) {
+		// 	return ! $item['is_dir'];
+		// } );
+
+		// $items = array_merge( $folders, $files );
+
+		// Files::get_instance( Account::get_active_account() )->set_files( $items );
+
+		// Helper::update_cached_folder( $this->path );
+
+		return $items;
 	}
 }

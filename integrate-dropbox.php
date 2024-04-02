@@ -184,7 +184,8 @@ final class IntegrateDropbox {
 
 		// ud_vd( $api_class );
 
-		$client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
+		// $client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
+		// dump( $client );
 		// foreach ( $client->children as $child ) {
 		// 	// dd( $child );
 		// 	dump( $child->basename );
