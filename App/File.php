@@ -119,6 +119,8 @@ class File extends FileAbstract {
 			isset( $file_data->media_info ) && ! is_null( $file_data->getMediaInfo() )
 		) {
 			$this->set_has_own_thumbnail( true );
+			$thumbnail = new Thumbnail( $file_data, 'large' );
+			$this->set_thumbnail( $thumbnail->generate_thumbnail() );
 		}
 
 		return $this;

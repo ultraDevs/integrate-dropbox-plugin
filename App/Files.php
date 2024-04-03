@@ -106,11 +106,12 @@ class Files {
 	 */
 	public function insert_file( $file ) {
 		global $wpdb;
-		$dirname    = pathinfo( $file['path'], PATHINFO_DIRNAME );
+		$file = new File( $file );
+		$dirname    = pathinfo( $file->get_path(), PATHINFO_DIRNAME );
 		$table_name = $this->get_table();
-		$id         = $file['id'];
-		$name       = $file['name'];
-		$mimetype   = $file['ext'];
+		$id         = $file->get_id();
+		$name       = $file->get_name();
+		$mimetype   = $file->get_extension();
 		$path       = '/' === $dirname ? 'files_dir' : $dirname;
 		$data       = serialize( $file );
 

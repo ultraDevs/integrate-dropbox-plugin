@@ -36,6 +36,7 @@ define( 'INTEGRATE_DROPBOX_CACHE_DIR', WP_CONTENT_DIR . '/integrate-dropbox-cach
 define( 'INTEGRATE_DROPBOX_CACHE_DIR_URL', content_url() . '/integrate-dropbox-cache/' );
 define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
+define( 'INTEGRATE_DROPBOX_DEV_MODE', true );
 
 // if ( function_exists( 'ud_id_fs' ) ) {
 // 	ud_id_fs()->set_basename( true, __FILE__ );
@@ -184,7 +185,7 @@ final class IntegrateDropbox {
 
 		// ud_vd( $api_class );
 
-		// $client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
+		$client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
 		// dump( $client );
 		// foreach ( $client->children as $child ) {
 		// 	// dd( $child );

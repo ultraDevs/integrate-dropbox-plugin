@@ -205,6 +205,13 @@ abstract class FileAbstract {
 	public $has_own_thumbnail = false;
 
 	/**
+	 * Thumbnail.
+	 *
+	 * @var string
+	 */
+	public $thumbnail = null;
+
+	/**
 	 * Icon.
 	 *
 	 * @var string
@@ -719,6 +726,25 @@ abstract class FileAbstract {
 	 */
 	public function set_has_own_thumbnail( $has_own_thumbnail ) {
 		$this->has_own_thumbnail = $has_own_thumbnail;
+	}
+
+	/**
+	 * Get Thumbnail
+	 *
+	 * @return string
+	 */
+	public function get_thumbnail() {
+		return $this->thumbnail;
+	}
+
+	/**
+	 * Set Thumbnail
+	 *
+	 * @param string $thumbnail Thumbnail.
+	 * @return void
+	 */
+	public function set_thumbnail( $thumbnail ) {
+		$this->thumbnail = $thumbnail;
 	}
 
 	/**

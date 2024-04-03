@@ -79,10 +79,10 @@ class FileBrowser {
 			foreach ( $this->items as $item ) {
 				$items[] = [
 					'id' => $item->id,
-					'name' => $item->name,
-					'path' => $item->path,
-					'path_raw' => $item->path_display,
-					'thumbnail' => '', // You need to set this value
+					'name' => $item->get_name(),
+					'path' => $item->get_path(),
+					'path_raw' => $item->get_path_display(),
+					'thumbnail' => $item->has_own_thumbnail() ? $item->get_thumbnail() : '',
 					'is_dir' => $item->is_dir,
 					'is_file' => !$item->is_dir,
 					'can_preview' => $item->is_dir ? false : true, // Assuming directory cannot be previewed

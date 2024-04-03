@@ -111,12 +111,12 @@ class API {
 			$path = '';
 		}
 
-		$items = array();
+		$entries = array();
 
-		// if ( Helper::is_cached_folder( $path ) ) { // @TODO: Implement Cache.
-		if ( 1 === 2  ) {
-			$items = Files::get_instance( $this->account_id )->get_files( $path );
-		} else {
+		// @TODO: Implement cache.
+		// if ( ! INTEGRATE_DROPBOX_DEV_MODE && Helper::is_cached_folder( $path ) ) { 
+		// 	$entries = Files::get_instance( $this->account_id )->get_files( $path );
+		// } else {
 			try {
 				$folder_contents = Client::get_instance()->get_client()->listFolder( $path, array( 'recursive' => $params['recursive'] ) );
 				$entries         = $folder_contents->getItems()->toArray();
@@ -126,6 +126,11 @@ class API {
 					$folder_contents = Client::get_instance()->get_client()->listFolderContinue( $cursor );
 					$entries         = array_merge( $entries, $folder_contents->getItems()->toArray() );
 				}
+
+				// Files::get_instance( Account::get_active_account() )->set_files( $entries );
+
+				// Helper::update_cached_folder( $path );
+
 			} catch ( \Exception $e ) {
 				error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
 				return false;
@@ -197,6 +202,6 @@ class API {
 			}
 
 			return $folder_entry;
-		}
+		// }
 	}
 }
