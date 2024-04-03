@@ -136,6 +136,8 @@ class API {
 				return false;
 			}
 
+			// dump( $entries );
+
 			// $prevFolderPath = $entries->getPathDisplay();
 
 			$children = array();
@@ -143,7 +145,8 @@ class API {
 			if ( 0 < count( $entries ) ) {
 				foreach ( $entries as $entry_data ) {
 					$entry = new File( $entry_data );
-					$relative_path = Helper::get_relative_path( $entry->get_path_display() );
+					$relative_path = Helper::get_relative_path( $entry->get_path() );
+					// dd( $entry->get_path() );
 					$entry->set_path( $relative_path );
 					$relative_path_display = Helper::get_relative_path( $entry->get_path_display() );
 					$entry->set_path_display( $relative_path_display );
@@ -200,6 +203,8 @@ class API {
 			} else {
 				$folder_entry = reset( $children );
 			}
+
+			// dump( $folder_entry );
 
 			return $folder_entry;
 		// }
