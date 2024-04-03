@@ -64,6 +64,17 @@ class REST_API {
 				'permission_callback' => '__return_true',
 			)
 		);
+
+		// File Preview.
+		register_rest_route(
+			$this->namespace,
+			'/file-preview',
+			array(
+				'methods'             => \WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'file_preview' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 	}
 
 	/**
@@ -162,5 +173,65 @@ class REST_API {
 
 		wp_send_json_success( $data );
 
+	}
+
+	/**
+	 * File Preview
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function file_preview( $request ) {
+		$accountId = $request->get_param( 'accountId' );
+		$path = $request->get_param( 'path' );
+
+		if ( !$accountId ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account ID is required.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$account = Account::get_accounts( $accountId );
+
+		if ( !$account ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account not found.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$active_account = Account::get_active_account();
+
+		if ( $accountId !== $active_account['id'] ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account is not active.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$file = Client::get_instance( $accountId )->file_preview( $path );
+
+		if ( !$file ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'File not found.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		wp_send_json_success( $file );
 	}
 }

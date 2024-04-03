@@ -101,4 +101,13 @@ class Thumbnail {
 
 		return $this->thumbnails_location_url . $this->get_name();
 	}
+
+	/**
+	 * Get Thumbnail URL
+	 *
+	 * @return string
+	 */
+	public function get_thumbnail_url() {
+		return $this->thumbnails_location_url . $this->get_name();
+	}
 }

@@ -175,10 +175,10 @@ final class IntegrateDropbox {
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
 
-//		 $file_preview = Client::get_instance()->file_preview( '/hello test/hello/features/img-1.png' );
-		//  $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
+		// $file_preview = Client::get_instance()->file_preview( '/hello test/hello/features/img-1.png' );
+		// //  $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
 
-		//  ud_vd( $file_preview );
+		// ud_vd( $file_preview );
 
 
 		// $api_class = API::get_instance()->get_file( '/hello test/hello/features/img-1.png' );

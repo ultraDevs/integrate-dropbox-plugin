@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { getIcon } from '../helper/common';
 
 // React Contextify.
-import { useContextMenu } from 'react-contexify';
+import { Item, Menu, Separator, Submenu, useContextMenu } from 'react-contexify';
 
 // Light Gallery
 import LightGallery from 'lightgallery/react';
@@ -17,6 +17,9 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import lgVideo from 'lightgallery/plugins/video';
 import 'lightgallery/scss/lightgallery.scss';
 import 'lightgallery/scss/lg-zoom.scss';
+
+const FOLDER_MENU = 'file-browser-folder';
+const FILE_MENU = 'file-browser-file';
 
 const Browser = () => {
 	const filter = useSelect((select) => select('dropbox-browser').getData('filter'));
@@ -111,8 +114,64 @@ const Browser = () => {
 		});
 	};
 
+	// I'm using a single event handler for all items
+  	// but you don't have too :)
+	const handleItemClick = ({ id, event, props }) => {
+		switch (id) {
+		case "copy":
+			console.log(event, props)
+			break;
+		case "cut":
+			console.log(event, props);
+			break;
+		//etc...
+		}
+	}
+
+	const filePreview = (item) => {
+		apiFetch({
+			path: '/idb/v1/file-preview',
+			method: 'POST',
+			data: {
+				path: item.path,
+				accountId: activeAccount['id'],
+			},
+		})
+		.then((response) => {
+			console.log( 'Preview', response.data );
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+	}
+
 	return (
 		<>
+			<Menu id={FILE_MENU}>
+				<Item id="preview" onClick={handleItemClick}>Preview</Item>
+				<Item id="preview" onClick={handleItemClick}>Preview in a new window</Item>
+				<Item id="direct-link" onClick={handleItemClick}>Direct Link</Item>
+				<Item id="share" onClick={handleItemClick}>Share</Item>
+				<Item id="download" onClick={handleItemClick}>Download</Item>
+				<Separator />
+				<Item id="rename" onClick={handleItemClick}>Rename</Item>
+				<Item id="move-to" onClick={handleItemClick}>Move to</Item>
+				<Item id="duplicate" onClick={handleItemClick}>Duplicate</Item>
+				<Separator />
+				<Item id="Delete" onClick={handleItemClick}>Delete</Item>
+			</Menu>
+
+			<Menu id={FOLDER_MENU}>
+				<Item id="direct-link" onClick={handleItemClick}>Direct Link</Item>
+				<Item id="share" onClick={handleItemClick}>Share</Item>
+				<Item id="download" onClick={handleItemClick}>Download</Item>
+				<Separator />
+				<Item id="rename" onClick={handleItemClick}>Rename</Item>
+				<Item id="move-to" onClick={handleItemClick}>Move to</Item>
+				<Item id="duplicate" onClick={handleItemClick}>Duplicate</Item>
+				<Separator />
+				<Item id="Delete" onClick={handleItemClick}>Delete</Item>
+			</Menu>
 			<div className='ud-c-file-browser__content'>
 				{isLoading ? (
 					<div className='ud-c-file-browser__loading'>
@@ -156,7 +215,7 @@ const Browser = () => {
 										}
 									}}
 									onContextMenu={(e) => {
-										showContexify(e, 'file-browser', {
+										showContexify(e, FOLDER_MENU, {
 											type: 'folder',
 											path: item.path,
 										});
@@ -184,7 +243,14 @@ const Browser = () => {
 										)}
 										key={index}
 										onClick={() => {
+											filePreview(item);
 											console.log(item);
+										}}
+										onContextMenu={(e) => {
+											showContexify(e, FILE_MENU, {
+												type: 'file',
+												path: item.path,
+											});
 										}}
 									>
 										{item.can_preview && item.thumbnail ? (
