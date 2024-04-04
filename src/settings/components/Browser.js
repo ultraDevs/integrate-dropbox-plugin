@@ -4,6 +4,8 @@ import { useSelect, dispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
 
 // React Contextify.
 import { Item, Menu, Separator, Submenu, useContextMenu } from 'react-contexify';
@@ -27,6 +29,16 @@ const Browser = () => {
 	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
 	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
+
+	// const [ showAlert, setShowAlert ] = useState(false);
+	const [ alertContent, setAlertContent ] = useState({
+		title: '',
+		text: '',
+		icon: '',
+		showCancelButton: true,
+		confirmButtonText: 'Yes',
+		showCloseButton: true,
+	});
 
 	const { activeAccount } = IDBAdmin;
 
@@ -70,6 +82,17 @@ const Browser = () => {
 	const files = data.filter((item) => {
 		return item.is_file ? item : '';
 	});
+
+
+	const showAlert = (data) => {
+		const defaultData = {
+			showCloseButton: true,
+		};
+		data = Object.assign(defaultData, data);
+		return Swal.fire(data);
+	}
+
+	
 
 	// const lightGallery = useRef(null);
 	// const [lgItems, setLgItems] = useState(files);
@@ -118,8 +141,31 @@ const Browser = () => {
   	// but you don't have too :)
 	const handleItemClick = ({ id, event, props }) => {
 		switch (id) {
-		case "copy":
-			console.log(event, props)
+		case "rename":
+			const renameApi = () => apiFetch({
+				path: '/idb/v1/rename',
+				method: 'POST',
+				data: {
+					path: props.data.path,
+					accountId: activeAccount['id'],
+				},
+			}).then((response) => {
+				console.log(response);
+			}).catch((error) => {
+				console.log(error);
+			});
+			showAlert({
+				'title': 'Rename',
+				'html': '<p>Rename the file</p>',
+				confirmButtonText: 'Rename',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					renameApi();
+				}
+			});
+			break;
+		case "duplicate":
+			// showAlert({});
 			break;
 		case "cut":
 			console.log(event, props);
@@ -127,6 +173,7 @@ const Browser = () => {
 		//etc...
 		}
 	}
+	
 
 	const filePreview = (item) => {
 		apiFetch({
@@ -172,6 +219,7 @@ const Browser = () => {
 				<Separator />
 				<Item id="Delete" onClick={handleItemClick}>Delete</Item>
 			</Menu>
+
 			<div className='ud-c-file-browser__content'>
 				{isLoading ? (
 					<div className='ud-c-file-browser__loading'>
@@ -218,6 +266,7 @@ const Browser = () => {
 										showContexify(e, FOLDER_MENU, {
 											type: 'folder',
 											path: item.path,
+											item,
 										});
 									}}
 								>
@@ -250,6 +299,7 @@ const Browser = () => {
 											showContexify(e, FILE_MENU, {
 												type: 'file',
 												path: item.path,
+												item
 											});
 										}}
 									>
