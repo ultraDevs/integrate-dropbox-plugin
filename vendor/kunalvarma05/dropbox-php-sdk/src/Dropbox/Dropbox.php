@@ -559,6 +559,8 @@ class Dropbox
         //Response
         $response = $this->postToAPI('/files/move', ['from_path' => $fromPath, 'to_path' => $toPath]);
 
+        dump( $response );
+
         //Make and Return the Model
         return $this->makeModelFromResponse($response);
     }

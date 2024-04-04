@@ -9,6 +9,7 @@
 namespace ultraDevs\IntegrateDropbox;
 
 use ultraDevs\IntegrateDropbox\App\Account;
+use ultraDevs\IntegrateDropbox\App\API;
 use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\App\FileBrowser;
 
@@ -61,6 +62,28 @@ class REST_API {
 			array(
 				'methods'             => \WP_REST_Server::EDITABLE,
 				'callback'            => array( $this, 'get_files' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+
+		// Create Folder.
+		register_rest_route(
+			$this->namespace,
+			'/create-folder',
+			array(
+				'methods'             => \WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'create_folder' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+
+		// Rename.
+		register_rest_route(
+			$this->namespace,
+			'/rename',
+			array(
+				'methods'             => \WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'rename' ),
 				'permission_callback' => '__return_true',
 			)
 		);
@@ -173,6 +196,129 @@ class REST_API {
 
 		wp_send_json_success( $data );
 
+	}
+
+	/**
+	 * Create Folder
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function create_folder( $request ) {
+		$accountId = $request->get_param( 'accountId' );
+		$path = $request->get_param( 'path' );
+		$folderName = $request->get_param( 'folderName' );
+
+		if ( !$accountId ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account ID is required.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$account = Account::get_accounts( $accountId );
+
+		if ( !$account ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account not found.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$active_account = Account::get_active_account();
+
+		if ( $accountId !== $active_account['id'] ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account is not active.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$folder = Client::get_instance( $accountId )->create_folder( $path, $folderName );
+
+		if ( !$folder ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Folder not created.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		wp_send_json_success( $folder );
+	}
+
+	/**
+	 * Rename
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function rename( $request ) {
+		$accountId = $request->get_param( 'accountId' );
+		$target = $request->get_param( 'target' );
+		$name = $request->get_param( 'name' );
+
+		if ( !$accountId ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account ID is required.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$account = Account::get_accounts( $accountId );
+
+		if ( !$account ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account not found.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$active_account = Account::get_active_account();
+
+		if ( $accountId !== $active_account['id'] ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account is not active.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		$rename = API::get_instance( $accountId )->rename( $target, $name );
+
+		if ( !$rename ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'File/Folder not renamed.', 'integrate-dropbox' ),
+					'reason'  => $rename,
+				),
+				400
+			);
+		}
+
+		wp_send_json_success( $rename );
 	}
 
 	/**
