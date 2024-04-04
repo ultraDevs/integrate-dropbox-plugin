@@ -209,4 +209,45 @@ class API {
 			return $folder_entry;
 		// }
 	}
+
+	/**
+	 * Create Folder
+	 *
+	 * @param string $name Folder Name.
+	 * @param string $folder_path Folder Path.
+	 * @param array  $params Params.
+	 *
+	 * @return false|array $folder Folder.
+	 */
+	public function create_folder( $name, $folder_path, $params = [ 'auto_rename' => false ] ) {
+
+		// @TODO: Add custom filters and actions.
+
+		$folder_path = Helper::clean_path( $folder_path );
+
+		$folder_path = '/' . $folder_path . '/' . $name;
+
+		try {
+			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params );
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			return false;
+		}
+
+		return $folder;
+	}
+
+	/**
+	 * Rename File
+	 *
+	 * @param string $file File.
+	 * @param string $new_name New Name.
+	 * @param array  $params Params.
+	 *
+	 * @return false|array $file File.
+	 */
+	public function rename( $file, $new_name, $params = [ 'auto_rename' => false ] ) {
+		
+
+	}
 }

@@ -17,8 +17,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Header */ "./src/settings/components/Header.js");
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Sidebar */ "./src/settings/components/Sidebar.js");
 /* harmony import */ var _components_Browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Browser */ "./src/settings/components/Browser.js");
-/* harmony import */ var _scss_admin_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scss/admin.scss */ "./src/settings/scss/admin.scss");
-/* harmony import */ var _components_Contexify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Contexify */ "./src/settings/components/Contexify.js");
+/* harmony import */ var _components_Contexify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Contexify */ "./src/settings/components/Contexify.js");
+/* harmony import */ var _scss_admin_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./scss/admin.scss */ "./src/settings/scss/admin.scss");
+/* harmony import */ var sweetalert2_src_sweetalert2_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2/src/sweetalert2.scss */ "./node_modules/sweetalert2/src/sweetalert2.scss");
+
 
 
 
@@ -28,7 +30,7 @@ __webpack_require__.r(__webpack_exports__);
 const App = () => {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Contexify__WEBPACK_IMPORTED_MODULE_5__.Contexify, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_1__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Contexify__WEBPACK_IMPORTED_MODULE_4__.Contexify, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_1__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__body"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Browser__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
 };
@@ -106,7 +108,6 @@ const Browser = () => {
     // 	dispatch('dropbox-browser').setData('current_path', path);
     // }
   };
-
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
       path: '/idb/v1/get-files',
@@ -193,7 +194,6 @@ const Browser = () => {
       //etc...
     }
   };
-
   const filePreview = item => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
       path: '/idb/v1/file-preview',
@@ -737,7 +737,6 @@ const Sidebar = () => {
   // 	img: IDBAdmin.assets + "images/dropbox.svg",
   // },
   ];
-
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__l"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -5994,6 +5993,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./node_modules/lightgallery/scss/lightgallery.scss ***!
   \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./node_modules/sweetalert2/src/sweetalert2.scss":
+/*!*******************************************************!*\
+  !*** ./node_modules/sweetalert2/src/sweetalert2.scss ***!
+  \*******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

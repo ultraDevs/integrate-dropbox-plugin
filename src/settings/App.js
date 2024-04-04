@@ -1,8 +1,10 @@
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Browser from './components/Browser';
-import './scss/admin.scss';
 import { Contexify } from './components/Contexify';
+
+import './scss/admin.scss';
+import 'sweetalert2/src/sweetalert2.scss'
 
 const App = () => {
 	return (
