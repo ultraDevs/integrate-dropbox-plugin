@@ -76,7 +76,7 @@ class API {
 			$path = Helper::clean_path( $path );
 		}
 
-		do_action( 'ud_idb_log_event', $account_id, $file );
+		do_action( 'idb_log_event', $account_id, $file );
 
 		try {
 			$details = $this->client->getMetadata( $file );

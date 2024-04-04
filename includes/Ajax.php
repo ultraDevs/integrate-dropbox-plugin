@@ -63,7 +63,7 @@ class Ajax {
 	 */
 	public function file_preview() {
 		$nonce = sanitize_text_field( $_POST['nonce'] );
-		if ( ! wp_verify_nonce( $nonce, 'ud_idb_ajax_nonce' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
 
@@ -94,7 +94,7 @@ class Ajax {
 	 */
 	public function rename() {
 		$nonce = sanitize_text_field( $_POST['nonce'] );
-		if ( ! wp_verify_nonce( $nonce, 'ud_idb_ajax_nonce' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
 

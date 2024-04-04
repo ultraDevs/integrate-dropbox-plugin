@@ -82,11 +82,11 @@ class Client {
 		}
 
 		// Callback for refresh token.
-		add_action( 'ud_idb_refresh_token', array( $this, 'refresh_token' ), 10, 1 );
+		add_action( 'idb_refresh_token', array( $this, 'refresh_token' ), 10, 1 );
 
-		$this->client_id    = apply_filters( 'ud_idb_client_id', 'mp6f0by845hzuzw' );
-		$this->app_secret   = apply_filters( 'ud_idb_app_secret', 'osnj0do9if83yrh' );
-		$this->redirect_uri = apply_filters( 'ud_idb_redirect_uri', 'https://oauth.ultradevs.com/integrate-dropbox-wp.php' );
+		$this->client_id    = apply_filters( 'idb_client_id', 'mp6f0by845hzuzw' );
+		$this->app_secret   = apply_filters( 'idb_app_secret', 'osnj0do9if83yrh' );
+		$this->redirect_uri = apply_filters( 'idb_redirect_uri', 'https://oauth.ultradevs.com/integrate-dropbox-wp.php' );
 
 		$this->get_client();
 	}
@@ -232,7 +232,7 @@ class Client {
 	 * @return bool
 	 */
 	public function is_allowed( $file ) {
-		$allowed = apply_filters( 'ud_idb_is_allowed', true, $file ); // @TODO : Sample filter.
+		$allowed = apply_filters( 'idb_is_allowed', true, $file ); // @TODO : Sample filter.
 
 		return $allowed;
 	}
@@ -258,7 +258,7 @@ class Client {
 
 		return $thumbnail->get_thumbnail_url();
 
-		do_action( 'ud_idb_log_event', $details, $account_id, $path );
+		do_action( 'idb_log_event', $details, $account_id, $path );
 
 		// Generate Preview for Media files.
 		// if ( in_array( $details['.tag'], array( 'audio', 'video', 'image' ) ) ) {
@@ -366,8 +366,8 @@ class Client {
 			$this->get_client()->setAccessToken( $token );
 
 			// Remove Authorization Lost Notice.
-			if ( $timestamp = wp_next_scheduled( 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
-				wp_unschedule_event( $timestamp, 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
+			if ( $timestamp = wp_next_scheduled( 'idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
+				wp_unschedule_event( $timestamp, 'idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
 
 				$account['is_lost'] = false;
 				Account::update_account( $account );
@@ -378,8 +378,8 @@ class Client {
 			$authorization->set_valid_token( false );
 
 			// Schedule Authorization Lost Notice.
-			if ( ! wp_next_scheduled( 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
-				wp_schedule_event( time(), 'ud_idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
+			if ( ! wp_next_scheduled( 'idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
+				wp_schedule_event( time(), 'idb_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
 
 				$account['is_lost'] = true;
 				Account::update_account( $account );

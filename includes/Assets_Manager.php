@@ -71,7 +71,7 @@ class Assets_Manager {
 			'authUrl'       => $auth_url,
 			'accounts'      => Account::get_accounts(),
 			'activeAccount' => Account::get_active_account(),
-			'ajaxNonce'     => wp_create_nonce( 'ud_idb_ajax_nonce' ),
+			'ajaxNonce'     => wp_create_nonce( 'idb_ajax_nonce' ),
 		);
 
 		return apply_filters( 'ud_id_localization_data', $localization_data );

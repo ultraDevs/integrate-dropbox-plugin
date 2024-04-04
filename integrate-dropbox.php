@@ -105,6 +105,7 @@ final class IntegrateDropbox {
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
 		do_action( 'integrate_dropbox_loaded' );
@@ -208,6 +209,15 @@ final class IntegrateDropbox {
 	public function activate() {
 		$activate = new ultraDevs\IntegrateDropbox\Activate();
 		$activate->run();
+	}
+
+	/**
+	 * Plugin Deactivation.
+	 *
+	 * @return void
+	 */
+	public function deactivate() {
+		unset( $_COOKIE['idb_active_account'] );
 	}
 
 	/**

@@ -18,7 +18,7 @@ use ultraDevs\IntegrateDropbox\App\Client;
  */
 class Helper {
 
-	protected static $cached_folder_key = 'ud_idb_cached_folders';
+	protected static $cached_folder_key = 'idb_cached_folders';
 
 	/**
 	 * Constructor
@@ -330,7 +330,7 @@ class Helper {
 	 */
 	public static function can_preview_by_cloud( $extension ) {
 		$previewable = apply_filters(
-			'ud_idb_previewable_extensions',
+			'idb_previewable_extensions',
 			[
 				'pdf', 'txt', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gslides', 'gsheet'
 			]
@@ -361,7 +361,7 @@ class Helper {
 	 */
 	public static function can_create_thumbnail( $extension ) {
 		$extensions = apply_filters(
-			'ud_idb_thumbnail_extensions',
+			'idb_thumbnail_extensions',
 			['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'pdf', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsm', 'ppsx', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'odp', 'ods', 'odt', 'rtf', 'csv', '3fr', 'ai', 'arw', 'cr2', 'crw', 'dcr', 'dng', 'eps', 'erf', 'heic', 'kdc', 'mef', 'mos', 'mrw', 'nef', 'nrw', 'orf', 'pef', 'psd', 'raf', 'raw', 'rw2', 'rwl', 'sr2', 'svg', 'tif', 'tiff', 'x3f', '3gp', '3gpp', '3gpp2', 'asf', 'avi', 'dv', 'flv', 'm2t', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mts', 'oggtheora', 'ogv', 'rm', 'ts', 'vob', 'webm', 'wmv', 'paper', 'webp']
 		);
 
