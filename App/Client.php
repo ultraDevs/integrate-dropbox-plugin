@@ -241,7 +241,9 @@ class Client {
 
 		$details = $this->client->getMetadata( $file );
 
-		return $details;
+		$thumbnail = new Thumbnail( $details );
+
+		return $thumbnail->get_thumbnail_url();
 
 		do_action( 'ud_idb_log_event', $details, $account_id, $path );
 

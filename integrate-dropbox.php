@@ -175,23 +175,26 @@ final class IntegrateDropbox {
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
 
-//		 $file_preview = Client::get_instance()->file_preview( '/hello test/hello/features/img-1.png' );
-		//  $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
+		// $file_preview = Client::get_instance()->file_preview( '/hello test/hello/features/img-1.png' );
+		// //  $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
 
-		//  ud_vd( $file_preview );
+		// ud_vd( $file_preview );
 
 
 		// $api_class = API::get_instance()->get_file( '/hello test/hello/features/img-1.png' );
 
 		// ud_vd( $api_class );
 
-		$client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
+		// $client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
 		// dump( $client );
 		// foreach ( $client->children as $child ) {
 		// 	// dd( $child );
 		// 	dump( $child->basename );
 		// }
 		// dd( $client );
+
+		// $rename = API::get_instance()->rename( 'id:sZVyp7CWrYAAAAAAAAAAEw', '/ud-logo2.svg' );
+		// dump( $rename );
 	}
 
 	/**
