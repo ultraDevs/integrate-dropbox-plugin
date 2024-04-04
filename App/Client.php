@@ -173,6 +173,19 @@ class Client {
 	}
 
 	/**
+	 * Get Metadata
+	 *
+	 * @param string $path Path.
+	 *
+	 * @return array
+	 */
+	public function get_metadata( $path = '/' ) {
+		$metadata = $this->client->getMetadata( $path );
+
+		return $metadata;
+	}
+
+	/**
 	 * Get Folder.
 	 *
 	 * @param string $path Path.

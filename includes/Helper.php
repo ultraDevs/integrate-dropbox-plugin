@@ -141,8 +141,15 @@ class Helper {
 	 * @return string
 	 */
 	public static function clean_path( $path ) {
-		$path = str_replace( '\\', '/', $path );
-		$path = preg_replace( '/\/+/', '/', $path );
+		// Remove html entities.
+		$path = html_entity_decode( $path, ENT_QUOTES, 'UTF-8' );
+		// Remove double slashes.
+		$path = str_replace( '//', '/', $path );
+		// Remove trailing slash.
+		$path = rtrim( $path, '/' );
+		$special_chars = array( '<', '>', ':', '"', '|', '?', '*' );
+		$path = str_replace( $special_chars, '', $path );
+
 		return $path;
 	}
 
@@ -494,5 +501,15 @@ class Helper {
 		);
 
 		return array_search( $search, $data );
+	}
+
+	/**
+	 * Beautify File Name
+	 *
+	 * @param string $file_name File Name.
+	 * @return string
+	 */
+	public static function beautify_file_name( $file_name ) {
+
 	}
 }

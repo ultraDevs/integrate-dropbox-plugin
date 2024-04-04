@@ -193,7 +193,7 @@ final class IntegrateDropbox {
 		// }
 		// dd( $client );
 
-		// $rename = API::get_instance()->rename( 'id:sZVyp7CWrYAAAAAAAAAAEw', '/ud-logo2.svg' );
+		// $rename = API::get_instance()->rename( '/ud-logo.png', '/logo.png' );
 		// dump( $rename );
 	}
 

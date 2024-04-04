@@ -248,13 +248,14 @@ class API {
 	 */
 	public function rename( $target, $new_name, $params = [ 'auto_rename' => false ] ) {
 		
-		$new_path = Helper::clean_path( $new_name );
+		$target = Helper::clean_path( $target );
+		$new_name = Helper::clean_path( $new_name );
 
 		try {
 			$file = Client::get_instance()->get_client()->move( $target, $new_name, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
-			return false;
+			return $e->getMessage();
 		}
 
 		return $file;
