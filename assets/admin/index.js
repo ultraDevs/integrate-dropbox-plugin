@@ -222,7 +222,7 @@ const Browser = () => {
         }).then(result => {
           if (result.isConfirmed) {
             wp.ajax.post('idb_rename', {
-              account_id: IDBData?.activeAccount?.id,
+              account_id: activeAccount['id'],
               nonce: IDBData?.ajaxNonce,
               old_name: item.name,
               new_name: document.getElementById('swal-rename-input').value

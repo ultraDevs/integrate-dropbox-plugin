@@ -194,7 +194,7 @@ final class IntegrateDropbox {
 		// }
 		// dd( $client );
 
-		// $rename = API::get_instance()->rename( '/ud-logo.png', '/logo.png' );
+		// $rename = API::get_instance()->rename( 'Hello test', 'Hello Test' );
 		// dump( $rename );
 	}
 
