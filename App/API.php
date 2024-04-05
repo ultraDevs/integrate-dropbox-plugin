@@ -142,6 +142,8 @@ class API {
 
 			$children = array();
 
+			
+
 			if ( 0 < count( $entries ) ) {
 				foreach ( $entries as $entry_data ) {
 					$entry = new File( $entry_data );

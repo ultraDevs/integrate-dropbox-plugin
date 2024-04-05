@@ -98,7 +98,7 @@ class FileBrowser {
 					'ext' =>!$item->is_dir ? $item->extension : '',
 					'size' =>!$item->is_dir ? $item->size : '',
 					'created' =>!$item->is_dir ? $item->last_modified : '',
-					'modified' =>!$item->is_dir ? $item->last_modified : ''
+					'edited' =>!$item->is_dir ? $item->last_edited : ''
 				];
 
 			}

@@ -544,7 +544,7 @@ class Helper {
 				$sort_column = 'path_display';
 				break;
 			case 'modified':
-				$sort_column = 'last_modified';
+				$sort_column = 'last_edited';
 				break;
 			case 'size':
 				$sort_column = 'size';
@@ -552,8 +552,6 @@ class Helper {
 		}
 
 		$sort_order = 'asc' === $order ? SORT_ASC : SORT_DESC;
-
-		// list ( $sort_column, $sort_order ) = array( $sort_column, $sort_order );
 
 		foreach ( $files as $key => $file ) {
 			if ( $file instanceof FileAbstract ) {
@@ -569,86 +567,5 @@ class Helper {
 
 		return $files;
 	}
-	
-	public static function sort_filesdd($foldercontents, $order_by = 'name', $direction = 'asc')
-    {
-        $sort_field = 'name';
-        $sort_order = SORT_ASC;
-		
-
-        if (count($foldercontents) > 0) {
-            // Sort Filelist, folders first
-            $sort = [];
-
-			$ddsort = $order_by . ':' . $direction;
-
-			$sort_options = explode(':', $ddsort );
-
-			if ('shuffle' === $sort_options[0]) {
-				$keys = array_keys($foldercontents);
-				shuffle($keys);
-				$random = [];
-				foreach ($keys as $key) {
-					$random[$key] = $foldercontents[$key];
-				}
-
-				return $random;
-			}
-
-			if (2 === count($sort_options)) {
-				$sort_field = $sort_options[0];
-
-				switch ($sort_options[0]) {
-					case 'name':
-						$sort_field = 'path_display';
-
-						break;
-
-					case 'size':
-						$sort_field = 'size';
-
-						break;
-
-					case 'modified':
-						$sort_field = 'last_edited';
-
-						break;
-				}
-
-				switch ($sort_options[1]) {
-					case 'asc':
-						$sort_order = SORT_ASC;
-
-						break;
-
-					case 'desc':
-						$sort_order = SORT_DESC;
-
-						break;
-				}
-            }
-
-            list($sort_field, $sort_order) = apply_filters('outofthebox_sort_filelist_settings', [$sort_field, $sort_order], $foldercontents);
-
-            foreach ($foldercontents as $k => $v) {
-                if ($v instanceof FileAbstract) {
-                    $sort['is_dir'][$k] = $v->is_dir();
-                    $sort['sort'][$k] = strtolower($v->{'get_'.$sort_field}());
-                } else {
-                    $sort['is_dir'][$k] = $v['is_dir'];
-                    $sort['sort'][$k] = $v[$sort_field];
-                }
-            }
-
-            // Sort by dir desc and then by name asc
-            array_multisort($sort['is_dir'], SORT_DESC, SORT_REGULAR, $sort['sort'], $sort_order, SORT_NATURAL | SORT_FLAG_CASE, $foldercontents, SORT_ASC);
-        }
-
-//		var_dump( $sort['sort'], $sort_order, $sort['is_dir'] );
-
-        $foldercontents = apply_filters('outofthebox_sort_filelist', $foldercontents, $sort_field, $sort_order);
-
-        return $foldercontents;
-    }
 	
 }
