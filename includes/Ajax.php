@@ -124,8 +124,10 @@ class Ajax {
 
 		$rename = API::get_instance( $account_id )->rename( $old_name, $new_name );
 
-		if ( ! $rename ) {
-			wp_send_json_error( array( 'message' => __( 'File/Folder not renamed', 'integrate-dropbox' ) ) );
+		if ( ! $rename) {
+			wp_send_json_error( array(
+				'message' => __( 'File/Folder not renamed', 'integrate-dropbox' ),
+			) );
 		}
 
 		wp_send_json_success( [

@@ -146,7 +146,7 @@ class Helper {
 		// Remove double slashes.
 		$path = str_replace( '//', '/', $path );
 		// Remove trailing slash.
-		$path = rtrim( $path, '/' );
+		$path = trim( $path, '/' );
 		$special_chars = array( '<', '>', ':', '"', '|', '?', '*' );
 		$path = str_replace( $special_chars, '', $path );
 
