@@ -700,7 +700,14 @@ const Header = () => {
       icon: IDBData.assets + 'images/more.svg',
       contentClass: 'min-w-[200px]'
     },
-    content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "More")
+    content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "ud-c-file-browser__header__right__more__content"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      onClick: () => {
+        dispatch('dropbox-browser').setData('isLoading', true);
+        dispatch('dropbox-browser').setData('refresh', true);
+      }
+    }, "New Folder"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Upload"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Select All"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Download"))))
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DropDownPopover__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "relative",
     btnData: {

@@ -133,6 +133,21 @@ ul {
 					}
 				}
 			}
+			&__more {
+				&__content {
+					@apply p-5;
+					ul {
+						@apply space-y-2;
+						li {
+							padding: 5px 10px;
+							@apply cursor-pointer block text-sm font-medium text-[#222] mb-2;
+							// &:hover {
+							// 	@apply bg-gray-200;
+							// }
+						}
+					}
+				}
+			}
 		}
 	}
 	&__body {
@@ -242,9 +257,9 @@ ul {
 
 /** Popover **/
 .ud-c-popover {
-	@apply absolute z-10 w-full max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0;
+	@apply absolute z-10 w-full max-w-sm px-4 mt-[7px] transform -translate-x-1/2 left-1/2 sm:px-0;
 	&__content {
-		@apply rounded-lg shadow-lg ring-1 ring-black ring-opacity-5;
+		@apply rounded-lg shadow-lg;
 		&__wrap {
 			@apply relative bg-white;
 		}

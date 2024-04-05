@@ -219,7 +219,31 @@ const Header = () => {
 						icon: IDBData.assets + 'images/more.svg',
 						contentClass: 'min-w-[200px]',
 					}}
-					content={<h2>More</h2>}
+					content={
+						<>
+							<div className='ud-c-file-browser__header__right__more__content'>
+								<ul>
+									<li
+										onClick={() => {
+											dispatch('dropbox-browser').setData('isLoading', true);
+											dispatch('dropbox-browser').setData('refresh', true);
+										}}
+									>
+										New Folder
+									</li>
+									<li>
+										Upload
+									</li>
+									<li>
+										Select All
+									</li>
+									<li>
+										Download
+									</li>
+								</ul>
+							</div>
+						</>
+					}
 				/>
 
 				<DropdownPopover
