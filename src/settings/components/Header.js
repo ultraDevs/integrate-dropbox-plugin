@@ -107,9 +107,9 @@ const Header = () => {
 				</ol>
 			</nav>
 			<div className='ud-c-file-browser__header__right'>
-				<div className='ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn'>
+				{/* <div className='ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn'>
 					<img src={IDBData.assets + 'images/search.svg'} />
-				</div>
+				</div> */}
 				<div
 					className='ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn'
 					onClick={() => {

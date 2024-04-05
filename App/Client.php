@@ -192,10 +192,11 @@ class Client {
 	 * @param bool   $is_allowed Is Allowed.
 	 * @param bool   $recursive Recursive.
 	 * @param bool   $hierarchical Hierarchical.
+	 * @param array  $filter Filter.
 	 *
 	 * @return array
 	 */
-	public function get_folder( $path = null, $is_allowed = true, $recursive = false, $hierarchical = false ) {
+	public function get_folder( $path = null, $is_allowed = true, $recursive = false, $hierarchical = false, $filter = [ 'name', 'asc' ]) {
 
 		if ( null === $path ) {
 			$path = '/';
@@ -206,7 +207,7 @@ class Client {
 		}
 
 		try {
-			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ) );
+			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ), $filter );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() ) );
 			return false;

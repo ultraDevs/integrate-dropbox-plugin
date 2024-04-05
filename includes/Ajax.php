@@ -10,6 +10,7 @@ namespace ultraDevs\IntegrateDropbox;
 
 use ultraDevs\IntegrateDropbox\App\API;
 use ultraDevs\IntegrateDropbox\App\App;
+use ultraDevs\IntegrateDropbox\Helper;
 
 /**
  * Manage All Ajax Request
@@ -29,6 +30,7 @@ class Ajax {
 	public $ajax_actions = [
 		'file_preview' => false,
 		'rename'       => false,
+		'create_folder' => false,
 	];
 
 	/**
@@ -49,15 +51,12 @@ class Ajax {
 	 * Constructor
 	 */
 	public function __construct() {
-		// foreach ( $this->ajax_actions as $action => $nopriv ) {
-		// 	add_action( 'wp_ajax_idb' . $action, array( $this, $action ) );
-		// 	if ( $nopriv ) {
-		// 		add_action( 'wp_ajax_nopriv_idb' . $action, array( $this, $action ) );
-		// 	}
-		// }
-		// add_action( 'wp_ajax_idb_file_preview', array( $this, 'file_preview' ) );
-		add_action( 'wp_ajax_idb_rename', array( $this, 'rename' ) );
-
+		foreach ( $this->ajax_actions as $action => $nopriv ) {
+			add_action( 'wp_ajax_idb_' . $action, array( $this, $action ) );
+			if ( $nopriv ) {
+				add_action( 'wp_ajax_nopriv_idb_' . $action, array( $this, $action ) );
+			}
+		}
 	}
 
 	/**
@@ -133,6 +132,47 @@ class Ajax {
 		wp_send_json_success( [
 			'message' => __( 'Renamed Successfully', 'integrate-dropbox' ),
 			'data'    => $rename,
+		]);
+	}
+
+	/**
+	 * Create Folder
+	 *
+	 * @since 1.0.0
+	 */
+	public function create_folder() {
+		$nonce = sanitize_text_field( $_POST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
+		}
+
+		$path       = sanitize_text_field( $_POST['path'] );
+		$account_id = sanitize_text_field( $_POST['account_id'] );
+		$name       = sanitize_text_field( $_POST['name'] );
+
+		if ( empty( $path ) ) {
+			wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
+		}
+
+		if ( empty( $account_id ) ) {
+			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
+		}
+
+		if ( empty( $name ) ) {
+			wp_send_json_error( array( 'message' => __( 'Folder name is required', 'integrate-dropbox' ) ) );
+		}
+
+		$folder = API::get_instance( $account_id )->create_folder( $name, $path );
+
+		if ( ! $folder) {
+			wp_send_json_error( array(
+				'message' => __( 'Failed to create Folder!', 'integrate-dropbox' ),
+			) );
+		}
+
+		wp_send_json_success( [
+			'message' => __( 'Folder created successfully!', 'integrate-dropbox' ),
+			'data'    => $folder,
 		]);
 	}
 }

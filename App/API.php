@@ -101,7 +101,7 @@ class API {
 	 *
 	 * @return false|array $items Items.
 	 */
-	public function get_folder( $path, $params = array( 'recursive' => false, 'hierarchical' => false ) ) {
+	public function get_folder( $path, $params = array( 'recursive' => false, 'hierarchical' => false ), $filter = [ 'name', 'asc' ]) {
 
 		if ( false !== strpos( $path, '/' ) ) {
 			$path = Helper::clean_path( $path );
@@ -156,9 +156,7 @@ class API {
 			}
 
 			if ( count( $children ) > 0 ) {
-				// @TODO: Sort filelist.
-				ksort( $children );
-				$children = $children;
+				$children = Helper::sort_files( $children, $filter[0], $filter[1] );
 			}
 
 			// Recursive.
@@ -221,14 +219,14 @@ class API {
 	 */
 	public function create_folder( $name, $folder_path, $params = [ 'auto_rename' => false ] ) {
 
-		// @TODO: Add custom filters and actions.
+		// @TODO: Add custom filters and actions. And need to work on Cache. 
 
-		$folder_path = Helper::clean_path( $folder_path );
+		$name = sanitize_text_field( $name );
 
-		$folder_path = '/' . $folder_path . '/' . $name;
+		$folder_path = Helper::clean_path( $folder_path . '/' . $name );
 
 		try {
-			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params );
+			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
 			return false;
@@ -260,4 +258,29 @@ class API {
 
 		return $file;
 	}
+
+	// /**
+	//  * Create Folder
+	//  *
+	//  * @param string $name Folder Name.
+	//  * @param string $path Target Path.
+	//  * @param array  $params Params.
+	//  *
+	//  * @return false|array $file File.
+	//  */
+	// public function create_folder( $name, $path, $params = [ 'auto_rename' => false ] ) {
+		
+	// 	$name = sanitize_text_field( $name );
+
+	// 	$new_folder = Helper::clean_path( $path . '/' . $name );
+		
+	// 	try {
+	// 		$file = Client::get_instance()->get_client()->createFolder( $new_folder, $params['auto_rename'] );
+	// 	} catch ( \Exception $e ) {
+	// 		error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+	// 		return $e->getMessage();
+	// 	}
+
+	// 	return $file;
+	// }
 }

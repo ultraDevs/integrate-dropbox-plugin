@@ -1566,7 +1566,8 @@ ul {
   padding: 0.75rem;
 }
 .ud-c-file-browser__header__right__more__content {
-  padding: 1.25rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 .ud-c-file-browser__header__right__more__content ul > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -1574,8 +1575,9 @@ ul {
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 .ud-c-file-browser__header__right__more__content ul li {
-  padding: 5px 10px;
-  margin-bottom: 0.5rem;
+  padding: 8px 20px;
+  border-bottom: 1px solid rgba(215, 205, 205, 0.19);
+  margin-bottom: 0px;
   display: block;
   cursor: pointer;
   font-size: 0.875rem;
@@ -1583,6 +1585,9 @@ ul {
   font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(34 34 34 / var(--tw-text-opacity));
+}
+.ud-c-file-browser__header__right__more__content ul li:last-child {
+  border-style: none;
 }
 .ud-c-file-browser__body {
   margin-left: auto;

@@ -639,10 +639,6 @@ const Header = () => {
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__header__right"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: IDBData.assets + 'images/search.svg'
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn",
     onClick: () => {
       dispatch('dropbox-browser').setData('refresh', !refresh);

@@ -55,11 +55,11 @@ class FileBrowser {
 	/**
 	 * Get File List.
 	 */
-	public function get_file_list( $path = '/',  $is_allowed = true, $recursive = false, $hierarchical = false ) {
+	public function get_file_list( $path = '/',  $is_allowed = true, $recursive = false, $hierarchical = false, $filter = [ 'name', 'asc' ] ) {
 
 		$this->path = $path;
 
-		$this->folder = Client::get_instance()->get_folder( $path, $is_allowed, $recursive, $hierarchical );
+		$this->folder = Client::get_instance()->get_folder( $path, $is_allowed, $recursive, $hierarchical, $filter );
 
 		if ( false === $this->folder ) {
 			return false;

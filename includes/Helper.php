@@ -9,6 +9,7 @@
 namespace ultraDevs\IntegrateDropbox;
 
 use ultraDevs\IntegrateDropbox\App\Client;
+use ultraDevs\IntegrateDropbox\App\FileAbstract;
 
 /**
  * Helper Class
@@ -512,4 +513,142 @@ class Helper {
 	public static function beautify_file_name( $file_name ) {
 
 	}
+
+	/**
+	 * Sort Files
+	 *
+	 * @param array $files Files.
+	 * @param string $sort_by Sort By.
+	 * @param string $order Order.
+	 *
+	 * @return array
+	 */
+	public static function sort_files( $files, $sort_by = 'name', $order = 'asc' ) {
+		
+		$sort = [];
+
+		if ( 'shuffle' === $sort_by ) {
+			$keys = array_keys( $files );
+			shuffle( $keys );
+			$shuffled = [];
+			foreach ( $keys as $key ) {
+				$shuffled[ $key ] = $files[ $key ];
+			}
+
+			return $shuffled;
+		}
+
+		$sort_column = $sort_by;
+		switch( $sort_by ) {
+			case 'name':
+				$sort_column = 'path_display';
+				break;
+			case 'modified':
+				$sort_column = 'last_modified';
+				break;
+			case 'size':
+				$sort_column = 'size';
+				break;
+		}
+
+		$sort_order = 'asc' === $order ? SORT_ASC : SORT_DESC;
+
+		// list ( $sort_column, $sort_order ) = array( $sort_column, $sort_order );
+
+		foreach ( $files as $key => $file ) {
+			if ( $file instanceof FileAbstract ) {
+				$sort['is_dir'][ $key ] = $file->is_dir();
+				$sort['sort'][ $key ] = strtolower( $file->{ 'get_' . $sort_column }() );
+			} else {
+				$sort['is_dir'][ $key ] = $file['is_dir'];
+				$sort['sort'][ $key ] = $file[ $sort_column ];
+			}
+		}
+
+		array_multisort( $sort['is_dir'], SORT_DESC, SORT_REGULAR, $sort['sort'], $sort_order, SORT_NATURAL | SORT_FLAG_CASE, $files, SORT_ASC );
+
+		return $files;
+	}
+	
+	public static function sort_filesdd($foldercontents, $order_by = 'name', $direction = 'asc')
+    {
+        $sort_field = 'name';
+        $sort_order = SORT_ASC;
+		
+
+        if (count($foldercontents) > 0) {
+            // Sort Filelist, folders first
+            $sort = [];
+
+			$ddsort = $order_by . ':' . $direction;
+
+			$sort_options = explode(':', $ddsort );
+
+			if ('shuffle' === $sort_options[0]) {
+				$keys = array_keys($foldercontents);
+				shuffle($keys);
+				$random = [];
+				foreach ($keys as $key) {
+					$random[$key] = $foldercontents[$key];
+				}
+
+				return $random;
+			}
+
+			if (2 === count($sort_options)) {
+				$sort_field = $sort_options[0];
+
+				switch ($sort_options[0]) {
+					case 'name':
+						$sort_field = 'path_display';
+
+						break;
+
+					case 'size':
+						$sort_field = 'size';
+
+						break;
+
+					case 'modified':
+						$sort_field = 'last_edited';
+
+						break;
+				}
+
+				switch ($sort_options[1]) {
+					case 'asc':
+						$sort_order = SORT_ASC;
+
+						break;
+
+					case 'desc':
+						$sort_order = SORT_DESC;
+
+						break;
+				}
+            }
+
+            list($sort_field, $sort_order) = apply_filters('outofthebox_sort_filelist_settings', [$sort_field, $sort_order], $foldercontents);
+
+            foreach ($foldercontents as $k => $v) {
+                if ($v instanceof FileAbstract) {
+                    $sort['is_dir'][$k] = $v->is_dir();
+                    $sort['sort'][$k] = strtolower($v->{'get_'.$sort_field}());
+                } else {
+                    $sort['is_dir'][$k] = $v['is_dir'];
+                    $sort['sort'][$k] = $v[$sort_field];
+                }
+            }
+
+            // Sort by dir desc and then by name asc
+            array_multisort($sort['is_dir'], SORT_DESC, SORT_REGULAR, $sort['sort'], $sort_order, SORT_NATURAL | SORT_FLAG_CASE, $foldercontents, SORT_ASC);
+        }
+
+//		var_dump( $sort['sort'], $sort_order, $sort['is_dir'] );
+
+        $foldercontents = apply_filters('outofthebox_sort_filelist', $foldercontents, $sort_field, $sort_order);
+
+        return $foldercontents;
+    }
+	
 }
