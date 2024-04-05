@@ -40,7 +40,7 @@ const Browser = () => {
 		showCloseButton: true,
 	});
 
-	const { activeAccount } = IDBAdmin;
+	const { activeAccount } = IDBData;
 
 	const [data, setData] = useState([]);
 
@@ -140,27 +140,46 @@ const Browser = () => {
 	// I'm using a single event handler for all items
   	// but you don't have too :)
 	const handleItemClick = ({ id, event, props }) => {
+		const { item } = props.data;
+		console.log(props)
 		switch (id) {
 		case "rename":
-			const renameApi = () => apiFetch({
-				path: '/idb/v1/rename',
-				method: 'POST',
-				data: {
-					path: props.data.path,
-					accountId: activeAccount['id'],
-				},
-			}).then((response) => {
-				console.log(response);
-			}).catch((error) => {
-				console.log(error);
-			});
 			showAlert({
 				'title': 'Rename',
-				'html': '<p>Rename the file</p>',
+				'html': `
+					<p>Rename the file</p>
+					<div>
+						<input id="swal-rename-input" class="swal2-input" value="${item.name}" />
+					</div>
+				`,
 				confirmButtonText: 'Rename',
 			}).then((result) => {
 				if (result.isConfirmed) {
-					renameApi();
+					wp.ajax.post(
+						'idb_rename',
+						{
+							account_id: IDBData?.activeAccount?.id,
+							nonce: IDBData?.ajaxNonce,
+							old_name: item.name,
+							new_name: document.getElementById('swal-rename-input').value,
+						}
+					).then((response) => {
+						Swal.fire({
+							title: 'Success',
+							text: response.message,
+							icon: 'success',
+						});
+
+						// Dispatch an action to refresh the browser.
+						dispatch('dropbox-browser').setData('refresh', !refresh);
+					}
+					).catch((error) => {
+						showAlert({
+							title: 'Error',
+							text: error.message,
+							icon: 'error',
+						});
+					});
 				}
 			});
 			break;
@@ -283,7 +302,7 @@ const Browser = () => {
 					<>
 						<div className='ud-c-file-browser__file-list'>
 							{files.map((item, index) => {
-								console.log(item);
+								{/* console.log(item); */}
 								return (
 									<div
 										className={classnames(

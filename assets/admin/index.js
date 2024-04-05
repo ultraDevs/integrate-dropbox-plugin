@@ -110,7 +110,7 @@ const Browser = () => {
   });
   const {
     activeAccount
-  } = IDBAdmin;
+  } = IDBData;
   const [data, setData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const setPath = path => {
     (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('isLoading', true);
@@ -204,27 +204,44 @@ const Browser = () => {
     event,
     props
   }) => {
+    const {
+      item
+    } = props.data;
+    console.log(props);
     switch (id) {
       case "rename":
-        const renameApi = () => _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
-          path: '/idb/v1/rename',
-          method: 'POST',
-          data: {
-            path: props.data.path,
-            accountId: activeAccount['id']
-          }
-        }).then(response => {
-          console.log(response);
-        }).catch(error => {
-          console.log(error);
-        });
         showAlert({
           'title': 'Rename',
-          'html': '<p>Rename the file</p>',
+          'html': `
+					<p>Rename the file</p>
+					<div>
+						<input id="swal-rename-input" class="swal2-input" value="${item.name}" />
+					</div>
+				`,
           confirmButtonText: 'Rename'
         }).then(result => {
           if (result.isConfirmed) {
-            renameApi();
+            wp.ajax.post('idb_rename', {
+              account_id: IDBData?.activeAccount?.id,
+              nonce: IDBData?.ajaxNonce,
+              old_name: item.name,
+              new_name: document.getElementById('swal-rename-input').value
+            }).then(response => {
+              sweetalert2_dist_sweetalert2_js__WEBPACK_IMPORTED_MODULE_6___default().fire({
+                title: 'Success',
+                text: response.message,
+                icon: 'success'
+              });
+
+              // Dispatch an action to refresh the browser.
+              (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('refresh', !refresh);
+            }).catch(error => {
+              showAlert({
+                title: 'Error',
+                text: error.message,
+                icon: 'error'
+              });
+            });
           }
         });
         break;
@@ -350,7 +367,7 @@ const Browser = () => {
   })), files.length ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list"
   }, files.map((item, index) => {
-    console.log(item);
+    {/* console.log(item); */}
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('ud-c-file-browser__file-list__item', 'ud-c-file-browser__file-list__item--file'),
       key: index,
@@ -539,7 +556,7 @@ const Header = () => {
   const {
     activeAccount,
     accounts
-  } = IDBAdmin;
+  } = IDBData;
   const {
     dispatch,
     select
@@ -624,7 +641,7 @@ const Header = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: IDBAdmin.assets + 'images/search.svg'
+    src: IDBData.assets + 'images/search.svg'
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn",
     onClick: () => {
@@ -632,12 +649,12 @@ const Header = () => {
       dispatch('dropbox-browser').setData('isLoading', true);
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: IDBAdmin.assets + 'images/refresh.svg'
+    src: IDBData.assets + 'images/refresh.svg'
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DropDownPopover__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "relative",
     btnData: {
       className: 'ud-c-file-browser__header__right__filter ud-c-file-browser__header__right__btn relative',
-      icon: IDBAdmin.assets + 'images/filter.svg',
+      icon: IDBData.assets + 'images/filter.svg',
       contentClass: 'min-w-[200px]'
     },
     content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -680,7 +697,7 @@ const Header = () => {
     className: "relative",
     btnData: {
       className: 'ud-c-file-browser__header__right__more ud-c-file-browser__header__right__btn relative',
-      icon: IDBAdmin.assets + 'images/more.svg',
+      icon: IDBData.assets + 'images/more.svg',
       contentClass: 'min-w-[200px]'
     },
     content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "More")
@@ -703,7 +720,7 @@ const Header = () => {
       className: "ud-c-file-browser__header__right__user__info__more__email"
     }, aAccount.email))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       onClick: () => {
-        window.open(IDBAdmin.authUrl, '_blank', 'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes');
+        window.open(IDBData.authUrl, '_blank', 'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes');
       },
       className: "ud-c-btn ud-c-btn--primary"
     }, "Add Account")),
@@ -731,7 +748,7 @@ const Header = () => {
       className: "ud-c-file-browser__header__right__user__content__add"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       onClick: () => {
-        window.open(IDBAdmin.authUrl, '_blank', 'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes');
+        window.open(IDBData.authUrl, '_blank', 'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes');
       },
       className: "ud-c-btn ud-c-btn--primary"
     }, "Add Account"))))
@@ -770,16 +787,16 @@ __webpack_require__.r(__webpack_exports__);
 const Sidebar = () => {
   const {
     activeAccount
-  } = IDBAdmin;
+  } = IDBData;
   const [aItem, setItem] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('dropbox');
   const items = [{
     name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('My Dropbox', 'integrate-dropbox'),
-    img: IDBAdmin.assets + "images/dropbox.svg",
+    img: IDBData.assets + "images/dropbox.svg",
     slug: 'dropbox'
   }
   // {
   // 	name: __( 'Shared with me', 'integrate-dropbox' ),
-  // 	img: IDBAdmin.assets + "images/dropbox.svg",
+  // 	img: IDBData.assets + "images/dropbox.svg",
   // },
   ];
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -794,7 +811,7 @@ const Sidebar = () => {
     onClick: () => {},
     className: "ud-c-btn ud-c-btn--secondary"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: IDBAdmin.assets + "images/upload.svg"
+    src: IDBData.assets + "images/upload.svg"
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Upload Files"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__sidebar__items"
   }, items.map((item, index) => {
@@ -812,7 +829,7 @@ const Sidebar = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__sidebar__storage-info__img"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: IDBAdmin.assets + "images/storage.svg"
+    src: IDBData.assets + "images/storage.svg"
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__sidebar__storage-info__more"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {

@@ -8,19 +8,19 @@ const Sidebar = () => {
 
 	const {
 		activeAccount,
-	} = IDBAdmin;
+	} = IDBData;
 	
 	const [aItem, setItem] = useState('dropbox');
 
 	const items = [
 		{
 			name: __( 'My Dropbox', 'integrate-dropbox' ),
-			img: IDBAdmin.assets + "images/dropbox.svg",
+			img: IDBData.assets + "images/dropbox.svg",
 			slug: 'dropbox',
 		},
 		// {
 		// 	name: __( 'Shared with me', 'integrate-dropbox' ),
-		// 	img: IDBAdmin.assets + "images/dropbox.svg",
+		// 	img: IDBData.assets + "images/dropbox.svg",
 		// },
 	];
     return (
@@ -34,7 +34,7 @@ const Sidebar = () => {
 								className="ud-c-btn ud-c-btn--secondary"
 							>
 								<img
-									src={IDBAdmin.assets + "images/upload.svg"}
+									src={IDBData.assets + "images/upload.svg"}
 								/>
 								<span>Upload Files</span>
 							</button>
@@ -62,7 +62,7 @@ const Sidebar = () => {
 						<div className="ud-c-file-browser__sidebar__storage-info">
 							<div className="ud-c-file-browser__sidebar__storage-info__img">
 								<img
-									src={IDBAdmin.assets + "images/storage.svg"}
+									src={IDBData.assets + "images/storage.svg"}
 								/>
 							</div>
 							<div className="ud-c-file-browser__sidebar__storage-info__more">

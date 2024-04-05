@@ -150,7 +150,7 @@ class Helper {
 		$special_chars = array( '<', '>', ':', '"', '|', '?', '*' );
 		$path = str_replace( $special_chars, '', $path );
 
-		return $path;
+		return '/' . $path;
 	}
 
 	/**

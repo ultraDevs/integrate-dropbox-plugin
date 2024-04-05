@@ -7,7 +7,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { useSelect } from '@wordpress/data';
 
 const Header = () => {
-	const { activeAccount, accounts } = IDBAdmin;
+	const { activeAccount, accounts } = IDBData;
 
 	const { dispatch, select } = wp.data;
 	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs'));
@@ -108,7 +108,7 @@ const Header = () => {
 			</nav>
 			<div className='ud-c-file-browser__header__right'>
 				<div className='ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn'>
-					<img src={IDBAdmin.assets + 'images/search.svg'} />
+					<img src={IDBData.assets + 'images/search.svg'} />
 				</div>
 				<div
 					className='ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn'
@@ -117,7 +117,7 @@ const Header = () => {
 						dispatch('dropbox-browser').setData('isLoading', true);
 					}}
 				>
-					<img src={IDBAdmin.assets + 'images/refresh.svg'} />
+					<img src={IDBData.assets + 'images/refresh.svg'} />
 				</div>
 
 				<DropdownPopover
@@ -125,7 +125,7 @@ const Header = () => {
 					btnData={{
 						className:
 							'ud-c-file-browser__header__right__filter ud-c-file-browser__header__right__btn relative',
-						icon: IDBAdmin.assets + 'images/filter.svg',
+						icon: IDBData.assets + 'images/filter.svg',
 						contentClass: 'min-w-[200px]',
 					}}
 					content={
@@ -216,7 +216,7 @@ const Header = () => {
 					btnData={{
 						className:
 							'ud-c-file-browser__header__right__more ud-c-file-browser__header__right__btn relative',
-						icon: IDBAdmin.assets + 'images/more.svg',
+						icon: IDBData.assets + 'images/more.svg',
 						contentClass: 'min-w-[200px]',
 					}}
 					content={<h2>More</h2>}
@@ -247,7 +247,7 @@ const Header = () => {
 								<button
 									onClick={() => {
 										window.open(
-											IDBAdmin.authUrl,
+											IDBData.authUrl,
 											'_blank',
 											'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
 										);
@@ -303,7 +303,7 @@ const Header = () => {
 									<button
 										onClick={() => {
 											window.open(
-												IDBAdmin.authUrl,
+												IDBData.authUrl,
 												'_blank',
 												'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
 											);

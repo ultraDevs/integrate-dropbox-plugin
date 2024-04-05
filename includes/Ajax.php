@@ -8,6 +8,7 @@
 
 namespace ultraDevs\IntegrateDropbox;
 
+use ultraDevs\IntegrateDropbox\App\API;
 use ultraDevs\IntegrateDropbox\App\App;
 
 /**
@@ -27,7 +28,7 @@ class Ajax {
 	 */
 	public $ajax_actions = [
 		'file_preview' => false,
-		'rename' 	   => false,
+		'rename'       => false,
 	];
 
 	/**
@@ -48,12 +49,15 @@ class Ajax {
 	 * Constructor
 	 */
 	public function __construct() {
-		foreach ( $this->ajax_actions as $action => $nopriv ) {
-			add_action( 'wp_ajax_' . $action, array( $this, $action ) );
-			if ( $nopriv ) {
-				add_action( 'wp_ajax_nopriv_' . $action, array( $this, $action ) );
-			}
-		}
+		// foreach ( $this->ajax_actions as $action => $nopriv ) {
+		// 	add_action( 'wp_ajax_idb' . $action, array( $this, $action ) );
+		// 	if ( $nopriv ) {
+		// 		add_action( 'wp_ajax_nopriv_idb' . $action, array( $this, $action ) );
+		// 	}
+		// }
+		// add_action( 'wp_ajax_idb_file_preview', array( $this, 'file_preview' ) );
+		add_action( 'wp_ajax_idb_rename', array( $this, 'rename' ) );
+
 	}
 
 	/**
@@ -98,12 +102,12 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
 
-		$file_id    = sanitize_text_field( $_POST['file_id'] );
+		$old_name    = sanitize_text_field( $_POST['old_name'] );
 		$account_id = sanitize_text_field( $_POST['account_id'] );
 		$new_name   = sanitize_text_field( $_POST['new_name'] );
 
-		if ( empty( $file_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'File ID is required', 'integrate-dropbox' ) ) );
+		if ( empty( $old_name ) ) {
+			wp_send_json_error( array( 'message' => __( 'Old Name is required', 'integrate-dropbox' ) ) );
 		}
 
 		if ( empty( $account_id ) ) {
@@ -114,9 +118,19 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'New name is required', 'integrate-dropbox' ) ) );
 		}
 
-		$app = App::get_instance( $account_id );
-		$rename = $app->rename_file( $file_id, $new_name );
+		if ( $old_name === $new_name ) {
+			wp_send_json_error( array( 'message' => __( 'Old name and new name can not be same', 'integrate-dropbox' ) ) );
+		}
 
-		wp_send_json_success( $rename );
+		$rename = API::get_instance( $account_id )->rename( $old_name, $new_name );
+
+		if ( ! $rename ) {
+			wp_send_json_error( array( 'message' => __( 'File/Folder not renamed', 'integrate-dropbox' ) ) );
+		}
+
+		wp_send_json_success( [
+			'message' => __( 'Renamed Successfully', 'integrate-dropbox' ),
+			'data'    => $rename,
+		]);
 	}
 }
