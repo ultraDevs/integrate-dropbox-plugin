@@ -8,8 +8,10 @@
 
 namespace ultraDevs\IntegrateDropbox;
 
+use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\API;
 use ultraDevs\IntegrateDropbox\App\App;
+use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\Helper;
 
 /**
@@ -71,24 +73,42 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
 
-		$file_id    = sanitize_text_field( $_POST['file_id'] );
+		$file    = sanitize_text_field( $_POST['file'] );
 		$account_id = sanitize_text_field( $_POST['account_id'] );
 
-		if ( empty( $file_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'File ID is required', 'integrate-dropbox' ) ) );
+		if ( empty( $file ) ) {
+			wp_send_json_error( array( 'message' => __( 'File is required', 'integrate-dropbox' ) ) );
 		}
 
 		if ( empty( $account_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
 		}
 
-		$app  = App::get_instance( $account_id );
-		$file = $app->get_file_by_id( $file_id );
-		if ( empty( $file ) ) {
-			wp_send_json_error( array( 'message' => __( 'File not found', 'integrate-dropbox' ) ) );
+		$active_account = Account::get_active_account();
+
+		if ( $account_id !== $active_account['id'] ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Account is not active.', 'integrate-dropbox' ),
+				),
+				400
+			);
 		}
 
-		$preview = $app->get_file_preview( $file_id );
+		$file = Client::get_instance( $account_id )->file_preview( $file );
+
+		if ( !$file ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'File not found.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		wp_send_json_success( $file );
 	}
 
 	/**

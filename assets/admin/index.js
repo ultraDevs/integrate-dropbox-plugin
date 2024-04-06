@@ -367,7 +367,7 @@ const Browser = () => {
   })), files.length ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list"
   }, files.map((item, index) => {
-    {/* console.log(item); */}
+    console.log(item);
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('ud-c-file-browser__file-list__item', 'ud-c-file-browser__file-list__item--file'),
       key: index,
