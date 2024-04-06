@@ -31,6 +31,7 @@ class Ajax {
 		'file_preview' => false,
 		'rename'       => false,
 		'create_folder' => false,
+		'delete' => false,
 	];
 
 	/**
@@ -174,5 +175,38 @@ class Ajax {
 			'message' => __( 'Folder created successfully!', 'integrate-dropbox' ),
 			'data'    => $folder,
 		]);
+	}
+
+
+	/**
+	 * Delete File/Folder
+	 *
+	 * @since 1.0.0
+	 */
+	public function delete() {
+		$path 	 = sanitize_text_field( $_POST['path'] );
+		$account_id = sanitize_text_field( $_POST['account_id'] );
+
+		if ( empty( $path ) ) {
+			wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
+		}
+
+		if ( empty( $account_id ) ) {
+			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
+		}
+
+		$delete = API::get_instance( $account_id )->delete( $path );
+
+		if ( ! $delete) {
+			wp_send_json_error( array(
+				'message' => __( 'Failed to delete!', 'integrate-dropbox' ),
+			) );
+		}
+
+		wp_send_json_success( [
+			'message' => __( 'Deleted successfully!', 'integrate-dropbox' ),
+			'data'    => $delete,
+		]);
+
 	}
 }

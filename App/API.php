@@ -285,4 +285,24 @@ class API {
 
 	// 	return $file;
 	// }
+
+	/**
+	 * Delete
+	 *
+	 * @param string $target Target.
+	 *
+	 * @return false|array $file File.
+	 */
+	public function delete( $target ) {
+		$target = Helper::clean_path( $target );
+
+		try {
+			$file = Client::get_instance()->get_client()->delete( $target );
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			return $e->getMessage();
+		}
+
+		return $file;
+	}
 }
