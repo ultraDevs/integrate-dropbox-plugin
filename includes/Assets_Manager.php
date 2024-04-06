@@ -74,6 +74,7 @@ class Assets_Manager {
 			'accounts'      => Account::get_accounts(),
 			'activeAccount' => Account::get_active_account(),
 			'ajaxNonce'     => wp_create_nonce( 'idb_ajax_nonce' ),
+			'loadingImg' => INTEGRATE_DROPBOX_ASSETS . 'images/loading/Spin.svg'
 		);
 
 		return apply_filters( 'ud_id_localization_data', $localization_data );
