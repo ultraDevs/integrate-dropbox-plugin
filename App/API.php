@@ -261,31 +261,7 @@ class API {
 		return $file;
 	}
 
-	// /**
-	//  * Create Folder
-	//  *
-	//  * @param string $name Folder Name.
-	//  * @param string $path Target Path.
-	//  * @param array  $params Params.
-	//  *
-	//  * @return false|array $file File.
-	//  */
-	// public function create_folder( $name, $path, $params = [ 'auto_rename' => false ] ) {
-		
-	// 	$name = sanitize_text_field( $name );
-
-	// 	$new_folder = Helper::clean_path( $path . '/' . $name );
-		
-	// 	try {
-	// 		$file = Client::get_instance()->get_client()->createFolder( $new_folder, $params['auto_rename'] );
-	// 	} catch ( \Exception $e ) {
-	// 		error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
-	// 		return $e->getMessage();
-	// 	}
-
-	// 	return $file;
-	// }
-
+	
 	/**
 	 * Delete
 	 *
@@ -294,6 +270,26 @@ class API {
 	 * @return false|array $file File.
 	 */
 	public function delete( $target ) {
+		$target = Helper::clean_path( $target );
+
+		try {
+			$file = Client::get_instance()->get_client()->delete( $target );
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			return $e->getMessage();
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Copy Folder
+	 *
+	 * @param string $target Target.
+	 *
+	 * @return false|array $file File.
+	 */
+	public function copy( $target ) {
 		$target = Helper::clean_path( $target );
 
 		try {
