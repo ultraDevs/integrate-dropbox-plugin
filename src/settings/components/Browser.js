@@ -1,24 +1,15 @@
 import React from 'react';
-import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { useSelect, dispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 // React Contextify.
-import { Item, Menu, Separator, Submenu, useContextMenu } from 'react-contexify';
+import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
 
-// Light Gallery
-import LightGallery from 'lightgallery/react';
-
-// Plugins
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgZoom from 'lightgallery/plugins/zoom';
-import lgVideo from 'lightgallery/plugins/video';
-import 'lightgallery/scss/lightgallery.scss';
-import 'lightgallery/scss/lg-zoom.scss';
 import Modal from './Modal';
+import { showAlert } from '../utils/alertHelper';
 
 const FOLDER_MENU = 'file-browser-folder';
 const FILE_MENU = 'file-browser-file';
@@ -32,16 +23,6 @@ const Browser = () => {
 
 	const [activeItem, setActiveItem] = useState([]);
 	const [showModal, setShowModal] = useState(false);
-
-	// const [ showAlert, setShowAlert ] = useState(false);
-	const [alertContent, setAlertContent] = useState({
-		title: '',
-		text: '',
-		icon: '',
-		showCancelButton: true,
-		confirmButtonText: 'Yes',
-		showCloseButton: true,
-	});
 
 	const { activeAccount } = IDBData;
 
@@ -85,14 +66,6 @@ const Browser = () => {
 	const files = data.filter((item) => {
 		return item.is_file ? item : '';
 	});
-
-	const showAlert = (data) => {
-		const defaultData = {
-			showCloseButton: true,
-		};
-		data = Object.assign(defaultData, data);
-		return Swal.fire(data);
-	};
 
 	// const lightGallery = useRef(null);
 	// const [lgItems, setLgItems] = useState(files);
@@ -141,7 +114,6 @@ const Browser = () => {
 	// but you don't have too :)
 	const handleItemClick = ({ id, event, props }) => {
 		const { item } = props.data;
-		console.log(props);
 		switch (id) {
 			case 'rename':
 				showAlert({
@@ -149,7 +121,7 @@ const Browser = () => {
 					html: `
 					<p>Rename the file</p>
 					<div>
-						<input id="swal-rename-input" class="swal2-input" value="${item.name}" />
+						<input id="swal-rename-input" class="swal2-input" value="${item.name}" autofocus />
 					</div>
 				`,
 					confirmButtonText: 'Rename',
@@ -163,7 +135,7 @@ const Browser = () => {
 								new_name: document.getElementById('swal-rename-input').value,
 							})
 							.then((response) => {
-								Swal.fire({
+								showAlert({
 									title: 'Success',
 									text: response.message,
 									icon: 'success',

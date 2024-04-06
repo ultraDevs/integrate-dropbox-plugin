@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
-import { useState, useEffect } from '@wordpress/element';
-import { Popover, Transition } from '@headlessui/react';
+import React from 'react';
+import { useState } from '@wordpress/element';
 import DropdownPopover from './DropDownPopover';
 import classnames from 'classnames';
 import apiFetch from '@wordpress/api-fetch';
 import { useSelect } from '@wordpress/data';
+import { showAlert } from '../utils/alertHelper';
 
 const Header = () => {
 	const { activeAccount, accounts } = IDBData;
@@ -13,6 +13,7 @@ const Header = () => {
 	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs'));
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
 	const filterV = useSelect((select) => select('dropbox-browser').getData('filter'));
+	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 
 	const filter = filterV.by ? filterV.by : 'name';
 	const sortDirection = filterV.direction ? filterV.direction : 'asc';
@@ -52,6 +53,47 @@ const Header = () => {
 			}
 			// Reload the page.
 			window.location.reload();
+		});
+	};
+
+	const handleCreateFolder = () => {
+		showAlert({
+			title: 'New Folder',
+			html: `
+					<p>Create New Folder</p>
+					<div>
+						<input id="swal-new-folder-input" class="swal2-input" placeholder="Create New Folder" />
+					</div>
+				`,
+			confirmButtonText: 'Create',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				wp.ajax
+					.post('idb_create_folder', {
+						account_id: activeAccount['id'],
+						nonce: IDBData?.ajaxNonce,
+						path: currentPath,
+						name: document.getElementById('swal-new-folder-input').value,
+					})
+					.then((response) => {
+						showAlert({
+							title: 'Success',
+							text: response.message,
+							icon: 'success',
+						});
+
+						// Dispatch an action to refresh the browser.
+						dispatch('dropbox-browser').setData('isLoading', true);
+						dispatch('dropbox-browser').setData('refresh', true);
+					})
+					.catch((error) => {
+						showAlert({
+							title: 'Error',
+							text: error.message,
+							icon: 'error',
+						});
+					});
+			}
 		});
 	};
 
@@ -223,23 +265,10 @@ const Header = () => {
 						<>
 							<div className='ud-c-file-browser__header__right__more__content'>
 								<ul>
-									<li
-										onClick={() => {
-											dispatch('dropbox-browser').setData('isLoading', true);
-											dispatch('dropbox-browser').setData('refresh', true);
-										}}
-									>
-										New Folder
-									</li>
-									<li>
-										Upload
-									</li>
-									<li>
-										Select All
-									</li>
-									<li>
-										Download
-									</li>
+									<li onClick={() => handleCreateFolder()}>New Folder</li>
+									<li>Upload</li>
+									<li>Select All</li>
+									<li>Download</li>
 								</ul>
 							</div>
 						</>

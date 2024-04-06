@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
+import { useSelect, dispatch } from '@wordpress/data';
 
 import '../scss/modal.scss';
 
 const Modal = ({ showModal, item, setShowModal }) => {
 	const [previewData, setPreviewData] = useState('');
+	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
 
-	const { activeAccount, accounts } = IDBData;
+	const { activeAccount, loadingImg } = IDBData;
 
 	const handleClose = () => {
 		setShowModal(false);
+		setPreviewData('');
 	};
 
 	useEffect(() => {
@@ -20,6 +23,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
 			})
 			.then((response) => {
 				setPreviewData(response);
+				dispatch('dropbox-browser').setData('isLoading', false);
 			})
 			.catch((error) => {
 				console.error(error);
@@ -61,7 +65,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
 						</div>
 					</div>
 					<div className='ud-idb-modal__content'>
-						<img src={previewData} alt={item.name} />
+						<img src={previewData || loadingImg} alt={item.name} />
 					</div>
 				</div>
 			)}

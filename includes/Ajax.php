@@ -171,9 +171,6 @@ class Ajax {
 		$account_id = sanitize_text_field( $_POST['account_id'] );
 		$name       = sanitize_text_field( $_POST['name'] );
 
-		if ( empty( $path ) ) {
-			wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
-		}
 
 		if ( empty( $account_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
