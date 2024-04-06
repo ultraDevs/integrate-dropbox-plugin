@@ -69,6 +69,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lightgallery_plugins_video__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lightgallery/plugins/video */ "./node_modules/lightgallery/plugins/video/lg-video.es5.js");
 /* harmony import */ var lightgallery_scss_lightgallery_scss__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! lightgallery/scss/lightgallery.scss */ "./node_modules/lightgallery/scss/lightgallery.scss");
 /* harmony import */ var lightgallery_scss_lg_zoom_scss__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! lightgallery/scss/lg-zoom.scss */ "./node_modules/lightgallery/scss/lg-zoom.scss");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Modal */ "./src/settings/components/Modal.js");
 
 
 
@@ -90,6 +91,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const FOLDER_MENU = 'file-browser-folder';
 const FILE_MENU = 'file-browser-file';
 const Browser = () => {
@@ -98,6 +100,8 @@ const Browser = () => {
   const isLoading = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('isLoading'));
   const currentPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('current_path'));
   const previousPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('previous_path'));
+  const [activeItem, setActiveItem] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [showModal, setShowModal] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
 
   // const [ showAlert, setShowAlert ] = useState(false);
   const [alertContent, setAlertContent] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({
@@ -255,20 +259,12 @@ const Browser = () => {
     }
   };
   const filePreview = item => {
-    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
-      path: '/idb/v1/file-preview',
-      method: 'POST',
-      data: {
-        path: item.path,
-        accountId: activeAccount['id']
-      }
-    }).then(response => {
-      console.log('Preview', response.data);
-    }).catch(error => {
-      console.log(error);
-    });
+    setShowModal(true);
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_7__.Menu, {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Modal__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    showModal: showModal,
+    item: activeItem
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_7__.Menu, {
     id: FILE_MENU
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_7__.Item, {
     id: "preview",
@@ -367,11 +363,11 @@ const Browser = () => {
   })), files.length ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__file-list"
   }, files.map((item, index) => {
-    console.log(item);
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: classnames__WEBPACK_IMPORTED_MODULE_4___default()('ud-c-file-browser__file-list__item', 'ud-c-file-browser__file-list__item--file'),
       key: index,
       onClick: () => {
+        setActiveItem(item);
         filePreview(item);
         console.log(item);
       },
@@ -758,6 +754,58 @@ const Header = () => {
   })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Header);
+
+/***/ }),
+
+/***/ "./src/settings/components/Modal.js":
+/*!******************************************!*\
+  !*** ./src/settings/components/Modal.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _scss_modal_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scss/modal.scss */ "./src/settings/scss/modal.scss");
+
+
+
+const Modal = ({
+  showModal,
+  item
+}) => {
+  const [previewData, setPreviewData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const {
+    activeAccount,
+    accounts
+  } = IDBData;
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    wp.ajax.post('idb_file_preview', {
+      account_id: activeAccount['id'],
+      nonce: IDBData?.ajaxNonce,
+      file: item.path
+    }).then(response => {
+      setPreviewData(response);
+    }).catch(error => {
+      console.error(error);
+    });
+  }, [item]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, showModal && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-idb-modal"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-idb-modal__header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, item.name)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-idb-modal__content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: previewData,
+    alt: item.name
+  }))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Modal);
 
 /***/ }),
 
@@ -6083,6 +6131,19 @@ __webpack_require__.r(__webpack_exports__);
 /***/ "./src/settings/scss/admin.scss":
 /*!**************************************!*\
   !*** ./src/settings/scss/admin.scss ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/settings/scss/modal.scss":
+/*!**************************************!*\
+  !*** ./src/settings/scss/modal.scss ***!
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 

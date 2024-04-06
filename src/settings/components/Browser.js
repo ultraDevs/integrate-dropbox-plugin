@@ -19,6 +19,7 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import lgVideo from 'lightgallery/plugins/video';
 import 'lightgallery/scss/lightgallery.scss';
 import 'lightgallery/scss/lg-zoom.scss';
+import Modal from './Modal';
 
 const FOLDER_MENU = 'file-browser-folder';
 const FILE_MENU = 'file-browser-file';
@@ -29,6 +30,9 @@ const Browser = () => {
 	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
 	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
+
+	const [ activeItem, setActiveItem ] = useState( [] );
+	const [ showModal, setShowModal ] = useState( false );
 
 	// const [ showAlert, setShowAlert ] = useState(false);
 	const [ alertContent, setAlertContent ] = useState({
@@ -195,24 +199,15 @@ const Browser = () => {
 	
 
 	const filePreview = (item) => {
-		apiFetch({
-			path: '/idb/v1/file-preview',
-			method: 'POST',
-			data: {
-				path: item.path,
-				accountId: activeAccount['id'],
-			},
-		})
-		.then((response) => {
-			console.log( 'Preview', response.data );
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+		setShowModal( true );
 	}
 
 	return (
 		<>
+			<Modal
+				showModal={showModal}
+				item={activeItem}
+			/>
 			<Menu id={FILE_MENU}>
 				<Item id="preview" onClick={handleItemClick}>Preview</Item>
 				<Item id="preview" onClick={handleItemClick}>Preview in a new window</Item>
@@ -310,6 +305,7 @@ const Browser = () => {
 										)}
 										key={index}
 										onClick={() => {
+											setActiveItem( item );
 											filePreview(item);
 											console.log(item);
 										}}
