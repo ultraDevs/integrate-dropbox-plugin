@@ -79,13 +79,13 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Invalid Action', 'integrate-dropbox' ) ) );
 		}
 
-		$this->current_path = sanitize_text_field( $_POST['path'] );
-		$this->account_id = sanitize_text_field( $_POST['account_id'] );
-
 		$nonce = sanitize_text_field( $_POST['nonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
+
+		$this->current_path = sanitize_text_field( $_POST['path'] );
+		$this->account_id = sanitize_text_field( $_POST['account_id'] );
 
 		// if ( empty( $this->current_path ) ) {
 		// 	wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
