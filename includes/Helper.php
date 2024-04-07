@@ -151,7 +151,12 @@ class Helper {
 		$special_chars = array( '<', '>', ':', '"', '|', '?', '*' );
 		$path = str_replace( $special_chars, '', $path );
 
-		return '/' . $path;
+		// Check if we have / in the start of the path.
+		if ( '/' !== substr( $path, 0, 1 ) ) {
+			$path = '/' . $path;
+		}
+
+		return $path;
 	}
 
 	/**

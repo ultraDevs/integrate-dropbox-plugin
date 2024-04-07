@@ -250,7 +250,7 @@ class API {
 		
 		$target = Helper::clean_path( $target );
 		$new_name = Helper::clean_path( $new_name );
-		
+
 		try {
 			$file = Client::get_instance()->get_client()->move( $target, $new_name, $params['auto_rename'] );
 		} catch ( \Exception $e ) {

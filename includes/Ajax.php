@@ -44,18 +44,18 @@ class Ajax {
 	public $current_path = '';
 
 	/**
-	 * Current Account ID
+	 * Account ID
 	 *
 	 * @var string
 	 */
-	public $current_account_id = '';
+	public $account_id = '';
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		foreach ( $this->ajax_actions as $action => $nopriv ) {
-			add_action( 'wp_ajax_idb_' . $action, array( $this, $action ) );
+			add_action( 'wp_ajax_idb_' . $action, array( $this, 'start_process' ) );
 			if ( $nopriv ) {
 				add_action( 'wp_ajax_nopriv_idb_' . $action, array( $this, $action ) );
 			}
@@ -63,30 +63,41 @@ class Ajax {
 	}
 
 	/**
-	 * File Preview
+	 * Start Process
 	 *
-	 * @since 1.0.0
+	 * @return void
 	 */
-	public function file_preview() {
+	public function start_process() {
+		$action = sanitize_text_field( $_POST['action'] );
+		
+		// Remove the idb_ prefix.
+		$action = str_replace( 'idb_', '', $action );
+
+		// var_dump(  $action );
+
+		if ( ! isset( $this->ajax_actions[ $action ] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid Action', 'integrate-dropbox' ) ) );
+		}
+
+		$this->current_path = sanitize_text_field( $_POST['path'] );
+		$this->account_id = sanitize_text_field( $_POST['account_id'] );
+
 		$nonce = sanitize_text_field( $_POST['nonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
 
-		$file    = sanitize_text_field( $_POST['file'] );
-		$account_id = sanitize_text_field( $_POST['account_id'] );
+		// if ( empty( $this->current_path ) ) {
+		// 	wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
+		// }
 
-		if ( empty( $file ) ) {
-			wp_send_json_error( array( 'message' => __( 'File is required', 'integrate-dropbox' ) ) );
-		}
-
-		if ( empty( $account_id ) ) {
+		if ( empty( $this->account_id ) ) {
 			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
 		}
 
 		$active_account = Account::get_active_account();
 
-		if ( $account_id !== $active_account['id'] ) {
+		if ( $this->account_id !== $active_account['id'] ) {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
@@ -96,7 +107,24 @@ class Ajax {
 			);
 		}
 
-		$file = Client::get_instance( $account_id )->file_preview( $file );
+		$this->$action();
+	}
+
+	/**
+	 * File Preview
+	 *
+	 * @since 1.0.0
+	 */
+	public function file_preview() {
+
+		$file    = sanitize_text_field( $_POST['file'] );
+
+		if ( empty( $file ) ) {
+			wp_send_json_error( array( 'message' => __( 'File is required', 'integrate-dropbox' ) ) );
+		}
+
+
+		$file = Client::get_instance( $this->account_id )->file_preview( $file );
 
 		if ( !$file ) {
 			return new \WP_REST_Response(
@@ -117,22 +145,14 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function rename() {
-		$nonce = sanitize_text_field( $_POST['nonce'] );
-		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
-		}
 
 		$old_name    = sanitize_text_field( $_POST['old_name'] );
-		$account_id = sanitize_text_field( $_POST['account_id'] );
 		$new_name   = sanitize_text_field( $_POST['new_name'] );
 
 		if ( empty( $old_name ) ) {
 			wp_send_json_error( array( 'message' => __( 'Old Name is required', 'integrate-dropbox' ) ) );
 		}
 
-		if ( empty( $account_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
-		}
 
 		if ( empty( $new_name ) ) {
 			wp_send_json_error( array( 'message' => __( 'New name is required', 'integrate-dropbox' ) ) );
@@ -142,7 +162,7 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Old name and new name can not be same', 'integrate-dropbox' ) ) );
 		}
 
-		$rename = API::get_instance( $account_id )->rename( $old_name, $new_name );
+		$rename = API::get_instance( $this->account_id )->rename( $old_name, $new_name );
 
 		if ( ! $rename) {
 			wp_send_json_error( array(
@@ -162,25 +182,16 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function create_folder() {
-		$nonce = sanitize_text_field( $_POST['nonce'] );
-		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
-		}
 
 		$path       = sanitize_text_field( $_POST['path'] );
-		$account_id = sanitize_text_field( $_POST['account_id'] );
 		$name       = sanitize_text_field( $_POST['name'] );
 
-
-		if ( empty( $account_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
-		}
 
 		if ( empty( $name ) ) {
 			wp_send_json_error( array( 'message' => __( 'Folder name is required', 'integrate-dropbox' ) ) );
 		}
 
-		$folder = API::get_instance( $account_id )->create_folder( $name, $path );
+		$folder = API::get_instance( $this->account_id )->create_folder( $name, $path );
 
 		if ( ! $folder) {
 			wp_send_json_error( array(
@@ -202,17 +213,13 @@ class Ajax {
 	 */
 	public function delete() {
 		$path 	 = sanitize_text_field( $_POST['path'] );
-		$account_id = sanitize_text_field( $_POST['account_id'] );
 
 		if ( empty( $path ) ) {
 			wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
 		}
 
-		if ( empty( $account_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'integrate-dropbox' ) ) );
-		}
 
-		$delete = API::get_instance( $account_id )->delete( $path );
+		$delete = API::get_instance( $this->account_id )->delete( $path );
 
 		if ( ! $delete) {
 			wp_send_json_error( array(
@@ -224,6 +231,5 @@ class Ajax {
 			'message' => __( 'Deleted successfully!', 'integrate-dropbox' ),
 			'data'    => $delete,
 		]);
-
 	}
 }
