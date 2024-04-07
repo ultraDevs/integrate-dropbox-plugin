@@ -18,6 +18,8 @@ use Kunnu\Dropbox\Authentication\DropboxAuthHelper;
 use Kunnu\Dropbox\Exceptions\DropboxClientException;
 use Kunnu\Dropbox\Security\RandomStringGeneratorFactory;
 use Kunnu\Dropbox\Http\Clients\DropboxHttpClientFactory;
+use Kunnu\Dropbox\Models\AsyncJob;
+use Kunnu\Dropbox\Models\Tag;
 
 /**
  * Dropbox
@@ -298,6 +300,36 @@ class Dropbox
     }
 
     /**
+     * Wait for an Async Job to complete
+     *
+     * @param  \Kunnu\Dropbox\DropboxResponse $response
+     * @param  string $endpoint
+     * @param  string $async_job_id
+     *
+     */
+    public function waitForAsyncRequest( $response, $endpoint, $async_job_id = null )
+    {
+        $response = $this->makeModelFromResponse($response);
+
+        if (!($response instanceof AsyncJob) && !($response instanceof Tag)) {
+            return $response;
+        }
+
+        if ($response instanceof Tag && 'in_progress' !== $response->getTag()) {
+            return $response;
+        }
+
+        if ($response instanceof AsyncJob && empty($async_job_id)) {
+            $async_job_id = $response->getAsyncJobId();
+        }
+
+        usleep(1000000);
+        $raw_response = $this->postToAPI($endpoint, ['async_job_id' => $async_job_id]);
+
+        return $this->waitForAsyncRequest($raw_response, $endpoint, $async_job_id);
+    }
+
+    /**
      * Make Model from DropboxResponse
      *
      * @param  DropboxResponse $response
@@ -537,6 +569,38 @@ class Dropbox
     }
 
     /**
+     * Delete batch file or folder at the given path
+     *
+     * @param  array $$entries Array of entries to delete
+     * @param  boolean $async Perform async delete
+     *
+     * @return \Kunnu\Dropbox\Models\DeletedMetadata | \Kunnu\Dropbox\Models\AsyncJob
+     *
+     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
+     *
+     * @link https://www.dropbox.com/developers/documentation/http/documentation#files-delete
+     *
+     */
+    public function deleteBatch( $entries, $async = true )
+    {
+        //Path cannot be null
+        if (is_null($entries)) {
+            throw new DropboxClientException("Entries cannot be null.");
+        }
+
+        //Delete
+        $response = $this->postToAPI('/files/delete_batch', $entries);
+        $body = $response->getDecodedBody();
+
+        // Make and Return the Model
+        if (false === $async) {
+            return $this->makeModelFromResponse($response);
+        }
+
+        return $this->waitForAsyncRequest($response, '/files/delete_batch/check');
+    }
+
+    /**
      * Move a file or folder to a different location
      *
      * @param  string $fromPath Path to be moved
@@ -564,6 +628,36 @@ class Dropbox
     }
 
     /**
+     * Move batch file or folder to a different location
+     *
+     * @param  string $fromPath Path to be moved
+     * @param  string $toPath   Path to be moved to
+     *
+     * @return \Kunnu\Dropbox\Models\DeletedMetadata|\Kunnu\Dropbox\Models\FileMetadata | \Kunnu\Dropbox\Models\AsyncJob
+     *
+     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
+     *
+     * @link https://www.dropbox.com/developers/documentation/http/documentation#files-move
+     *
+     */
+    public function moveBatch($fromPath, $toPath, $async = true)
+    {
+        //From and To paths cannot be null
+        if (is_null($fromPath) || is_null($toPath)) {
+            throw new DropboxClientException("From and To paths cannot be null.");
+        }
+
+        //Response
+        $response = $this->postToAPI('/files/move_batch_v2', ['from_path' => $fromPath, 'to_path' => $toPath]);
+
+        if (false === $async) {
+            return $this->makeModelFromResponse($response);
+        }
+
+        return $this->waitForAsyncRequest($response, '/files/move_batch/check_v2');
+    }
+
+    /**
      * Copy a file or folder to a different location
      *
      * @param  string $fromPath Path to be copied
@@ -588,6 +682,33 @@ class Dropbox
 
         //Make and Return the Model
         return $this->makeModelFromResponse($response);
+    }
+
+    /**
+     * Copy batch file or folder to a different location
+     *
+     * @param  string $fromPath Path to be copied
+     * @param  string $toPath   Path to be copied to
+     *
+     * @return \Kunnu\Dropbox\Models\DeletedMetadata|\Kunnu\Dropbox\Models\FileMetadata | \Kunnu\Dropbox\Models\AsyncJob
+     *
+     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
+     *
+     * @link https://www.dropbox.com/developers/documentation/http/documentation#files-copy
+     *
+     */
+    public function copyBatch($fromPath, $toPath)
+    {
+        //From and To paths cannot be null
+        if (is_null($fromPath) || is_null($toPath)) {
+            throw new DropboxClientException("From and To paths cannot be null.");
+        }
+
+        //Response
+        $response = $this->postToAPI('/files/copy_batch_v2', ['from_path' => $fromPath, 'to_path' => $toPath]);
+
+        //Make and Return the Model
+        return $this->$this->waitForAsyncRequest($response, '/files/copy_batch/check_v2');
     }
 
     /**
