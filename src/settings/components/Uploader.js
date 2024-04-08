@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from '@wordpress/element';
 import { dispatch, useSelect } from '@wordpress/data';
+
 import { showAlert } from '../utils/alertHelper';
-import { FaCheck, FaFileAlt } from 'react-icons/fa';
 
 const Uploader = () => {
 	const { activeAccount } = IDBData;
@@ -13,21 +13,28 @@ const Uploader = () => {
 
 	const [uploadQueue, setUploadQueue] = useState([]); // Queue of files to upload
 	const [uploading, setUploading] = useState(false); // Flag to indicate if an upload is in progress
-	const [currentFile, setCurrentFile] = useState(null); // Current file being uploaded
+	const [currentFileIndex, setCurrentFileIndex] = useState(0); // Index of the current file being uploaded
+	const [uploadedCount, setUploadedCount] = useState(0); // Count of uploaded files
 
 	useEffect(() => {
 		// Start uploading when a new file is added to the queue
 		if (!uploading && uploadQueue.length > 0) {
-			startUpload(uploadQueue[0]);
+			startUpload(uploadQueue[currentFileIndex]);
 		}
-		console.log(currentFile);
-	}, [uploadQueue, uploading]);
+		console.log(currentFileIndex, uploadedCount, uploadQueue);
+	}, [uploadQueue, uploading, currentFileIndex]);
+
+	useEffect(() => {
+		// Reset current file index and uploaded count when upload queue changes
+		setCurrentFileIndex(0);
+		setUploadedCount(0);
+	}, [uploadQueue]);
 
 	const handleDragOver = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
+		document.querySelector('.ud-c-file-browser__upload__inner').style.border =
 			'2px dashed #ff0000';
 	};
 
@@ -35,7 +42,7 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
+		document.querySelector('.ud-c-file-browser__upload__inner').style.border =
 			'2px dashed #000000';
 	};
 
@@ -43,17 +50,15 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
+		document.querySelector('.ud-c-file-browser__upload__inner').style.border =
 			'2px dashed #000000';
 
 		// Handle the drop here.
-		console.log('Files dropped:', e.dataTransfer.files);
+		const files = Array.from(e.dataTransfer.files);
+		setUploadQueue((prevQueue) => [...prevQueue, ...files]);
 	};
 
 	const startUpload = (file) => {
-		setCurrentFile(file);
-		setUploading(true);
-
 		// Prepare the data to be sent to the server
 		const data = new FormData();
 		data.append('action', 'idb_upload');
@@ -72,23 +77,23 @@ const Uploader = () => {
 			success: function (response) {
 				console.log('Response:', response);
 
+				// Increment the uploaded count
+				setUploadedCount((prevCount) => prevCount + 1);
+
 				// Remove the uploaded file from the queue
 				setUploadQueue((prevQueue) => prevQueue.slice(1));
-
-				// Show a success message
-				// showAlert('success', 'File uploaded successfully.');
+				dispatch('dropbox-browser').setData('refresh', !refresh);
 			},
 			error: function (error) {
 				console.error('Error:', error);
-
-				// Show an error message
-				// showAlert('error', 'An error occurred while uploading the file.');
 			},
 			complete: function () {
 				// Mark the upload as complete
 				setUploading(false);
 			},
 		});
+
+		setUploading(true);
 	};
 
 	const handleFileSelect = (e) => {
@@ -105,7 +110,7 @@ const Uploader = () => {
 
 		// Start uploading if not already uploading
 		if (!uploading) {
-			startUpload(files[0]);
+			startUpload(files[currentFileIndex]);
 		}
 	};
 
@@ -150,7 +155,6 @@ const Uploader = () => {
 					</div>
 
 					<input type='file' ref={fileInput} multiple onChange={handleFileSelect} />
-
 					<input
 						type='file'
 						ref={folderInput}
@@ -199,7 +203,7 @@ const Uploader = () => {
 				</div>
 				<div className='idb-file-browser__upload-progress__check-icon'>
 					<svg
-						className='h-6 w-6 '
+						className='w-6 h-6 '
 						viewBox='0 0 24 24'
 						fill='none'
 						xmlns='http://www.w3.org/2000/svg'

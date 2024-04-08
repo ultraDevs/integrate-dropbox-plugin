@@ -163,43 +163,43 @@ const Browser = () => {
 				console.log(event, props);
 				break;
 			case 'delete':
-				showAlert({
-					title: 'Are you sure?',
-					html: `
-						<h4 style="color:red">You won't be able to revert this!</h4>
-					`,
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, delete it!',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						wp.ajax
-							.post('idb_delete', {
-								account_id: activeAccount['id'],
-								nonce: IDBData?.ajaxNonce,
-								path: item.path,
-							})
-							.then((response) => {
-								showAlert({
-									title: 'Deleted!',
-									text: 'Your file has been deleted',
-									icon: 'success',
-								});
-
-								// Dispatch an action to refresh the browser.
-								dispatch('dropbox-browser').setData('refresh', !refresh);
-							})
-							.catch((error) => {
-								showAlert({
-									title: 'Error',
-									text: error.message,
-									icon: 'error',
-								});
+			showAlert({
+				title: 'Are you sure?',
+				html: `
+					<h4 style="color:red">You won't be able to revert this!</h4>
+				`,
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					wp.ajax
+						.post('idb_delete', {
+							account_id: activeAccount['id'],
+							nonce: IDBData?.ajaxNonce,
+							path: item.path,
+						})
+						.then((response) => {
+							showAlert({
+								title: 'Deleted!',
+								text: 'Your file has been deleted',
+								icon: 'success',
 							});
-					}
-				});
-				break;
+
+							// Dispatch an action to refresh the browser.
+							dispatch('dropbox-browser').setData('refresh', !refresh);
+						})
+						.catch((error) => {
+							showAlert({
+								title: 'Error',
+								text: error.message,
+								icon: 'error',
+							});
+						});
+				}
+			});
+			break;
 		}
 	};
 
@@ -209,7 +209,9 @@ const Browser = () => {
 
 	return (
 		<>
-			{showUploader && <Uploader />}
+			{showUploader && (
+				<Uploader />
+			)}
 			<Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} />
 			<Menu id={FILE_MENU}>
 				<Item id='preview' onClick={handleItemClick}>
