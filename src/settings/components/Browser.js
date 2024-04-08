@@ -162,7 +162,44 @@ const Browser = () => {
 			case 'cut':
 				console.log(event, props);
 				break;
-			//etc...
+			case 'delete':
+			showAlert({
+				title: 'Are you sure?',
+				html: `
+					<h4 style="color:red">You won't be able to revert this!</h4>
+				`,
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					wp.ajax
+						.post('idb_delete', {
+							account_id: activeAccount['id'],
+							nonce: IDBData?.ajaxNonce,
+							path: item.path,
+						})
+						.then((response) => {
+							showAlert({
+								title: 'Deleted!',
+								text: 'Your file has been deleted',
+								icon: 'success',
+							});
+
+							// Dispatch an action to refresh the browser.
+							dispatch('dropbox-browser').setData('refresh', !refresh);
+						})
+						.catch((error) => {
+							showAlert({
+								title: 'Error',
+								text: error.message,
+								icon: 'error',
+							});
+						});
+				}
+			});
+			break;
 		}
 	};
 
@@ -203,7 +240,7 @@ const Browser = () => {
 					Duplicate
 				</Item>
 				<Separator />
-				<Item id='Delete' onClick={handleItemClick}>
+				<Item id='delete' onClick={handleItemClick}>
 					Delete
 				</Item>
 			</Menu>
@@ -229,7 +266,7 @@ const Browser = () => {
 					Duplicate
 				</Item>
 				<Separator />
-				<Item id='Delete' onClick={handleItemClick}>
+				<Item id='delete' onClick={handleItemClick}>
 					Delete
 				</Item>
 			</Menu>
