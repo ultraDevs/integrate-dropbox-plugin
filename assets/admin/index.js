@@ -223,7 +223,41 @@ const Browser = () => {
       case 'cut':
         console.log(event, props);
         break;
-      //etc...
+      case 'delete':
+        (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_8__.showAlert)({
+          title: 'Are you sure?',
+          html: `
+						<h4 style="color:red">You won't be able to revert this!</h4>
+					`,
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then(result => {
+          if (result.isConfirmed) {
+            wp.ajax.post('idb_delete', {
+              account_id: activeAccount['id'],
+              nonce: IDBData?.ajaxNonce,
+              path: item.path
+            }).then(response => {
+              (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_8__.showAlert)({
+                title: 'Deleted!',
+                text: 'Your file has been deleted',
+                icon: 'success'
+              });
+
+              // Dispatch an action to refresh the browser.
+              (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('refresh', !refresh);
+            }).catch(error => {
+              (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_8__.showAlert)({
+                title: 'Error',
+                text: error.message,
+                icon: 'error'
+              });
+            });
+          }
+        });
+        break;
     }
   };
   const filePreview = item => {
@@ -260,7 +294,7 @@ const Browser = () => {
     id: "duplicate",
     onClick: handleItemClick
   }, "Duplicate"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_6__.Separator, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_6__.Item, {
-    id: "Delete",
+    id: "delete",
     onClick: handleItemClick
   }, "Delete")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_6__.Menu, {
     id: FOLDER_MENU
@@ -283,7 +317,7 @@ const Browser = () => {
     id: "duplicate",
     onClick: handleItemClick
   }, "Duplicate"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_6__.Separator, null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_contexify__WEBPACK_IMPORTED_MODULE_6__.Item, {
-    id: "Delete",
+    id: "delete",
     onClick: handleItemClick
   }, "Delete")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__content"
