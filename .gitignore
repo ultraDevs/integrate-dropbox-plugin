@@ -30,6 +30,7 @@ node_modules/
 .travis.yml
 
 /assets/**/*.map
+/assets/admin/
 
 .sass-cache
 
