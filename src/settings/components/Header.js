@@ -3,13 +3,12 @@ import { useState } from '@wordpress/element';
 import DropdownPopover from './DropDownPopover';
 import classnames from 'classnames';
 import apiFetch from '@wordpress/api-fetch';
-import { useSelect } from '@wordpress/data';
+import { useSelect, dispatch } from '@wordpress/data';
 import { showAlert } from '../utils/alertHelper';
 
 const Header = () => {
 	const { activeAccount, accounts } = IDBData;
 
-	const { dispatch, select } = wp.data;
 	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs'));
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
 	const filterV = useSelect((select) => select('dropbox-browser').getData('filter'));
@@ -266,7 +265,7 @@ const Header = () => {
 							<div className='ud-c-file-browser__header__right__more__content'>
 								<ul>
 									<li onClick={() => handleCreateFolder()}>New Folder</li>
-									<li>Upload</li>
+									<li onClick={ () => dispatch('dropbox-browser').setData('showUploader', true) }>Upload</li>
 									<li>Select All</li>
 									<li>Download</li>
 								</ul>

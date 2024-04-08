@@ -11,6 +11,7 @@ const DEFAULT_STATE = {
 		breadcrumbs: [],
 		previous_path: '',
 		isLoading: true,
+		showUploader: true,
 	},
 };
 

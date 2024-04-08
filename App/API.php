@@ -143,7 +143,6 @@ class API {
 			$children = array();
 
 			
-
 			if ( 0 < count( $entries ) ) {
 				foreach ( $entries as $entry_data ) {
 					$entry = new File( $entry_data );
@@ -156,6 +155,8 @@ class API {
 					$children[ $entry->get_id() ] = $entry;
 				}
 			}
+
+			// dump( $children );
 
 			if ( count( $children ) > 0 ) {
 				$children = Helper::sort_files( $children, $filter[0], $filter[1] );
@@ -294,6 +295,34 @@ class API {
 
 		try {
 			$file = Client::get_instance()->get_client()->delete( $target );
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			return $e->getMessage();
+		}
+
+		return $file;
+	}
+	
+	/**
+	 * Upload File
+	 *
+	 * @param string $file File.
+	 * @param string $path Path.
+	 * @param array  $params Params.
+	 *
+	 * @return false|array $file File.
+	 */
+	public function upload_file( $file, $path, $params = [] ) {
+		$path = Helper::clean_path( $path );
+
+		$params = array_merge( $params, [
+			'mode' => 'add',
+			'autorename' => true,
+		]);
+
+		try {
+			$file = Client::get_instance()->get_client()->upload( $file->tmp_name, $path, $params );
+			$file = new File( $file );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
 			return $e->getMessage();

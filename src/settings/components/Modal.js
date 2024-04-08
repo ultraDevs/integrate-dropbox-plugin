@@ -34,14 +34,14 @@ const Modal = ({ showModal, item, setShowModal }) => {
 		<>
 			{showModal && (
 				<div className='ud-idb-modal'>
-					<div className='ud-idb-modal__header flex justify-between items-center px-6'>
+					<div className='flex items-center justify-between px-6 ud-idb-modal__header'>
 						<div>
 							<h3 className='text-2xl text-white'>{item.name}</h3>
 						</div>
 						<div>
 							<svg
 								onClick={() => handleClose()}
-								className='h-10 w-10 cursor-pointer'
+								className='w-10 h-10 cursor-pointer'
 								viewBox='0 0 24 24'
 								fill='none'
 								xmlns='http://www.w3.org/2000/svg'

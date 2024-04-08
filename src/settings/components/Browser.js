@@ -10,6 +10,7 @@ import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
 
 import Modal from './Modal';
 import { showAlert } from '../utils/alertHelper';
+import Uploader from './Uploader';
 
 const FOLDER_MENU = 'file-browser-folder';
 const FILE_MENU = 'file-browser-file';
@@ -20,6 +21,7 @@ const Browser = () => {
 	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
 	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
+	const showUploader = useSelect((select) => select('dropbox-browser').getData('showUploader'));
 
 	const [activeItem, setActiveItem] = useState([]);
 	const [showModal, setShowModal] = useState(false);
@@ -170,6 +172,9 @@ const Browser = () => {
 
 	return (
 		<>
+			{showUploader && (
+				<Uploader />
+			)}
 			<Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} />
 			<Menu id={FILE_MENU}>
 				<Item id='preview' onClick={handleItemClick}>

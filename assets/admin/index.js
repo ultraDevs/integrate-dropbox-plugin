@@ -63,6 +63,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_contexify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-contexify */ "./node_modules/react-contexify/dist/index.mjs");
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Modal */ "./src/settings/components/Modal.js");
 /* harmony import */ var _utils_alertHelper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/alertHelper */ "./src/settings/utils/alertHelper.js");
+/* harmony import */ var _Uploader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Uploader */ "./src/settings/components/Uploader.js");
 
 
 
@@ -75,6 +76,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const FOLDER_MENU = 'file-browser-folder';
 const FILE_MENU = 'file-browser-file';
 const Browser = () => {
@@ -83,6 +85,7 @@ const Browser = () => {
   const isLoading = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('isLoading'));
   const currentPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('current_path'));
   const previousPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('previous_path'));
+  const showUploader = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('showUploader'));
   const [activeItem, setActiveItem] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [showModal, setShowModal] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const {
@@ -226,7 +229,7 @@ const Browser = () => {
   const filePreview = item => {
     setShowModal(true);
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Modal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, showUploader && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Uploader__WEBPACK_IMPORTED_MODULE_9__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Modal__WEBPACK_IMPORTED_MODULE_7__["default"], {
     showModal: showModal,
     item: activeItem,
     setShowModal: setShowModal
@@ -520,10 +523,6 @@ const Header = () => {
     activeAccount,
     accounts
   } = IDBData;
-  const {
-    dispatch,
-    select
-  } = wp.data;
   const breadcrumbs = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('breadcrumbs'));
   const refresh = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('refresh'));
   const filterV = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => select('dropbox-browser').getData('filter'));
@@ -532,16 +531,16 @@ const Header = () => {
   const sortDirection = filterV.direction ? filterV.direction : 'asc';
   console.log(filterV);
   const setFilter = filter => {
-    dispatch('dropbox-browser').setData('isLoading', true);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('isLoading', true);
     // update FilterV's by property.
-    dispatch('dropbox-browser').setData('filter', {
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('filter', {
       ...filterV,
       by: filter
     });
   };
   const setSortDirection = dir => {
-    dispatch('dropbox-browser').setData('isLoading', true);
-    dispatch('dropbox-browser').setData('filter', {
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('isLoading', true);
+    (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('filter', {
       ...filterV,
       direction: dir
     });
@@ -556,8 +555,8 @@ const Header = () => {
       }
     }).then(response => {
       if ('success' === response.status) {
-        dispatch('dropbox-browser').setData('refresh', true);
-        dispatch('dropbox-browser').setData('isLoading', true);
+        (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('refresh', true);
+        (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('isLoading', true);
       }
       // Reload the page.
       window.location.reload();
@@ -588,8 +587,8 @@ const Header = () => {
           });
 
           // Dispatch an action to refresh the browser.
-          dispatch('dropbox-browser').setData('isLoading', true);
-          dispatch('dropbox-browser').setData('refresh', true);
+          (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('isLoading', true);
+          (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('refresh', true);
         }).catch(error => {
           (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_6__.showAlert)({
             title: 'Error',
@@ -620,7 +619,7 @@ const Header = () => {
       "aria-current": "page",
       key: index,
       onClick: () => {
-        dispatch('dropbox-browser').setData('current_path', item.path.replace(/\/$/, ''));
+        (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('current_path', item.path.replace(/\/$/, ''));
       }
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       class: "flex items-center"
@@ -642,8 +641,8 @@ const Header = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn",
     onClick: () => {
-      dispatch('dropbox-browser').setData('refresh', !refresh);
-      dispatch('dropbox-browser').setData('isLoading', true);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('refresh', !refresh);
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('isLoading', true);
     }
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: IDBData.assets + 'images/refresh.svg'
@@ -701,7 +700,9 @@ const Header = () => {
       className: "ud-c-file-browser__header__right__more__content"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
       onClick: () => handleCreateFolder()
-    }, "New Folder"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Upload"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Select All"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Download"))))
+    }, "New Folder"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      onClick: () => (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('showUploader', true)
+    }, "Upload"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Select All"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, "Download"))))
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DropDownPopover__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "relative",
     btnData: {
@@ -811,12 +812,12 @@ const Modal = ({
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, showModal && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-idb-modal"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "ud-idb-modal__header flex justify-between items-center px-6"
+    className: "flex items-center justify-between px-6 ud-idb-modal__header"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
     className: "text-2xl text-white"
   }, item.name)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
     onClick: () => handleClose(),
-    className: "h-10 w-10 cursor-pointer",
+    className: "w-10 h-10 cursor-pointer",
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
@@ -865,6 +866,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _helper_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../helper/common */ "./src/settings/helper/common.js");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -895,7 +899,7 @@ const Sidebar = () => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__sidebar__upload"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    onClick: () => {},
+    onClick: () => (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.dispatch)('dropbox-browser').setData('showUploader', true),
     className: "ud-c-btn ud-c-btn--secondary"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: IDBData.assets + "images/upload.svg"
@@ -931,6 +935,145 @@ const Sidebar = () => {
   }, (0,_helper_common__WEBPACK_IMPORTED_MODULE_4__.formatBytes)(activeAccount?.storage?.used), " ", "of", " ", (0,_helper_common__WEBPACK_IMPORTED_MODULE_4__.formatBytes)(activeAccount?.storage?.allocated))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
+
+/***/ }),
+
+/***/ "./src/settings/components/Uploader.js":
+/*!*********************************************!*\
+  !*** ./src/settings/components/Uploader.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/alertHelper */ "./src/settings/utils/alertHelper.js");
+
+
+
+
+const Uploader = () => {
+  const {
+    activeAccount
+  } = IDBData;
+  const refresh = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('refresh'));
+  const currentPath = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => select('dropbox-browser').getData('current_path'));
+  const fileInput = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+  const folderInput = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+  const [uploadQueue, setUploadQueue] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]); // Queue of files to upload
+  const [uploading, setUploading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // Flag to indicate if an upload is in progress
+  const [currentFile, setCurrentFile] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null); // Current file being uploaded
+
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    // Start uploading when a new file is added to the queue
+    if (!uploading && uploadQueue.length > 0) {
+      startUpload(uploadQueue[0]);
+    }
+    console.log(currentFile);
+  }, [uploadQueue, uploading]);
+  const startUpload = file => {
+    setCurrentFile(file);
+    setUploading(true);
+
+    // Prepare the data to be sent to the server
+    const data = new FormData();
+    data.append('action', 'idb_upload');
+    data.append('nonce', IDBData.ajaxNonce);
+    data.append('path', currentPath || '/');
+    data.append('account_id', activeAccount['id']);
+    data.append('file', file);
+
+    // Send the data to the server
+    jQuery.ajax({
+      url: IDBData.ajaxUrl,
+      type: 'POST',
+      data: data,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        console.log('Response:', response);
+
+        // Remove the uploaded file from the queue
+        setUploadQueue(prevQueue => prevQueue.slice(1));
+
+        // Show a success message
+        // showAlert('success', 'File uploaded successfully.');
+      },
+      error: function (error) {
+        console.error('Error:', error);
+
+        // Show an error message
+        // showAlert('error', 'An error occurred while uploading the file.');
+      },
+      complete: function () {
+        // Mark the upload as complete
+        setUploading(false);
+      }
+    });
+  };
+  const handleFileSelect = e => {
+    let files = e.target.files;
+    if (files.length === 0) {
+      return;
+    }
+    files = Array.from(files);
+
+    // Add files to the upload queue
+    setUploadQueue(prevQueue => [...prevQueue, ...files]);
+
+    // Start uploading if not already uploading
+    if (!uploading) {
+      startUpload(files[0]);
+    }
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__upload"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__upload__inner"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__upload__inner__header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Uploader"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    onClick: () => {
+      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('showUploader', false);
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    className: "dashicons dashicons-no"
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ud-c-file-browser__upload__inner__dropzone"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Drag and drop files here"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "OR"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex items-center justify-center gap-3"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "px-6 ud-c-btn ud-c-btn--primary",
+    onClick: () => {
+      fileInput.current.click();
+    }
+  }, "Select File"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "px-6 ud-c-btn ud-c-btn--primary",
+    onClick: () => {
+      folderInput.current.click();
+    }
+  }, "Select Folder")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "file",
+    ref: fileInput,
+    multiple: true,
+    onChange: handleFileSelect
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "file",
+    ref: folderInput,
+    directory: "",
+    webkitdirectory: "",
+    onChange: handleFileSelect
+  }))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Uploader);
 
 /***/ }),
 
@@ -997,7 +1140,8 @@ const DEFAULT_STATE = {
     current_path: '',
     breadcrumbs: [],
     previous_path: '',
-    isLoading: true
+    isLoading: true,
+    showUploader: true
   }
 };
 const actions = {

@@ -34,6 +34,7 @@ class Ajax {
 		'rename'       => false,
 		'create_folder' => false,
 		'delete' => false,
+		'upload' => false,
 	];
 
 	/**
@@ -230,6 +231,35 @@ class Ajax {
 		wp_send_json_success( [
 			'message' => __( 'Deleted successfully!', 'integrate-dropbox' ),
 			'data'    => $delete,
+		]);
+	}
+
+	/**
+	 * Upload File
+	 *
+	 * @since 1.0.0
+	 */
+	public function upload() {
+		$path 	 = sanitize_text_field( $_POST['path'] );
+		$files = $_FILES['files'];
+
+		if ( empty( $path ) ) {
+			wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
+		}
+
+		// dump( $_FILES );
+
+		$upload = API::get_instance( $this->account_id )->upload( $path );
+
+		if ( ! $upload) {
+			wp_send_json_error( array(
+				'message' => __( 'Failed to upload!', 'integrate-dropbox' ),
+			) );
+		}
+
+		wp_send_json_success( [
+			'message' => __( 'Uploaded successfully!', 'integrate-dropbox' ),
+			'data'    => $upload,
 		]);
 	}
 }
