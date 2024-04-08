@@ -955,8 +955,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/alertHelper */ "./src/settings/utils/alertHelper.js");
-
 
 
 
@@ -970,15 +968,21 @@ const Uploader = () => {
   const folderInput = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
   const [uploadQueue, setUploadQueue] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]); // Queue of files to upload
   const [uploading, setUploading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // Flag to indicate if an upload is in progress
-  const [currentFile, setCurrentFile] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null); // Current file being uploaded
+  const [currentFileIndex, setCurrentFileIndex] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0); // Index of the current file being uploaded
+  const [uploadedCount, setUploadedCount] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0); // Count of uploaded files
 
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     // Start uploading when a new file is added to the queue
     if (!uploading && uploadQueue.length > 0) {
-      startUpload(uploadQueue[0]);
+      startUpload(uploadQueue[currentFileIndex]);
     }
-    console.log(currentFile);
-  }, [uploadQueue, uploading]);
+    console.log(currentFileIndex, uploadedCount, uploadQueue);
+  }, [uploadQueue, uploading, currentFileIndex]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    // Reset current file index and uploaded count when upload queue changes
+    setCurrentFileIndex(0);
+    setUploadedCount(0);
+  }, [uploadQueue]);
   const handleDragOver = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -995,12 +999,10 @@ const Uploader = () => {
     document.querySelector('.ud-c-file-browser__upload__inner').style.border = '2px dashed #000000';
 
     // Handle the drop here.
-    console.log('Files dropped:', e.dataTransfer.files);
+    const files = Array.from(e.dataTransfer.files);
+    setUploadQueue(prevQueue => [...prevQueue, ...files]);
   };
   const startUpload = file => {
-    setCurrentFile(file);
-    setUploading(true);
-
     // Prepare the data to be sent to the server
     const data = new FormData();
     data.append('action', 'idb_upload');
@@ -1019,23 +1021,22 @@ const Uploader = () => {
       success: function (response) {
         console.log('Response:', response);
 
+        // Increment the uploaded count
+        setUploadedCount(prevCount => prevCount + 1);
+
         // Remove the uploaded file from the queue
         setUploadQueue(prevQueue => prevQueue.slice(1));
-
-        // Show a success message
-        // showAlert('success', 'File uploaded successfully.');
+        (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.dispatch)('dropbox-browser').setData('refresh', !refresh);
       },
       error: function (error) {
         console.error('Error:', error);
-
-        // Show an error message
-        // showAlert('error', 'An error occurred while uploading the file.');
       },
       complete: function () {
         // Mark the upload as complete
         setUploading(false);
       }
     });
+    setUploading(true);
   };
   const handleFileSelect = e => {
     let files = e.target.files;
@@ -1049,8 +1050,14 @@ const Uploader = () => {
 
     // Start uploading if not already uploading
     if (!uploading) {
-      startUpload(files[0]);
+      startUpload(files[currentFileIndex]);
     }
+  };
+  const handleFileUploadButtonClick = () => {
+    fileInput.current.click();
+  };
+  const handleFolderUploadButtonClick = () => {
+    folderInput.current.click();
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__upload",
@@ -1073,14 +1080,10 @@ const Uploader = () => {
     className: "flex items-center justify-center gap-3"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "px-6 ud-c-btn ud-c-btn--primary",
-    onClick: () => {
-      fileInput.current.click();
-    }
+    onClick: handleFileUploadButtonClick
   }, "Select File"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "px-6 ud-c-btn ud-c-btn--primary",
-    onClick: () => {
-      folderInput.current.click();
-    }
+    onClick: handleFolderUploadButtonClick
   }, "Select Folder")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "file",
     ref: fileInput,
