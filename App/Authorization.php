@@ -38,7 +38,7 @@ class Authorization {
 	 *
 	 * @var string
 	 */
-	public $tokens_key = 'idb_tokens';
+	public $tokens_key = 'ud_idb_tokens';
 
 	/**
 	 * Is Valid Token?

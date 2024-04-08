@@ -105,7 +105,6 @@ final class IntegrateDropbox {
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
 		do_action( 'integrate_dropbox_loaded' );
@@ -194,15 +193,8 @@ final class IntegrateDropbox {
 		// }
 		// dd( $client );
 
-		// $rename = API::get_instance()->rename( '/EXCHANGE.zip', 'Exchange.zip' );
-		// $rename = API::get_instance()->rename( '/Hello Test', 'Hello' );
-		// dd( $rename );
-
-		// $folder = API::get_instance()->create_folder( 'Imon', '/' );
-		// dd( $folder );
-
-		// echo '<pre>';
-		// var_dump( FileBrowser::get_instance()->get_file_list( '', true, false, false ) );
+		// $rename = API::get_instance()->rename( 'id:sZVyp7CWrYAAAAAAAAAAEw', '/ud-logo2.svg' );
+		// dump( $rename );
 	}
 
 	/**
@@ -216,15 +208,6 @@ final class IntegrateDropbox {
 	public function activate() {
 		$activate = new ultraDevs\IntegrateDropbox\Activate();
 		$activate->run();
-	}
-
-	/**
-	 * Plugin Deactivation.
-	 *
-	 * @return void
-	 */
-	public function deactivate() {
-		unset( $_COOKIE['idb_active_account'] );
 	}
 
 	/**

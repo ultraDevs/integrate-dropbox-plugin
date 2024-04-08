@@ -9,7 +9,6 @@
 namespace ultraDevs\IntegrateDropbox;
 
 use ultraDevs\IntegrateDropbox\App\Client;
-use ultraDevs\IntegrateDropbox\App\FileAbstract;
 
 /**
  * Helper Class
@@ -19,7 +18,7 @@ use ultraDevs\IntegrateDropbox\App\FileAbstract;
  */
 class Helper {
 
-	protected static $cached_folder_key = 'idb_cached_folders';
+	protected static $cached_folder_key = 'ud_idb_cached_folders';
 
 	/**
 	 * Constructor
@@ -142,20 +141,8 @@ class Helper {
 	 * @return string
 	 */
 	public static function clean_path( $path ) {
-		// Remove html entities.
-		$path = html_entity_decode( $path, ENT_QUOTES, 'UTF-8' );
-		// Remove double slashes.
-		$path = str_replace( '//', '/', $path );
-		// Remove trailing slash.
-		$path = trim( $path, '/' );
-		$special_chars = array( '<', '>', ':', '"', '|', '?', '*' );
-		$path = str_replace( $special_chars, '', $path );
-
-		// Check if we have / in the start of the path.
-		if ( '/' !== substr( $path, 0, 1 ) ) {
-			$path = '/' . $path;
-		}
-
+		$path = str_replace( '\\', '/', $path );
+		$path = preg_replace( '/\/+/', '/', $path );
 		return $path;
 	}
 
@@ -336,7 +323,7 @@ class Helper {
 	 */
 	public static function can_preview_by_cloud( $extension ) {
 		$previewable = apply_filters(
-			'idb_previewable_extensions',
+			'ud_idb_previewable_extensions',
 			[
 				'pdf', 'txt', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gslides', 'gsheet'
 			]
@@ -367,7 +354,7 @@ class Helper {
 	 */
 	public static function can_create_thumbnail( $extension ) {
 		$extensions = apply_filters(
-			'idb_thumbnail_extensions',
+			'ud_idb_thumbnail_extensions',
 			['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'pdf', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsm', 'ppsx', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'odp', 'ods', 'odt', 'rtf', 'csv', '3fr', 'ai', 'arw', 'cr2', 'crw', 'dcr', 'dng', 'eps', 'erf', 'heic', 'kdc', 'mef', 'mos', 'mrw', 'nef', 'nrw', 'orf', 'pef', 'psd', 'raf', 'raw', 'rw2', 'rwl', 'sr2', 'svg', 'tif', 'tiff', 'x3f', '3gp', '3gpp', '3gpp2', 'asf', 'avi', 'dv', 'flv', 'm2t', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mts', 'oggtheora', 'ogv', 'rm', 'ts', 'vob', 'webm', 'wmv', 'paper', 'webp']
 		);
 
@@ -508,69 +495,4 @@ class Helper {
 
 		return array_search( $search, $data );
 	}
-
-	/**
-	 * Beautify File Name
-	 *
-	 * @param string $file_name File Name.
-	 * @return string
-	 */
-	public static function beautify_file_name( $file_name ) {
-
-	}
-
-	/**
-	 * Sort Files
-	 *
-	 * @param array $files Files.
-	 * @param string $sort_by Sort By.
-	 * @param string $order Order.
-	 *
-	 * @return array
-	 */
-	public static function sort_files( $files, $sort_by = 'name', $order = 'asc' ) {
-		
-		$sort = [];
-
-		if ( 'shuffle' === $sort_by ) {
-			$keys = array_keys( $files );
-			shuffle( $keys );
-			$shuffled = [];
-			foreach ( $keys as $key ) {
-				$shuffled[ $key ] = $files[ $key ];
-			}
-
-			return $shuffled;
-		}
-
-		$sort_column = $sort_by;
-		switch( $sort_by ) {
-			case 'name':
-				$sort_column = 'path_display';
-				break;
-			case 'modified':
-				$sort_column = 'last_edited';
-				break;
-			case 'size':
-				$sort_column = 'size';
-				break;
-		}
-
-		$sort_order = 'asc' === $order ? SORT_ASC : SORT_DESC;
-
-		foreach ( $files as $key => $file ) {
-			if ( $file instanceof FileAbstract ) {
-				$sort['is_dir'][ $key ] = $file->is_dir();
-				$sort['sort'][ $key ] = strtolower( $file->{ 'get_' . $sort_column }() );
-			} else {
-				$sort['is_dir'][ $key ] = $file['is_dir'];
-				$sort['sort'][ $key ] = $file[ $sort_column ];
-			}
-		}
-
-		array_multisort( $sort['is_dir'], SORT_DESC, SORT_REGULAR, $sort['sort'], $sort_order, SORT_NATURAL | SORT_FLAG_CASE, $files, SORT_ASC );
-
-		return $files;
-	}
-	
 }

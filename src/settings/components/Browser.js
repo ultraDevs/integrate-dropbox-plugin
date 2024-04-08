@@ -1,16 +1,24 @@
 import React from 'react';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef, useCallback } from '@wordpress/element';
 import { useSelect, dispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
 
 // React Contextify.
-import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
+import { Item, Menu, Separator, Submenu, useContextMenu } from 'react-contexify';
 
-import Modal from './Modal';
-import { showAlert } from '../utils/alertHelper';
-import Uploader from './Uploader';
+// Light Gallery
+import LightGallery from 'lightgallery/react';
+
+// Plugins
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
+import 'lightgallery/scss/lightgallery.scss';
+import 'lightgallery/scss/lg-zoom.scss';
 
 const FOLDER_MENU = 'file-browser-folder';
 const FILE_MENU = 'file-browser-file';
@@ -21,12 +29,18 @@ const Browser = () => {
 	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
 	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
-	const showUploader = useSelect((select) => select('dropbox-browser').getData('showUploader'));
 
-	const [activeItem, setActiveItem] = useState([]);
-	const [showModal, setShowModal] = useState(false);
+	// const [ showAlert, setShowAlert ] = useState(false);
+	const [ alertContent, setAlertContent ] = useState({
+		title: '',
+		text: '',
+		icon: '',
+		showCancelButton: true,
+		confirmButtonText: 'Yes',
+		showCloseButton: true,
+	});
 
-	const { activeAccount } = IDBData;
+	const { activeAccount } = IDBAdmin;
 
 	const [data, setData] = useState([]);
 
@@ -68,6 +82,17 @@ const Browser = () => {
 	const files = data.filter((item) => {
 		return item.is_file ? item : '';
 	});
+
+
+	const showAlert = (data) => {
+		const defaultData = {
+			showCloseButton: true,
+		};
+		data = Object.assign(defaultData, data);
+		return Swal.fire(data);
+	}
+
+	
 
 	// const lightGallery = useRef(null);
 	// const [lgItems, setLgItems] = useState(files);
@@ -113,160 +138,86 @@ const Browser = () => {
 	};
 
 	// I'm using a single event handler for all items
-	// but you don't have too :)
+  	// but you don't have too :)
 	const handleItemClick = ({ id, event, props }) => {
-		const { item } = props.data;
 		switch (id) {
-			case 'rename':
-				showAlert({
-					title: 'Rename',
-					html: `
-					<p>Rename the file</p>
-					<div>
-						<input id="swal-rename-input" class="swal2-input" value="${item.name}" autofocus />
-					</div>
-				`,
-					confirmButtonText: 'Rename',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						wp.ajax
-							.post('idb_rename', {
-								account_id: activeAccount['id'],
-								nonce: IDBData?.ajaxNonce,
-								old_name: item.name,
-								new_name: document.getElementById('swal-rename-input').value,
-							})
-							.then((response) => {
-								showAlert({
-									title: 'Success',
-									text: response.message,
-									icon: 'success',
-								});
-
-								// Dispatch an action to refresh the browser.
-								dispatch('dropbox-browser').setData('refresh', !refresh);
-							})
-							.catch((error) => {
-								showAlert({
-									title: 'Error',
-									text: error.message,
-									icon: 'error',
-								});
-							});
-					}
-				});
-				break;
-			case 'duplicate':
-				// showAlert({});
-				break;
-			case 'cut':
-				console.log(event, props);
-				break;
-			case 'delete':
-				showAlert({
-					title: 'Are you sure?',
-					html: `
-						<h4 style="color:red">You won't be able to revert this!</h4>
-					`,
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, delete it!',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						wp.ajax
-							.post('idb_delete', {
-								account_id: activeAccount['id'],
-								nonce: IDBData?.ajaxNonce,
-								path: item.path,
-							})
-							.then((response) => {
-								showAlert({
-									title: 'Deleted!',
-									text: 'Your file has been deleted',
-									icon: 'success',
-								});
-
-								// Dispatch an action to refresh the browser.
-								dispatch('dropbox-browser').setData('refresh', !refresh);
-							})
-							.catch((error) => {
-								showAlert({
-									title: 'Error',
-									text: error.message,
-									icon: 'error',
-								});
-							});
-					}
-				});
-				break;
+		case "rename":
+			const renameApi = () => apiFetch({
+				path: '/idb/v1/rename',
+				method: 'POST',
+				data: {
+					path: props.data.path,
+					accountId: activeAccount['id'],
+				},
+			}).then((response) => {
+				console.log(response);
+			}).catch((error) => {
+				console.log(error);
+			});
+			showAlert({
+				'title': 'Rename',
+				'html': '<p>Rename the file</p>',
+				confirmButtonText: 'Rename',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					renameApi();
+				}
+			});
+			break;
+		case "duplicate":
+			// showAlert({});
+			break;
+		case "cut":
+			console.log(event, props);
+			break;
+		//etc...
 		}
-	};
+	}
+	
 
 	const filePreview = (item) => {
-		setShowModal(true);
-	};
+		apiFetch({
+			path: '/idb/v1/file-preview',
+			method: 'POST',
+			data: {
+				path: item.path,
+				accountId: activeAccount['id'],
+			},
+		})
+		.then((response) => {
+			console.log( 'Preview', response.data );
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+	}
 
 	return (
 		<>
-			{showUploader && <Uploader />}
-			<Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} />
 			<Menu id={FILE_MENU}>
-				<Item id='preview' onClick={handleItemClick}>
-					Preview
-				</Item>
-				<Item id='preview' onClick={handleItemClick}>
-					Preview in a new window
-				</Item>
-				<Item id='direct-link' onClick={handleItemClick}>
-					Direct Link
-				</Item>
-				<Item id='share' onClick={handleItemClick}>
-					Share
-				</Item>
-				<Item id='download' onClick={handleItemClick}>
-					Download
-				</Item>
+				<Item id="preview" onClick={handleItemClick}>Preview</Item>
+				<Item id="preview" onClick={handleItemClick}>Preview in a new window</Item>
+				<Item id="direct-link" onClick={handleItemClick}>Direct Link</Item>
+				<Item id="share" onClick={handleItemClick}>Share</Item>
+				<Item id="download" onClick={handleItemClick}>Download</Item>
 				<Separator />
-				<Item id='rename' onClick={handleItemClick}>
-					Rename
-				</Item>
-				<Item id='move-to' onClick={handleItemClick}>
-					Move to
-				</Item>
-				<Item id='duplicate' onClick={handleItemClick}>
-					Duplicate
-				</Item>
+				<Item id="rename" onClick={handleItemClick}>Rename</Item>
+				<Item id="move-to" onClick={handleItemClick}>Move to</Item>
+				<Item id="duplicate" onClick={handleItemClick}>Duplicate</Item>
 				<Separator />
-				<Item id='delete' onClick={handleItemClick}>
-					Delete
-				</Item>
+				<Item id="Delete" onClick={handleItemClick}>Delete</Item>
 			</Menu>
 
 			<Menu id={FOLDER_MENU}>
-				<Item id='direct-link' onClick={handleItemClick}>
-					Direct Link
-				</Item>
-				<Item id='share' onClick={handleItemClick}>
-					Share
-				</Item>
-				<Item id='download' onClick={handleItemClick}>
-					Download
-				</Item>
+				<Item id="direct-link" onClick={handleItemClick}>Direct Link</Item>
+				<Item id="share" onClick={handleItemClick}>Share</Item>
+				<Item id="download" onClick={handleItemClick}>Download</Item>
 				<Separator />
-				<Item id='rename' onClick={handleItemClick}>
-					Rename
-				</Item>
-				<Item id='move-to' onClick={handleItemClick}>
-					Move to
-				</Item>
-				<Item id='duplicate' onClick={handleItemClick}>
-					Duplicate
-				</Item>
+				<Item id="rename" onClick={handleItemClick}>Rename</Item>
+				<Item id="move-to" onClick={handleItemClick}>Move to</Item>
+				<Item id="duplicate" onClick={handleItemClick}>Duplicate</Item>
 				<Separator />
-				<Item id='delete' onClick={handleItemClick}>
-					Delete
-				</Item>
+				<Item id="Delete" onClick={handleItemClick}>Delete</Item>
 			</Menu>
 
 			<div className='ud-c-file-browser__content'>
@@ -332,6 +283,7 @@ const Browser = () => {
 					<>
 						<div className='ud-c-file-browser__file-list'>
 							{files.map((item, index) => {
+								console.log(item);
 								return (
 									<div
 										className={classnames(
@@ -340,7 +292,6 @@ const Browser = () => {
 										)}
 										key={index}
 										onClick={() => {
-											setActiveItem(item);
 											filePreview(item);
 											console.log(item);
 										}}
@@ -348,7 +299,7 @@ const Browser = () => {
 											showContexify(e, FILE_MENU, {
 												type: 'file',
 												path: item.path,
-												item,
+												item
 											});
 										}}
 									>

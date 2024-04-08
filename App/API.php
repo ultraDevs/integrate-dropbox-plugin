@@ -76,7 +76,7 @@ class API {
 			$path = Helper::clean_path( $path );
 		}
 
-		do_action( 'idb_log_event', $account_id, $file );
+		do_action( 'ud_idb_log_event', $account_id, $file );
 
 		try {
 			$details = $this->client->getMetadata( $file );
@@ -101,7 +101,7 @@ class API {
 	 *
 	 * @return false|array $items Items.
 	 */
-	public function get_folder( $path, $params = array( 'recursive' => false, 'hierarchical' => false ), $filter = [ 'name', 'asc' ]) {
+	public function get_folder( $path, $params = array( 'recursive' => false, 'hierarchical' => false ) ) {
 
 		if ( false !== strpos( $path, '/' ) ) {
 			$path = Helper::clean_path( $path );
@@ -142,7 +142,6 @@ class API {
 
 			$children = array();
 
-			
 			if ( 0 < count( $entries ) ) {
 				foreach ( $entries as $entry_data ) {
 					$entry = new File( $entry_data );
@@ -156,13 +155,11 @@ class API {
 				}
 			}
 
-			// dump( $children );
-
-
-			// @TODO: Need to work on sorting later.
-			// if ( count( $children ) > 0 ) {
-			// 	$children = Helper::sort_files( $children, $filter[0], $filter[1] );
-			// }
+			if ( count( $children ) > 0 ) {
+				// @TODO: Sort filelist.
+				ksort( $children );
+				$children = $children;
+			}
 
 			// Recursive.
 			if ( $params['recursive'] && $params['hierarchical'] ) {
@@ -224,14 +221,14 @@ class API {
 	 */
 	public function create_folder( $name, $folder_path, $params = [ 'auto_rename' => false ] ) {
 
-		// @TODO: Add custom filters and actions. And need to work on Cache. 
+		// @TODO: Add custom filters and actions.
 
-		$name = sanitize_text_field( $name );
+		$folder_path = Helper::clean_path( $folder_path );
 
-		$folder_path = Helper::clean_path( $folder_path . '/' . $name );
+		$folder_path = '/' . $folder_path . '/' . $name;
 
 		try {
-			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params['auto_rename'] );
+			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
 			return false;
@@ -251,86 +248,13 @@ class API {
 	 */
 	public function rename( $target, $new_name, $params = [ 'auto_rename' => false ] ) {
 		
-		$target = Helper::clean_path( $target );
-		$new_name = Helper::clean_path( $new_name );
+		$new_path = Helper::clean_path( $new_name );
 
 		try {
 			$file = Client::get_instance()->get_client()->move( $target, $new_name, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
-			return $e->getMessage();
-		}
-
-		return $file;
-	}
-
-	
-	/**
-	 * Delete
-	 *
-	 * @param string $target Target.
-	 *
-	 * @return false|array $file File.
-	 */
-	public function delete( $target ) {
-		$target = Helper::clean_path( $target );
-
-		try {
-			$file = Client::get_instance()->get_client()->delete( $target );
-		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
-			return $e->getMessage();
-		}
-
-		return $file;
-	}
-
-	/**
-	 * Copy Folder
-	 *
-	 * @param string $target Target.
-	 *
-	 * @return false|array $file File.
-	 */
-	public function copy( $target ) {
-		$target = Helper::clean_path( $target );
-
-		try {
-			$file = Client::get_instance()->get_client()->delete( $target );
-		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
-			return $e->getMessage();
-		}
-
-		return $file;
-	}
-	
-	/**
-	 * Upload File
-	 *
-	 * @param string $file File.
-	 * @param string $path Path.
-	 * @param array  $params Params.
-	 *
-	 * @return false|array $file File.
-	 */
-	public function upload_file( $file, $path, $params = [] ) {
-		$path = Helper::clean_path( $path );
-
-		$params = array_merge( $params, [
-			'mode' => 'add',
-			'autorename' => true,
-		]);
-
-		dump( $file );
-
-		try {
-			$file = Client::get_instance()->get_client()->upload( $file->tmp_name, $path, $params );
-			dump( $file );
-			// $file = new File( $file );
-		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
-			return $e->getMessage();
+			return false;
 		}
 
 		return $file;

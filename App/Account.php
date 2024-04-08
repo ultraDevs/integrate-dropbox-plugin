@@ -23,7 +23,7 @@ class Account {
 	 * @return array
 	 */
 	public static function get_accounts( $id = null ) {
-		$accounts = get_option( 'idb_accounts', array() );
+		$accounts = get_option( 'ud_integrate_dropbox_accounts', array() );
 		if ( $id ) {
 			return ! empty( $accounts[ $id ] ) ? $accounts[ $id ] : '';
 		}
@@ -38,15 +38,15 @@ class Account {
 	public static function get_active_account() {
 		$accounts = self::get_accounts();
 
-		// check if cookie is set for idb_active_account.
-		$active_account = isset( $_COOKIE['idb_active_account'] ) ? $_COOKIE['idb_active_account'] : null;
+		// check if cookie is set for ud_idb_active_account.
+		$active_account = isset( $_COOKIE['ud_idb_active_account'] ) ? $_COOKIE['ud_idb_active_account'] : null;
 
 		if ( ! empty( $active_account ) ) {
 			$active_account = str_replace( '\\"', '"', $active_account );
 			$account        = json_decode( $active_account, true );
 
 			if ( ! empty( $account['id'] ) && empty( $accounts[ $account['id'] ] ) ) {
-				setcookie( 'idb_active_account', '', time() - 3600, '/' );
+				setcookie( 'ud_idb_active_account', '', time() - 3600, '/' );
 			} else {
 				return $account;
 			}
@@ -73,12 +73,12 @@ class Account {
 
 		if ( ! empty( $accounts[ $account_id ] ) ) {
 			$account = $accounts[ $account_id ];
-			setcookie( 'idb_active_account', json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'ud_idb_active_account', json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} elseif ( ! empty( $accounts ) ) {
 			$account = array_shift( $accounts );
-			setcookie( 'idb_active_account', json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'ud_idb_active_account', json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} else {
-			setcookie( 'idb_active_account', '', time() - 3600, '/' );
+			setcookie( 'ud_idb_active_account', '', time() - 3600, '/' );
 		}
 
 		return $account;
@@ -88,7 +88,7 @@ class Account {
 		$accounts = self::get_accounts();
 
 		$accounts[ $data['id'] ] = $data;
-		return update_option( 'idb_accounts', $accounts );
+		return update_option( 'ud_integrate_dropbox_accounts', $accounts );
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Account {
 			count( $accounts ) ? self::set_active_account( array_key_first( $accounts ) ) : self::set_active_account( null );
 		}
 
-		update_option( 'idb_accounts', $accounts );
+		update_option( 'ud_integrate_dropbox_accounts', $accounts );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Account {
 			$account_id     = ! empty( $active_account ) ? $active_account['id'] : null;
 		}
 
-		$tokens = get_option( 'idb_tokens', array() );
+		$tokens = get_option( 'ud_idb_tokens', array() );
 
 		return ! empty( $tokens[ $account_id ] ) ? $tokens[ $account_id ] : array();
 	}

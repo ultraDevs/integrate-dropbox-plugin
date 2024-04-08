@@ -67,15 +67,14 @@ class File extends FileAbstract {
 		}
 
 		// Set Path Display.
-		$this->set_path_display( $file_data->path_display );
+		$this->set_path_display( $path_info['dirname'] );
 
 		// Set Size.
-		$this->set_size( $this->is_dir() ? 0 : $file_data->size );
+		$this->set_size( $this->is_dir() ? 0 : $file_data->getSize() );
 
 		// Set Last Edited.
-		if ( $this->is_file() && ! is_null( $file_data->client_modified ) ) {
-			$formatted_dtime = \DateTime::createFromFormat( 'Y-m-d\TH:i:s\Z', $file_data->client_modified, new \DateTimeZone( 'UTC' ) );
-			$this->set_last_edited( $formatted_dtime->getTimestamp() );
+		if ( isset( $file_data->client_modified ) ) {
+			$this->set_last_edited( strtotime( $file_data->client_modified ) );
 		}
 
 

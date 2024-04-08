@@ -154,11 +154,6 @@ class REST_API {
 		$accountId = $request->get_param( 'accountId' );
 		$path = $request->get_param( 'path' );
 
-		$filter = $request->get_param( 'filter' );
-
-		$order_by = $filter['by'];
-		$direction = $filter['direction'];
-
 		if ( !$accountId ) {
 			return new \WP_REST_Response(
 				array(
@@ -195,7 +190,7 @@ class REST_API {
 
 		$data = array(
 			'breadcrumbs'   => Helper::get_breadcrumbs( $path ),
-			'files'         => FileBrowser::get_instance()->get_file_list( $path, true, false, false, [ $order_by, $direction ] ),
+			'files'         => FileBrowser::get_instance()->get_file_list( $path, true, false, false ),
 			'previous_path' => Helper::get_previous_path( $path ),
 		);
 

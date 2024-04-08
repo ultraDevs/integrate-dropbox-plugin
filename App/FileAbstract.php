@@ -98,21 +98,21 @@ abstract class FileAbstract {
 	 *
 	 * @var string
 	 */
-	public $size = 0;
+	public $size;
 
 	/**
 	 * Last Edited.
 	 *
 	 * @var string
 	 */
-	public $last_edited = null;
+	public $last_edited;
 
 	/**
 	 * Last Modified.
 	 *
 	 * @var string
 	 */
-	public $last_modified = null;
+	public $last_modified;
 
 	/**
 	 * Trashed.

@@ -32,7 +32,7 @@ class Activate {
 	 * Settings Data
 	 */
 	public function settings_data() {
-		update_option( 'ud_integrate_dropbox_settings', idb_get_settings() );
+		update_option( 'ud_integrate_dropbox_settings', ud_idb_get_settings() );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Activate {
 	public function create_tables() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$table_name      = $wpdb->prefix . 'idb_files';
+		$table_name      = $wpdb->prefix . 'ud_idb_files';
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			id varchar(255) NOT NULL,

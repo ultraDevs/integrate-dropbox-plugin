@@ -17,14 +17,9 @@ namespace ultraDevs\IntegrateDropbox\App;
 class Uploader {
 
 	/**
-	 * Handler
-	 *
-	 * @var object
-	 */
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
+		echo 'Hola From Uploader';
 	}
 }

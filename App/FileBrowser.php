@@ -55,11 +55,11 @@ class FileBrowser {
 	/**
 	 * Get File List.
 	 */
-	public function get_file_list( $path = '/',  $is_allowed = true, $recursive = false, $hierarchical = false, $filter = [ 'name', 'asc' ] ) {
+	public function get_file_list( $path = '/',  $is_allowed = true, $recursive = false, $hierarchical = false ) {
 
 		$this->path = $path;
 
-		$this->folder = Client::get_instance()->get_folder( $path, $is_allowed, $recursive, $hierarchical, $filter );
+		$this->folder = Client::get_instance()->get_folder( $path, $is_allowed, $recursive, $hierarchical );
 
 		if ( false === $this->folder ) {
 			return false;
@@ -98,7 +98,7 @@ class FileBrowser {
 					'ext' =>!$item->is_dir ? $item->extension : '',
 					'size' =>!$item->is_dir ? $item->size : '',
 					'created' =>!$item->is_dir ? $item->last_modified : '',
-					'edited' =>!$item->is_dir ? $item->last_edited : ''
+					'modified' =>!$item->is_dir ? $item->last_modified : ''
 				];
 
 			}

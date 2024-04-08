@@ -10,8 +10,7 @@ const DEFAULT_STATE = {
 		current_path: '',
 		breadcrumbs: [],
 		previous_path: '',
-		isLoading: true,
-		showUploader: true,
+		isLoading: false,
 	},
 };
 
