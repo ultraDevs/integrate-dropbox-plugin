@@ -158,9 +158,11 @@ class API {
 
 			// dump( $children );
 
-			if ( count( $children ) > 0 ) {
-				$children = Helper::sort_files( $children, $filter[0], $filter[1] );
-			}
+
+			// @TODO: Need to work on sorting later.
+			// if ( count( $children ) > 0 ) {
+			// 	$children = Helper::sort_files( $children, $filter[0], $filter[1] );
+			// }
 
 			// Recursive.
 			if ( $params['recursive'] && $params['hierarchical'] ) {
@@ -320,9 +322,12 @@ class API {
 			'autorename' => true,
 		]);
 
+		dump( $file );
+
 		try {
 			$file = Client::get_instance()->get_client()->upload( $file->tmp_name, $path, $params );
-			$file = new File( $file );
+			dump( $file );
+			// $file = new File( $file );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
 			return $e->getMessage();

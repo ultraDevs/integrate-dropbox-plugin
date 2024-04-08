@@ -241,15 +241,15 @@ class Ajax {
 	 */
 	public function upload() {
 		$path 	 = sanitize_text_field( $_POST['path'] );
-		$files = $_FILES['files'];
+		$file = $_FILES['file'];
 
-		if ( empty( $path ) ) {
-			wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
-		}
+		// if ( empty( $path ) ) {
+		// 	wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
+		// }
 
 		// dump( $_FILES );
 
-		$upload = API::get_instance( $this->account_id )->upload( $path );
+		$upload = API::get_instance( $this->account_id )->upload_file( $file, $path );
 
 		if ( ! $upload) {
 			wp_send_json_error( array(

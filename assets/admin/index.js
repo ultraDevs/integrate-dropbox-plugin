@@ -979,6 +979,24 @@ const Uploader = () => {
     }
     console.log(currentFile);
   }, [uploadQueue, uploading]);
+  const handleDragOver = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    document.querySelector('.ud-c-file-browser__upload__inner').style.border = '2px dashed #ff0000';
+  };
+  const handleDragEnd = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    document.querySelector('.ud-c-file-browser__upload__inner').style.border = '2px dashed #000000';
+  };
+  const handleDrop = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    document.querySelector('.ud-c-file-browser__upload__inner').style.border = '2px dashed #000000';
+
+    // Handle the drop here.
+    console.log('Files dropped:', e.dataTransfer.files);
+  };
   const startUpload = file => {
     setCurrentFile(file);
     setUploading(true);
@@ -987,7 +1005,7 @@ const Uploader = () => {
     const data = new FormData();
     data.append('action', 'idb_upload');
     data.append('nonce', IDBData.ajaxNonce);
-    data.append('path', currentPath || '/');
+    data.append('path', currentPath);
     data.append('account_id', activeAccount['id']);
     data.append('file', file);
 
@@ -1035,7 +1053,10 @@ const Uploader = () => {
     }
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "ud-c-file-browser__upload"
+    className: "ud-c-file-browser__upload",
+    onDragOver: handleDragOver,
+    onDragEnd: handleDragEnd,
+    onDrop: handleDrop
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ud-c-file-browser__upload__inner"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
