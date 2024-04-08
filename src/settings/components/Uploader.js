@@ -1,113 +1,116 @@
 import React, { useEffect, useRef, useState } from '@wordpress/element';
 import { dispatch, useSelect } from '@wordpress/data';
+
 import { showAlert } from '../utils/alertHelper';
-import { FaCheck, FaFileAlt } from 'react-icons/fa';
+
 
 const Uploader = () => {
 	const { activeAccount } = IDBData;
-	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
-	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
+    const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
+    const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 
-	const fileInput = useRef(null);
-	const folderInput = useRef(null);
+    const fileInput = useRef(null);
+    const folderInput = useRef(null);
 
-	const [uploadQueue, setUploadQueue] = useState([]); // Queue of files to upload
-	const [uploading, setUploading] = useState(false); // Flag to indicate if an upload is in progress
-	const [currentFile, setCurrentFile] = useState(null); // Current file being uploaded
+    const [uploadQueue, setUploadQueue] = useState([]); // Queue of files to upload
+    const [uploading, setUploading] = useState(false); // Flag to indicate if an upload is in progress
+    const [currentFileIndex, setCurrentFileIndex] = useState(0); // Index of the current file being uploaded
+    const [uploadedCount, setUploadedCount] = useState(0); // Count of uploaded files
 
-	useEffect(() => {
-		// Start uploading when a new file is added to the queue
-		if (!uploading && uploadQueue.length > 0) {
-			startUpload(uploadQueue[0]);
-		}
-		console.log(currentFile);
-	}, [uploadQueue, uploading]);
+    useEffect(() => {
+        // Start uploading when a new file is added to the queue
+        if (!uploading && uploadQueue.length > 0) {
+            startUpload(uploadQueue[currentFileIndex]);
+        }
+        console.log(currentFileIndex, uploadedCount, uploadQueue);
+    }, [uploadQueue, uploading, currentFileIndex]);
 
-	const handleDragOver = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
+    useEffect(() => {
+        // Reset current file index and uploaded count when upload queue changes
+        setCurrentFileIndex(0);
+        setUploadedCount(0);
+    }, [uploadQueue]);
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
-			'2px dashed #ff0000';
-	};
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-	const handleDragEnd = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
+        document.querySelector('.ud-c-file-browser__upload__inner').style.border = '2px dashed #ff0000';
+    };
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
-			'2px dashed #000000';
-	};
+    const handleDragEnd = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-	const handleDrop = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
+        document.querySelector('.ud-c-file-browser__upload__inner').style.border = '2px dashed #000000';
+    };
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
-			'2px dashed #000000';
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-		// Handle the drop here.
-		console.log('Files dropped:', e.dataTransfer.files);
-	};
+        document.querySelector('.ud-c-file-browser__upload__inner').style.border = '2px dashed #000000';
 
-	const startUpload = (file) => {
-		setCurrentFile(file);
-		setUploading(true);
+        // Handle the drop here.
+        const files = Array.from(e.dataTransfer.files);
+        setUploadQueue((prevQueue) => [...prevQueue, ...files]);
+    };
 
-		// Prepare the data to be sent to the server
-		const data = new FormData();
-		data.append('action', 'idb_upload');
-		data.append('nonce', IDBData.ajaxNonce);
-		data.append('path', currentPath);
-		data.append('account_id', activeAccount['id']);
-		data.append('file', file);
+    const startUpload = (file) => {
+        // Prepare the data to be sent to the server
+        const data = new FormData();
+        data.append('action', 'idb_upload');
+        data.append('nonce', IDBData.ajaxNonce);
+        data.append('path', currentPath);
+        data.append('account_id', activeAccount['id']);
+        data.append('file', file);
 
-		// Send the data to the server
-		jQuery.ajax({
-			url: IDBData.ajaxUrl,
-			type: 'POST',
-			data: data,
-			processData: false,
-			contentType: false,
-			success: function (response) {
-				console.log('Response:', response);
+        // Send the data to the server
+        jQuery.ajax({
+            url: IDBData.ajaxUrl,
+            type: 'POST',
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log('Response:', response);
 
-				// Remove the uploaded file from the queue
-				setUploadQueue((prevQueue) => prevQueue.slice(1));
+                // Increment the uploaded count
+                setUploadedCount((prevCount) => prevCount + 1);
 
-				// Show a success message
-				// showAlert('success', 'File uploaded successfully.');
-			},
-			error: function (error) {
-				console.error('Error:', error);
+                // Remove the uploaded file from the queue
+                setUploadQueue((prevQueue) => prevQueue.slice(1));
+                dispatch('dropbox-browser').setData('refresh', !refresh);
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            },
+            complete: function () {
+                // Mark the upload as complete
+                setUploading(false);
+            },
+        });
 
-				// Show an error message
-				// showAlert('error', 'An error occurred while uploading the file.');
-			},
-			complete: function () {
-				// Mark the upload as complete
-				setUploading(false);
-			},
-		});
-	};
+        setUploading(true);
+    };
 
-	const handleFileSelect = (e) => {
-		let files = e.target.files;
+    const handleFileSelect = (e) => {
+        let files = e.target.files;
 
-		if (files.length === 0) {
-			return;
-		}
+        if (files.length === 0) {
+            return;
+        }
 
-		files = Array.from(files);
+        files = Array.from(files);
 
-		// Add files to the upload queue
-		setUploadQueue((prevQueue) => [...prevQueue, ...files]);
+        // Add files to the upload queue
+        setUploadQueue((prevQueue) => [...prevQueue, ...files]);
 
-		// Start uploading if not already uploading
-		if (!uploading) {
-			startUpload(files[0]);
-		}
-	};
+        // Start uploading if not already uploading
+        if (!uploading) {
+            startUpload(files[currentFileIndex]);
+        }
+    };
 
 	return (
 		<div
@@ -150,7 +153,6 @@ const Uploader = () => {
 					</div>
 
 					<input type='file' ref={fileInput} multiple onChange={handleFileSelect} />
-
 					<input
 						type='file'
 						ref={folderInput}
@@ -163,7 +165,7 @@ const Uploader = () => {
 			<div className='idb-file-browser__upload-progress'>
 				<div className='idb-file-browser__upload-progress__details'>
 					<div className='idb-file-browser__upload-progress__details__file_icon'>
-						<FaFileAlt className='' />
+						{/* <FaFileAlt className='' /> */}
 					</div>
 					<div className='idb-file-browser__upload-progress__details__content'>
 						<h3 className='idb-file-browser__upload-progress__details__content__title'>
@@ -176,7 +178,7 @@ const Uploader = () => {
 				</div>
 				<div className='idb-file-browser__upload-progress__check-icon'>
 					<svg
-						className='h-6 w-6 '
+						className='w-6 h-6 '
 						viewBox='0 0 24 24'
 						fill='none'
 						xmlns='http://www.w3.org/2000/svg'
@@ -202,7 +204,7 @@ const Uploader = () => {
 			<div className='idb-file-browser__upload-progress'>
 				<div className='idb-file-browser__upload-progress__details'>
 					<div className='idb-file-browser__upload-progress__details__file_icon'>
-						<FaFileAlt className='' />
+						{/* <FaFileAlt className='' /> */}
 					</div>
 					<div className='idb-file-browser__upload-progress__details__content'>
 						<h3 className='idb-file-browser__upload-progress__details__content__title'>

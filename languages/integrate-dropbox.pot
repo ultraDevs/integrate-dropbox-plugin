@@ -1,0 +1,199 @@
+# Copyright (C) 2024
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://www.ultradevs.com/contact\n"
+"POT-Creation-Date: 2024-04-08 06:13:17+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
+
+#: App/API.php:90 App/API.php:135 App/API.php:236 App/API.php:260
+#: App/API.php:281 App/API.php:301 App/API.php:330
+msgid "Error : %s"
+msgstr ""
+
+#: App/Authorization.php:173
+msgid "Authorization Lost"
+msgstr ""
+
+#: App/Authorization.php:178
+msgid "Error revoking token: %s"
+msgstr ""
+
+#: App/Client.php:143
+msgid "Failed to start Dropbox Client: %s"
+msgstr ""
+
+#: App/Client.php:212
+msgid "Failed to get folder: %s"
+msgstr ""
+
+#: App/Client.php:332
+msgid "Failed to generate access token: %s"
+msgstr ""
+
+#: App/Client.php:355
+msgid "No refresh token found!"
+msgstr ""
+
+#: App/Client.php:377
+msgid "Error refreshing token: %s"
+msgstr ""
+
+#: includes/Admin/Dashboard.php:54
+msgid "Dashboard - Integrate Dropbox"
+msgstr ""
+
+#: includes/Admin/Dashboard.php:54
+msgid "Dropbox"
+msgstr ""
+
+#: includes/Ajax.php:80
+msgid "Invalid Action"
+msgstr ""
+
+#: includes/Ajax.php:85
+msgid "Nonce verification failed"
+msgstr ""
+
+#: includes/Ajax.php:96
+msgid "Account ID is required"
+msgstr ""
+
+#: includes/Ajax.php:105 includes/Rest_API.php:190 includes/Rest_API.php:246
+#: includes/Rest_API.php:307 includes/Rest_API.php:368
+msgid "Account is not active."
+msgstr ""
+
+#: includes/Ajax.php:124
+msgid "File is required"
+msgstr ""
+
+#: includes/Ajax.php:134 includes/Rest_API.php:380
+msgid "File not found."
+msgstr ""
+
+#: includes/Ajax.php:154
+msgid "Old Name is required"
+msgstr ""
+
+#: includes/Ajax.php:159
+msgid "New name is required"
+msgstr ""
+
+#: includes/Ajax.php:163
+msgid "Old name and new name can not be same"
+msgstr ""
+
+#: includes/Ajax.php:170
+msgid "File/Folder not renamed"
+msgstr ""
+
+#: includes/Ajax.php:175
+msgid "Renamed Successfully"
+msgstr ""
+
+#: includes/Ajax.php:192
+msgid "Folder name is required"
+msgstr ""
+
+#: includes/Ajax.php:199
+msgid "Failed to create Folder!"
+msgstr ""
+
+#: includes/Ajax.php:204
+msgid "Folder created successfully!"
+msgstr ""
+
+#: includes/Ajax.php:219
+msgid "Path is required"
+msgstr ""
+
+#: includes/Ajax.php:227
+msgid "Failed to delete!"
+msgstr ""
+
+#: includes/Ajax.php:232
+msgid "Deleted successfully!"
+msgstr ""
+
+#: includes/Ajax.php:255
+msgid "Failed to upload!"
+msgstr ""
+
+#: includes/Ajax.php:260
+msgid "Uploaded successfully!"
+msgstr ""
+
+#: includes/Helper.php:296
+msgid "All Files"
+msgstr ""
+
+#: includes/Rest_API.php:117 includes/Rest_API.php:166
+#: includes/Rest_API.php:222 includes/Rest_API.php:283
+#: includes/Rest_API.php:344
+msgid "Account ID is required."
+msgstr ""
+
+#: includes/Rest_API.php:129 includes/Rest_API.php:178
+#: includes/Rest_API.php:234 includes/Rest_API.php:295
+#: includes/Rest_API.php:356
+msgid "Account not found."
+msgstr ""
+
+#: includes/Rest_API.php:140
+msgid "Account switched successfully."
+msgstr ""
+
+#: includes/Rest_API.php:258
+msgid "Folder not created."
+msgstr ""
+
+#: includes/Rest_API.php:319
+msgid "File/Folder not renamed."
+msgstr ""
+
+#: includes/Review.php:119
+#. translators: %1$s Plugin Name.
+msgid ""
+"Hey, we noticed you have been using %1$s for more than 3 days now - that's "
+"awesome! <br> Could you please do us a BIG favor and give it a rating on "
+"WordPress.org to help us do more great work and boost our motivation?"
+msgstr ""
+
+#: includes/Review.php:164
+msgid "Yes, you deserve it"
+msgstr ""
+
+#: includes/Review.php:168
+msgid "No, maybe later"
+msgstr ""
+
+#: includes/Review.php:172
+msgid "I already did"
+msgstr ""
+
+#: integrate-dropbox.php:244
+msgid "Integrate Dropbox"
+msgstr ""
+
+#: integrate-dropbox.php:269
+msgid "Settings"
+msgstr ""

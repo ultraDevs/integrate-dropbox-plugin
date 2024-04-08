@@ -243,13 +243,12 @@ class Ajax {
 		$path 	 = sanitize_text_field( $_POST['path'] );
 		$file = $_FILES['file'];
 
-		// if ( empty( $path ) ) {
-		// 	wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
-		// }
+		$file_name = $file['name'];
 
-		// dump( $_FILES );
+		$path = Helper::clean_path( $path . '/' . $file_name );
 
-		$upload = API::get_instance( $this->account_id )->upload_file( $file, $path );
+
+		$upload = API::get_instance( $this->account_id )->upload_file( $file['tmp_name'], $path );
 
 		if ( ! $upload) {
 			wp_send_json_error( array(

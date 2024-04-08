@@ -322,11 +322,9 @@ class API {
 			'autorename' => true,
 		]);
 
-		dump( $file );
-
 		try {
-			$file = Client::get_instance()->get_client()->upload( $file->tmp_name, $path, $params );
-			dump( $file );
+			$file = Client::get_instance()->get_client()->upload( $file, $path, $params );
+			// dump( $file );
 			// $file = new File( $file );
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
