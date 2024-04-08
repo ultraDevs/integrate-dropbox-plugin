@@ -23,7 +23,7 @@ Made With Love By [ultraDevs](https://ultradevs.com) ❤️
 [Free Support](https://wordpress.org/support/plugin/wp-plugin-starter/) | [Live Chat](https://web.facebook.com/hello.ultradevs) | [Documentation](https://docs.ultradevs.com/wp-plugin-starter)  | [Video Tutorials](https://www.youtube.com/playlist?list=PL6-MOhUm73eiSSVHgAVnFFEvs6rO2sZyC)
 
 ### Join With US
-[Facebook - Community](https://web.facebook.com/groups/powerfulblocks/) | [Facebook - Page](https://web.facebook.com/hello.ultradevs) | [Youtube](https://www.youtube.com/channel/UCc2yL-QGQjscXpPx9Pp7J8w) | [Twitter](https://twitter.com/ultraDevsBD) | [Instagram](https://www.instagram.com/ultradevs/)
+[Facebook - Community](https://web.facebook.com/groups/ultradevs/) | [Facebook - Page](https://web.facebook.com/hello.ultradevs) | [Youtube](https://www.youtube.com/channel/UCc2yL-QGQjscXpPx9Pp7J8w) | [Twitter](https://twitter.com/ultraDevsBD) | [Instagram](https://www.instagram.com/ultradevs/)
 
 ## Privacy Policy 
 WP Plugin Starter uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
