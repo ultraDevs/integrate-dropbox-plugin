@@ -31,15 +31,17 @@ class Assets_Manager {
 	 */
 	public function admin_assets() {
 
-		wp_enqueue_style( 'ud-id-admin', INTEGRATE_DROPBOX_ASSETS . 'admin/index.css', array( 'wp-components' ), INTEGRATE_DROPBOX_VERSION );
+		wp_enqueue_style( 'idb-admin', INTEGRATE_DROPBOX_ASSETS . 'admin/index.css', array( 'wp-components' ), INTEGRATE_DROPBOX_VERSION );
 
 		$script_assets = file_exists( INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/index.asset.php' ) ? require INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/index.asset.php' : array();
 
-		wp_enqueue_script( 'ud-id-admin', INTEGRATE_DROPBOX_ASSETS . 'admin/index.js', $script_assets['dependencies'], $script_assets['version'] ? $script_assets['version'] : INTEGRATE_DROPBOX_VERSION, true );
+		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
+
+		wp_enqueue_script( 'idb-admin', INTEGRATE_DROPBOX_ASSETS . 'admin/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : INTEGRATE_DROPBOX_VERSION, true );
 
 		wp_localize_script(
-			'ud-id-admin',
-			'IDBAdmin',
+			'idb-admin',
+			'IDBData',
 			$this->localization_data()
 		);
 
@@ -71,6 +73,8 @@ class Assets_Manager {
 			'authUrl'       => $auth_url,
 			'accounts'      => Account::get_accounts(),
 			'activeAccount' => Account::get_active_account(),
+			'ajaxNonce'     => wp_create_nonce( 'idb_ajax_nonce' ),
+			'loadingImg' => INTEGRATE_DROPBOX_ASSETS . 'images/loading/Spin.svg'
 		);
 
 		return apply_filters( 'ud_id_localization_data', $localization_data );

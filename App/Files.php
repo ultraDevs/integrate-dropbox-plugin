@@ -40,7 +40,7 @@ class Files {
 	public function __construct( $account_id = null ) {
 		global $wpdb;
 
-		$this->table = $wpdb->prefix . 'ud_idb_files';
+		$this->table = $wpdb->prefix . 'idb_files';
 
 		if ( empty( $account_id ) ) {
 			$active_account = Account::get_active_account();

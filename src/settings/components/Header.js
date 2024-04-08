@@ -1,18 +1,18 @@
-import React, { Fragment } from 'react';
-import { useState, useEffect } from '@wordpress/element';
-import { Popover, Transition } from '@headlessui/react';
+import React from 'react';
+import { useState } from '@wordpress/element';
 import DropdownPopover from './DropDownPopover';
 import classnames from 'classnames';
 import apiFetch from '@wordpress/api-fetch';
-import { useSelect } from '@wordpress/data';
+import { useSelect, dispatch } from '@wordpress/data';
+import { showAlert } from '../utils/alertHelper';
 
 const Header = () => {
-	const { activeAccount, accounts } = IDBAdmin;
+	const { activeAccount, accounts } = IDBData;
 
-	const { dispatch, select } = wp.data;
 	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs'));
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
 	const filterV = useSelect((select) => select('dropbox-browser').getData('filter'));
+	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 
 	const filter = filterV.by ? filterV.by : 'name';
 	const sortDirection = filterV.direction ? filterV.direction : 'asc';
@@ -52,6 +52,47 @@ const Header = () => {
 			}
 			// Reload the page.
 			window.location.reload();
+		});
+	};
+
+	const handleCreateFolder = () => {
+		showAlert({
+			title: 'New Folder',
+			html: `
+					<p>Create New Folder</p>
+					<div>
+						<input id="swal-new-folder-input" class="swal2-input" placeholder="Create New Folder" />
+					</div>
+				`,
+			confirmButtonText: 'Create',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				wp.ajax
+					.post('idb_create_folder', {
+						account_id: activeAccount['id'],
+						nonce: IDBData?.ajaxNonce,
+						path: currentPath,
+						name: document.getElementById('swal-new-folder-input').value,
+					})
+					.then((response) => {
+						showAlert({
+							title: 'Success',
+							text: response.message,
+							icon: 'success',
+						});
+
+						// Dispatch an action to refresh the browser.
+						dispatch('dropbox-browser').setData('isLoading', true);
+						dispatch('dropbox-browser').setData('refresh', true);
+					})
+					.catch((error) => {
+						showAlert({
+							title: 'Error',
+							text: error.message,
+							icon: 'error',
+						});
+					});
+			}
 		});
 	};
 
@@ -107,9 +148,9 @@ const Header = () => {
 				</ol>
 			</nav>
 			<div className='ud-c-file-browser__header__right'>
-				<div className='ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn'>
-					<img src={IDBAdmin.assets + 'images/search.svg'} />
-				</div>
+				{/* <div className='ud-c-file-browser__header__right__search ud-c-file-browser__header__right__btn'>
+					<img src={IDBData.assets + 'images/search.svg'} />
+				</div> */}
 				<div
 					className='ud-c-file-browser__header__right__refresh ud-c-file-browser__header__right__btn'
 					onClick={() => {
@@ -117,7 +158,7 @@ const Header = () => {
 						dispatch('dropbox-browser').setData('isLoading', true);
 					}}
 				>
-					<img src={IDBAdmin.assets + 'images/refresh.svg'} />
+					<img src={IDBData.assets + 'images/refresh.svg'} />
 				</div>
 
 				<DropdownPopover
@@ -125,7 +166,7 @@ const Header = () => {
 					btnData={{
 						className:
 							'ud-c-file-browser__header__right__filter ud-c-file-browser__header__right__btn relative',
-						icon: IDBAdmin.assets + 'images/filter.svg',
+						icon: IDBData.assets + 'images/filter.svg',
 						contentClass: 'min-w-[200px]',
 					}}
 					content={
@@ -216,10 +257,21 @@ const Header = () => {
 					btnData={{
 						className:
 							'ud-c-file-browser__header__right__more ud-c-file-browser__header__right__btn relative',
-						icon: IDBAdmin.assets + 'images/more.svg',
+						icon: IDBData.assets + 'images/more.svg',
 						contentClass: 'min-w-[200px]',
 					}}
-					content={<h2>More</h2>}
+					content={
+						<>
+							<div className='ud-c-file-browser__header__right__more__content'>
+								<ul>
+									<li onClick={() => handleCreateFolder()}>New Folder</li>
+									<li onClick={ () => dispatch('dropbox-browser').setData('showUploader', true) }>Upload</li>
+									<li>Select All</li>
+									<li>Download</li>
+								</ul>
+							</div>
+						</>
+					}
 				/>
 
 				<DropdownPopover
@@ -247,7 +299,7 @@ const Header = () => {
 								<button
 									onClick={() => {
 										window.open(
-											IDBAdmin.authUrl,
+											IDBData.authUrl,
 											'_blank',
 											'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
 										);
@@ -303,7 +355,7 @@ const Header = () => {
 									<button
 										onClick={() => {
 											window.open(
-												IDBAdmin.authUrl,
+												IDBData.authUrl,
 												'_blank',
 												'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
 											);
