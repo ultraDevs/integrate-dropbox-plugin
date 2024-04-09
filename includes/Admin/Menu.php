@@ -1,6 +1,6 @@
 <?php
 /**
- * Dashboard
+ * Menu
  *
  * @package IntegrateDropbox
  * @since 1.0.0
@@ -14,12 +14,12 @@ use ultraDevs\IntegrateDropbox\Helper;
 use ultraDevs\IntegrateDropbox\Assets_Manager;
 
 /**
- * Dashboard Class
+ * Menu Class
  *
  * @package IntegrateDropbox
  * @since 1.0.0
  */
-class Dashboard {
+class Menu {
 	/**
 	 * Menu
 	 *
@@ -51,7 +51,12 @@ class Dashboard {
 	 * Register Admin Menu
 	 */
 	public static function register_menu() {
-		self::$menu = add_menu_page( __( 'Dashboard - Integrate Dropbox', 'integrate-dropbox' ), __( 'Dropbox', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG, array( __CLASS__, 'view_main' ), Helper::get_icon(), 56 );
+		self::$menu = add_menu_page( __( 'Dashboard - Integrate Dropbox', 'integrate-dropbox' ), __( 'Dropbox', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
+
+		add_submenu_page( INTEGRATE_DROPBOX_MENU_SLUG, __( 'File Browser - Integrate Dropbox', 'integrate-dropbox' ), __( 'File Browser', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
+
+		// Settings.
+		add_submenu_page( INTEGRATE_DROPBOX_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'integrate-dropbox' ), __( 'Settings', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
 
 		// Assets Manager Class.
 		$assets_manager = new Assets_Manager();
@@ -62,7 +67,14 @@ class Dashboard {
 	/**
 	 * Main View
 	 */
-	public static function view_main() {
+	public static function render_file_browser_page() {
+		echo '<div id="ud-id-app"></div>';
+	}
+
+	/**
+	 * Render Settings
+	 */
+	public static function render_settings_page() {
 		echo '<div id="ud-id-app"></div>';
 	}
 

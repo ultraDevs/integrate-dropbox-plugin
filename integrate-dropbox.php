@@ -150,8 +150,8 @@ final class IntegrateDropbox {
 		// Review Class.
 		$review = new ultraDevs\IntegrateDropbox\Review();
 
-		// Dashboard.
-		$dashboard = new ultraDevs\IntegrateDropbox\Admin\Dashboard();
+		// Menu.
+		$menu = new ultraDevs\IntegrateDropbox\Admin\Menu();
 
 		// App.
 		new ultraDevs\IntegrateDropbox\App\App();
@@ -164,8 +164,8 @@ final class IntegrateDropbox {
 			// Activation_Redirect.
 			add_action( 'admin_init', array( $activate, 'activation_redirect' ) );
 
-			// Dashboard.
-			$dashboard->register();
+			// Menu.
+			$menu->register();
 
 			// Plugin Action Links.
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
