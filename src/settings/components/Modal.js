@@ -15,7 +15,8 @@ const Modal = ({ showModal, item, setShowModal }) => {
 	};
 
 	useEffect(() => {
-		wp.ajax
+        if (showModal && item) {
+            wp.ajax
 			.post('idb_file_preview', {
 				account_id: activeAccount['id'],
 				nonce: IDBData?.ajaxNonce,
@@ -27,8 +28,10 @@ const Modal = ({ showModal, item, setShowModal }) => {
 			})
 			.catch((error) => {
 				console.error(error);
+				dispatch('dropbox-browser').setData('isLoading', false);
 			});
-	}, [item]);
+        }
+    }, [showModal, item, activeAccount]);
 
 	return (
 		<>

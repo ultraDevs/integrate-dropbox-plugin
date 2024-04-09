@@ -35,6 +35,13 @@ class Files {
 	private $account_id = null;
 
 	/**
+	 * Path
+	 *
+	 * @var string
+	 */
+	private $path = '';
+
+	/**
 	 * Constructor
 	 */
 	public function __construct( $account_id = null ) {
@@ -69,9 +76,11 @@ class Files {
 	public function get_files( $path ) {
 		global $wpdb;
 
+
 		if ( empty( $path ) ) {
 			$path = 'files_dir';
 		}
+
 
 		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->get_table()} WHERE path = %s AND account_id = %s", $path, $this->account_id ), ARRAY_A );
 
@@ -83,15 +92,23 @@ class Files {
 			}
 		}
 
+		// var_dump( $files );
+
 		return $files;
 	}
 
 	/**
 	 * Set Files
 	 *
+	 * @param string $path Path.
 	 * @param array $files Files.
 	 */
-	public function set_files( $files ) {
+	public function set_files( $path, $files ) {
+
+		if ( empty( $path ) ) {
+			$this->path = 'files_dir';
+		}
+
 		if ( ! empty( $files ) ) {
 			foreach ( $files as $file ) {
 				$this->insert_file( $file );
@@ -112,7 +129,7 @@ class Files {
 		$id         = $file->get_id();
 		$name       = $file->get_name();
 		$mimetype   = $file->get_extension();
-		$path       = '/' === $dirname ? 'files_dir' : $dirname;
+		// $path       = $dirname;
 		$data       = serialize( $file );
 
 		return $wpdb->query(
@@ -121,7 +138,7 @@ class Files {
 				(id, `path`, account_id, name, mimetype, data)
 				VALUES (%s, %s, %s, %s, %s, %s)",
 				$id,
-				$path,
+				$this->path,
 				$this->account_id,
 				$name,
 				$mimetype,

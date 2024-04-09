@@ -85,7 +85,7 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
 
-		$this->current_path = sanitize_text_field( $_POST['path'] );
+		// $this->current_path = sanitize_text_field( $_POST['path'] );
 		$this->account_id = sanitize_text_field( $_POST['account_id'] );
 
 		// if ( empty( $this->current_path ) ) {

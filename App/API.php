@@ -103,9 +103,7 @@ class API {
 	 */
 	public function get_folder( $path, $params = array( 'recursive' => false, 'hierarchical' => false ), $filter = [ 'name', 'asc' ]) {
 
-		if ( false !== strpos( $path, '/' ) ) {
-			$path = Helper::clean_path( $path );
-		}
+		$path = Helper::clean_path( $path );
 
 		if ( '/' === $path ) {
 			$path = '';
@@ -113,9 +111,10 @@ class API {
 
 		$entries = array();
 
+
 		// @TODO: Implement cache.
-		// if ( ! INTEGRATE_DROPBOX_DEV_MODE && Helper::is_cached_folder( $path ) ) { 
-		// 	$entries = Files::get_instance( $this->account_id )->get_files( $path );
+		// if ( Helper::is_cached_folder( $path ) ) {
+		// 	$children = Files::get_instance( $this->account_id )->get_files( $path );
 		// } else {
 			try {
 				$folder_contents = Client::get_instance()->get_client()->listFolder( $path, array( 'recursive' => $params['recursive'] ) );
@@ -127,18 +126,11 @@ class API {
 					$entries         = array_merge( $entries, $folder_contents->getItems()->toArray() );
 				}
 
-				// Files::get_instance( Account::get_active_account() )->set_files( $entries );
-
-				// Helper::update_cached_folder( $path );
-
 			} catch ( \Exception $e ) {
 				error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
 				return false;
 			}
 
-			// dump( $entries );
-
-			// $prevFolderPath = $entries->getPathDisplay();
 
 			$children = array();
 
@@ -156,61 +148,63 @@ class API {
 				}
 			}
 
-			// dump( $children );
+		// 	Files::get_instance( $this->account_id )->set_files( $path, $children );
 
-
-			// @TODO: Need to work on sorting later.
-			// if ( count( $children ) > 0 ) {
-			// 	$children = Helper::sort_files( $children, $filter[0], $filter[1] );
-			// }
-
-			// Recursive.
-			if ( $params['recursive'] && $params['hierarchical'] ) {
-				foreach ( $children as $id => $child ) {
-					$relative_path = Helper::get_relative_path( $child->get_parent() );
-					$parent_id = Helper::find_array_item_with_value( $children, 'path', $relative_path );
-					// dump( $child );
-					if ( false === $parent_id || $parent_id === $child->get_id() ) {
-						$child->f = false;
-
-						continue;
-					}
-
-					$parent = $children[ $parent_id ];
-					$parents_childs = $parent->get_children();
-					$parents_childs[ $child->get_id() ] = $child;
-					$parent->set_children( $parents_childs );
-
-					$child->f = true;
-				}
-
-				foreach ( $children as $id => $child ) {
-					if ( $child->f ) {
-						unset( $children[ $id ] );
-					}
-				}
-			}
-
-			if ( '' === $path ) {
-				$folder_entry = File::get_instance();
-				$folder_entry->set_id( 'DropBox' );
-				$folder_entry->set_name( 'DropBox' );
-				$folder_entry->set_path( '/' );
-				$folder_entry->set_path_display( '/' );
-				$folder_entry->set_is_dir( true );
-				$folder_entry->set_children( $children );
-			} else if ( ! $params['recursive'] || ! $params['hierarchical'] ) {
-				$api_file = Client::get_instance()->get_client()->getMetaData( $path );
-				$folder_entry = File::get_instance()->convert_api_data_to_file_data( $api_file );
-				$folder_entry->set_children( $children );
-			} else {
-				$folder_entry = reset( $children );
-			}
-
-			// dump( $folder_entry );
-
-			return $folder_entry;
+		// 	Helper::update_cached_folder( $path );
 		// }
+
+		// var_dump( $children );
+
+		// @TODO: Need to work on sorting later.
+		if ( count( $children ) > 0 ) {
+			$children = Helper::sort_files( $children, $filter[0], $filter[1] );
+		}
+
+		// Recursive.
+		if ( $params['recursive'] && $params['hierarchical'] ) {
+			foreach ( $children as $id => $child ) {
+				$relative_path = Helper::get_relative_path( $child->get_parent() );
+				$parent_id = Helper::find_array_item_with_value( $children, 'path', $relative_path );
+				// dump( $child );
+				if ( false === $parent_id || $parent_id === $child->get_id() ) {
+					$child->f = false;
+
+					continue;
+				}
+
+				$parent = $children[ $parent_id ];
+				$parents_childs = $parent->get_children();
+				$parents_childs[ $child->get_id() ] = $child;
+				$parent->set_children( $parents_childs );
+
+				$child->f = true;
+			}
+
+			foreach ( $children as $id => $child ) {
+				if ( $child->f ) {
+					unset( $children[ $id ] );
+				}
+			}
+		}
+
+		if ( '' === $path ) {
+			$folder_entry = new File();
+			$folder_entry->set_id( 'DropBox' );
+			$folder_entry->set_name( 'DropBox' );
+			$folder_entry->set_path( '/' );
+			$folder_entry->set_path_display( '/' );
+			$folder_entry->set_is_dir( true );
+			$folder_entry->set_children( $children );
+		} else if ( ! $params['recursive'] || ! $params['hierarchical'] ) {
+			$api_file = Client::get_instance()->get_client()->getMetaData( $path );
+			$file_class = new File();
+			$folder_entry = $file_class->convert_api_data_to_file_data( $api_file );
+			$folder_entry->set_children( $children );
+		} else {
+			$folder_entry = reset( $children );
+		}
+
+		return $folder_entry;
 	}
 
 	/**

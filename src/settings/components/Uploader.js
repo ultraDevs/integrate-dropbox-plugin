@@ -91,6 +91,17 @@ const Uploader = () => {
 				// Mark the upload as complete
 				setUploading(false);
 			},
+			xhr: function() {
+				var xhr = new window.XMLHttpRequest();
+				xhr.upload.addEventListener("progress", function(evt) {
+					if (evt.lengthComputable) {
+						var percentComplete = (evt.loaded / evt.total) * 100;
+						//Do something with upload progress here
+						console.log(percentComplete)
+					}
+				}, false);
+				return xhr;
+			}
 		});
 
 		setUploading(true);
@@ -168,7 +179,7 @@ const Uploader = () => {
 				<div className='idb-file-browser__upload-progress__details'>
 					<div className='idb-file-browser__upload-progress__details__file_icon'>
 						<svg
-							className='h-8 w-8 '
+							className='w-8 h-8 '
 							viewBox='0 0 24 24'
 							fill='none'
 							xmlns='http://www.w3.org/2000/svg'
@@ -230,7 +241,7 @@ const Uploader = () => {
 				<div className='idb-file-browser__upload-progress__details'>
 					<div className='idb-file-browser__upload-progress__details__file_icon'>
 						<svg
-							className='h-8 w-8 '
+							className='w-8 h-8 '
 							viewBox='0 0 24 24'
 							fill='none'
 							xmlns='http://www.w3.org/2000/svg'
