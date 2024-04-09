@@ -30,7 +30,10 @@ class Assets_Manager {
 	 *
 	 */
 	public function admin_assets() {
+
 		$this->file_browser_assets();
+
+		$this->settings_assets();
 	}
 
 	/**
@@ -43,6 +46,32 @@ class Assets_Manager {
 		// wp_enqueue_script( 'ud-id-frontend', INTEGRATE_DROPBOX_ASSETS . 'js/frontend.js', array( 'jquery' ), INTEGRATE_DROPBOX_VERSION, true );
 	}
 
+	/**
+	 * Settings Assets
+	 *
+	 * Enqueue Settings Page Styles and Scripts
+	 */
+	public function settings_assets() {
+		wp_enqueue_style( 'idb-settings', INTEGRATE_DROPBOX_ASSETS . 'admin/settings/index.css', array(), INTEGRATE_DROPBOX_VERSION );
+
+		$script_assets = file_exists( INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/settings/index.asset.php' ) ? require INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/settings/index.asset.php' : array();
+
+		$deps = array_merge( $script_assets['dependencies'], array( 'wp-components' ) );
+
+		wp_enqueue_script( 'idb-settings', INTEGRATE_DROPBOX_ASSETS . 'admin/settings/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : INTEGRATE_DROPBOX_VERSION, true );
+
+		wp_localize_script(
+			'idb-settings',
+			'IDBData',
+			$this->localization_data()
+		);
+	}
+
+	/**
+	 * File Browser Assets
+	 *
+	 * Enqueue File Browser Styles and Scripts
+	 */
 	public function file_browser_assets() {
 		wp_enqueue_style( 'idb-file-browser', INTEGRATE_DROPBOX_ASSETS . 'admin/file-browser/index.css', array( 'wp-components' ), INTEGRATE_DROPBOX_VERSION );
 

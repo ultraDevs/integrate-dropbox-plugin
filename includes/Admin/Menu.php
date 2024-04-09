@@ -56,26 +56,27 @@ class Menu {
 		add_submenu_page( INTEGRATE_DROPBOX_MENU_SLUG, __( 'File Browser - Integrate Dropbox', 'integrate-dropbox' ), __( 'File Browser', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
 
 		// Settings.
-		add_submenu_page( INTEGRATE_DROPBOX_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'integrate-dropbox' ), __( 'Settings', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
+		$settings = add_submenu_page( INTEGRATE_DROPBOX_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'integrate-dropbox' ), __( 'Settings', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
 
 		// Assets Manager Class.
 		$assets_manager = new Assets_Manager();
 
-		add_action( 'admin_print_scripts-' . self::$menu, array( $assets_manager, 'admin_assets' ) );
+		add_action( 'admin_print_scripts-' . self::$menu , array( $assets_manager, 'file_browser_assets' ) );
+		add_action( 'admin_print_scripts-' . $settings , array( $assets_manager, 'settings_assets' ) );
 	}
 
 	/**
 	 * Main View
 	 */
 	public static function render_file_browser_page() {
-		echo '<div id="ud-id-app"></div>';
+		echo '<div id="idb-file-browser"></div>';
 	}
 
 	/**
 	 * Render Settings
 	 */
 	public static function render_settings_page() {
-		echo '<div id="ud-id-app"></div>';
+		echo '<div id="idb-settings"></div>';
 	}
 
 	public function handle_authorization() {
