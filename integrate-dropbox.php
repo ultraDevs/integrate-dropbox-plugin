@@ -40,19 +40,19 @@ define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
 define( 'INTEGRATE_DROPBOX_DEV_MODE', true );
 
-// if ( function_exists( 'ud_id_fs' ) ) {
-// 	ud_id_fs()->set_basename( true, __FILE__ );
+// if ( function_exists( 'idb_fs' ) ) {
+// 	idb_fs()->set_basename( true, __FILE__ );
 // } else {
-// 	if ( ! function_exists( 'ud_id_fs' ) ) {
+// 	if ( ! function_exists( 'idb_fs' ) ) {
 // 		// Create a helper function for easy SDK access.
-// 		function ud_id_fs() {
-// 			global $ud_id_fs;
+// 		function idb_fs() {
+// 			global $idb_fs;
 	
-// 			if ( ! isset( $ud_id_fs ) ) {
+// 			if ( ! isset( $idb_fs ) ) {
 // 				// Include Freemius SDK.
 // 				require_once dirname(__FILE__) . '/freemius/start.php';
 	
-// 				$ud_id_fs = fs_dynamic_init( array(
+// 				$idb_fs = fs_dynamic_init( array(
 // 					'id'                  => '11947',
 // 					'slug'                => 'integrate-dropbox',
 // 					'type'                => 'plugin',
@@ -78,13 +78,13 @@ define( 'INTEGRATE_DROPBOX_DEV_MODE', true );
 // 				) );
 // 			}
 	
-// 			return $ud_id_fs;
+// 			return $idb_fs;
 // 		}
 	
 // 		// Init Freemius.
-// 		ud_id_fs();
+// 		idb_fs();
 // 		// Signal that SDK was initiated.
-// 		do_action( 'ud_id_fs_loaded' );
+// 		do_action( 'idb_fs_loaded' );
 // 	}
 // }
 

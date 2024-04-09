@@ -41,7 +41,15 @@ class Menu {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_init', array( $this, 'handle_authorization' ) );
 
-		if ( is_admin() && isset( $_GET[ 'page' ] ) && INTEGRATE_DROPBOX_MENU_SLUG === wp_unslash( $_GET['page'] ) ) { // phpcs:ignore
+		$menu_to_avoid = array(
+			INTEGRATE_DROPBOX_MENU_SLUG,
+			INTEGRATE_DROPBOX_MENU_SLUG . '-settings',
+		);
+
+		if (
+			is_admin() && isset( $_GET[ 'page' ] ) &&
+			in_array( wp_unslash( $_GET['page'] ), $menu_to_avoid, true )
+		) { // phpcs:ignore
 			add_action( 'in_admin_header', array( $this, 'remove_notices' ) );
 		}
 	}

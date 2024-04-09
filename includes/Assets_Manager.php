@@ -108,7 +108,7 @@ class Assets_Manager {
 			'loadingImg' => INTEGRATE_DROPBOX_ASSETS . 'images/loading/Spin.svg'
 		);
 
-		return apply_filters( 'ud_id_localization_data', $localization_data );
+		return apply_filters( 'idb_localization_data', $localization_data );
 	}
 
 }

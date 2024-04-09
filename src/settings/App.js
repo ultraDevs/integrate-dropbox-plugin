@@ -1,21 +1,19 @@
-// import Header from './components/Header';
-// import Sidebar from './components/Sidebar';
-// import Browser from './components/Browser';
-// import { Contexify } from './components/Contexify';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 
-// import './scss/admin.scss';
-// import 'sweetalert2/src/sweetalert2.scss'
+import './scss/settings.scss';
+import 'sweetalert2/src/sweetalert2.scss'
 
 const App = () => {
 	return (
 		<div className='idb-settings'>
-			{/* <Contexify />
 			<Header />
-			<div className='ud-c-file-browser__body'>
+			<div className='idb-settings__body'>
 				<Sidebar />
-				<Browser />
-			</div> */}
-			<p className="text-red-800">Settings</p>
+				<div className='idb-settings__content'>
+					Content
+				</div>
+			</div>
 		</div>
 	);
 };
