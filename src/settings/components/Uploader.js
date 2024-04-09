@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from '@wordpress/element';
 import { dispatch, useSelect } from '@wordpress/data';
 
-import { showAlert } from '../utils/alertHelper';
-
 const Uploader = () => {
 	const { activeAccount } = IDBData;
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
@@ -15,13 +13,17 @@ const Uploader = () => {
 	const [uploading, setUploading] = useState(false); // Flag to indicate if an upload is in progress
 	const [currentFileIndex, setCurrentFileIndex] = useState(0); // Index of the current file being uploaded
 	const [uploadedCount, setUploadedCount] = useState(0); // Count of uploaded files
+	const [isProgressBar, setIsProgressBar] = useState(false); // first time not show progress bar
+	const [progressBar, setProgressBar] = useState(0); // progress bar
+
+	console.log({ progressBar, uploadQueue });
 
 	useEffect(() => {
 		// Start uploading when a new file is added to the queue
 		if (!uploading && uploadQueue.length > 0) {
 			startUpload(uploadQueue[currentFileIndex]);
 		}
-		console.log(currentFileIndex, uploadedCount, uploadQueue);
+		console.log({ currentFileIndex, uploadedCount, uploadQueue });
 	}, [uploadQueue, uploading, currentFileIndex]);
 
 	useEffect(() => {
@@ -82,7 +84,8 @@ const Uploader = () => {
 
 				// Remove the uploaded file from the queue
 				setUploadQueue((prevQueue) => prevQueue.slice(1));
-				dispatch('dropbox-browser').setData('refresh', !refresh);
+				// setIsProgressBar(true);
+				// dispatch('dropbox-browser').setData('refresh', !refresh);
 			},
 			error: function (error) {
 				console.error('Error:', error);
@@ -91,17 +94,22 @@ const Uploader = () => {
 				// Mark the upload as complete
 				setUploading(false);
 			},
-			xhr: function() {
+			xhr: function () {
 				var xhr = new window.XMLHttpRequest();
-				xhr.upload.addEventListener("progress", function(evt) {
-					if (evt.lengthComputable) {
-						var percentComplete = (evt.loaded / evt.total) * 100;
-						//Do something with upload progress here
-						console.log(percentComplete)
-					}
-				}, false);
+				xhr.upload.addEventListener(
+					'progress',
+					function (evt) {
+						if (evt.lengthComputable) {
+							var percentComplete = (evt.loaded / evt.total) * 100;
+							//Do something with upload progress here
+							setProgressBar(percentComplete);
+							// dispatch('dropbox-browser').setData('refresh', !refresh);
+						}
+					},
+					false
+				);
 				return xhr;
-			}
+			},
 		});
 
 		setUploading(true);
@@ -123,6 +131,11 @@ const Uploader = () => {
 		if (!uploading) {
 			startUpload(files[currentFileIndex]);
 		}
+	};
+
+	// Function to convert bytes to megabytes
+	const bytesToMB = (bytes) => {
+		return ((bytes || 0) / (1024 * 1024)).toFixed(2); // convert bytes to megabytes with two decimal places
 	};
 
 	return (
@@ -237,6 +250,7 @@ const Uploader = () => {
 					</svg>
 				</div>
 			</div>
+			{/* {isProgressBar && ( */}
 			<div className='idb-file-browser__upload-progress'>
 				<div className='idb-file-browser__upload-progress__details'>
 					<div className='idb-file-browser__upload-progress__details__file_icon'>
@@ -267,30 +281,58 @@ const Uploader = () => {
 					</div>
 					<div className='idb-file-browser__upload-progress__details__content'>
 						<h3 className='idb-file-browser__upload-progress__details__content__title'>
-							File uploading...
+							{uploadQueue[0]?.name}
 						</h3>
 						<p className='idb-file-browser__upload-progress__details__content__file-size'>
-							12.0 MB
+							{bytesToMB(uploadQueue[0]?.size)} MB
 						</p>
 					</div>
 				</div>
-				<div className='idb-file-browser__upload-progress__check-icon'>
-					<div className='flex flex-col w-[200px] gap-2'>
-						<div
-							className={`flex h-3 w-full  items-center justify-center rounded-full bg-sky-300`}
-						>
+				{progressBar !== 100 ? (
+					<div className='idb-file-browser__upload-progress__check-icon'>
+						<div className='flex flex-col w-[200px] gap-2'>
 							<div
-								style={{ width: `${70}%` }}
-								className={`transition-width mr-auto h-3 w-0 rounded-full  bg-sky-600 duration-500`}
-							></div>
+								className={`flex h-3 w-full  items-center justify-center rounded-full bg-sky-300`}
+							>
+								<div
+									style={{ width: `${progressBar}%` }}
+									className={`transition-width mr-auto h-3 w-0 rounded-full  bg-sky-600 duration-500`}
+								></div>
+							</div>
+							<span className='text-lg font-medium text-center text-sky-400'>
+								{' '}
+								{progressBar} %
+							</span>
 						</div>
-						<span className='text-lg font-medium text-center text-sky-400'>
-							{' '}
-							{70} %
-						</span>
 					</div>
-				</div>
+				) : (
+					<div className='idb-file-browser__upload-progress__check-icon'>
+						<svg
+							className='w-6 h-6 '
+							viewBox='0 0 24 24'
+							fill='none'
+							xmlns='http://www.w3.org/2000/svg'
+						>
+							<g id='SVGRepo_bgCarrier' stroke-width='0'></g>
+							<g
+								id='SVGRepo_tracerCarrier'
+								stroke-linecap='round'
+								stroke-linejoin='round'
+							></g>
+							<g id='SVGRepo_iconCarrier'>
+								{' '}
+								<path
+									fill='#3182ce'
+									fill-rule='evenodd'
+									clip-rule='evenodd'
+									d='M20.6097 5.20743C21.0475 5.54416 21.1294 6.17201 20.7926 6.60976L10.7926 19.6098C10.6172 19.8378 10.352 19.9793 10.0648 19.9979C9.77765 20.0166 9.49637 19.9106 9.29289 19.7072L4.29289 14.7072C3.90237 14.3166 3.90237 13.6835 4.29289 13.2929C4.68342 12.9024 5.31658 12.9024 5.70711 13.2929L9.90178 17.4876L19.2074 5.39034C19.5441 4.95258 20.172 4.87069 20.6097 5.20743Z'
+								></path>{' '}
+							</g>
+						</svg>
+					</div>
+				)}
 			</div>
+			{/* )} */}
 		</div>
 	);
 };
