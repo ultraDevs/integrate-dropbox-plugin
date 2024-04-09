@@ -86,7 +86,7 @@ const Browser = () => {
 	// 				{item.can_preview && item.thumbnail ? (
 	// 					<img src={item.thumbnail} />
 	// 				) : (
-	// 					<div className='ud-c-file-browser__file-list__item__icon'>
+	// 					<div className='idb-file-browser__file-list__item__icon'>
 	// 						<span className={classnames('dashicons', getIcon(item.ext))}></span>
 	// 					</div>
 	// 				)}
@@ -271,28 +271,28 @@ const Browser = () => {
 				</Item>
 			</Menu>
 
-			<div className='ud-c-file-browser__content'>
+			<div className='idb-file-browser__content'>
 				{isLoading ? (
-					<div className='ud-c-file-browser__loading'>
-						<div className='ud-c-file-browser__loading__spinner'>
-							<div className='ud-c-file-browser__loading__spinner--bounce1'></div>
-							<div className='ud-c-file-browser__loading__spinner--bounce2'></div>
-							<div className='ud-c-file-browser__loading__spinner--bounce3'></div>
+					<div className='idb-file-browser__loading'>
+						<div className='idb-file-browser__loading__spinner'>
+							<div className='idb-file-browser__loading__spinner--bounce1'></div>
+							<div className='idb-file-browser__loading__spinner--bounce2'></div>
+							<div className='idb-file-browser__loading__spinner--bounce3'></div>
 						</div>
 					</div>
 				) : (
 					''
 				)}
 
-				<div className='ud-c-file-browser__file-list'>
+				<div className='idb-file-browser__file-list'>
 					{previousPath && (
 						<div
-							className='ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder'
+							className='idb-file-browser__file-list__item idb-file-browser__file-list__prev idb-file-browser__file-list__item--folder'
 							onClick={() => {
 								setPath(previousPath);
 							}}
 						>
-							<div className='ud-c-file-browser__file-list__item__info'>
+							<div className='idb-file-browser__file-list__item__info'>
 								<i class='dashicons dashicons-arrow-left-alt2'></i>
 								<span>Previous Folder</span>
 							</div>
@@ -304,8 +304,8 @@ const Browser = () => {
 							return (
 								<div
 									className={classnames(
-										'ud-c-file-browser__file-list__item',
-										'ud-c-file-browser__file-list__item--folder'
+										'idb-file-browser__file-list__item',
+										'idb-file-browser__file-list__item--folder'
 									)}
 									key={index}
 									onClick={(e) => {
@@ -321,7 +321,7 @@ const Browser = () => {
 										});
 									}}
 								>
-									<div className='ud-c-file-browser__file-list__item__info'>
+									<div className='idb-file-browser__file-list__item__info'>
 										<i class='dashicons dashicons-open-folder'></i>
 										<span>{item.name}</span>
 									</div>
@@ -332,13 +332,13 @@ const Browser = () => {
 
 				{files.length ? (
 					<>
-						<div className='ud-c-file-browser__file-list'>
+						<div className='idb-file-browser__file-list'>
 							{files.map((item, index) => {
 								return (
 									<div
 										className={classnames(
-											'ud-c-file-browser__file-list__item',
-											'ud-c-file-browser__file-list__item--file'
+											'idb-file-browser__file-list__item',
+											'idb-file-browser__file-list__item--file'
 										)}
 										key={index}
 										onClick={() => {
@@ -355,11 +355,11 @@ const Browser = () => {
 										}}
 									>
 										{item.can_preview && item.thumbnail ? (
-											<div className='ud-c-file-browser__file-list__item__thumb'>
+											<div className='idb-file-browser__file-list__item__thumb'>
 												<img src={item.thumbnail} />
 											</div>
 										) : (
-											<div className='ud-c-file-browser__file-list__item__icon'>
+											<div className='idb-file-browser__file-list__item__icon'>
 												<span
 													className={classnames(
 														'dashicons',
@@ -368,7 +368,7 @@ const Browser = () => {
 												></span>
 											</div>
 										)}
-										<div className='ud-c-file-browser__file-list__item__info'>
+										<div className='idb-file-browser__file-list__item__info'>
 											<i
 												class={classnames('dashicons', getIcon(item.ext))}
 											></i>
@@ -384,7 +384,7 @@ const Browser = () => {
 				)}
 			</div>
 
-			{/* <div className='ud-c-file-browser__preview'>
+			{/* <div className='idb-file-browser__preview'>
 				<LightGallery
 					ref={lightGallery}
 					plugins={[lgZoom, lgThumbnail, lgVideo]}

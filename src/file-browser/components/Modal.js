@@ -36,8 +36,8 @@ const Modal = ({ showModal, item, setShowModal }) => {
 	return (
 		<>
 			{showModal && (
-				<div className='ud-idb-modal'>
-					<div className='flex items-center justify-between px-6 ud-idb-modal__header'>
+				<div className='idb-modal'>
+					<div className='flex items-center justify-between px-6 idb-modal__header'>
 						<div>
 							<h3 className='text-2xl text-white'>{item.name}</h3>
 						</div>
@@ -67,7 +67,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
 							</svg>
 						</div>
 					</div>
-					<div className='ud-idb-modal__content'>
+					<div className='idb-modal__content'>
 						<img src={previewData || loadingImg} alt={item.name} />
 					</div>
 				</div>

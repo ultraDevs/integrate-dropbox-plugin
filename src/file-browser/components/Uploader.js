@@ -36,7 +36,7 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.ud-c-file-browser__upload__inner').style.border =
+		document.querySelector('.idb-file-browser__upload__inner').style.border =
 			'2px dashed #ff0000';
 	};
 
@@ -44,7 +44,7 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.ud-c-file-browser__upload__inner').style.border =
+		document.querySelector('.idb-file-browser__upload__inner').style.border =
 			'2px dashed #000000';
 	};
 
@@ -52,7 +52,7 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.ud-c-file-browser__upload__inner').style.border =
+		document.querySelector('.idb-file-browser__upload__inner').style.border =
 			'2px dashed #000000';
 
 		// Handle the drop here.
