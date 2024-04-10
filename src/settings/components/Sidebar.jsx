@@ -16,10 +16,12 @@ const Sidebar = ( props ) => {
 		{
 			slug: 'accounts',
 			label: __( 'Accounts', 'integrate-dropbox' ),
+			icon: 'dashicons-admin-users'
 		},
 		{
 			slug: 'appearance',
 			label: __( 'Appearance', 'integrate-dropbox' ),
+			icon: 'dashicons-admin-appearance'
 		},
 	];
 	
@@ -43,7 +45,8 @@ const Sidebar = ( props ) => {
 											// Add slug with # to URL.
 											window.history.pushState( '', '', '#' + item.slug );
 										} }
-									>
+									>	
+										<span className={ `dashicons ${ item.icon }` }></span>
 										<span>{ item.label }</span>
 									</div>
 								) )

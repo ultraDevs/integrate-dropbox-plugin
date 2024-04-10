@@ -98,6 +98,7 @@ class Assets_Manager {
 		$auth_url = $client->get_auth_url( [ 'prompt' => 'login' ] );
 
 		$localization_data = array(
+			'version'       => INTEGRATE_DROPBOX_VERSION,
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
 			'version'       => INTEGRATE_DROPBOX_VERSION,
 			'assets'        => INTEGRATE_DROPBOX_ASSETS,
