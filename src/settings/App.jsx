@@ -1,5 +1,4 @@
 import React, { useState } from '@wordpress/element';
-import { dispatch } from '@wordpress/data';
 
 import Content from './components/Content';
 import Header from './components/Header';
@@ -13,9 +12,6 @@ const App = () => {
 	const hashValue = hash.replace('#', '');
 	const [ activeItem, setActiveItem ] = useState(hashValue || 'accounts');
 	const [ formData, setFormData ] = useState({});
-
-	// dispatch('idb-settings').setSetting( 'accounts', IDBData.accounts || []);
-
 
 	return (
 		<div className='idb-settings'>

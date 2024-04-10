@@ -1,8 +1,15 @@
 import React from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-const Header = () => {
+const Header = (props) => {
 	const { activeAccount, accounts, version } = IDBData;
+    const { formData, setFormData } = props;
+
+	console.log('header formdaa', formData);
+
+	const saveSettings = () => {
+		console.log('saveSettings', formData);
+	}
 
 	return (
 		<div className='idb-settings__header'>
@@ -16,7 +23,7 @@ const Header = () => {
 				</h2>
 			</div>
 			<div className='idb-settings__header__right'>
-				<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary'>
+				<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={saveSettings}>
 					<i className='dashicons dashicons-saved'></i>{ ' ' }
 					Save Changes
 				</button>

@@ -7,10 +7,6 @@ const Accounts = (props) => {
         accounts 
     } = IDBData;
 
-    
-
-    console.log('accounts formdaa', formData)
-
     const handleAccountChange = (e) => {
         const { name, value } = e.target;
 

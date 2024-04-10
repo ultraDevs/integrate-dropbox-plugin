@@ -15,8 +15,6 @@ const Content = (props) => {
     //     return select( 'idb-settings' ).getSettings();
     // })
 
-    console.log('content formdaa', formData)
-
     return (
         <div>
             {activeItem === 'accounts' && (
