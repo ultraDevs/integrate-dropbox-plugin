@@ -1,5 +1,6 @@
 import { render } from '@wordpress/element';
 import App from './App';
-// import './store/browser-store';
+// import './store/settingsData';
+
 
 render(<App />, document.getElementById('idb-settings'));
