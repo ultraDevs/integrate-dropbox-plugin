@@ -7,7 +7,7 @@ const Header = () => {
 		<div className='idb-settings__header'>
 			<h2>Settings</h2>
 			<div className='idb-settings__header__right'>
-				Save Changes
+				<button className='px-4 py-3 text-sm text-white rounded-md bg-secondary'>Save Changes</button>
 			</div>
 		</div>
 	);

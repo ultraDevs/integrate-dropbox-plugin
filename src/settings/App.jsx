@@ -14,7 +14,7 @@ const App = () => {
 	const [ activeItem, setActiveItem ] = useState(hashValue || 'accounts');
 	const [ formData, setFormData ] = useState({});
 
-	dispatch('idb-settings').setSetting( 'accounts', IDBData.accounts || []);
+	// dispatch('idb-settings').setSetting( 'accounts', IDBData.accounts || []);
 
 
 	return (

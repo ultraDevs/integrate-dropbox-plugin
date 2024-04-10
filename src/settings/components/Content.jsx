@@ -11,9 +11,9 @@ const Content = (props) => {
 		activeAccount,
 	} = IDBData;
 
-    const settingsData = useSelect( ( select ) => {
-        return select( 'idb-settings' ).getSettings();
-    })
+    // const settingsData = useSelect( ( select ) => {
+    //     return select( 'idb-settings' ).getSettings();
+    // })
 
     console.log('content formdaa', formData)
 
