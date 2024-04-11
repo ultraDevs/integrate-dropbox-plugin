@@ -41,24 +41,27 @@ const Browser = () => {
 	};
 
 	useEffect(() => {
-		apiFetch({
-			path: '/idb/v1/get-files',
-			method: 'POST',
-			data: {
-				path: currentPath,
-				accountId: activeAccount['id'],
-				filter: filter,
-			},
-		})
-			.then((response) => {
-				dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
-				setData(response.data.files);
-				dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
-				dispatch('dropbox-browser').setData('isLoading', false);
+		if ( activeAccount.length !== 0 ) {
+			dispatch('dropbox-browser').setData('isLoading', true);
+			apiFetch({
+				path: '/idb/v1/get-files',
+				method: 'POST',
+				data: {
+					path: currentPath,
+					accountId: activeAccount['id'],
+					filter: filter,
+				},
 			})
-			.catch((error) => {
-				console.log(error);
-			});
+				.then((response) => {
+					dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
+					setData(response.data.files);
+					dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
+					dispatch('dropbox-browser').setData('isLoading', false);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	}, [currentPath, refresh, filter]);
 
 	const folders = data.filter((item) => {
@@ -272,116 +275,142 @@ const Browser = () => {
 			</Menu>
 
 			<div className='idb-file-browser__content'>
-				{isLoading ? (
-					<div className='idb-file-browser__loading'>
-						<div className='idb-file-browser__loading__spinner'>
-							<div className='idb-file-browser__loading__spinner--bounce1'></div>
-							<div className='idb-file-browser__loading__spinner--bounce2'></div>
-							<div className='idb-file-browser__loading__spinner--bounce3'></div>
-						</div>
-					</div>
-				) : (
-					''
-				)}
+				{
+					activeAccount.length === 0 ? (
+						<>
+							<div className='idb-notice'>
+								<h3>No Accounts</h3>
+								<p>Please Add your account to continue</p>
 
-				<div className='idb-file-browser__file-list'>
-					{previousPath && (
-						<div
-							className='idb-file-browser__file-list__item idb-file-browser__file-list__prev idb-file-browser__file-list__item--folder'
-							onClick={() => {
-								setPath(previousPath);
-							}}
-						>
-							<div className='idb-file-browser__file-list__item__info'>
-								<i class='dashicons dashicons-arrow-left-alt2'></i>
-								<span>Previous Folder</span>
-							</div>
-						</div>
-					)}
-
-					{folders.length > 0 &&
-						folders.map((item, index) => {
-							return (
-								<div
-									className={classnames(
-										'idb-file-browser__file-list__item',
-										'idb-file-browser__file-list__item--folder'
-									)}
-									key={index}
-									onClick={(e) => {
-										if (item.is_dir) {
-											setPath(item.path);
-										}
+								<button
+									onClick={() => {
+										window.open(
+											IDBData.authUrl,
+											'_blank',
+											'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
+										);
 									}}
-									onContextMenu={(e) => {
-										showContexify(e, FOLDER_MENU, {
-											type: 'folder',
-											path: item.path,
-											item,
-										});
-									}}
+									className='ud-c-btn ud-c-btn--primary'
 								>
-									<div className='idb-file-browser__file-list__item__info'>
-										<i class='dashicons dashicons-open-folder'></i>
-										<span>{item.name}</span>
+									Add Account
+								</button>
+							</div>
+						</>
+					) : (
+						<>
+							{isLoading ? (
+								<div className='idb-file-browser__loading'>
+									<div className='idb-file-browser__loading__spinner'>
+										<div className='idb-file-browser__loading__spinner--bounce1'></div>
+										<div className='idb-file-browser__loading__spinner--bounce2'></div>
+										<div className='idb-file-browser__loading__spinner--bounce3'></div>
 									</div>
 								</div>
-							);
-						})}
-				</div>
+							) : (
+								''
+							)}
 
-				{files.length ? (
-					<>
-						<div className='idb-file-browser__file-list'>
-							{files.map((item, index) => {
-								return (
+							<div className='idb-file-browser__file-list'>
+								{previousPath && (
 									<div
-										className={classnames(
-											'idb-file-browser__file-list__item',
-											'idb-file-browser__file-list__item--file'
-										)}
-										key={index}
+										className='idb-file-browser__file-list__item idb-file-browser__file-list__prev idb-file-browser__file-list__item--folder'
 										onClick={() => {
-											setActiveItem(item);
-											filePreview(item);
-											console.log(item);
-										}}
-										onContextMenu={(e) => {
-											showContexify(e, FILE_MENU, {
-												type: 'file',
-												path: item.path,
-												item,
-											});
+											setPath(previousPath);
 										}}
 									>
-										{item.can_preview && item.thumbnail ? (
-											<div className='idb-file-browser__file-list__item__thumb'>
-												<img src={item.thumbnail} />
-											</div>
-										) : (
-											<div className='idb-file-browser__file-list__item__icon'>
-												<span
-													className={classnames(
-														'dashicons',
-														getIcon(item.ext)
-													)}
-												></span>
-											</div>
-										)}
 										<div className='idb-file-browser__file-list__item__info'>
-											<i
-												class={classnames('dashicons', getIcon(item.ext))}
-											></i>
-											<span>{item.name}</span>
+											<i class='dashicons dashicons-arrow-left-alt2'></i>
+											<span>Previous Folder</span>
 										</div>
 									</div>
-								);
-							})}
-						</div>
-					</>
-				) : (
-					''
-				)}
+								)}
+
+								{folders.length > 0 &&
+									folders.map((item, index) => {
+										return (
+											<div
+												className={classnames(
+													'idb-file-browser__file-list__item',
+													'idb-file-browser__file-list__item--folder'
+												)}
+												key={index}
+												onClick={(e) => {
+													if (item.is_dir) {
+														setPath(item.path);
+													}
+												}}
+												onContextMenu={(e) => {
+													showContexify(e, FOLDER_MENU, {
+														type: 'folder',
+														path: item.path,
+														item,
+													});
+												}}
+											>
+												<div className='idb-file-browser__file-list__item__info'>
+													<i class='dashicons dashicons-open-folder'></i>
+													<span>{item.name}</span>
+												</div>
+											</div>
+										);
+									})}
+							</div>
+
+							{files.length ? (
+								<>
+									<div className='idb-file-browser__file-list'>
+										{files.map((item, index) => {
+											return (
+												<div
+													className={classnames(
+														'idb-file-browser__file-list__item',
+														'idb-file-browser__file-list__item--file'
+													)}
+													key={index}
+													onClick={() => {
+														setActiveItem(item);
+														filePreview(item);
+														console.log(item);
+													}}
+													onContextMenu={(e) => {
+														showContexify(e, FILE_MENU, {
+															type: 'file',
+															path: item.path,
+															item,
+														});
+													}}
+												>
+													{item.can_preview && item.thumbnail ? (
+														<div className='idb-file-browser__file-list__item__thumb'>
+															<img src={item.thumbnail} />
+														</div>
+													) : (
+														<div className='idb-file-browser__file-list__item__icon'>
+															<span
+																className={classnames(
+																	'dashicons',
+																	getIcon(item.ext)
+																)}
+															></span>
+														</div>
+													)}
+													<div className='idb-file-browser__file-list__item__info'>
+														<i
+															class={classnames('dashicons', getIcon(item.ext))}
+														></i>
+														<span>{item.name}</span>
+													</div>
+												</div>
+											);
+										})}
+									</div>
+								</>
+							) : (
+								''
+							)}
+						</>
+					)
+				}
 			</div>
 
 			{/* <div className='idb-file-browser__preview'>

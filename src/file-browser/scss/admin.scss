@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './uploader';
 
 /** React Contexify */
 :root {
@@ -16,6 +15,9 @@
 	--contexify-arrow-color: #6f6e77;
 	--contexify-activeArrow-color: #fff;
 }
+
+@import './uploader';
+@import '../../scss/notice';
 
 #wpcontent {
 	padding-left: 0px !important;
