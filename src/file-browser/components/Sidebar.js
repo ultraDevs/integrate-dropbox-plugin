@@ -26,10 +26,10 @@ const Sidebar = () => {
 	];
     return (
 		<>
-			<div className="ud-c-file-browser__l">
-				<div className="ud-c-file-browser__sidebar">
-					<div className="ud-c-file-browser__sidebar__content">
-						<div className="ud-c-file-browser__sidebar__upload">
+			<div className="idb-file-browser__l">
+				<div className="idb-file-browser__sidebar">
+					<div className="idb-file-browser__sidebar__content">
+						<div className="idb-file-browser__sidebar__upload">
 							<button
 								onClick={ () => dispatch('dropbox-browser').setData('showUploader', true) }
 								className="ud-c-btn ud-c-btn--secondary"
@@ -40,15 +40,15 @@ const Sidebar = () => {
 								<span>Upload Files</span>
 							</button>
 						</div>
-						<div className="ud-c-file-browser__sidebar__items">
+						<div className="idb-file-browser__sidebar__items">
 							{items.map((item, index) => {
 								return (
 									<div
 										key={index}
 										className={classNames(
-											"ud-c-file-browser__sidebar__item",
+											"idb-file-browser__sidebar__item",
 											{
-												"ud-c-file-browser__sidebar__item--active":
+												"idb-file-browser__sidebar__item--active":
 													item.slug === aItem,
 											}
 										)}
@@ -60,23 +60,23 @@ const Sidebar = () => {
 								);
 							})}
 						</div>
-						<div className="ud-c-file-browser__sidebar__storage-info">
-							<div className="ud-c-file-browser__sidebar__storage-info__img">
+						<div className="idb-file-browser__sidebar__storage-info">
+							<div className="idb-file-browser__sidebar__storage-info__img">
 								<img
 									src={IDBData.assets + "images/storage.svg"}
 								/>
 							</div>
-							<div className="ud-c-file-browser__sidebar__storage-info__more">
-								<div className="ud-c-file-browser__sidebar__storage-info__more__progress">
+							<div className="idb-file-browser__sidebar__storage-info__more">
+								<div className="idb-file-browser__sidebar__storage-info__more__progress">
 									<div
-										className="ud-c-file-browser__sidebar__storage-info__more__progress__bar"
+										className="idb-file-browser__sidebar__storage-info__more__progress__bar"
 										style={{
 											width: `${activeAccount?.storage?.percent}%`,
 										}}
 									></div>
 								</div>
 								{activeAccount.storage && (
-									<div className="ud-c-file-browser__sidebar__storage-info__more__text">
+									<div className="idb-file-browser__sidebar__storage-info__more__text">
 										{formatBytes(
 											activeAccount?.storage?.used
 										)}{" "}

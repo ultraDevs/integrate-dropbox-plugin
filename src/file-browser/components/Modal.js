@@ -15,7 +15,8 @@ const Modal = ({ showModal, item, setShowModal }) => {
 	};
 
 	useEffect(() => {
-		wp.ajax
+        if (showModal && item) {
+            wp.ajax
 			.post('idb_file_preview', {
 				account_id: activeAccount['id'],
 				nonce: IDBData?.ajaxNonce,
@@ -27,14 +28,16 @@ const Modal = ({ showModal, item, setShowModal }) => {
 			})
 			.catch((error) => {
 				console.error(error);
+				dispatch('dropbox-browser').setData('isLoading', false);
 			});
-	}, [item]);
+        }
+    }, [showModal, item, activeAccount]);
 
 	return (
 		<>
 			{showModal && (
-				<div className='ud-idb-modal'>
-					<div className='flex items-center justify-between px-6 ud-idb-modal__header'>
+				<div className='idb-modal'>
+					<div className='flex items-center justify-between px-6 idb-modal__header'>
 						<div>
 							<h3 className='text-2xl text-white'>{item.name}</h3>
 						</div>
@@ -64,7 +67,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
 							</svg>
 						</div>
 					</div>
-					<div className='ud-idb-modal__content'>
+					<div className='idb-modal__content'>
 						<img src={previewData || loadingImg} alt={item.name} />
 					</div>
 				</div>

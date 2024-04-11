@@ -20,7 +20,7 @@ use ultraDevs\IntegrateDropbox\Helper;
  * @since 1.0.0
  */
 class File extends FileAbstract {
-	use Singleton;
+	// use Singleton;
 
 
 	/**

@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './uploader';
 
 /** React Contexify */
 :root {
@@ -16,6 +15,9 @@
 	--contexify-arrow-color: #6f6e77;
 	--contexify-activeArrow-color: #fff;
 }
+
+@import './uploader';
+@import '../../scss/notice';
 
 #wpcontent {
 	padding-left: 0px !important;
@@ -31,7 +33,7 @@ ul {
 #ud-id-app {
 }
 
-.ud-c-file-browser {
+.idb-file-browser {
 	* {
 		box-sizing: border-box;
 	}
@@ -120,7 +122,7 @@ ul {
 					h3 {
 						@apply text-base font-medium text-[#222] mb-2 p-3 border-b-[1px] border-gray-200 text-center;
 					}
-					.ud-c-file-browser__header__right__user__info {
+					.idb-file-browser__header__right__user__info {
 						@apply cursor-pointer p-3 border-b-[1px] border-gray-200;
 
 						&--active {

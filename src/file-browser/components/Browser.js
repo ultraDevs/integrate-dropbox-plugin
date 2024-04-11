@@ -41,24 +41,27 @@ const Browser = () => {
 	};
 
 	useEffect(() => {
-		apiFetch({
-			path: '/idb/v1/get-files',
-			method: 'POST',
-			data: {
-				path: currentPath,
-				accountId: activeAccount['id'],
-				filter: filter,
-			},
-		})
-			.then((response) => {
-				dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
-				setData(response.data.files);
-				dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
-				dispatch('dropbox-browser').setData('isLoading', false);
+		if ( activeAccount.length !== 0 ) {
+			dispatch('dropbox-browser').setData('isLoading', true);
+			apiFetch({
+				path: '/idb/v1/get-files',
+				method: 'POST',
+				data: {
+					path: currentPath,
+					accountId: activeAccount['id'],
+					filter: filter,
+				},
 			})
-			.catch((error) => {
-				console.log(error);
-			});
+				.then((response) => {
+					dispatch('dropbox-browser').setData('breadcrumbs', response.data.breadcrumbs);
+					setData(response.data.files);
+					dispatch('dropbox-browser').setData('previous_path', response.data.previous_path);
+					dispatch('dropbox-browser').setData('isLoading', false);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	}, [currentPath, refresh, filter]);
 
 	const folders = data.filter((item) => {
@@ -86,7 +89,7 @@ const Browser = () => {
 	// 				{item.can_preview && item.thumbnail ? (
 	// 					<img src={item.thumbnail} />
 	// 				) : (
-	// 					<div className='ud-c-file-browser__file-list__item__icon'>
+	// 					<div className='idb-file-browser__file-list__item__icon'>
 	// 						<span className={classnames('dashicons', getIcon(item.ext))}></span>
 	// 					</div>
 	// 				)}
@@ -163,43 +166,43 @@ const Browser = () => {
 				console.log(event, props);
 				break;
 			case 'delete':
-				showAlert({
-					title: 'Are you sure?',
-					html: `
-						<h4 style="color:red">You won't be able to revert this!</h4>
-					`,
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, delete it!',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						wp.ajax
-							.post('idb_delete', {
-								account_id: activeAccount['id'],
-								nonce: IDBData?.ajaxNonce,
-								path: item.path,
-							})
-							.then((response) => {
-								showAlert({
-									title: 'Deleted!',
-									text: 'Your file has been deleted',
-									icon: 'success',
-								});
-
-								// Dispatch an action to refresh the browser.
-								dispatch('dropbox-browser').setData('refresh', !refresh);
-							})
-							.catch((error) => {
-								showAlert({
-									title: 'Error',
-									text: error.message,
-									icon: 'error',
-								});
+			showAlert({
+				title: 'Are you sure?',
+				html: `
+					<h4 style="color:red">You won't be able to revert this!</h4>
+				`,
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					wp.ajax
+						.post('idb_delete', {
+							account_id: activeAccount['id'],
+							nonce: IDBData?.ajaxNonce,
+							path: item.path,
+						})
+						.then((response) => {
+							showAlert({
+								title: 'Deleted!',
+								text: 'Your file has been deleted',
+								icon: 'success',
 							});
-					}
-				});
-				break;
+
+							// Dispatch an action to refresh the browser.
+							dispatch('dropbox-browser').setData('refresh', !refresh);
+						})
+						.catch((error) => {
+							showAlert({
+								title: 'Error',
+								text: error.message,
+								icon: 'error',
+							});
+						});
+				}
+			});
+			break;
 		}
 	};
 
@@ -209,7 +212,9 @@ const Browser = () => {
 
 	return (
 		<>
-			{showUploader && <Uploader />}
+			{showUploader && (
+				<Uploader />
+			)}
 			<Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} />
 			<Menu id={FILE_MENU}>
 				<Item id='preview' onClick={handleItemClick}>
@@ -269,120 +274,146 @@ const Browser = () => {
 				</Item>
 			</Menu>
 
-			<div className='ud-c-file-browser__content'>
-				{isLoading ? (
-					<div className='ud-c-file-browser__loading'>
-						<div className='ud-c-file-browser__loading__spinner'>
-							<div className='ud-c-file-browser__loading__spinner--bounce1'></div>
-							<div className='ud-c-file-browser__loading__spinner--bounce2'></div>
-							<div className='ud-c-file-browser__loading__spinner--bounce3'></div>
-						</div>
-					</div>
-				) : (
-					''
-				)}
+			<div className='idb-file-browser__content'>
+				{
+					activeAccount.length === 0 ? (
+						<>
+							<div className='idb-notice'>
+								<h3>No Accounts</h3>
+								<p>Please Add your account to continue</p>
 
-				<div className='ud-c-file-browser__file-list'>
-					{previousPath && (
-						<div
-							className='ud-c-file-browser__file-list__item ud-c-file-browser__file-list__prev ud-c-file-browser__file-list__item--folder'
-							onClick={() => {
-								setPath(previousPath);
-							}}
-						>
-							<div className='ud-c-file-browser__file-list__item__info'>
-								<i class='dashicons dashicons-arrow-left-alt2'></i>
-								<span>Previous Folder</span>
-							</div>
-						</div>
-					)}
-
-					{folders.length > 0 &&
-						folders.map((item, index) => {
-							return (
-								<div
-									className={classnames(
-										'ud-c-file-browser__file-list__item',
-										'ud-c-file-browser__file-list__item--folder'
-									)}
-									key={index}
-									onClick={(e) => {
-										if (item.is_dir) {
-											setPath(item.path);
-										}
+								<button
+									onClick={() => {
+										window.open(
+											IDBData.authUrl,
+											'_blank',
+											'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
+										);
 									}}
-									onContextMenu={(e) => {
-										showContexify(e, FOLDER_MENU, {
-											type: 'folder',
-											path: item.path,
-											item,
-										});
-									}}
+									className='ud-c-btn ud-c-btn--primary'
 								>
-									<div className='ud-c-file-browser__file-list__item__info'>
-										<i class='dashicons dashicons-open-folder'></i>
-										<span>{item.name}</span>
+									Add Account
+								</button>
+							</div>
+						</>
+					) : (
+						<>
+							{isLoading ? (
+								<div className='idb-file-browser__loading'>
+									<div className='idb-file-browser__loading__spinner'>
+										<div className='idb-file-browser__loading__spinner--bounce1'></div>
+										<div className='idb-file-browser__loading__spinner--bounce2'></div>
+										<div className='idb-file-browser__loading__spinner--bounce3'></div>
 									</div>
 								</div>
-							);
-						})}
-				</div>
+							) : (
+								''
+							)}
 
-				{files.length ? (
-					<>
-						<div className='ud-c-file-browser__file-list'>
-							{files.map((item, index) => {
-								return (
+							<div className='idb-file-browser__file-list'>
+								{previousPath && (
 									<div
-										className={classnames(
-											'ud-c-file-browser__file-list__item',
-											'ud-c-file-browser__file-list__item--file'
-										)}
-										key={index}
+										className='idb-file-browser__file-list__item idb-file-browser__file-list__prev idb-file-browser__file-list__item--folder'
 										onClick={() => {
-											setActiveItem(item);
-											filePreview(item);
-											console.log(item);
-										}}
-										onContextMenu={(e) => {
-											showContexify(e, FILE_MENU, {
-												type: 'file',
-												path: item.path,
-												item,
-											});
+											setPath(previousPath);
 										}}
 									>
-										{item.can_preview && item.thumbnail ? (
-											<div className='ud-c-file-browser__file-list__item__thumb'>
-												<img src={item.thumbnail} />
-											</div>
-										) : (
-											<div className='ud-c-file-browser__file-list__item__icon'>
-												<span
-													className={classnames(
-														'dashicons',
-														getIcon(item.ext)
-													)}
-												></span>
-											</div>
-										)}
-										<div className='ud-c-file-browser__file-list__item__info'>
-											<i
-												class={classnames('dashicons', getIcon(item.ext))}
-											></i>
-											<span>{item.name}</span>
+										<div className='idb-file-browser__file-list__item__info'>
+											<i class='dashicons dashicons-arrow-left-alt2'></i>
+											<span>Previous Folder</span>
 										</div>
 									</div>
-								);
-							})}
-						</div>
-					</>
-				) : (
-					''
-				)}
+								)}
+
+								{folders.length > 0 &&
+									folders.map((item, index) => {
+										return (
+											<div
+												className={classnames(
+													'idb-file-browser__file-list__item',
+													'idb-file-browser__file-list__item--folder'
+												)}
+												key={index}
+												onClick={(e) => {
+													if (item.is_dir) {
+														setPath(item.path);
+													}
+												}}
+												onContextMenu={(e) => {
+													showContexify(e, FOLDER_MENU, {
+														type: 'folder',
+														path: item.path,
+														item,
+													});
+												}}
+											>
+												<div className='idb-file-browser__file-list__item__info'>
+													<i class='dashicons dashicons-open-folder'></i>
+													<span>{item.name}</span>
+												</div>
+											</div>
+										);
+									})}
+							</div>
+
+							{files.length ? (
+								<>
+									<div className='idb-file-browser__file-list'>
+										{files.map((item, index) => {
+											return (
+												<div
+													className={classnames(
+														'idb-file-browser__file-list__item',
+														'idb-file-browser__file-list__item--file'
+													)}
+													key={index}
+													onClick={() => {
+														setActiveItem(item);
+														filePreview(item);
+														console.log(item);
+													}}
+													onContextMenu={(e) => {
+														showContexify(e, FILE_MENU, {
+															type: 'file',
+															path: item.path,
+															item,
+														});
+													}}
+												>
+													{item.can_preview && item.thumbnail ? (
+														<div className='idb-file-browser__file-list__item__thumb'>
+															<img src={item.thumbnail} />
+														</div>
+													) : (
+														<div className='idb-file-browser__file-list__item__icon'>
+															<span
+																className={classnames(
+																	'dashicons',
+																	getIcon(item.ext)
+																)}
+															></span>
+														</div>
+													)}
+													<div className='idb-file-browser__file-list__item__info'>
+														<i
+															class={classnames('dashicons', getIcon(item.ext))}
+														></i>
+														<span>{item.name}</span>
+													</div>
+												</div>
+											);
+										})}
+									</div>
+								</>
+							) : (
+								''
+							)}
+						</>
+					)
+				}
 			</div>
 
-			{/* <div className='ud-c-file-browser__preview'>
+			{/* <div className='idb-file-browser__preview'>
 				<LightGallery
 					ref={lightGallery}
 					plugins={[lgZoom, lgThumbnail, lgVideo]}

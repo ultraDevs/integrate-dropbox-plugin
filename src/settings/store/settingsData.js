@@ -1,22 +1,14 @@
 import { createReduxStore, register } from '@wordpress/data';
 
 const DEFAULT_STATE = {
-	data: {
-		filter: {
-			by: 'name',
-			direction: 'asc',
-		},
-		refresh: false,
-		current_path: '',
-		breadcrumbs: [],
-		previous_path: '',
-		isLoading: true,
-		showUploader: true,
+	settings: {
+		accounts: [],
+		accountsLoaded: false,
 	},
 };
 
 const actions = {
-	setData(item, value) {
+	setSetting(item, value) {
 		return {
 			type: 'SET_DATA',
 			item,
@@ -25,14 +17,14 @@ const actions = {
 	},
 };
 
-const store = createReduxStore('dropbox-browser', {
+const store = createReduxStore('idb-settings', {
 	reducer(state = DEFAULT_STATE, action) {
 		switch (action.type) {
 			case 'SET_DATA':
 				return {
 					...state,
-					data: {
-						...state.data,
+					settings: {
+						...state.settings,
 						[action.item]: action.value,
 					},
 				};
@@ -44,9 +36,12 @@ const store = createReduxStore('dropbox-browser', {
 	actions,
 
 	selectors: {
-		getData(state, item) {
-			const { data } = state;
-			return data[item];
+		getSetting(state, item) {
+			const { settings } = state;
+			return settings[item];
+		},
+		getSettings(state) {
+			return state.settings;
 		},
 	},
 });

@@ -8,10 +8,10 @@ import 'sweetalert2/src/sweetalert2.scss'
 
 const App = () => {
 	return (
-		<div className='ud-c-file-browser'>
+		<div className='idb-file-browser'>
 			<Contexify />
 			<Header />
-			<div className='ud-c-file-browser__body'>
+			<div className='idb-file-browser__body'>
 				<Sidebar />
 				<Browser />
 			</div>

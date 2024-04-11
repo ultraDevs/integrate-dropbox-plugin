@@ -5,10 +5,12 @@
  * @package IntegrateDropbox
  */
 
+use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\App\File;
 use ultraDevs\IntegrateDropbox\App\API;
 use ultraDevs\IntegrateDropbox\App\FileBrowser;
+use ultraDevs\IntegrateDropbox\App\Files;
 
 /**
  * Plugin Name:       Integrate Dropbox
@@ -38,19 +40,19 @@ define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
 define( 'INTEGRATE_DROPBOX_DEV_MODE', true );
 
-// if ( function_exists( 'ud_id_fs' ) ) {
-// 	ud_id_fs()->set_basename( true, __FILE__ );
+// if ( function_exists( 'idb_fs' ) ) {
+// 	idb_fs()->set_basename( true, __FILE__ );
 // } else {
-// 	if ( ! function_exists( 'ud_id_fs' ) ) {
+// 	if ( ! function_exists( 'idb_fs' ) ) {
 // 		// Create a helper function for easy SDK access.
-// 		function ud_id_fs() {
-// 			global $ud_id_fs;
+// 		function idb_fs() {
+// 			global $idb_fs;
 	
-// 			if ( ! isset( $ud_id_fs ) ) {
+// 			if ( ! isset( $idb_fs ) ) {
 // 				// Include Freemius SDK.
 // 				require_once dirname(__FILE__) . '/freemius/start.php';
 	
-// 				$ud_id_fs = fs_dynamic_init( array(
+// 				$idb_fs = fs_dynamic_init( array(
 // 					'id'                  => '11947',
 // 					'slug'                => 'integrate-dropbox',
 // 					'type'                => 'plugin',
@@ -76,13 +78,13 @@ define( 'INTEGRATE_DROPBOX_DEV_MODE', true );
 // 				) );
 // 			}
 	
-// 			return $ud_id_fs;
+// 			return $idb_fs;
 // 		}
 	
 // 		// Init Freemius.
-// 		ud_id_fs();
+// 		idb_fs();
 // 		// Signal that SDK was initiated.
-// 		do_action( 'ud_id_fs_loaded' );
+// 		do_action( 'idb_fs_loaded' );
 // 	}
 // }
 
@@ -148,8 +150,8 @@ final class IntegrateDropbox {
 		// Review Class.
 		$review = new ultraDevs\IntegrateDropbox\Review();
 
-		// Dashboard.
-		$dashboard = new ultraDevs\IntegrateDropbox\Admin\Dashboard();
+		// Menu.
+		$menu = new ultraDevs\IntegrateDropbox\Admin\Menu();
 
 		// App.
 		new ultraDevs\IntegrateDropbox\App\App();
@@ -162,8 +164,8 @@ final class IntegrateDropbox {
 			// Activation_Redirect.
 			add_action( 'admin_init', array( $activate, 'activation_redirect' ) );
 
-			// Dashboard.
-			$dashboard->register();
+			// Menu.
+			$menu->register();
 
 			// Plugin Action Links.
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
@@ -186,7 +188,7 @@ final class IntegrateDropbox {
 
 		// ud_vd( $api_class );
 
-		// $client = FileBrowser::get_instance()->get_file_list( '/', true, false, false );
+		// $client = FileBrowser::get_instance()->get_file_list( '/', true, false, false);
 		// dump( $client );
 		// foreach ( $client->children as $child ) {
 		// 	// dd( $child );
@@ -203,6 +205,9 @@ final class IntegrateDropbox {
 
 		// echo '<pre>';
 		// var_dump( FileBrowser::get_instance()->get_file_list( '', true, false, false ) );
+
+		// $files = Files::get_instance( Account::get_active_account()['id'] )->get_files( '/' );
+
 	}
 
 	/**

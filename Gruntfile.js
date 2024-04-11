@@ -231,7 +231,6 @@ module.exports = function(grunt) {
 					'!build/**',
 					'!assets/*.scss',
 					'!assets/**/*.map',
-					'!assets/**/*.asset.php',
 					'!*~',
 					'!cmnd.txt',
 					'!yarn.lock',
