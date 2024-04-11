@@ -15,7 +15,7 @@ use ultraDevs\IntegrateDropbox\App\Files;
 /**
  * Plugin Name:       Integrate Dropbox
  * Plugin URI:        https://ultradevs.com
- * Description:       Integrate Dropbox Description
+ * Description:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
  * Version: 1.0.0
  * Author:            ultradevs
  * Author URI:        https://ultradevs.com
@@ -39,54 +39,6 @@ define( 'INTEGRATE_DROPBOX_CACHE_DIR_URL', content_url() . '/integrate-dropbox-c
 define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
 define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
 define( 'INTEGRATE_DROPBOX_DEV_MODE', true );
-
-// if ( function_exists( 'idb_fs' ) ) {
-// 	idb_fs()->set_basename( true, __FILE__ );
-// } else {
-// 	if ( ! function_exists( 'idb_fs' ) ) {
-// 		// Create a helper function for easy SDK access.
-// 		function idb_fs() {
-// 			global $idb_fs;
-	
-// 			if ( ! isset( $idb_fs ) ) {
-// 				// Include Freemius SDK.
-// 				require_once dirname(__FILE__) . '/freemius/start.php';
-	
-// 				$idb_fs = fs_dynamic_init( array(
-// 					'id'                  => '11947',
-// 					'slug'                => 'integrate-dropbox',
-// 					'type'                => 'plugin',
-// 					'public_key'          => 'pk_a176432ddab9116ca5cb857548db3',
-// 					'is_premium'          => true,
-// 					'premium_suffix'      => 'PRO',
-// 					// If your plugin is a serviceware, set this option to false.
-// 					'has_premium_version' => true,
-// 					'has_addons'          => false,
-// 					'has_paid_plans'      => true,
-// 					'trial'               => array(
-// 						'days'               => 3,
-// 						'is_require_payment' => true,
-// 					),
-// 					'menu'                => array(
-// 						'slug'           => 'integrate-dropbox',
-// 						'first-path'     => 'admin.php?page=integrate-dropbox',
-// 						'support'        => false,
-// 					),
-// 					// Set the SDK to work in a sandbox mode (for development & testing).
-// 					// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-// 					'secret_key'          => 'sk_uZK$}43?:LyzW%B)PHfQWj()yEzYY',
-// 				) );
-// 			}
-	
-// 			return $idb_fs;
-// 		}
-	
-// 		// Init Freemius.
-// 		idb_fs();
-// 		// Signal that SDK was initiated.
-// 		do_action( 'idb_fs_loaded' );
-// 	}
-// }
 
 
 /**
