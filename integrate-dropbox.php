@@ -5,17 +5,10 @@
  * @package IntegrateDropbox
  */
 
-use ultraDevs\IntegrateDropbox\App\Account;
-use ultraDevs\IntegrateDropbox\App\Client;
-use ultraDevs\IntegrateDropbox\App\File;
-use ultraDevs\IntegrateDropbox\App\API;
-use ultraDevs\IntegrateDropbox\App\FileBrowser;
-use ultraDevs\IntegrateDropbox\App\Files;
-
 /**
  * Plugin Name:       Integrate Dropbox
  * Plugin URI:        https://ultradevs.com
- * Description:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
+ * Description:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website
  * Version: 1.0.0
  * Author:            ultradevs
  * Author URI:        https://ultradevs.com
@@ -129,37 +122,6 @@ final class IntegrateDropbox {
 			// Frontend Assets.
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
-
-		// $file_preview = Client::get_instance()->file_preview( '/hello test/hello/features/img-1.png' );
-		// //  $file_preview = Client::get_instance()->file_preview( '/get started with dropbox.pdf' );
-
-		// ud_vd( $file_preview );
-
-
-		// $api_class = API::get_instance()->get_file( '/hello test/hello/features/img-1.png' );
-
-		// ud_vd( $api_class );
-
-		// $client = FileBrowser::get_instance()->get_file_list( '/', true, false, false);
-		// dump( $client );
-		// foreach ( $client->children as $child ) {
-		// 	// dd( $child );
-		// 	dump( $child->basename );
-		// }
-		// dd( $client );
-
-		// $rename = API::get_instance()->rename( '/EXCHANGE.zip', 'Exchange.zip' );
-		// $rename = API::get_instance()->rename( '/Hello Test', 'Hello' );
-		// dd( $rename );
-
-		// $folder = API::get_instance()->create_folder( 'Imon', '/' );
-		// dd( $folder );
-
-		// echo '<pre>';
-		// var_dump( FileBrowser::get_instance()->get_file_list( '', true, false, false ) );
-
-		// $files = Files::get_instance( Account::get_active_account()['id'] )->get_files( '/' );
-
 	}
 
 	/**

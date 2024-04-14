@@ -238,14 +238,30 @@ class Client {
 		return $allowed;
 	}
 
+	public function get_thumbnail( $file, $width = null, $height = null, $return_link = false ) {
+		
+		if ( $file->has_own_thumbnail() ) {
+			$thumbnail_url = $file->get_thumbnail();
+		} else {
+			$thumbnail = new Thumbnail( $file );
+			$thumbnail_url = $thumbnail->get_thumbnail_url();
+		}
+
+		if ( $return_link ) {
+			return $thumbnail_url;
+		}
+
+		header( 'Location: ' . $thumbnail_url );
+	}
+
 
 	public function file_preview( $file, $account_id = null, $path = null ) {
 		if ( empty( $account_id ) ) {
-			$account = $this->account['id'];
+			$account_id = $this->account['id'];
 		}
 
 		// IF after all we still don't have an account, return false.
-		if ( empty( $account ) ) {
+		if ( empty( $account_id ) ) {
 			return false;
 		}
 
@@ -254,10 +270,16 @@ class Client {
 		}
 
 		$details = $this->client->getMetadata( $file );
+		$file = new File( $details );
 
 		$thumbnail = new Thumbnail( $details );
 
 		return $thumbnail->get_thumbnail_url();
+
+		// return wp_json_encode([
+		// 	'url' => $thumbnail->get_thumbnail_url(),
+		// 	'type'    => $file->get_extension(),
+		// ]);
 
 		do_action( 'idb_log_event', $details, $account_id, $path );
 

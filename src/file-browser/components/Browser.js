@@ -9,7 +9,7 @@ import { getIcon } from '../helper/common';
 import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
 
 import Modal from './Modal';
-import { showAlert } from '../utils/alertHelper';
+import { showAlert } from '../../utils/alertHelper';
 import Uploader from './Uploader';
 
 const FOLDER_MENU = 'file-browser-folder';

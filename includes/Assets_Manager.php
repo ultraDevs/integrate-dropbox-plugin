@@ -56,7 +56,7 @@ class Assets_Manager {
 
 		$script_assets = file_exists( INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/settings/index.asset.php' ) ? require INTEGRATE_DROPBOX_DIR_PATH . 'assets/admin/settings/index.asset.php' : array();
 
-		$deps = array_merge( $script_assets['dependencies'], array( 'wp-components' ) );
+		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
 
 		wp_enqueue_script( 'idb-settings', INTEGRATE_DROPBOX_ASSETS . 'admin/settings/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : INTEGRATE_DROPBOX_VERSION, true );
 

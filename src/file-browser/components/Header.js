@@ -4,7 +4,7 @@ import DropdownPopover from './DropDownPopover';
 import classnames from 'classnames';
 import apiFetch from '@wordpress/api-fetch';
 import { useSelect, dispatch } from '@wordpress/data';
-import { showAlert } from '../utils/alertHelper';
+import { showAlert } from '../../utils/alertHelper';
 
 const Header = () => {
 	const { activeAccount, accounts } = IDBData;

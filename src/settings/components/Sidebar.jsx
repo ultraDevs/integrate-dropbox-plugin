@@ -18,11 +18,11 @@ const Sidebar = ( props ) => {
 			label: __( 'Accounts', 'integrate-dropbox' ),
 			icon: 'dashicons-admin-users'
 		},
-		{
-			slug: 'appearance',
-			label: __( 'Appearance', 'integrate-dropbox' ),
-			icon: 'dashicons-admin-appearance'
-		},
+		// {
+		// 	slug: 'appearance',
+		// 	label: __( 'Appearance', 'integrate-dropbox' ),
+		// 	icon: 'dashicons-admin-appearance'
+		// },
 	];
 	
 

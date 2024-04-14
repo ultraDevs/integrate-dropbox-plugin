@@ -31,10 +31,12 @@ class Ajax {
 	 */
 	public $ajax_actions = [
 		'file_preview' => false,
+		'thumbnail'    => false,
 		'rename'       => false,
 		'create_folder' => false,
 		'delete' => false,
 		'upload' => false,
+		'remove_account' => false,
 	];
 
 	/**
@@ -109,6 +111,27 @@ class Ajax {
 		}
 
 		$this->$action();
+	}
+
+	/**
+	 * Remove Account
+	 *
+	 * @since 1.0.0
+	 */
+	public function remove_account() {
+
+		$remove = Account::delete_account( $this->account_id );
+
+		if ( ! $remove ) {
+			wp_send_json_error( array(
+				'message' => __( 'Failed to remove account!', 'integrate-dropbox' ),
+			) );
+		}
+
+		wp_send_json_success( [
+			'message' => __( 'Account removed successfully!', 'integrate-dropbox' ),
+			'data'    => $remove,
+		]);
 	}
 
 	/**
@@ -260,5 +283,13 @@ class Ajax {
 			'message' => __( 'Uploaded successfully!', 'integrate-dropbox' ),
 			'data'    => $upload,
 		]);
+	}
+
+	/**
+	 * Thumbnail
+	 *
+	 * @since 1.0.0
+	 */
+	public function thumbnail() {
 	}
 }

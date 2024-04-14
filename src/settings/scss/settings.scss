@@ -7,6 +7,8 @@
 	padding-left: 0px !important;
 }
 
+@import './accounts';
+
 .idb-settings {
 	&__header {
 		@apply sticky z-10 flex items-center w-full h-16 py-6 px-4 bg-white shadow-sm top-8;

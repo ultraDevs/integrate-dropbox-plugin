@@ -112,7 +112,9 @@ class Account {
 			count( $accounts ) ? self::set_active_account( array_key_first( $accounts ) ) : self::set_active_account( null );
 		}
 
-		update_option( 'idb_accounts', $accounts );
+		$status = update_option( 'idb_accounts', $accounts );
+
+		return $status ? $removed_account : false;
 	}
 
 	/**
