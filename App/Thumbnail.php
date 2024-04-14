@@ -8,6 +8,8 @@
 
 namespace ultraDevs\IntegrateDropbox\App;
 
+use ultraDevs\IntegrateDropbox\App\Account;
+
 /**
  * Thumbnail Class
  *
@@ -66,10 +68,13 @@ class Thumbnail {
 	public function __construct( $entry, $size = 'large', $format = 'png' ) {
 		$this->entry                   = $entry;
 		$this->format                  = $format;
-		$this->thumbnails_location     = INTEGRATE_DROPBOX_CACHE_DIR . 'thumbnails/';
-		$this->thumbnails_location_url = INTEGRATE_DROPBOX_CACHE_DIR_URL . 'thumbnails/';
+		// Get Active Account ID.
+		$account_id = Account::get_active_account()['id'];
+		$this->thumbnails_location     = INTEGRATE_DROPBOX_CACHE_DIR . 'thumbnails/' . $account_id . '/';
+		$this->thumbnails_location_url = INTEGRATE_DROPBOX_CACHE_DIR_URL . 'thumbnails/' . $account_id . '/';
 
 		$this->size           = $size;
+
 		$this->thumbnail_name = $this->entry->getId() . '_' . $this->size . '_ud.' . $this->format;
 	}
 
@@ -84,6 +89,13 @@ class Thumbnail {
 
 	public function generate_thumbnail() {
 
+		global $wp_filesystem;
+
+		if( ! $wp_filesystem ){
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		} 
+
 		$file = $this->thumbnails_location . $this->get_name();
 
 		if ( file_exists( $file ) ) {
@@ -92,12 +104,15 @@ class Thumbnail {
 
 		$thumbnail = Client::get_instance()->get_client()->getThumbnail( $this->entry->getPathLower(), $this->size, $this->format );
 		$thumbnail = $thumbnail->getContents();
-
+		
 		if ( ! file_exists( $this->thumbnails_location ) ) {
-			mkdir( $this->thumbnails_location, 0777, true );
+			wp_mkdir_p( $this->thumbnails_location );
 		}
 
-		file_put_contents( $file, $thumbnail );
+		// file_put_contents( $file, $thumbnail );
+		if ( ! $wp_filesystem->put_contents( $file, $thumbnail, FS_CHMOD_FILE ) ) {
+			return false;
+		}
 
 		return $this->thumbnails_location_url . $this->get_name();
 	}

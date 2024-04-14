@@ -15,6 +15,15 @@ Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your WordPres
 
 Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
 
+### Features
+- Browse Dropbox Files
+- Upload Files to Dropbox
+
+### Upcoming Features
+- Download Files
+- Shortcode to list files
+- Shortcode to upload files
+- and many more
 
 Made With Love By [ultraDevs](https://ultradevs.com) ❤️
 

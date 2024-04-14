@@ -6,9 +6,9 @@
  */
 
 /**
- * Plugin Name:       Integrate Dropbox
- * Plugin URI:        https://ultradevs.com
- * Description:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website
+ * Plugin Name:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website
+ * Plugin URI:        https://ultradevs.com/integrate-dropbox/
+ * Description:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website Easily.
  * Version: 1.0.0
  * Author:            ultradevs
  * Author URI:        https://ultradevs.com

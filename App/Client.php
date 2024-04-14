@@ -140,7 +140,10 @@ class Client {
 			);
 
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to start Dropbox Client: %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Failed to start Dropbox Client: %s', 'integrate-dropbox' ), $e->getMessage() )
+			);
 			return $e;
 		}
 
@@ -209,7 +212,10 @@ class Client {
 		try {
 			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ), $filter );
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() )
+			);
 			return false;
 		}
 
@@ -351,7 +357,10 @@ class Client {
 			$authorization->set_access_token( $access_token );
 
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Failed to generate access token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Failed to generate access token: %s', 'integrate-dropbox' ), $e->getMessage() )
+			);
 
 			return new \WP_Error( 'broke', 'failed_to_generate_access_token', $e->getMessage() );
 		}
@@ -396,7 +405,10 @@ class Client {
 				Account::update_account( $account );
 			}
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error refreshing token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error refreshing token: %s', 'integrate-dropbox' ), $e->getMessage() )
+			);
 
 			$authorization->set_valid_token( false );
 

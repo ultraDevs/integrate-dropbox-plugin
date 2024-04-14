@@ -82,7 +82,7 @@ class Files {
 		}
 
 
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->get_table()} WHERE path = %s AND account_id = %s", $path, $this->account_id ), ARRAY_A );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE path = %s AND account_id = %s", $this->get_table(), $path, $this->account_id ), ARRAY_A );
 
 		$files = array();
 
@@ -91,8 +91,6 @@ class Files {
 				$files[] = unserialize( $file['data'] );
 			}
 		}
-
-		// var_dump( $files );
 
 		return $files;
 	}
@@ -134,9 +132,10 @@ class Files {
 
 		return $wpdb->query(
 			$wpdb->prepare(
-				"INSERT INTO $table_name
+				"INSERT INTO %s
 				(id, `path`, account_id, name, mimetype, data)
 				VALUES (%s, %s, %s, %s, %s, %s)",
+				$table_name,
 				$id,
 				$this->path,
 				$this->account_id,

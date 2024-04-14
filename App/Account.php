@@ -73,10 +73,10 @@ class Account {
 
 		if ( ! empty( $accounts[ $account_id ] ) ) {
 			$account = $accounts[ $account_id ];
-			setcookie( 'idb_active_account', json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'idb_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} elseif ( ! empty( $accounts ) ) {
 			$account = array_shift( $accounts );
-			setcookie( 'idb_active_account', json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'idb_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} else {
 			setcookie( 'idb_active_account', '', time() - 3600, '/' );
 		}

@@ -175,7 +175,10 @@ class Authorization {
 		try {
 			$this->get_client( $account )->getAuthHelper()->revokeAccessToken();
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error revoking token: %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error revoking token: %s', 'integrate-dropbox' ), $e->getMessage() )
+			);
 		}
 
 		// Delete Account.

@@ -26,6 +26,7 @@ class Activate {
 		$this->plugin_data();
 		$this->settings_data();
 		$this->create_tables();
+		$this->create_directories();
 	}
 
 	/**
@@ -58,6 +59,25 @@ class Activate {
 			wp_safe_redirect( admin_url( 'admin.php?page=' . INTEGRATE_DROPBOX_MENU_SLUG ) );
 			exit();
 		}
+	}
+
+	/**
+	 * Create Directories
+	 *
+	 */
+	public function create_directories() {
+
+		$directories = array(
+			INTEGRATE_DROPBOX_CACHE_DIR,
+			INTEGRATE_DROPBOX_CACHE_DIR . 'thumbnails/',
+		);
+
+		foreach ( $directories as $directory ) {
+			if ( ! file_exists( $directory ) ) {
+				wp_mkdir_p( $directory );
+			}
+		}
+
 	}
 
 	/**

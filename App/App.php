@@ -88,7 +88,7 @@ class App {
 				return false;
 			}
 		} else {
-			echo '<script type="text/javascript">window.opener.parent.location.href="' . $redirect . '"; window.close();</script>';
+			echo '<script type="text/javascript">window.opener.parent.location.href="' . esc_attr( $redirect ) . '"; window.close();</script>';
 		}
 
 		// @ TODO -
@@ -98,7 +98,7 @@ class App {
 			$client->create_access_token();
 		}
 
-		echo '<script type="text/javascript">window.opener.parent.location.href="' . $redirect . '"; window.close();</script>';
+		echo '<script type="text/javascript">window.opener.parent.location.href="' . esc_attr( $redirect ) . '"; window.close();</script>';
 
 		exit();
 	}

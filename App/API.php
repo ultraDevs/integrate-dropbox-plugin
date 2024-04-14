@@ -87,9 +87,12 @@ class API {
 			}
 
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() )
+			);
 
-			throw new \Exception( $e->getMessage() );
+			throw new \Exception( esc_html( $e->getMessage() ) ); 
 		}
 	}
 
@@ -127,7 +130,10 @@ class API {
 				}
 
 			} catch ( \Exception $e ) {
-				error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+				error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+					/* translators: %s: Error Message */
+					__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() )
+				);
 				return false;
 			}
 
@@ -148,9 +154,9 @@ class API {
 				}
 			}
 
-		// 	Files::get_instance( $this->account_id )->set_files( $path, $children );
+			// Files::get_instance( $this->account_id )->set_files( $path === '' ? 'files_dir' : $path , $children );
 
-		// 	Helper::update_cached_folder( $path );
+			// Helper::update_cached_folder( $path === '' ? 'files_dir' : $path );
 		// }
 
 		// var_dump( $children );
@@ -227,7 +233,10 @@ class API {
 		try {
 			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage()
+			));
 			return false;
 		}
 
@@ -251,7 +260,10 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->move( $target, $new_name, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage()
+			));
 			return $e->getMessage();
 		}
 
@@ -272,7 +284,10 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->delete( $target );
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage()
+			));
 			return $e->getMessage();
 		}
 
@@ -292,7 +307,10 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->delete( $target );
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage()
+			));
 			return $e->getMessage();
 		}
 
@@ -321,7 +339,10 @@ class API {
 			// dump( $file );
 			// $file = new File( $file );
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf( __( 'Error : %s', 'integrate-dropbox' ), $e->getMessage() ) );
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage()
+			));
 			return $e->getMessage();
 		}
 
