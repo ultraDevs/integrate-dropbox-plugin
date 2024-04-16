@@ -3,7 +3,7 @@
         'name' => 'ultradevs/integrate-dropbox',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'cca83d05584f0f2ff8283eb4ececc2c951b109a7',
+        'reference' => '0f7bfe655c0ac37ee2b4bb9e9e0cf3179b2b91d5',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -204,7 +204,7 @@
         'ultradevs/integrate-dropbox' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'cca83d05584f0f2ff8283eb4ececc2c951b109a7',
+            'reference' => '0f7bfe655c0ac37ee2b4bb9e9e0cf3179b2b91d5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
