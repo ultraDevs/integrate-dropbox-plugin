@@ -13,7 +13,7 @@ const Uploader = () => {
 	const [uploading, setUploading] = useState(false); // Flag to indicate if an upload is in progress
 	const [currentFileIndex, setCurrentFileIndex] = useState(0); // Index of the current file being uploaded
 	const [uploadedCount, setUploadedCount] = useState(0); // Count of uploaded files
-	const [isProgressBar, setIsProgressBar] = useState(false); // first time not show progress bar
+	// const [isProgressBar, setIsProgressBar] = useState(false); // first time not show progress bar
 	const [progressBar, setProgressBar] = useState(0); // progress bar
 
 	console.log({ progressBar, uploadQueue });
@@ -78,14 +78,15 @@ const Uploader = () => {
 			contentType: false,
 			success: function (response) {
 				console.log('Response:', response);
+				// setIsProgressBar(true);
 
 				// Increment the uploaded count
 				setUploadedCount((prevCount) => prevCount + 1);
 
 				// Remove the uploaded file from the queue
 				setUploadQueue((prevQueue) => prevQueue.slice(1));
-				// setIsProgressBar(true);
-				// dispatch('dropbox-browser').setData('refresh', !refresh);
+				
+				dispatch('dropbox-browser').setData('refresh', !refresh);
 			},
 			error: function (error) {
 				console.error('Error:', error);
@@ -188,7 +189,7 @@ const Uploader = () => {
 					/>
 				</div>
 			</div>
-			<div className='idb-file-browser__upload-progress'>
+			{/* <div className='idb-file-browser__upload-progress'>
 				<div className='idb-file-browser__upload-progress__details'>
 					<div className='idb-file-browser__upload-progress__details__file_icon'>
 						<svg
@@ -249,9 +250,9 @@ const Uploader = () => {
 						</g>
 					</svg>
 				</div>
-			</div>
-			{/* {isProgressBar && ( */}
-			<div className='idb-file-browser__upload-progress'>
+			</div> */}
+			{uploadQueue.length !== 0 && uploadQueue.map((file, index) => (
+			<div key={index} className='idb-file-browser__upload-progress'>
 				<div className='idb-file-browser__upload-progress__details'>
 					<div className='idb-file-browser__upload-progress__details__file_icon'>
 						<svg
@@ -281,10 +282,10 @@ const Uploader = () => {
 					</div>
 					<div className='idb-file-browser__upload-progress__details__content'>
 						<h3 className='idb-file-browser__upload-progress__details__content__title'>
-							{uploadQueue[0]?.name}
+							{file?.name}
 						</h3>
 						<p className='idb-file-browser__upload-progress__details__content__file-size'>
-							{bytesToMB(uploadQueue[0]?.size)} MB
+							{bytesToMB(file?.size)} MB
 						</p>
 					</div>
 				</div>
@@ -332,7 +333,7 @@ const Uploader = () => {
 					</div>
 				)}
 			</div>
-			{/* )} */}
+			))}
 		</div>
 	);
 };
