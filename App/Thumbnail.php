@@ -9,6 +9,7 @@
 namespace ultraDevs\IntegrateDropbox\App;
 
 use ultraDevs\IntegrateDropbox\App\Account;
+use ultraDevs\IntegrateDropbox\Helper;
 
 /**
  * Thumbnail Class
@@ -70,6 +71,10 @@ class Thumbnail {
 		$this->format                  = $format;
 		// Get Active Account ID.
 		$account_id = Account::get_active_account()['id'];
+
+		// Prepare account_id as a folder name.
+		$account_id = Helper::normalize_string( $account_id );
+
 		$this->thumbnails_location     = INTEGRATE_DROPBOX_CACHE_DIR . 'thumbnails/' . $account_id . '/';
 		$this->thumbnails_location_url = INTEGRATE_DROPBOX_CACHE_DIR_URL . 'thumbnails/' . $account_id . '/';
 
