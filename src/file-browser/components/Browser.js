@@ -231,39 +231,39 @@ const Browser = () => {
 			)}
 			{/* <Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} /> */}
 
-			<LightGallery
-      plugins={[lgZoom, lgVideo]}
-      mode="lg-fade"
-      pager={false}
-      thumbnail={true}
-      galleryId={'nature'}
-      autoplayFirstVideo={false}
-      elementClassNames={'gallery'}
-      mobileSettings={{
-        controls: false,
-        showCloseIcon: false,
-        download: false,
-        rotate: false,
-      }}
-      licenseKey="DEC07C11-66CA-441B-91EB-78600E170147" 
-    >
-	{files.map((item) =>      <a
-	key={item?.id}
-          data-lg-size="1600-2400"
-          data-pinterest-text="Pin it2"
-          data-tweet-text="lightGallery slide  2"
-          className="gallery__item"
-          data-src={item?.thumbnail}
-          data-sub-html="<h4>Photo by - <a href='https://unsplash.com/@therawhunter' >Massimiliano Morosinotto </a></h4><p> Location - <a href='https://unsplash.com/s/photos/tre-cime-di-lavaredo%2C-italia'>Tre Cime di Lavaredo, Italia</a>This is the Way</p>"
-        >
-          <img
-            className="img-responsive"
-            src={item?.thumbnail}
-          />
-        </a>)}
-    </LightGallery>
+			{/* <LightGallery
+				plugins={[lgZoom, lgVideo]}
+				mode="lg-fade"
+				pager={false}
+				thumbnail={true}
+				galleryId={'nature'}
+				autoplayFirstVideo={false}
+				elementClassNames={'gallery'}
+				className={'gallery'}
+				mobileSettings={{
+					controls: false,
+					showCloseIcon: false,
+					download: false,
+					rotate: false,
+				}}
+				licenseKey="DEC07C11-66CA-441B-91EB-78600E170147" 
+			>
+				{files.map((item) =>      <a
+				key={item?.id}
+					data-lg-size="1600-2400"
+					data-pinterest-text="Pin it2"
+					data-tweet-text="lightGallery slide  2"
+					className="gallery__item"
+					data-src={item?.thumbnail}
+					data-sub-html="<h4>Photo by - <a href='https://unsplash.com/@therawhunter' >Massimiliano Morosinotto </a></h4><p> Location - <a href='https://unsplash.com/s/photos/tre-cime-di-lavaredo%2C-italia'>Tre Cime di Lavaredo, Italia</a>This is the Way</p>"
+					>
+					<img
+						className="img-responsive"
+						src={item?.thumbnail}
+					/>
+					</a>)}
+				</LightGallery> */}
 			
-           
 			<Menu id={FILE_MENU}>
 				<Item id='preview' onClick={handleItemClick}>
 					Preview
@@ -406,20 +406,37 @@ const Browser = () => {
 
 							{files.length ? (
 								<>
-									<div className='idb-file-browser__file-list'>
+									{/* <div className='idb-file-browser__file-list'> */}
+									<LightGallery
+										plugins={[lgZoom, lgVideo]}
+										mode="lg-fade"
+										pager={false}
+										thumbnail={true}
+										galleryId={'nature'}
+										autoplayFirstVideo={false}
+										// elementClassNames={'gallery'}
+										elementClassNames={'idb-file-browser__file-list'}
+										mobileSettings={{
+											controls: true,
+											showCloseIcon: true,
+											download: true,
+											rotate: true,
+										}}
+										licenseKey="DEC07C11-66CA-441B-91EB-78600E170147" 
+									>
 										{files.map((item, index) => {
 											return (
-												<div
+												<a
 													className={classnames(
 														'idb-file-browser__file-list__item',
-														'idb-file-browser__file-list__item--file'
+														'idb-file-browser__file-list__item--file',
+														'gallery-item'
 													)}
 													key={index}
-													onClick={() => {
-														setActiveItem(item);
-														filePreview(item);
-														console.log(item);
-													}}
+													// onClick={() => {
+													// 	setActiveItem(item);
+													// 	filePreview(item);
+													// }}
 													onContextMenu={(e) => {
 														showContexify(e, FILE_MENU, {
 															type: 'file',
@@ -427,7 +444,24 @@ const Browser = () => {
 															item,
 														});
 													}}
+													data-src={item?.thumbnail}
+													href={item?.thumbnail}
+
 												>
+												{/* <a
+				key={item?.id}
+					data-lg-size="1600-2400"
+					data-pinterest-text="Pin it2"
+					data-tweet-text="lightGallery slide  2"
+					className="gallery__item"
+					data-src={item?.thumbnail}
+					data-sub-html="<h4>Photo by - <a href='https://unsplash.com/@therawhunter' >Massimiliano Morosinotto </a></h4><p> Location - <a href='https://unsplash.com/s/photos/tre-cime-di-lavaredo%2C-italia'>Tre Cime di Lavaredo, Italia</a>This is the Way</p>"
+					>
+					<img
+						className="img-responsive"
+						src={item?.thumbnail}
+					/>
+					</a> */}
 													{item.can_preview && item.thumbnail ? (
 														<div className='idb-file-browser__file-list__item__thumb'>
 															<img src={item.thumbnail} />
@@ -448,10 +482,11 @@ const Browser = () => {
 														></i>
 														<span>{item.name}</span>
 													</div>
-												</div>
+												</a>
 											);
 										})}
-									</div>
+									{/* </div> */}
+									</LightGallery>
 								</>
 							) : (
 								''

@@ -33,6 +33,11 @@ ul {
 #ud-id-app {
 }
 
+.lg-container {
+	@apply fixed;
+	z-index: 9999999;
+}
+
 .idb-file-browser {
 	* {
 		box-sizing: border-box;
