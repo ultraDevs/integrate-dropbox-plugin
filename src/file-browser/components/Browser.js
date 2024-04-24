@@ -5,6 +5,16 @@ import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
 import { getIcon } from '../helper/common';
 
+
+// import styles
+import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-thumbnail.css';
+
+import LightGallery from 'lightgallery/react';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
+
 // React Contextify.
 import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
 
@@ -29,6 +39,8 @@ const Browser = () => {
 	const { activeAccount } = IDBData;
 
 	const [data, setData] = useState([]);
+
+
 
 	const setPath = (path) => {
 		dispatch('dropbox-browser').setData('isLoading', true);
@@ -210,12 +222,48 @@ const Browser = () => {
 		setShowModal(true);
 	};
 
+	console.log(files);
+
 	return (
 		<>
 			{showUploader && (
 				<Uploader />
 			)}
-			<Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} />
+			{/* <Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} /> */}
+
+			<LightGallery
+      plugins={[lgZoom, lgVideo]}
+      mode="lg-fade"
+      pager={false}
+      thumbnail={true}
+      galleryId={'nature'}
+      autoplayFirstVideo={false}
+      elementClassNames={'gallery'}
+      mobileSettings={{
+        controls: false,
+        showCloseIcon: false,
+        download: false,
+        rotate: false,
+      }}
+      licenseKey="DEC07C11-66CA-441B-91EB-78600E170147" 
+    >
+	{files.map((item) =>      <a
+	key={item?.id}
+          data-lg-size="1600-2400"
+          data-pinterest-text="Pin it2"
+          data-tweet-text="lightGallery slide  2"
+          className="gallery__item"
+          data-src={item?.thumbnail}
+          data-sub-html="<h4>Photo by - <a href='https://unsplash.com/@therawhunter' >Massimiliano Morosinotto </a></h4><p> Location - <a href='https://unsplash.com/s/photos/tre-cime-di-lavaredo%2C-italia'>Tre Cime di Lavaredo, Italia</a>This is the Way</p>"
+        >
+          <img
+            className="img-responsive"
+            src={item?.thumbnail}
+          />
+        </a>)}
+    </LightGallery>
+			
+           
 			<Menu id={FILE_MENU}>
 				<Item id='preview' onClick={handleItemClick}>
 					Preview
@@ -424,6 +472,10 @@ const Browser = () => {
 					{getLGItems}
 				</LightGallery>
 			</div> */}
+				
+
+
+		
 		</>
 	);
 };

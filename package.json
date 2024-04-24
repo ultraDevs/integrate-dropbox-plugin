@@ -8,7 +8,6 @@
         "build": "wp-scripts build --config .dev/webpack.config.js",
         "start:file-browser": "wp-scripts start src/file-browser/index.js --output-path=assets/admin/file-browser/",
         "build:file-browser": "wp-scripts build src/file-browser/index.js --output-path=assets/admin/file-browser/",
-
         "start:settings": "wp-scripts start src/settings/index.js --output-path=assets/admin/settings/",
         "build:settings": "wp-scripts build src/settings/index.js --output-path=assets/admin/settings/"
     },
@@ -56,7 +55,7 @@
         "@wordpress/icons": "^9.18.0",
         "classnames": "^2.3.2",
         "grunt-contrib-rename": "^0.2.0",
-        "lightgallery": "^2.7.1",
+        "lightgallery": "^2.7.2",
         "react": "^18.2.0",
         "react-contexify": "^6.0.0",
         "react-dom": "^18.2.0",
