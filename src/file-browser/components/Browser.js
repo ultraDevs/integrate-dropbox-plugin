@@ -14,6 +14,7 @@ import 'lightgallery/css/lg-thumbnail.css';
 import LightGallery from 'lightgallery/react';
 import lgZoom from 'lightgallery/plugins/zoom';
 import lgVideo from 'lightgallery/plugins/video';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
 
 // React Contextify.
 import { Item, Menu, Separator, useContextMenu } from 'react-contexify';
@@ -408,7 +409,7 @@ const Browser = () => {
 								<>
 									{/* <div className='idb-file-browser__file-list'> */}
 									<LightGallery
-										plugins={[lgZoom, lgVideo]}
+										plugins={[lgZoom, lgVideo, lgThumbnail]}
 										mode="lg-fade"
 										pager={false}
 										thumbnail={true}
