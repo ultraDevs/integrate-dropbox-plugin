@@ -30,7 +30,7 @@ class Ajax {
 	 * @var array
 	 */
 	public $ajax_actions = [
-		'file_preview' => false,
+		'file_preview' => true,
 		'thumbnail'    => false,
 		'rename'       => false,
 		'create_folder' => false,
@@ -71,7 +71,7 @@ class Ajax {
 	 * @return void
 	 */
 	public function start_process() {
-		$action = sanitize_text_field( $_POST['action'] );
+		$action = sanitize_text_field( $_REQUEST['action'] );
 		
 		// Remove the idb_ prefix.
 		$action = str_replace( 'idb_', '', $action );
@@ -82,13 +82,13 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Invalid Action', 'integrate-dropbox' ) ) );
 		}
 
-		$nonce = sanitize_text_field( $_POST['nonce'] );
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox' ) ) );
 		}
 
-		// $this->current_path = sanitize_text_field( $_POST['path'] );
-		$this->account_id = sanitize_text_field( $_POST['account_id'] );
+		// $this->current_path = sanitize_text_field( $_REQUEST['path'] );
+		$this->account_id = sanitize_text_field( $_REQUEST['account_id'] );
 
 		// if ( empty( $this->current_path ) ) {
 		// 	wp_send_json_error( array( 'message' => __( 'Path is required', 'integrate-dropbox' ) ) );
@@ -141,12 +141,11 @@ class Ajax {
 	 */
 	public function file_preview() {
 
-		$file    = sanitize_text_field( $_POST['file'] );
+		$file    = sanitize_text_field( $_REQUEST['file'] );
 
 		if ( empty( $file ) ) {
 			wp_send_json_error( array( 'message' => __( 'File is required', 'integrate-dropbox' ) ) );
 		}
-
 
 		$file = Client::get_instance( $this->account_id )->file_preview( $file );
 
@@ -291,5 +290,24 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function thumbnail() {
+		$file    = sanitize_text_field( $_POST['file'] );
+
+		if ( empty( $file ) ) {
+			wp_send_json_error( array( 'message' => __( 'File is required', 'integrate-dropbox' ) ) );
+		}
+
+		$thumbnail = Client::get_instance( $this->account_id )->get_thumbnail( $file );
+
+		if ( !$thumbnail ) {
+			return new \WP_REST_Response(
+				array(
+					'status'  => 'error',
+					'message' => __( 'Thumbnail not found.', 'integrate-dropbox' ),
+				),
+				400
+			);
+		}
+
+		return $thumbnail;
 	}
 }

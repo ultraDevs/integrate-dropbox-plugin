@@ -9,11 +9,13 @@
 namespace ultraDevs\IntegrateDropbox\App;
 
 use Kunnu\Dropbox\Models\FolderMetadata;
+use Kunnu\Dropbox\Models\SharedLinkSettings;
 use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
 use ultraDevs\IntegrateDropbox\App\Account;
 use ultraDevs\IntegrateDropbox\App\Client;
 use ultraDevs\IntegrateDropbox\App\File;
 use ultraDevs\IntegrateDropbox\Helper;
+
 
 /**
  * API Class
@@ -53,38 +55,26 @@ class API {
 	/**
 	 * Get File Data.
 	 *
-	 * @param string $file File.
-	 * @param string $account_id Account ID.
-	 * @param string $path Path.
+	 * @param string $id ID.
+	 * @param array  $params Params.
 	 *
 	 * @return false|array $details Details.
 	 */
-	public function get_file( $file, $account_id = null, $path = null ) {
+	public function get_file( $id, $params = [
+		'include_media_info' => true,
+	] ) {
 
-		if ( empty( $account_id ) ) {
-			$account = $this->account_id;
-		}
-
-		// IF after all we still don't have an account, return false.
-		if ( empty( $account ) ) {
-			return false;
-		}
-
-		if ( empty( $path ) ) {
-			$path = '/';
+		if ( empty( $id ) ) {
+			$id = '';
 		} else {
-			$path = Helper::clean_path( $path );
+			// $id = Helper::clean_path( $id );
 		}
 
-		do_action( 'idb_log_event', $account_id, $file );
+		// do_action( 'idb_log_event', $account_id, $file );
+
 
 		try {
-			$details = $this->client->getMetadata( $file );
-			$file    = File::get_instance()->convert_api_data_to_file_data( $details );
-
-			if ( $file->is_file() ) {
-				return $file;
-			}
+			$file_data = $this->client->getMetadata( $id, $params );
 
 		} catch ( \Exception $e ) {
 			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
@@ -94,6 +84,14 @@ class API {
 
 			throw new \Exception( esc_html( $e->getMessage() ) ); 
 		}
+
+		$file = (new File())->convert_api_data_to_file_data( $file_data );
+
+		// if ( $file->is_file() && $file->has_own_thumbnail() ) {
+		// 	$file->set_thumbnail( $this->get_thumbnail( $file->get_path() ) );
+		// }
+
+		return $file;
 	}
 
 	/**
@@ -243,6 +241,26 @@ class API {
 		return $folder;
 	}
 
+	public function get_preview( $id, $params = [] ) {
+		do_action( 'idb_api_before_file_preview', $this->account_id, $id, $params );
+
+		$params = apply_filters( 'idb_file_preview_params', $params );
+
+		try {
+			$preview = Client::get_instance()->get_client()->preview( $id );
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage()
+			));
+			return false;
+		}
+
+		do_action( 'idb_api_after_file_preview', $this->account_id, $id, $params );
+
+		return $preview;
+	}
+
 	/**
 	 * Rename File
 	 *
@@ -347,5 +365,46 @@ class API {
 		}
 
 		return $file;
+	}
+
+	public function create_shared_link( $id, $params = [] ) {
+		// $path = Helper::clean_path( $path );
+
+		$default_shared_link_params = apply_filters(
+			'idb_default_shared_link_params',
+			[
+				'audience' => 'public',
+				'access' => 'viewer',
+				'expires' => null,
+				'require_password' => null,
+				'link_password' => null,
+			]
+		);
+
+		$params = array_merge( $default_shared_link_params, $params );
+
+		$settings = new SharedLinkSettings( $params );
+
+		try {
+			$link = Client::get_instance()->get_client()->createSharedLinkWithSettings( $id, $settings );
+		} catch ( \Exception $e ) {
+			// $decode_error = json_decode( $e->getMessage() );
+
+			if ( strpos( $e->getMessage(), 'shared_link_already_exists' ) !== false ) {
+				$link = Client::get_instance()->get_client()->listSharedLinks( $id )->getData()['links'];
+
+				// $link = $link[0];
+			} else {
+				error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+					/* translators: %s: Error Message */
+					__( 'Error : %s', 'integrate-dropbox' ), $e->getMessage()
+				));
+				return $e->getMessage();
+			}
+		}
+
+		return [
+			$link
+		];
 	}
 }

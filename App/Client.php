@@ -260,8 +260,7 @@ class Client {
 		header( 'Location: ' . $thumbnail_url );
 	}
 
-
-	public function file_preview( $file, $account_id = null, $path = null ) {
+	public function file_preview( $id, $account_id = null, $path = '' ) {
 		if ( empty( $account_id ) ) {
 			$account_id = $this->account['id'];
 		}
@@ -271,32 +270,201 @@ class Client {
 			return false;
 		}
 
-		if ( empty( $path ) ) {
-			$path = '/';
+		// if ( empty( $path ) ) {
+		// 	$path = '/';
+		// }
+
+
+		$file = $this->get_file( $id );
+
+		// do_action( 'idb_log_event', 'File Preview ' . $file , $account_id, $path );
+
+		if (
+			in_array( $file->get_extension(), array( 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'txt' ) )
+		) {
+			$shared_link = str_replace( '/s/', '/s/raw/', $this->get_shared_link( $file ) );
+
+			if ( false !==  strpos( $shared_link, 'scl/fi' ) ) {
+				$shared_link .= '&raw=1';
+			}
+
+			header( 'Location: ' . $shared_link );
+
+			exit;
 		}
 
-		$details = $this->client->getMetadata( $file );
-		$file = new File( $details );
+		// HTML5 Media.
+		if ( in_array( $file->get_extension(), array( 'mp4', 'webm', 'ogg', 'mp3', 'wav', 'm4a', 'aac', 'flac' ) ) ) {
+			$shared_link = $this->get_shared_link( $file );
 
-		$thumbnail = new Thumbnail( $details );
+			$shared_link = str_replace( '/s/', '/s/raw/', $shared_link );
 
-		return $thumbnail->get_thumbnail_url();
+			if ( false !==  strpos( $shared_link, 'scl/fi' ) ) {
+				$shared_link .= '&raw=1';
+			}
 
-		// return wp_json_encode([
-		// 	'url' => $thumbnail->get_thumbnail_url(),
-		// 	'type'    => $file->get_extension(),
-		// ]);
+			header( 'Location: ' . $shared_link );
 
-		do_action( 'idb_log_event', $details, $account_id, $path );
+			exit;
+		}
 
-		// Generate Preview for Media files.
-		// if ( in_array( $details['.tag'], array( 'audio', 'video', 'image' ) ) ) {
-		// $preview = $this->client->getThumbnail( $file, 'jpeg', 'w64h64' );
-		// $preview = $preview->getContents();
-		// } else {
-		// $preview = Helper::get_file_icon( $details['.tag'] );
-		// }
+		// PDF.
+		if ( 'pdf' === $file->get_extension() ) {
+			$shared_link = $this->get_shared_link( $file );
+
+			if (
+				// @TODO: Check if user can download.
+				false === true &&
+				$file->get_size() < 25000000
+			) {
+				$shared_link = 'https://docs.google.com/viewerng/viewer?embedded=true&url='.urlencode( $shared_link . '&dl=1' );
+			} else {
+				$shared_link = str_replace( '/s/', '/s/raw/', $shared_link );
+
+				if ( false !==  strpos( $shared_link, 'scl/fi' ) ) {
+					$shared_link .= '&raw=1';
+				}
+			}
+
+			header( 'Location: ' . $shared_link );
+
+			exit;
+		}
+
+		// Office Files.
+		if ( in_array( $file->get_extension(), array( 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx' ) ) ) {
+			$shared_link = $this->get_shared_link( $file ); // @TODO: Temporary Link.
+
+			$shared_link = 'https://view.officeapps.live.com/op/view.aspx?src='.urlencode( $shared_link );
+
+			header( 'Location: ' . $shared_link );
+
+			exit;
+		}
+
+
+		try {
+			$preview = API::get_instance()->get_preview( $file->get_id() );
+			dump( $preview );
+
+			// echo $preview->getContents();
+		} catch ( \Exception $e ) {
+			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				/* translators: %s: Error Message */
+				__( 'Failed to get file preview: %s', 'integrate-dropbox' ), $e->getMessage() )
+			);
+
+			exit();
+		}
+
+		exit();
 	}
+
+	public function get_file( $req_path = null, $check_if_allowed = true ) {
+		// $req_path = Helper::clean_path( $req_path );
+
+		if ( '/' === $req_path || '' === $req_path ) {
+			$file = new File();
+			$file->set_id( 'dropbox' );
+			$file->set_name( 'Dropbox' );
+			$file->set_basename( 'Dropbox' );
+			$file->set_path( '/' );
+			$file->set_is_dir( true );
+			$file->set_path_display( '/' );
+		} else {
+			try {
+				$file = API::get_instance( $this->account['id'] )->get_file( $req_path );
+			} catch ( \Exception $e ) {
+				error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+					/* translators: %s: Error Message */
+					__( 'Failed to get file: %s', 'integrate-dropbox' ), $e->getMessage() )
+				);
+				return false;
+			}
+		}
+
+		// @TODO: Check if allowed.
+
+		return $file;
+	}
+
+	public function get_shared_link( $file, $link_settings = [
+		'audience' => 'public'
+	], $create = true ) {
+
+		$default_settings = [
+            'audience' => 'public',
+            'allow_download' => true,
+            'require_password' => false,
+            'expires' => null,
+        ];
+
+		// @TODO: Implement Cache.
+
+		$settings = array_merge( $default_settings, $link_settings );
+
+
+		return $this->create_shared_link( $file, $settings );
+
+
+	}
+
+	public function create_shared_link( $file, $settings ) {
+		
+	
+		$shared_links = API::get_instance( $this->account['id'] )->create_shared_link( $file->get_id(), $settings );
+
+		$link = '';
+		foreach ( $shared_links as $shared_link ) {
+			if (
+				$shared_link instanceof \Kunnu\Dropbox\Models\FileMetadata
+			) {
+				$link = $shared_link->getUrl();
+			} else {
+				$link = $shared_link[0]['url'];
+			}
+		}
+
+		return $link;
+
+	}
+
+	// public function file_preview( $file, $account_id = null, $path = null ) {
+	// 	if ( empty( $account_id ) ) {
+	// 		$account_id = $this->account['id'];
+	// 	}
+
+	// 	// IF after all we still don't have an account, return false.
+	// 	if ( empty( $account_id ) ) {
+	// 		return false;
+	// 	}
+
+	// 	if ( empty( $path ) ) {
+	// 		$path = '/';
+	// 	}
+
+	// 	$details = $this->client->getMetadata( $file );
+	// 	$file = new File( $details );
+
+	// 	$thumbnail = new Thumbnail( $details );
+
+	// 	return $thumbnail->get_thumbnail_url();
+
+	// 	// return wp_json_encode([
+	// 	// 	'url' => $thumbnail->get_thumbnail_url(),
+	// 	// 	'type'    => $file->get_extension(),
+	// 	// ]);
+
+	// 	do_action( 'idb_log_event', $details, $account_id, $path );
+
+	// 	// Generate Preview for Media files.
+	// 	// if ( in_array( $details['.tag'], array( 'audio', 'video', 'image' ) ) ) {
+	// 	// $preview = $this->client->getThumbnail( $file, 'jpeg', 'w64h64' );
+	// 	// $preview = $preview->getContents();
+	// 	// } else {
+	// 	// $preview = Helper::get_file_icon( $details['.tag'] );
+	// 	// }
+	// }
 
 	/**
 	 * Get Auth URL

@@ -29,3 +29,45 @@ export const getIcon = (ext) => {
 			return 'dashicons-media-default';
 	}
 };
+
+
+export const generateDataAttributes = (file) => {
+    // if (!file) return '';
+
+    let attributes = {};
+
+    const activeAccount = IDBData?.activeAccount;
+
+    const filePreview = `${IDBData.ajaxUrl}?action=idb_file_preview&account_id=${activeAccount['id']}&nonce=${IDBData?.ajaxNonce}&file=${file.id}`;
+
+    // If item.ext is mp4, webm, or ogg, we will add the video attribute
+    if (['mp4', 'webm', 'ogg'].includes(file.ext)) {
+        
+        const videoData = {
+            poster: file.preview,
+            source: [
+                {
+                    src: filePreview,
+                    type: `video/${file.ext}`,
+                },
+            ],
+        };
+        attributes['data-poster'] = file.thumbnail;
+		attributes['data-video'] = JSON.stringify(videoData);
+    }
+
+	if (['mp3', 'wav', 'ogg'].includes(file.ext)) {
+		attributes['data-audio'] = filePreview;
+	}
+
+	if (['jpg', 'jpeg', 'png', 'gif'].includes(file.ext)) {
+		attributes['data-src'] = filePreview;
+	}
+
+	if (file.ext === 'pdf') {
+		attributes['data-src'] = filePreview;
+		attributes['data-iframe'] = true;
+	}
+
+	return attributes;
+}

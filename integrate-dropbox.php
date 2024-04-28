@@ -5,6 +5,8 @@
  * @package IntegrateDropbox
  */
 
+use ultraDevs\IntegrateDropbox\App\API;
+
 /**
  * Plugin Name:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website
  * Plugin URI:        https://ultradevs.com/integrate-dropbox/
@@ -122,6 +124,7 @@ final class IntegrateDropbox {
 			// Frontend Assets.
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
 		}
+
 	}
 
 	/**

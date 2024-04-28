@@ -1299,6 +1299,39 @@ class Dropbox
     }
 
     /**
+     * Preview a File.
+     *
+     * @param string $path Path to the file you want to download
+     *
+     * @see https://www.dropbox.com/developers/documentation/http/documentation#files-get_preview
+     *
+     * @credit \TheLion\OutoftheBox
+     */
+    public function preview($path)
+    {
+
+        // Path cannot be null
+        if (is_null($path)) {
+            throw new DropboxClientException('Path cannot be null.');
+        }
+
+        // Download File
+        $response = $this->postToContent('/files/get_preview', ['path' => $path]);
+
+        dd( $response);
+
+
+        // Get file metadata from response headers
+        $metadata = $this->getMetadataFromResponseHeaders($response);
+
+        // File Contents
+        $contents = $response->getBody();
+
+        // Make and return a File model
+        return new File($metadata, $contents);
+    }
+
+    /**
      * Download a File
      *
      * @param  string                  $path        Path to the file you want to download
@@ -1332,6 +1365,63 @@ class Dropbox
 
         //Make and return a File model
         return new File($metadata, $contents);
+    }
+
+    /**
+     * List shared links of this user.
+     *
+     * @param string $path   Path to the folder. Defaults to root.
+     * @param string $cursor the cursor returned by your last call to list_shared_links
+     * @param array  $params Additional Params
+     *
+     * @see https://www.dropbox.com/developers/documentation/http/documentation#sharing-list_shared_links
+     *
+     * @return \Dropbox\Models\MetadataCollection
+     */
+    public function listSharedLinks($path = null, $cursor = null, array $params = ['direct_only' => true])
+    {
+        // Specify the root folder as an
+        // empty string rather than as "/"
+        if ('/' === $path) {
+            $path = '';
+        }
+
+        // Set the path
+        if (!empty($path)) {
+            $params['path'] = $path;
+        } elseif (!empty($cursor)) {
+            $params['cursor'] = $cursor;
+        }
+
+        // Get File Metadata
+        $response = $this->postToAPI('/sharing/list_shared_links', $params);
+
+        // Make and Return the Model
+        return $this->makeModelFromResponse($response);
+    }
+
+    /**
+     * Create a shared link with custom settings.
+     *
+     * @param string             $path     The path to be shared by the shared link
+     * @param SharedLinkSettings $settings the requested settings for the newly created shared link This field is optional
+     *
+     * @see https://www.dropbox.com/developers/documentation/http/documentation#files-create_folder
+     *
+     * @return \Dropbox\Models\FileLinkMetadata|\Dropbox\Models\FolderLinkMetadata
+     */
+    public function createSharedLinkWithSettings($path, $settings = [])
+    {
+        // Path cannot be null
+        if (is_null($path)) {
+            throw new DropboxClientException('Path cannot be null.');
+        }
+
+        // Create Folder
+        $response = $this->postToAPI('/sharing/create_shared_link_with_settings', ['path' => $path, 'settings' => $settings]);
+
+        // Make and Return the Model
+        return $this->makeModelFromResponse($response);
     }
 
     /**

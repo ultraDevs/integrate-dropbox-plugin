@@ -3,13 +3,7 @@ import { useEffect, useState } from '@wordpress/element';
 import { useSelect, dispatch } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import classnames from 'classnames';
-import { getIcon } from '../helper/common';
-
-
-// import styles
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
-import 'lightgallery/css/lg-thumbnail.css';
+import { generateDataAttributes, getIcon } from '../helper/common';
 
 import LightGallery from 'lightgallery/react';
 import lgZoom from 'lightgallery/plugins/zoom';
@@ -85,35 +79,6 @@ const Browser = () => {
 		return item.is_file ? item : '';
 	});
 
-	// const lightGallery = useRef(null);
-	// const [lgItems, setLgItems] = useState(files);
-
-	// const onLGInit = useCallback((lg) => {
-	// 	if (lg) {
-	// 		lightGallery.current = lg.instance;
-	// 	}
-	// }, []);
-
-	// const getLGItems = useCallback(() => {
-	// 	return lgItems.map((item) => {
-	// 		console.log(item);
-	// 		return (
-	// 			<>
-	// 				{item.can_preview && item.thumbnail ? (
-	// 					<img src={item.thumbnail} />
-	// 				) : (
-	// 					<div className='idb-file-browser__file-list__item__icon'>
-	// 						<span className={classnames('dashicons', getIcon(item.ext))}></span>
-	// 					</div>
-	// 				)}
-	// 			</>
-	// 		);
-	// 	});
-	// }, [lgItems]);
-
-	// useEffect(() => {
-	// 	lightGallery.current.refresh();
-	// }, [files]);
 
 	const showContexify = (e, name, data) => {
 		const { show } = useContextMenu({
@@ -230,40 +195,6 @@ const Browser = () => {
 			{showUploader && (
 				<Uploader />
 			)}
-			{/* <Modal showModal={showModal} item={activeItem} setShowModal={setShowModal} /> */}
-
-			{/* <LightGallery
-				plugins={[lgZoom, lgVideo]}
-				mode="lg-fade"
-				pager={false}
-				thumbnail={true}
-				galleryId={'nature'}
-				autoplayFirstVideo={false}
-				elementClassNames={'gallery'}
-				className={'gallery'}
-				mobileSettings={{
-					controls: false,
-					showCloseIcon: false,
-					download: false,
-					rotate: false,
-				}}
-				licenseKey="DEC07C11-66CA-441B-91EB-78600E170147" 
-			>
-				{files.map((item) =>      <a
-				key={item?.id}
-					data-lg-size="1600-2400"
-					data-pinterest-text="Pin it2"
-					data-tweet-text="lightGallery slide  2"
-					className="gallery__item"
-					data-src={item?.thumbnail}
-					data-sub-html="<h4>Photo by - <a href='https://unsplash.com/@therawhunter' >Massimiliano Morosinotto </a></h4><p> Location - <a href='https://unsplash.com/s/photos/tre-cime-di-lavaredo%2C-italia'>Tre Cime di Lavaredo, Italia</a>This is the Way</p>"
-					>
-					<img
-						className="img-responsive"
-						src={item?.thumbnail}
-					/>
-					</a>)}
-				</LightGallery> */}
 			
 			<Menu id={FILE_MENU}>
 				<Item id='preview' onClick={handleItemClick}>
@@ -433,6 +364,9 @@ const Browser = () => {
 														'idb-file-browser__file-list__item--file',
 														'gallery-item'
 													)}
+													{
+														...generateDataAttributes(item) 
+													}
 													key={index}
 													// onClick={() => {
 													// 	setActiveItem(item);
@@ -445,24 +379,20 @@ const Browser = () => {
 															item,
 														});
 													}}
-													data-src={item?.thumbnail}
-													href={item?.thumbnail}
+													
+													data-src={
+														`${IDBData.ajaxUrl}?action=idb_file_preview&account_id=${activeAccount['id']}&nonce=${IDBData?.ajaxNonce}&file=${item.id}`
+													}
+													// href={
+													// 	`${IDBData.ajaxUrl}?action=idb_file_preview&account_id=${activeAccount['id']}&nonce=${IDBData?.ajaxNonce}&file=${item.id}`
+													// }
+													// href={item?.thumbnail}
+													
 
+													// data-iframe={
+													// 	'pdf' === item.ext ? true : false
+													// }
 												>
-												{/* <a
-				key={item?.id}
-					data-lg-size="1600-2400"
-					data-pinterest-text="Pin it2"
-					data-tweet-text="lightGallery slide  2"
-					className="gallery__item"
-					data-src={item?.thumbnail}
-					data-sub-html="<h4>Photo by - <a href='https://unsplash.com/@therawhunter' >Massimiliano Morosinotto </a></h4><p> Location - <a href='https://unsplash.com/s/photos/tre-cime-di-lavaredo%2C-italia'>Tre Cime di Lavaredo, Italia</a>This is the Way</p>"
-					>
-					<img
-						className="img-responsive"
-						src={item?.thumbnail}
-					/>
-					</a> */}
 													{item.can_preview && item.thumbnail ? (
 														<div className='idb-file-browser__file-list__item__thumb'>
 															<img src={item.thumbnail} />

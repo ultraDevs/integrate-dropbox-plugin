@@ -7,5 +7,4 @@ use Exception;
  * DropboxClientException
  */
 class DropboxClientException extends Exception
-{
-}
+{}

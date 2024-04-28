@@ -6,6 +6,13 @@ import { Contexify } from './components/Contexify';
 import './scss/admin.scss';
 import 'sweetalert2/src/sweetalert2.scss'
 
+// import styles
+import 'lightgallery/css/lightgallery-bundle.css';
+// import 'lightgallery/css/lg-zoom.css';
+// import 'lightgallery/css/lg-video.css';
+// import 'lightgallery/css/lg-thumbnail.css';
+
+
 const App = () => {
 	return (
 		<div className='idb-file-browser'>
