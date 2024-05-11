@@ -51,23 +51,67 @@ export const generateDataAttributes = (file) => {
                     type: `video/${file.ext}`,
                 },
             ],
+			"attributes": {
+				"controls": true,
+				"preload": "auto",
+				"playsinline": "true",
+			}
         };
         attributes['data-poster'] = file.thumbnail;
 		attributes['data-video'] = JSON.stringify(videoData);
     }
 
+	// Audio file
 	if (['mp3', 'wav', 'ogg'].includes(file.ext)) {
-		attributes['data-audio'] = filePreview;
+		// attributes['data-audio'] = filePreview;
+        attributes['data-poster'] = file.thumbnail;
+
+		const audioData = {
+            // poster: file.preview,
+            source: [
+                {
+                    src: filePreview,
+                    type: `audio/${file.ext}`,
+                },
+            ],
+			"attributes": {
+				"controls": true,
+				"preload": "auto",
+				"playsinline": "true",
+			}
+        };
+		attributes['data-video'] = JSON.stringify(audioData);
+		attributes['data-iframe'] = false;
 	}
 
+	// if (['mp3', 'wav', 'ogg'].includes(file.ext)) {
+	// 	attributes['data-audio'] = filePreview;
+	// }
+
 	if (['jpg', 'jpeg', 'png', 'gif'].includes(file.ext)) {
-		attributes['data-src'] = filePreview;
+		attributes['href'] = filePreview;
+	}
+
+	if (file.ext === 'svg') {
+		attributes['data-src'] = file.thumbnail;
+		attributes['data-iframe'] = true;
 	}
 
 	if (file.ext === 'pdf') {
 		attributes['data-src'] = filePreview;
 		attributes['data-iframe'] = true;
 	}
+
+	if (file.ext === 'zip') {
+		attributes['data-src'] = filePreview;
+		attributes['data-iframe'] = true;
+	}
+
+	attributes['data-sub-html'] = `
+		<h4>${file.name}</h4>
+		<p>${formatBytes(file.size)}</p>
+	`;
+	attributes['data-ext'] = file.ext;
 
 	return attributes;
 }

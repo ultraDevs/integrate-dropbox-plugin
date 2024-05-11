@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/integrate-dropbox-plugin.iml" filepath="$PROJECT_DIR$/.idea/integrate-dropbox-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dropbox-integrator-plugin.iml" filepath="$PROJECT_DIR$/.idea/dropbox-integrator-plugin.iml" />
     </modules>
   </component>
 </project>

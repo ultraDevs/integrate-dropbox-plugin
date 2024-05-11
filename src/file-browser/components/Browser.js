@@ -338,7 +338,6 @@ const Browser = () => {
 
 							{files.length ? (
 								<>
-									{/* <div className='idb-file-browser__file-list'> */}
 									<LightGallery
 										plugins={[lgZoom, lgVideo, lgThumbnail]}
 										mode="lg-fade"
@@ -379,19 +378,6 @@ const Browser = () => {
 															item,
 														});
 													}}
-													
-													data-src={
-														`${IDBData.ajaxUrl}?action=idb_file_preview&account_id=${activeAccount['id']}&nonce=${IDBData?.ajaxNonce}&file=${item.id}`
-													}
-													// href={
-													// 	`${IDBData.ajaxUrl}?action=idb_file_preview&account_id=${activeAccount['id']}&nonce=${IDBData?.ajaxNonce}&file=${item.id}`
-													// }
-													// href={item?.thumbnail}
-													
-
-													// data-iframe={
-													// 	'pdf' === item.ext ? true : false
-													// }
 												>
 													{item.can_preview && item.thumbnail ? (
 														<div className='idb-file-browser__file-list__item__thumb'>

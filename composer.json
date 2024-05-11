@@ -1,5 +1,5 @@
 {
-    "name": "ultradevs/integrate-dropbox",
+    "name": "ultradevs/dropbox-integrator",
     "description": "StickyList",
     "authors": [
         {
@@ -10,8 +10,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "ultraDevs\\IntegrateDropbox\\": "includes/",
-            "ultraDevs\\IntegrateDropbox\\App\\": "app/"
+            "ultraDevs\\DropboxIntegrator\\": "includes/",
+            "ultraDevs\\DropboxIntegrator\\App\\": "app/"
 
         },
         "files": [ "includes/functions.php" ]

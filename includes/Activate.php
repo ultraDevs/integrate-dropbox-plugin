@@ -2,18 +2,18 @@
 /**
  * Activate
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropbox;
+namespace ultraDevs\DropboxIntegrator;
 
-use ultraDevs\IntegrateDropbox\Helper;
+use ultraDevs\DropboxIntegrator\Helper;
 
 /**
  * Activate Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 class Activate {
@@ -40,7 +40,7 @@ class Activate {
 	 * Save Plugin's Data
 	 */
 	public function plugin_data() {
-		Helper::update_option( 'idb_version', INTEGRATE_DROPBOX_VERSION );
+		Helper::update_option( 'idb_version', DROPBOX_INTEGRATOR_VERSION );
 
 		$installed_time = Helper::get_option( 'idb_installed_datetime', false );
 		if ( ! $installed_time ) {
@@ -56,7 +56,7 @@ class Activate {
 		if ( get_option( 'idb_do_activation_redirect', false ) ) {
 
 			delete_option( 'idb_do_activation_redirect' );
-			wp_safe_redirect( admin_url( 'admin.php?page=' . INTEGRATE_DROPBOX_MENU_SLUG ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=' . DROPBOX_INTEGRATOR_MENU_SLUG ) );
 			exit();
 		}
 	}
@@ -68,8 +68,8 @@ class Activate {
 	public function create_directories() {
 
 		$directories = array(
-			INTEGRATE_DROPBOX_CACHE_DIR,
-			INTEGRATE_DROPBOX_CACHE_DIR . 'thumbnails/',
+			DROPBOX_INTEGRATOR_CACHE_DIR,
+			DROPBOX_INTEGRATOR_CACHE_DIR . 'thumbnails/',
 		);
 
 		foreach ( $directories as $directory ) {

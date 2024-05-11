@@ -2,16 +2,16 @@
 /**
  * Zip Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropbox\App;
+namespace ultraDevs\DropboxIntegrator\App;
 
 /**
  * Zip Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 class Zip {

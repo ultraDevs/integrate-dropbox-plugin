@@ -2,24 +2,24 @@
 /**
  * Client Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropbox\App;
+namespace ultraDevs\DropboxIntegrator\App;
 
-use ultraDevs\IntegrateDropbox\App\Account;
-use ultraDevs\IntegrateDropbox\App\Authorization;
+use ultraDevs\DropboxIntegrator\App\Account;
+use ultraDevs\DropboxIntegrator\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
-use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
-use ultraDevs\IntegrateDropbox\Helper;
+use ultraDevs\DropboxIntegrator\App\Traits\Singleton;
+use ultraDevs\DropboxIntegrator\Helper;
 
 /**
  * Client Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 class Client {
@@ -86,7 +86,7 @@ class Client {
 
 		$this->client_id    = apply_filters( 'idb_client_id', 'mp6f0by845hzuzw' );
 		$this->app_secret   = apply_filters( 'idb_app_secret', 'osnj0do9if83yrh' );
-		$this->redirect_uri = apply_filters( 'idb_redirect_uri', 'https://oauth.ultradevs.com/integrate-dropbox-wp.php' );
+		$this->redirect_uri = apply_filters( 'idb_redirect_uri', 'https://oauth.ultradevs.com/dropbox-integrator-wp.php' );
 
 		$this->get_client();
 	}
@@ -135,22 +135,22 @@ class Client {
 			$this->client = new Dropbox(
 				$this->get_app( $account ),
 				array(
-					'persistent_data_store' => new SessionPersistentDataStore( 'integrate-dropbox' ),
+					'persistent_data_store' => new SessionPersistentDataStore( 'dropbox-integrator' ),
 				)
 			);
 
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to start Dropbox Client: %s', 'integrate-dropbox' ), $e->getMessage() )
+				__( 'Failed to start Dropbox Client: %s', 'dropbox-integrator' ), $e->getMessage() )
 			);
 			return $e;
 		}
 
-		if ( $this->client->getOAuth2Client()->isAccessTokenExpired() ) {
-			// Refresh token.
-			$this->refresh_token( $account );
-		}
+		// if ( $this->client->getOAuth2Client()->isAccessTokenExpired() ) {
+		// 	// Refresh token.
+		// 	$this->refresh_token( $account );
+		// }
 
 		return $this->client;
 	}
@@ -212,9 +212,9 @@ class Client {
 		try {
 			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ), $filter );
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to get folder: %s', 'integrate-dropbox' ), $e->getMessage() )
+				__( 'Failed to get folder: %s', 'dropbox-integrator' ), $e->getMessage() )
 			);
 			return false;
 		}
@@ -288,6 +288,8 @@ class Client {
 				$shared_link .= '&raw=1';
 			}
 
+			error_log( $shared_link );
+
 			header( 'Location: ' . $shared_link );
 
 			exit;
@@ -349,9 +351,9 @@ class Client {
 
 			// echo $preview->getContents();
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to get file preview: %s', 'integrate-dropbox' ), $e->getMessage() )
+				__( 'Failed to get file preview: %s', 'dropbox-integrator' ), $e->getMessage() )
 			);
 
 			exit();
@@ -375,9 +377,9 @@ class Client {
 			try {
 				$file = API::get_instance( $this->account['id'] )->get_file( $req_path );
 			} catch ( \Exception $e ) {
-				error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+				error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Failed to get file: %s', 'integrate-dropbox' ), $e->getMessage() )
+					__( 'Failed to get file: %s', 'dropbox-integrator' ), $e->getMessage() )
 				);
 				return false;
 			}
@@ -476,7 +478,7 @@ class Client {
 	public function get_auth_url( $params = array() ) {
 		$auth_helper = $this->client->getAuthHelper();
 
-		$redirect_uri = admin_url( 'admin.php?page=integrate-dropbox&action=authorization' );
+		$redirect_uri = admin_url( 'admin.php?page=dropbox-integrator&action=authorization' );
 
 		$encoded_redirect = strtr( base64_encode( $redirect_uri ), '+/=', '-_~' );
 
@@ -509,7 +511,7 @@ class Client {
 				'id'      => $account->getAccountId(),
 				'name'    => $account->getDisplayName(),
 				'email'   => $account->getEmail(),
-				'photo'   => $account->getProfilePhotoUrl() ? $account->getProfilePhotoUrl() : INTEGRATE_DROPBOX_ASSETS . 'images/dropbox-logo.png',
+				'photo'   => $account->getProfilePhotoUrl() ? $account->getProfilePhotoUrl() : DROPBOX_INTEGRATOR_ASSETS . 'images/dropbox-logo.png',
 				'root_id' => $root_info['root_namespace_id'],
 				'lost'    => false,
 				'storage' => $this->get_storage_space_info(),
@@ -525,9 +527,9 @@ class Client {
 			$authorization->set_access_token( $access_token );
 
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to generate access token: %s', 'integrate-dropbox' ), $e->getMessage() )
+				__( 'Failed to generate access token: %s', 'dropbox-integrator' ), $e->getMessage() )
 			);
 
 			return new \WP_Error( 'broke', 'failed_to_generate_access_token', $e->getMessage() );
@@ -551,7 +553,7 @@ class Client {
 		$active_token = Account::get_token( $account['id'] );
 
 		if ( empty( $refresh_token ) ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . __( 'No refresh token found!', 'integrate-dropbox' ) );
+			error_log( DROPBOX_INTEGRATOR_ERROR . __( 'No refresh token found!', 'dropbox-integrator' ) );
 
 			$authorization->set_valid_token( false );
 			$authorization->revoke_token();
@@ -573,9 +575,9 @@ class Client {
 				Account::update_account( $account );
 			}
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error refreshing token: %s', 'integrate-dropbox' ), $e->getMessage() )
+				__( 'Error refreshing token: %s', 'dropbox-integrator' ), $e->getMessage() )
 			);
 
 			$authorization->set_valid_token( false );

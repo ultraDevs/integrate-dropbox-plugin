@@ -2,24 +2,24 @@
 /**
  * File Browser Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropbox\App;
+namespace ultraDevs\DropboxIntegrator\App;
 
-use ultraDevs\IntegrateDropbox\App\Account;
-use ultraDevs\IntegrateDropbox\App\Authorization;
+use ultraDevs\DropboxIntegrator\App\Account;
+use ultraDevs\DropboxIntegrator\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
-use ultraDevs\IntegrateDropbox\App\Traits\Singleton;
-use ultraDevs\IntegrateDropbox\Helper;
+use ultraDevs\DropboxIntegrator\App\Traits\Singleton;
+use ultraDevs\DropboxIntegrator\Helper;
 
 /**
  * File Browser Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 class FileBrowser {

@@ -2,21 +2,21 @@
 /** بسم الله الرحمن الرحيم  **
  * Main Plugin File
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  */
 
-use ultraDevs\IntegrateDropbox\App\API;
+use ultraDevs\DropboxIntegrator\App\API;
 
 /**
- * Plugin Name:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website
- * Plugin URI:        https://ultradevs.com/integrate-dropbox/
+ * Plugin Name:       Dropbox Integrator - Browse, Upload, Manage Your Dropbox Files from Your Website
+ * Plugin URI:        https://ultradevs.com/dropbox-integrator/
  * Description:       Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website Easily.
  * Version: 1.0.0
  * Author:            ultradevs
  * Author URI:        https://ultradevs.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       integrate-dropbox
+ * Text Domain:       dropbox-integrator
  * Domain Path:       /languages
  */
 
@@ -24,27 +24,27 @@ use ultraDevs\IntegrateDropbox\App\API;
 defined( 'ABSPATH' ) || exit( 'bYe bYe!' );
 
 // Constant.
-define( 'INTEGRATE_DROPBOX_VERSION', '1.0.0' );
-define( 'INTEGRATE_DROPBOX_NAME', 'Integrate Dropbox' );
-define( 'INTEGRATE_DROPBOX_DIR_PATH', plugin_dir_path( __FILE__ ) );
-define( 'INTEGRATE_DROPBOX_DIR_URL', plugin_dir_url( __FILE__ ) );
-define( 'INTEGRATE_DROPBOX_ASSETS', INTEGRATE_DROPBOX_DIR_URL . 'assets/' );
-define( 'INTEGRATE_DROPBOX_CACHE_DIR', WP_CONTENT_DIR . '/integrate-dropbox-cache/' );
-define( 'INTEGRATE_DROPBOX_CACHE_DIR_URL', content_url() . '/integrate-dropbox-cache/' );
-define( 'INTEGRATE_DROPBOX_MENU_SLUG', 'integrate-dropbox' );
-define( 'INTEGRATE_DROPBOX_ERROR', '[ Integrate Dropbox ] - ' );
-define( 'INTEGRATE_DROPBOX_DEV_MODE', true );
+define( 'DROPBOX_INTEGRATOR_VERSION', '1.0.0' );
+define( 'DROPBOX_INTEGRATOR_NAME', 'Dropbox Integrator' );
+define( 'DROPBOX_INTEGRATOR_DIR_PATH', plugin_dir_path( __FILE__ ) );
+define( 'DROPBOX_INTEGRATOR_DIR_URL', plugin_dir_url( __FILE__ ) );
+define( 'DROPBOX_INTEGRATOR_ASSETS', DROPBOX_INTEGRATOR_DIR_URL . 'assets/' );
+define( 'DROPBOX_INTEGRATOR_CACHE_DIR', WP_CONTENT_DIR . '/dropbox-integrator-cache/' );
+define( 'DROPBOX_INTEGRATOR_CACHE_DIR_URL', content_url() . '/dropbox-integrator-cache/' );
+define( 'DROPBOX_INTEGRATOR_MENU_SLUG', 'dropbox-integrator' );
+define( 'DROPBOX_INTEGRATOR_ERROR', '[ Dropbox Integrator ] - ' );
+define( 'DROPBOX_INTEGRATOR_DEV_MODE', true );
 
 
 /**
  * Require Composer Autoload
  */
-require_once INTEGRATE_DROPBOX_DIR_PATH . 'vendor/autoload.php';
+require_once DROPBOX_INTEGRATOR_DIR_PATH . 'vendor/autoload.php';
 
 /**
  * Integrate Dropbox class
  */
-final class IntegrateDropbox {
+final class DropboxIntegrator {
 
 	/**
 	 * Constructor
@@ -57,13 +57,13 @@ final class IntegrateDropbox {
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
-		do_action( 'integrate_dropbox_loaded' );
+		do_action( 'dropbox_integrator_loaded' );
 	}
 
 	/**
 	 * Begin execution of the plugin
 	 *
-	 * @return \IntegrateDropbox
+	 * @return \DropboxIntegrator
 	 */
 	public static function run() {
 		/**
@@ -86,25 +86,25 @@ final class IntegrateDropbox {
 	public function init() {
 
 		// Ajax Class.
-		new ultraDevs\IntegrateDropbox\Ajax();
+		new ultraDevs\DropboxIntegrator\Ajax();
 
 		// Assets Manager Class.
-		$assets_manager = new ultraDevs\IntegrateDropbox\Assets_Manager();
+		$assets_manager = new ultraDevs\DropboxIntegrator\Assets_Manager();
 
 		// Activate.
-		$activate = new ultraDevs\IntegrateDropbox\Activate();
+		$activate = new ultraDevs\DropboxIntegrator\Activate();
 
 		// Review Class.
-		$review = new ultraDevs\IntegrateDropbox\Review();
+		$review = new ultraDevs\DropboxIntegrator\Review();
 
 		// Menu.
-		$menu = new ultraDevs\IntegrateDropbox\Admin\Menu();
+		$menu = new ultraDevs\DropboxIntegrator\Admin\Menu();
 
 		// App.
-		new ultraDevs\IntegrateDropbox\App\App();
+		new ultraDevs\DropboxIntegrator\App\App();
 
 		// Rest API.
-		new ultraDevs\IntegrateDropbox\Rest_API();
+		new ultraDevs\DropboxIntegrator\Rest_API();
 
 		if ( is_admin() ) {
 
@@ -136,7 +136,7 @@ final class IntegrateDropbox {
 	 * @return void
 	 */
 	public function activate() {
-		$activate = new ultraDevs\IntegrateDropbox\Activate();
+		$activate = new ultraDevs\DropboxIntegrator\Activate();
 		$activate->run();
 	}
 
@@ -162,8 +162,8 @@ final class IntegrateDropbox {
 			$categories,
 			array(
 				array(
-					'slug'  => 'integrate-dropbox',
-					'title' => __( 'Integrate Dropbox', 'integrate-dropbox' ),
+					'slug'  => 'dropbox-integrator',
+					'title' => __( 'Integrate Dropbox', 'dropbox-integrator' ),
 				),
 			)
 		);
@@ -177,7 +177,7 @@ final class IntegrateDropbox {
 	 * @return void
 	 */
 	public function load_text_domain() {
-		load_plugin_textdomain( 'integrate-dropbox', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'dropbox-integrator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -188,7 +188,7 @@ final class IntegrateDropbox {
 	 */
 	public function plugin_action_links( $links ) {
 
-		$links[] = '<a href="' . admin_url( 'admin.php?page=' . INTEGRATE_DROPBOX_MENU_SLUG ) . '">' . __( 'Settings', 'integrate-dropbox' ) . '</a>';
+		$links[] = '<a href="' . admin_url( 'admin.php?page=' . DROPBOX_INTEGRATOR_MENU_SLUG ) . '">' . __( 'Settings', 'dropbox-integrator' ) . '</a>';
 
 		return $links;
 
@@ -197,16 +197,16 @@ final class IntegrateDropbox {
 }
 
 /**
- * Check if integrate_dropbox doesn't exist
+ * Check if dropbox_integrator doesn't exist
  */
-if ( ! function_exists( 'integrate_dropbox' ) ) {
+if ( ! function_exists( 'dropbox_integrator' ) ) {
 	/**
 	 * Load Integrate Dropbox
 	 *
-	 * @return IntegrateDropbox
+	 * @return DropboxIntegrator
 	 */
-	function integrate_dropbox() {
-		return IntegrateDropbox::run();
+	function dropbox_integrator() {
+		return DropboxIntegrator::run();
 	}
 }
-integrate_dropbox();
+dropbox_integrator();

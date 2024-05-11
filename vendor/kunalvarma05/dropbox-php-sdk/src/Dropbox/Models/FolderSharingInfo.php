@@ -27,13 +27,6 @@ class FolderSharingInfo extends BaseModel
      */
     protected $shared_folder_id;
 
-    /**
-     * Specifies that the folder cannot be accessed by the user.
-     *
-     * @var bool
-     */
-    protected $no_access;
-
 
     /**
      * Create a new Folder Sharing Info instance
@@ -46,7 +39,6 @@ class FolderSharingInfo extends BaseModel
         $this->read_only = $this->getDataProperty('read_only');
         $this->shared_folder_id = $this->getDataProperty('shared_folder_id');
         $this->parent_shared_folder_id = $this->getDataProperty('parent_shared_folder_id');
-        $this->no_access = $this->getDataProperty('no_access');
     }
 
     /**
@@ -77,15 +69,5 @@ class FolderSharingInfo extends BaseModel
     public function getSharedFolderId()
     {
         return $this->shared_folder_id;
-    }
-
-    /**
-     * True if the folder can be accessed by the user.
-     *
-     * @return bool
-     */
-    public function hasAccess()
-    {
-        return ($this->no_access !== false);
     }
 }

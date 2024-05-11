@@ -8,20 +8,19 @@ class ComposerStaticInit60d036d89daa8a92905d086cad68b7b1
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '60799491728b879e74601d83e38b2cad' => __DIR__ . '/..' . '/illuminate/collections/helpers.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '072b506f97662ba3b92b68e8be637d21' => __DIR__ . '/../..' . '/includes/functions.php',
+        '11984c82f1eba42a262ff5475798fa4d' => __DIR__ . '/../..' . '/includes/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'u' => 
         array (
-            'ultraDevs\\IntegrateDropbox\\App\\' => 31,
-            'ultraDevs\\IntegrateDropbox\\' => 27,
+            'ultraDevs\\DropboxIntegrator\\App\\' => 32,
+            'ultraDevs\\DropboxIntegrator\\' => 28,
         ),
         'S' => 
         array (
@@ -53,11 +52,11 @@ class ComposerStaticInit60d036d89daa8a92905d086cad68b7b1
     );
 
     public static $prefixDirsPsr4 = array (
-        'ultraDevs\\IntegrateDropbox\\App\\' => 
+        'ultraDevs\\DropboxIntegrator\\App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
-        'ultraDevs\\IntegrateDropbox\\' => 
+        'ultraDevs\\DropboxIntegrator\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),

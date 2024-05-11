@@ -81,7 +81,7 @@ class Account extends BaseModel
     protected $account_type;
 
     /**
-     * The root info for this account.
+     * Root Info
      *
      * @var string
      */
@@ -106,6 +106,7 @@ class Account extends BaseModel
         $this->country = $this->getDataProperty('country');
         $this->referral_link = $this->getDataProperty('referral_link');
         $this->is_paired = $this->getDataProperty('is_paired');
+        $this->root_info = $this->getDataProperty('root_info');
 
         //Account Type
         $account_type = $this->getDataProperty('account_type');
@@ -113,8 +114,6 @@ class Account extends BaseModel
         if (is_array($account_type) && !empty($account_type)) {
             $this->account_type = $account_type['.tag'];
         }
-
-        $this->root_info = $this->getDataProperty('root_info');
     }
 
     /**

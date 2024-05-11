@@ -83,7 +83,7 @@ msgstr ""
 msgid "Settings - Integrate Dropbox"
 msgstr ""
 
-#: includes/Admin/Menu.php:67 integrate-dropbox.php:188
+#: includes/Admin/Menu.php:67 dropbox-integrator.php:188
 msgid "Settings"
 msgstr ""
 
@@ -220,6 +220,6 @@ msgstr ""
 msgid "I already did"
 msgstr ""
 
-#: integrate-dropbox.php:163
+#: dropbox-integrator.php:163
 msgid "Integrate Dropbox"
 msgstr ""

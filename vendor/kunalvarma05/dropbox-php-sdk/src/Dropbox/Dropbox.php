@@ -18,8 +18,7 @@ use Kunnu\Dropbox\Authentication\DropboxAuthHelper;
 use Kunnu\Dropbox\Exceptions\DropboxClientException;
 use Kunnu\Dropbox\Security\RandomStringGeneratorFactory;
 use Kunnu\Dropbox\Http\Clients\DropboxHttpClientFactory;
-use Kunnu\Dropbox\Models\AsyncJob;
-use Kunnu\Dropbox\Models\Tag;
+use ultraDevs\DropboxIntegrator\App\Account as AppAccount;
 
 /**
  * Dropbox
@@ -264,6 +263,11 @@ class Dropbox
         //Access Token
         $accessToken = $this->getAccessToken() ? $this->getAccessToken() : $accessToken;
 
+        if ( $this->getOAuth2Client()->isAccessTokenExpired() ) {
+            do_action( 'idb_refresh_token', AppAccount::get_active_account() );
+            $accessToken = $this->getAccessToken();
+        }
+
         //Make a DropboxRequest object
         $request = new DropboxRequest($method, $endpoint, $accessToken, $endpointType, $params);
 
@@ -297,36 +301,6 @@ class Dropbox
         $this->accessToken = $accessToken;
 
         return $this;
-    }
-
-    /**
-     * Wait for an Async Job to complete
-     *
-     * @param  \Kunnu\Dropbox\DropboxResponse $response
-     * @param  string $endpoint
-     * @param  string $async_job_id
-     *
-     */
-    public function waitForAsyncRequest( $response, $endpoint, $async_job_id = null )
-    {
-        $response = $this->makeModelFromResponse($response);
-
-        if (!($response instanceof AsyncJob) && !($response instanceof Tag)) {
-            return $response;
-        }
-
-        if ($response instanceof Tag && 'in_progress' !== $response->getTag()) {
-            return $response;
-        }
-
-        if ($response instanceof AsyncJob && empty($async_job_id)) {
-            $async_job_id = $response->getAsyncJobId();
-        }
-
-        usleep(1000000);
-        $raw_response = $this->postToAPI($endpoint, ['async_job_id' => $async_job_id]);
-
-        return $this->waitForAsyncRequest($raw_response, $endpoint, $async_job_id);
     }
 
     /**
@@ -569,38 +543,6 @@ class Dropbox
     }
 
     /**
-     * Delete batch file or folder at the given path
-     *
-     * @param  array $$entries Array of entries to delete
-     * @param  boolean $async Perform async delete
-     *
-     * @return \Kunnu\Dropbox\Models\DeletedMetadata | \Kunnu\Dropbox\Models\AsyncJob
-     *
-     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
-     *
-     * @link https://www.dropbox.com/developers/documentation/http/documentation#files-delete
-     *
-     */
-    public function deleteBatch( $entries, $async = true )
-    {
-        //Path cannot be null
-        if (is_null($entries)) {
-            throw new DropboxClientException("Entries cannot be null.");
-        }
-
-        //Delete
-        $response = $this->postToAPI('/files/delete_batch', $entries);
-        $body = $response->getDecodedBody();
-
-        // Make and Return the Model
-        if (false === $async) {
-            return $this->makeModelFromResponse($response);
-        }
-
-        return $this->waitForAsyncRequest($response, '/files/delete_batch/check');
-    }
-
-    /**
      * Move a file or folder to a different location
      *
      * @param  string $fromPath Path to be moved
@@ -628,36 +570,6 @@ class Dropbox
     }
 
     /**
-     * Move batch file or folder to a different location
-     *
-     * @param  string $fromPath Path to be moved
-     * @param  string $toPath   Path to be moved to
-     *
-     * @return \Kunnu\Dropbox\Models\DeletedMetadata|\Kunnu\Dropbox\Models\FileMetadata | \Kunnu\Dropbox\Models\AsyncJob
-     *
-     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
-     *
-     * @link https://www.dropbox.com/developers/documentation/http/documentation#files-move
-     *
-     */
-    public function moveBatch($fromPath, $toPath, $async = true)
-    {
-        //From and To paths cannot be null
-        if (is_null($fromPath) || is_null($toPath)) {
-            throw new DropboxClientException("From and To paths cannot be null.");
-        }
-
-        //Response
-        $response = $this->postToAPI('/files/move_batch_v2', ['from_path' => $fromPath, 'to_path' => $toPath]);
-
-        if (false === $async) {
-            return $this->makeModelFromResponse($response);
-        }
-
-        return $this->waitForAsyncRequest($response, '/files/move_batch/check_v2');
-    }
-
-    /**
      * Copy a file or folder to a different location
      *
      * @param  string $fromPath Path to be copied
@@ -682,33 +594,6 @@ class Dropbox
 
         //Make and Return the Model
         return $this->makeModelFromResponse($response);
-    }
-
-    /**
-     * Copy batch file or folder to a different location
-     *
-     * @param  string $fromPath Path to be copied
-     * @param  string $toPath   Path to be copied to
-     *
-     * @return \Kunnu\Dropbox\Models\DeletedMetadata|\Kunnu\Dropbox\Models\FileMetadata | \Kunnu\Dropbox\Models\AsyncJob
-     *
-     * @throws \Kunnu\Dropbox\Exceptions\DropboxClientException
-     *
-     * @link https://www.dropbox.com/developers/documentation/http/documentation#files-copy
-     *
-     */
-    public function copyBatch($fromPath, $toPath)
-    {
-        //From and To paths cannot be null
-        if (is_null($fromPath) || is_null($toPath)) {
-            throw new DropboxClientException("From and To paths cannot be null.");
-        }
-
-        //Response
-        $response = $this->postToAPI('/files/copy_batch_v2', ['from_path' => $fromPath, 'to_path' => $toPath]);
-
-        //Make and Return the Model
-        return $this->$this->waitForAsyncRequest($response, '/files/copy_batch/check_v2');
     }
 
     /**
@@ -1299,39 +1184,6 @@ class Dropbox
     }
 
     /**
-     * Preview a File.
-     *
-     * @param string $path Path to the file you want to download
-     *
-     * @see https://www.dropbox.com/developers/documentation/http/documentation#files-get_preview
-     *
-     * @credit \TheLion\OutoftheBox
-     */
-    public function preview($path)
-    {
-
-        // Path cannot be null
-        if (is_null($path)) {
-            throw new DropboxClientException('Path cannot be null.');
-        }
-
-        // Download File
-        $response = $this->postToContent('/files/get_preview', ['path' => $path]);
-
-        dd( $response);
-
-
-        // Get file metadata from response headers
-        $metadata = $this->getMetadataFromResponseHeaders($response);
-
-        // File Contents
-        $contents = $response->getBody();
-
-        // Make and return a File model
-        return new File($metadata, $contents);
-    }
-
-    /**
      * Download a File
      *
      * @param  string                  $path        Path to the file you want to download
@@ -1365,63 +1217,6 @@ class Dropbox
 
         //Make and return a File model
         return new File($metadata, $contents);
-    }
-
-    /**
-     * List shared links of this user.
-     *
-     * @param string $path   Path to the folder. Defaults to root.
-     * @param string $cursor the cursor returned by your last call to list_shared_links
-     * @param array  $params Additional Params
-     *
-     * @see https://www.dropbox.com/developers/documentation/http/documentation#sharing-list_shared_links
-     *
-     * @return \Dropbox\Models\MetadataCollection
-     */
-    public function listSharedLinks($path = null, $cursor = null, array $params = ['direct_only' => true])
-    {
-        // Specify the root folder as an
-        // empty string rather than as "/"
-        if ('/' === $path) {
-            $path = '';
-        }
-
-        // Set the path
-        if (!empty($path)) {
-            $params['path'] = $path;
-        } elseif (!empty($cursor)) {
-            $params['cursor'] = $cursor;
-        }
-
-        // Get File Metadata
-        $response = $this->postToAPI('/sharing/list_shared_links', $params);
-
-        // Make and Return the Model
-        return $this->makeModelFromResponse($response);
-    }
-
-    /**
-     * Create a shared link with custom settings.
-     *
-     * @param string             $path     The path to be shared by the shared link
-     * @param SharedLinkSettings $settings the requested settings for the newly created shared link This field is optional
-     *
-     * @see https://www.dropbox.com/developers/documentation/http/documentation#files-create_folder
-     *
-     * @return \Dropbox\Models\FileLinkMetadata|\Dropbox\Models\FolderLinkMetadata
-     */
-    public function createSharedLinkWithSettings($path, $settings = [])
-    {
-        // Path cannot be null
-        if (is_null($path)) {
-            throw new DropboxClientException('Path cannot be null.');
-        }
-
-        // Create Folder
-        $response = $this->postToAPI('/sharing/create_shared_link_with_settings', ['path' => $path, 'settings' => $settings]);
-
-        // Make and Return the Model
-        return $this->makeModelFromResponse($response);
     }
 
     /**

@@ -93,11 +93,7 @@ class DropboxClient
      */
     protected function buildAuthHeader($accessToken = "")
     {
-        if ( is_string( $accessToken ) && ! empty( $accessToken ) ) {
-            return ['Authorization' => 'Bearer '. $accessToken ];
-        } else {
-            return ['Authorization' => 'Bearer '. $accessToken->getToken()];
-        }
+        return ['Authorization' => 'Bearer '. $accessToken->getToken()];
     }
 
     /**

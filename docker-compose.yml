@@ -16,7 +16,7 @@ services:
             - '443:8443'
         volumes:
             - 'wordpress_data:/bitnami/wordpress'
-            - './:/bitnami/wordpress/wp-content/plugins/integrate-dropbox-plugin'
+            - './:/bitnami/wordpress/wp-content/plugins/dropbox-integrator-plugin'
         depends_on:
             - mysql
         environment:

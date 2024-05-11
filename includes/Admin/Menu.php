@@ -2,21 +2,21 @@
 /**
  * Menu
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropbox\Admin;
+namespace ultraDevs\DropboxIntegrator\Admin;
 
-use ultraDevs\IntegrateDropbox\App\App;
-use ultraDevs\IntegrateDropbox\App\Client;
-use ultraDevs\IntegrateDropbox\Helper;
-use ultraDevs\IntegrateDropbox\Assets_Manager;
+use ultraDevs\DropboxIntegrator\App\App;
+use ultraDevs\DropboxIntegrator\App\Client;
+use ultraDevs\DropboxIntegrator\Helper;
+use ultraDevs\DropboxIntegrator\Assets_Manager;
 
 /**
  * Menu Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 class Menu {
@@ -32,7 +32,7 @@ class Menu {
 	 *
 	 * @var string
 	 */
-	public static $icon = INTEGRATE_DROPBOX_ASSETS . 'images/sl.svg';
+	public static $icon = DROPBOX_INTEGRATOR_ASSETS . 'images/sl.svg';
 
 	/**
 	 * Register
@@ -42,8 +42,8 @@ class Menu {
 		add_action( 'admin_init', array( $this, 'handle_authorization' ) );
 
 		$menu_to_avoid = array(
-			INTEGRATE_DROPBOX_MENU_SLUG,
-			INTEGRATE_DROPBOX_MENU_SLUG . '-settings',
+			DROPBOX_INTEGRATOR_MENU_SLUG,
+			DROPBOX_INTEGRATOR_MENU_SLUG . '-settings',
 		);
 
 		if (
@@ -59,12 +59,12 @@ class Menu {
 	 * Register Admin Menu
 	 */
 	public static function register_menu() {
-		self::$menu = add_menu_page( __( 'Dashboard - Integrate Dropbox', 'integrate-dropbox' ), __( 'Dropbox', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
+		self::$menu = add_menu_page( __( 'Dashboard - Integrate Dropbox', 'dropbox-integrator' ), __( 'Dropbox', 'dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
 
-		add_submenu_page( INTEGRATE_DROPBOX_MENU_SLUG, __( 'File Browser - Integrate Dropbox', 'integrate-dropbox' ), __( 'File Browser', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
+		add_submenu_page( DROPBOX_INTEGRATOR_MENU_SLUG, __( 'File Browser - Integrate Dropbox', 'dropbox-integrator' ), __( 'File Browser', 'dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
 
 		// Settings.
-		$settings = add_submenu_page( INTEGRATE_DROPBOX_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'integrate-dropbox' ), __( 'Settings', 'integrate-dropbox' ), 'manage_options', INTEGRATE_DROPBOX_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
+		$settings = add_submenu_page( DROPBOX_INTEGRATOR_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'dropbox-integrator' ), __( 'Settings', 'dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
 
 		// Assets Manager Class.
 		$assets_manager = new Assets_Manager();

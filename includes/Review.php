@@ -2,18 +2,18 @@
 /**
  * Ask for a review class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropbox;
+namespace ultraDevs\DropboxIntegrator;
 
-use ultraDevs\IntegrateDropbox\Helper;
+use ultraDevs\DropboxIntegrator\Helper;
 
 /**
  * Ask for a review class
  *
- * @package BDPaymentGateways
+ * @package IntegrateDropbox
  * @since 2.0.3
  */
 class Review {
@@ -23,7 +23,7 @@ class Review {
 	 *
 	 * @var string
 	 */
-	public $slug = 'integrate_dropbox';
+	public $slug = 'dropbox_integrator';
 
 	/**
 	 * Constructor
@@ -99,7 +99,7 @@ class Review {
 
 		$nonce = wp_create_nonce( 'integrate_dropbox_admin_action_nonce' );
 
-		$review_url = 'https://wordpress.org/support/plugin/integrate-dropbox/reviews/?filter=5#new-post';
+		$review_url = 'https://wordpress.org/support/plugin/dropbox-integrator/reviews/?filter=5#new-post';
 
 		$review_later_link       = add_query_arg(
 			array(
@@ -116,8 +116,8 @@ class Review {
 
 		$notice_msg = sprintf(
 			// translators: %1$s Plugin Name.
-			__( 'Hey, we noticed you have been using %1$s for more than 3 days now - that\'s awesome! <br> Could you please do us a BIG favor and give it a rating on WordPress.org to help us do more great work and boost our motivation?', 'integrate-dropbox' ),
-			'<strong>' . INTEGRATE_DROPBOX_NAME . '</strong>'
+			__( 'Hey, we noticed you have been using %1$s for more than 3 days now - that\'s awesome! <br> Could you please do us a BIG favor and give it a rating on WordPress.org to help us do more great work and boost our motivation?', 'dropbox-integrator' ),
+			'<strong>' . DROPBOX_INTEGRATOR_NAME . '</strong>'
 		);
 		?>
 		<style>
@@ -161,15 +161,15 @@ class Review {
 			<div class="ud-review-notice__btns">
 					<a href="<?php echo esc_url( $review_url ); ?>" target="_blank" class="ud-review-notice__btn">
 						<span class="dashicons dashicons-welcome-write-blog"></span>
-						<?php echo esc_html__( 'Yes, you deserve it', 'integrate-dropbox' ); ?>
+						<?php echo esc_html__( 'Yes, you deserve it', 'dropbox-integrator' ); ?>
 					</a>
 					<a href="<?php echo esc_url( $review_later_link ); ?>" class="ud-review-notice__btn">
 						<span class="dashicons dashicons-calendar"></span>
-						<?php echo esc_html__( 'No, maybe later', 'integrate-dropbox' ); ?>
+						<?php echo esc_html__( 'No, maybe later', 'dropbox-integrator' ); ?>
 					</a>
 					<a href="<?php echo esc_url( $review_already_did_link ); ?>" class="ud-review-notice__btn">
 						<span class="dashicons dashicons-smiley"></span>
-						<?php echo esc_html__( 'I already did', 'integrate-dropbox' ); ?>
+						<?php echo esc_html__( 'I already did', 'dropbox-integrator' ); ?>
 					</a>
 			</div>
 		</div>

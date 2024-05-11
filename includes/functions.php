@@ -2,14 +2,14 @@
 /**
  * Functions here
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  */
 
 /**
  * Check if Pro Version Installed
  */
 function udpb_has_pro() {
-	return defined( 'INTEGRATE_DROPBOX_PRO_VERSION' );
+	return defined( 'DROPBOX_INTEGRATOR_PRO_VERSION' );
 }
 
 /**

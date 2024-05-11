@@ -1,7 +1,7 @@
-=== Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your Website ===
+=== Dropbox Integrator - Browse, Upload, Manage Your Dropbox Files from Your Website ===
 Contributors: ultradevs, mhimon
 Donate link: https://ultradevs.com/donate
-Tags: dropbox plugin, dropbox file manager
+Tags: dropbox, dropbox plugin, dropbox file manager
 Requires at least: 5.3.2
 Tested up to:      6.5.2
 Stable tag:        1.0.0
@@ -9,11 +9,11 @@ Requires PHP:      7.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
+Dropbox Integrator - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
 
 == Description ==
 
-Integrate Dropbox - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
+Dropbox Integrator - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
 
 ### Features
 - Browse Dropbox Files
@@ -40,7 +40,7 @@ Made With Love By [ultraDevs](https://ultradevs.com) ❤️
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/integrate-dropbox` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/dropbox-integrator` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 

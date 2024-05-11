@@ -2,19 +2,19 @@
 /**
  * Authorization Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropbox\App;
+namespace ultraDevs\DropboxIntegrator\App;
 
-use ultraDevs\IntegrateDropbox\App\Client;
-use ultraDevs\IntegrateDropbox\App\Account;
+use ultraDevs\DropboxIntegrator\App\Client;
+use ultraDevs\DropboxIntegrator\App\Account;
 
 /**
  * Authorization Class
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  * @since 1.0.0
  */
 class Authorization {
@@ -170,14 +170,14 @@ class Authorization {
 	 * @return boolean
 	 */
 	public function revoke_token( $account = null ) {
-		error_log( INTEGRATE_DROPBOX_ERROR . __( 'Authorization Lost', 'integrate-dropbox' ) );
+		error_log( DROPBOX_INTEGRATOR_ERROR . __( 'Authorization Lost', 'dropbox-integrator' ) );
 
 		try {
 			$this->get_client( $account )->getAuthHelper()->revokeAccessToken();
 		} catch ( \Exception $e ) {
-			error_log( INTEGRATE_DROPBOX_ERROR . sprintf(
+			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error revoking token: %s', 'integrate-dropbox' ), $e->getMessage() )
+				__( 'Error revoking token: %s', 'dropbox-integrator' ), $e->getMessage() )
 			);
 		}
 

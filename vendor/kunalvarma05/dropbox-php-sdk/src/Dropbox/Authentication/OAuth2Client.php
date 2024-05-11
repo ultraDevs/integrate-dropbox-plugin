@@ -183,18 +183,17 @@ class OAuth2Client
     {
         $accessToken = $this->getApp()->getAccessToken();
 
-        // If no access token is set return true
-        if (is_null($accessToken)) {
-            return true;
+        if (!$accessToken) { // @TODO: Check if this is the correct way to check if the access token is set
+            return;
         }
 
-        if ($accessToken->getExpiryTime() < 0) {
+        if ($accessToken->getExpiresIn() < 0) {
             return false;
         }
 
         // If the token is set to expire in the next 120 seconds.
         return ($accessToken->getCreated()
-        + ($accessToken->getExpiryTime() - 120)) < time();
+        + ($accessToken->getExpiresIn() - 120)) < time();
     }
 
     /**

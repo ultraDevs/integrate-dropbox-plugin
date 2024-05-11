@@ -60,7 +60,7 @@ class AccessToken extends BaseModel
     protected $teamId;
 
     /**
-     * Created.
+     * Created Time
      *
      * @var string
      */
@@ -83,16 +83,7 @@ class AccessToken extends BaseModel
         $this->teamId = $this->getDataProperty('team_id');
         $this->expiryTime = $this->getDataProperty('expires_in');
         $this->refreshToken = $this->getDataProperty('refresh_token');
-        $this->created = $this->getDataProperty( 'created' );
-
-        if ( empty( $this->refreshToken ) ) {
-            // Long lived Tokens don't have a refresh token and don't expire
-            $this->expiresIn = -1;
-        }
-
-        if ( empty( $this->created ) ) {
-            $this->created = time();
-        }
+        $this->created = $this->getDataProperty('created');
     }
 
     /**
@@ -103,6 +94,26 @@ class AccessToken extends BaseModel
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * Get created.
+     *
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Get expires.
+     *
+     * @return string
+     */
+    public function getExpiresIn()
+    {
+        return $this->expiryTime;
     }
 
     /**
@@ -166,16 +177,6 @@ class AccessToken extends BaseModel
     }
 
     /**
-     * Get created.
-     *
-     * @return string
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
      * Get Team ID
      *
      * @return string
@@ -183,5 +184,47 @@ class AccessToken extends BaseModel
     public function getTeamId()
     {
         return $this->teamId;
+    }
+
+    /**
+     * Set expires.
+     *
+     * @param string $expiresIn expires
+     *
+     * @return self
+     */
+    public function setExpiresIn(string $expiresIn)
+    {
+        $this->expiresIn = $expiresIn;
+
+        return $this;
+    }
+
+    /**
+     * Set access Token.
+     *
+     * @param string $token access Token
+     *
+     * @return self
+     */
+    public function setToken(string $token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Set created.
+     *
+     * @param string $created created
+     *
+     * @return self
+     */
+    public function setCreated(string $created)
+    {
+        $this->created = $created;
+
+        return $this;
     }
 }

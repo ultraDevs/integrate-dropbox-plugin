@@ -4,7 +4,7 @@
  *
  * Fired when the plugin is uninstallad
  *
- * @package IntegrateDropbox
+ * @package DropboxIntegrator
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
