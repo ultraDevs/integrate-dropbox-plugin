@@ -42,6 +42,11 @@ define( 'DROPBOX_INTEGRATOR_DEV_MODE', true );
 require_once DROPBOX_INTEGRATOR_DIR_PATH . 'vendor/autoload.php';
 
 /**
+ * Require DropBox SDK
+ */
+require_once DROPBOX_INTEGRATOR_DIR_PATH . 'dropbox/kunalvarma05/dropbox-php-sdk/vendor/autoload.php';
+
+/**
  * Integrate Dropbox class
  */
 final class DropboxIntegrator {
