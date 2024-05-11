@@ -1,5 +1,5 @@
 {
-    "name": "dropbox-integrator",
+    "name": "easy-dropbox-integrator",
     "version": "1.0.0",
     "description": "Integrate Dropbox is a WordPress plugin that allows you to integrate your Dropbox account with your WordPress website. You can upload files to your Dropbox account from your WordPress website and also you can download files from your Dropbox account to your WordPress website.",
     "main": "src/index.js",
@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/ultraDevs/dropbox-integrator"
+        "url": "https://github.com/ultraDevs/easy-dropbox-integrator"
     },
     "keywords": [
         "plugin"

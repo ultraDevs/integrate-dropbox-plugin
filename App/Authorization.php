@@ -38,7 +38,7 @@ class Authorization {
 	 *
 	 * @var string
 	 */
-	public $tokens_key = 'idb_tokens';
+	public $tokens_key = 'easy_dropbox_intregrator_tokens';
 
 	/**
 	 * Is Valid Token?
@@ -170,14 +170,14 @@ class Authorization {
 	 * @return boolean
 	 */
 	public function revoke_token( $account = null ) {
-		error_log( DROPBOX_INTEGRATOR_ERROR . __( 'Authorization Lost', 'dropbox-integrator' ) );
+		error_log( DROPBOX_INTEGRATOR_ERROR . __( 'Authorization Lost', 'easy-dropbox-integrator' ) );
 
 		try {
 			$this->get_client( $account )->getAuthHelper()->revokeAccessToken();
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error revoking token: %s', 'dropbox-integrator' ), $e->getMessage() )
+				__( 'Error revoking token: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
 			);
 		}
 

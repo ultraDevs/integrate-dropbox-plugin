@@ -17,7 +17,7 @@ const Header = (props) => {
 				<i className='dashicons dashicons-admin-generic'></i>
 				<h2>
 					{
-						__( 'Settings', 'dropbox-integrator' )
+						__( 'Settings', 'easy-dropbox-integrator' )
 					}
 					<span>v{version}</span>
 				</h2>

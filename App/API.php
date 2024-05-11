@@ -79,7 +79,7 @@ class API {
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage() )
+				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage() )
 			);
 
 			throw new \Exception( esc_html( $e->getMessage() ) ); 
@@ -130,7 +130,7 @@ class API {
 			} catch ( \Exception $e ) {
 				error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage() )
+					__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage() )
 				);
 				return false;
 			}
@@ -233,7 +233,7 @@ class API {
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
 			));
 			return false;
 		}
@@ -251,7 +251,7 @@ class API {
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
 			));
 			return false;
 		}
@@ -280,7 +280,7 @@ class API {
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -304,7 +304,7 @@ class API {
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -327,7 +327,7 @@ class API {
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -359,7 +359,7 @@ class API {
 		} catch ( \Exception $e ) {
 			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -397,7 +397,7 @@ class API {
 			} else {
 				error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Error : %s', 'dropbox-integrator' ), $e->getMessage()
+					__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
 				));
 				return $e->getMessage();
 			}

@@ -79,23 +79,23 @@ class Ajax {
 		// var_dump(  $action );
 
 		if ( ! isset( $this->ajax_actions[ $action ] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid Action', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid Action', 'easy-dropbox-integrator' ) ) );
 		}
 
 		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'idb_ajax_nonce' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'easy-dropbox-integrator' ) ) );
 		}
 
 		// $this->current_path = sanitize_text_field( $_REQUEST['path'] );
 		$this->account_id = sanitize_text_field( $_REQUEST['account_id'] );
 
 		// if ( empty( $this->current_path ) ) {
-		// 	wp_send_json_error( array( 'message' => __( 'Path is required', 'dropbox-integrator' ) ) );
+		// 	wp_send_json_error( array( 'message' => __( 'Path is required', 'easy-dropbox-integrator' ) ) );
 		// }
 
 		if ( empty( $this->account_id ) ) {
-			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Account ID is required', 'easy-dropbox-integrator' ) ) );
 		}
 
 		$active_account = Account::get_active_account();
@@ -104,7 +104,7 @@ class Ajax {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account is not active.', 'dropbox-integrator' ),
+					'message' => __( 'Account is not active.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -124,12 +124,12 @@ class Ajax {
 
 		if ( ! $remove ) {
 			wp_send_json_error( array(
-				'message' => __( 'Failed to remove account!', 'dropbox-integrator' ),
+				'message' => __( 'Failed to remove account!', 'easy-dropbox-integrator' ),
 			) );
 		}
 
 		wp_send_json_success( [
-			'message' => __( 'Account removed successfully!', 'dropbox-integrator' ),
+			'message' => __( 'Account removed successfully!', 'easy-dropbox-integrator' ),
 			'data'    => $remove,
 		]);
 	}
@@ -144,7 +144,7 @@ class Ajax {
 		$file    = sanitize_text_field( $_REQUEST['file'] );
 
 		if ( empty( $file ) ) {
-			wp_send_json_error( array( 'message' => __( 'File is required', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'File is required', 'easy-dropbox-integrator' ) ) );
 		}
 
 		$file = Client::get_instance( $this->account_id )->file_preview( $file );
@@ -153,7 +153,7 @@ class Ajax {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'File not found.', 'dropbox-integrator' ),
+					'message' => __( 'File not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -173,28 +173,28 @@ class Ajax {
 		$new_name   = sanitize_text_field( $_POST['new_name'] );
 
 		if ( empty( $old_name ) ) {
-			wp_send_json_error( array( 'message' => __( 'Old Name is required', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Old Name is required', 'easy-dropbox-integrator' ) ) );
 		}
 
 
 		if ( empty( $new_name ) ) {
-			wp_send_json_error( array( 'message' => __( 'New name is required', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'New name is required', 'easy-dropbox-integrator' ) ) );
 		}
 
 		if ( $old_name === $new_name ) {
-			wp_send_json_error( array( 'message' => __( 'Old name and new name can not be same', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Old name and new name can not be same', 'easy-dropbox-integrator' ) ) );
 		}
 
 		$rename = API::get_instance( $this->account_id )->rename( $old_name, $new_name );
 
 		if ( ! $rename) {
 			wp_send_json_error( array(
-				'message' => __( 'File/Folder not renamed', 'dropbox-integrator' ),
+				'message' => __( 'File/Folder not renamed', 'easy-dropbox-integrator' ),
 			) );
 		}
 
 		wp_send_json_success( [
-			'message' => __( 'Renamed Successfully', 'dropbox-integrator' ),
+			'message' => __( 'Renamed Successfully', 'easy-dropbox-integrator' ),
 			'data'    => $rename,
 		]);
 	}
@@ -211,19 +211,19 @@ class Ajax {
 
 
 		if ( empty( $name ) ) {
-			wp_send_json_error( array( 'message' => __( 'Folder name is required', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Folder name is required', 'easy-dropbox-integrator' ) ) );
 		}
 
 		$folder = API::get_instance( $this->account_id )->create_folder( $name, $path );
 
 		if ( ! $folder) {
 			wp_send_json_error( array(
-				'message' => __( 'Failed to create Folder!', 'dropbox-integrator' ),
+				'message' => __( 'Failed to create Folder!', 'easy-dropbox-integrator' ),
 			) );
 		}
 
 		wp_send_json_success( [
-			'message' => __( 'Folder created successfully!', 'dropbox-integrator' ),
+			'message' => __( 'Folder created successfully!', 'easy-dropbox-integrator' ),
 			'data'    => $folder,
 		]);
 	}
@@ -238,7 +238,7 @@ class Ajax {
 		$path 	 = sanitize_text_field( $_POST['path'] );
 
 		if ( empty( $path ) ) {
-			wp_send_json_error( array( 'message' => __( 'Path is required', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Path is required', 'easy-dropbox-integrator' ) ) );
 		}
 
 
@@ -246,12 +246,12 @@ class Ajax {
 
 		if ( ! $delete) {
 			wp_send_json_error( array(
-				'message' => __( 'Failed to delete!', 'dropbox-integrator' ),
+				'message' => __( 'Failed to delete!', 'easy-dropbox-integrator' ),
 			) );
 		}
 
 		wp_send_json_success( [
-			'message' => __( 'Deleted successfully!', 'dropbox-integrator' ),
+			'message' => __( 'Deleted successfully!', 'easy-dropbox-integrator' ),
 			'data'    => $delete,
 		]);
 	}
@@ -274,12 +274,12 @@ class Ajax {
 
 		if ( ! $upload) {
 			wp_send_json_error( array(
-				'message' => __( 'Failed to upload!', 'dropbox-integrator' ),
+				'message' => __( 'Failed to upload!', 'easy-dropbox-integrator' ),
 			) );
 		}
 
 		wp_send_json_success( [
-			'message' => __( 'Uploaded successfully!', 'dropbox-integrator' ),
+			'message' => __( 'Uploaded successfully!', 'easy-dropbox-integrator' ),
 			'data'    => $upload,
 		]);
 	}
@@ -293,7 +293,7 @@ class Ajax {
 		$file    = sanitize_text_field( $_POST['file'] );
 
 		if ( empty( $file ) ) {
-			wp_send_json_error( array( 'message' => __( 'File is required', 'dropbox-integrator' ) ) );
+			wp_send_json_error( array( 'message' => __( 'File is required', 'easy-dropbox-integrator' ) ) );
 		}
 
 		$thumbnail = Client::get_instance( $this->account_id )->get_thumbnail( $file );
@@ -302,7 +302,7 @@ class Ajax {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Thumbnail not found.', 'dropbox-integrator' ),
+					'message' => __( 'Thumbnail not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);

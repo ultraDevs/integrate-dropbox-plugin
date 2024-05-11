@@ -33,18 +33,18 @@ class Activate {
 	 * Settings Data
 	 */
 	public function settings_data() {
-		update_option( 'idb_settings', idb_get_settings() );
+		update_option( 'easy_dropbox_intregrator_settings', idb_get_settings() );
 	}
 
 	/**
 	 * Save Plugin's Data
 	 */
 	public function plugin_data() {
-		Helper::update_option( 'idb_version', DROPBOX_INTEGRATOR_VERSION );
+		Helper::update_option( 'easy_dropbox_intregrator_version', DROPBOX_INTEGRATOR_VERSION );
 
-		$installed_time = Helper::get_option( 'idb_installed_datetime', false );
+		$installed_time = Helper::get_option( 'easy_dropbox_intregrator_installed_datetime', false );
 		if ( ! $installed_time ) {
-			Helper::update_option( 'idb_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
+			Helper::update_option( 'easy_dropbox_intregrator_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
 		}
 	}
 
@@ -53,9 +53,9 @@ class Activate {
 	 */
 	public function activation_redirect() {
 
-		if ( get_option( 'idb_do_activation_redirect', false ) ) {
+		if ( get_option( 'easy_dropbox_intregrator_do_activation_redirect', false ) ) {
 
-			delete_option( 'idb_do_activation_redirect' );
+			delete_option( 'easy_dropbox_intregrator_do_activation_redirect' );
 			wp_safe_redirect( admin_url( 'admin.php?page=' . DROPBOX_INTEGRATOR_MENU_SLUG ) );
 			exit();
 		}
@@ -86,7 +86,7 @@ class Activate {
 	public function create_tables() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$table_name      = $wpdb->prefix . 'idb_files';
+		$table_name      = $wpdb->prefix . 'easy_dropbox_intregrator_files';
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
 			id varchar(255) NOT NULL,

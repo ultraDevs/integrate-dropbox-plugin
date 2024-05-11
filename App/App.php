@@ -71,7 +71,7 @@ class App {
 	 * @return void
 	 */
 	public function process_authorization() {
-		$redirect = admin_url( 'admin.php?page=dropbox-integrator' );
+		$redirect = admin_url( 'admin.php?page=easy-dropbox-integrator' );
 
 		if ( ! empty( $_REQUEST['state'] ) ) {
 			$state     = strtr( $_REQUEST['state'], '-_~', '+/=' );
@@ -84,7 +84,7 @@ class App {
 
 			$redirect_to = base64_decode( $url_state );
 
-			if ( false === strpos( $redirect_to, 'dropbox-integrator' ) ) {
+			if ( false === strpos( $redirect_to, 'easy-dropbox-integrator' ) ) {
 				return false;
 			}
 		} else {

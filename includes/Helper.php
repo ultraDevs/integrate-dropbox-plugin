@@ -293,7 +293,7 @@ class Helper {
 
 		$breadcrumbs = array();
 		$breadcrumbs[] = array(
-			'name' => __( 'All Files', 'dropbox-integrator' ),
+			'name' => __( 'All Files', 'easy-dropbox-integrator' ),
 			'path' => '/',
 		);
 

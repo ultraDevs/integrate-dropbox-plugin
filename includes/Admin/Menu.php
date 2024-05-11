@@ -59,12 +59,12 @@ class Menu {
 	 * Register Admin Menu
 	 */
 	public static function register_menu() {
-		self::$menu = add_menu_page( __( 'Dashboard - Integrate Dropbox', 'dropbox-integrator' ), __( 'Dropbox', 'dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
+		self::$menu = add_menu_page( __( 'Dashboard - Integrate Dropbox', 'easy-dropbox-integrator' ), __( 'Dropbox', 'easy-dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
 
-		add_submenu_page( DROPBOX_INTEGRATOR_MENU_SLUG, __( 'File Browser - Integrate Dropbox', 'dropbox-integrator' ), __( 'File Browser', 'dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
+		add_submenu_page( DROPBOX_INTEGRATOR_MENU_SLUG, __( 'File Browser - Integrate Dropbox', 'easy-dropbox-integrator' ), __( 'File Browser', 'easy-dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
 
 		// Settings.
-		$settings = add_submenu_page( DROPBOX_INTEGRATOR_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'dropbox-integrator' ), __( 'Settings', 'dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
+		$settings = add_submenu_page( DROPBOX_INTEGRATOR_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'easy-dropbox-integrator' ), __( 'Settings', 'easy-dropbox-integrator' ), 'manage_options', DROPBOX_INTEGRATOR_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
 
 		// Assets Manager Class.
 		$assets_manager = new Assets_Manager();

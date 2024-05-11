@@ -114,7 +114,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account ID is required.', 'dropbox-integrator' ),
+					'message' => __( 'Account ID is required.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -126,7 +126,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account not found.', 'dropbox-integrator' ),
+					'message' => __( 'Account not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -137,7 +137,7 @@ class REST_API {
 		return new \WP_REST_Response(
 			array(
 				'status'  => 'success',
-				'message' => __( 'Account switched successfully.', 'dropbox-integrator' ),
+				'message' => __( 'Account switched successfully.', 'easy-dropbox-integrator' ),
 			),
 			200
 		);
@@ -163,7 +163,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account ID is required.', 'dropbox-integrator' ),
+					'message' => __( 'Account ID is required.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -175,7 +175,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account not found.', 'dropbox-integrator' ),
+					'message' => __( 'Account not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -187,7 +187,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account is not active.', 'dropbox-integrator' ),
+					'message' => __( 'Account is not active.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -219,7 +219,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account ID is required.', 'dropbox-integrator' ),
+					'message' => __( 'Account ID is required.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -231,7 +231,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account not found.', 'dropbox-integrator' ),
+					'message' => __( 'Account not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -243,7 +243,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account is not active.', 'dropbox-integrator' ),
+					'message' => __( 'Account is not active.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -255,7 +255,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Folder not created.', 'dropbox-integrator' ),
+					'message' => __( 'Folder not created.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -280,7 +280,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account ID is required.', 'dropbox-integrator' ),
+					'message' => __( 'Account ID is required.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -292,7 +292,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account not found.', 'dropbox-integrator' ),
+					'message' => __( 'Account not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -304,7 +304,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account is not active.', 'dropbox-integrator' ),
+					'message' => __( 'Account is not active.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -316,7 +316,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'File/Folder not renamed.', 'dropbox-integrator' ),
+					'message' => __( 'File/Folder not renamed.', 'easy-dropbox-integrator' ),
 					'reason'  => $rename,
 				),
 				400
@@ -341,7 +341,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account ID is required.', 'dropbox-integrator' ),
+					'message' => __( 'Account ID is required.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -353,7 +353,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account not found.', 'dropbox-integrator' ),
+					'message' => __( 'Account not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -365,7 +365,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'Account is not active.', 'dropbox-integrator' ),
+					'message' => __( 'Account is not active.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);
@@ -377,7 +377,7 @@ class REST_API {
 			return new \WP_REST_Response(
 				array(
 					'status'  => 'error',
-					'message' => __( 'File not found.', 'dropbox-integrator' ),
+					'message' => __( 'File not found.', 'easy-dropbox-integrator' ),
 				),
 				400
 			);

@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'ultradevs/dropbox-integrator',
+        'name' => 'ultradevs/easy-dropbox-integrator',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
         'reference' => '834b03d8256ba95fc936c1b799ec1fc5faa6527b',
@@ -28,7 +28,7 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
-        'ultradevs/dropbox-integrator' => array(
+        'ultradevs/easy-dropbox-integrator' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'reference' => '834b03d8256ba95fc936c1b799ec1fc5faa6527b',
