@@ -6,8 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ultraDevs\\DropboxIntegrator\\App\\' => array($baseDir . '/app'),
-    'ultraDevs\\DropboxIntegrator\\' => array($baseDir . '/includes'),
+    'ultraDevs\\EasyDropBoxIntegration\\App\\' => array($baseDir . '/app'),
+    'ultraDevs\\EasyDropBoxIntegration\\' => array($baseDir . '/includes'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
 );

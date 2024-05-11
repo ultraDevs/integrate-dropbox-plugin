@@ -2,11 +2,11 @@
 /**
  * App Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 
-namespace ultraDevs\DropboxIntegrator\App;
+namespace ultraDevs\EasyDropBoxIntegration\App;
 
 if ( ! session_id() ) {
 	session_start();
@@ -14,15 +14,15 @@ if ( ! session_id() ) {
 
 use Kunnu\Dropbox\Models\FileMetadata;
 use Kunnu\Dropbox\Models\FolderMetadata;
-use ultraDevs\DropboxIntegrator\App\Client;
-use ultraDevs\DropboxIntegrator\Helper;
-use ultraDevs\DropboxIntegrator\App\Files;
-use ultraDevs\DropboxIntegrator\App\Traits\Singleton;
+use ultraDevs\EasyDropBoxIntegration\App\Client;
+use ultraDevs\EasyDropBoxIntegration\Helper;
+use ultraDevs\EasyDropBoxIntegration\App\Files;
+use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
 
 /**
  * App Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class App {
@@ -62,7 +62,7 @@ class App {
 
 		$this->account_id = $account_id;
 
-		// add_filter( 'idb_root_id', array( 'ultraDevs\DropboxIntegrator\App\Account', 'get_root_id' ), 10, 1 );
+		// add_filter( 'idb_root_id', array( 'ultraDevs\EasyDropBoxIntegration\App\Account', 'get_root_id' ), 10, 1 );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class App {
 	 * @return void
 	 */
 	public function process_authorization() {
-		$redirect = admin_url( 'admin.php?page=easy-dropbox-integrator' );
+		$redirect = admin_url( 'admin.php?page=easy-dropbox-integration' );
 
 		if ( ! empty( $_REQUEST['state'] ) ) {
 			$state     = strtr( $_REQUEST['state'], '-_~', '+/=' );
@@ -84,7 +84,7 @@ class App {
 
 			$redirect_to = base64_decode( $url_state );
 
-			if ( false === strpos( $redirect_to, 'easy-dropbox-integrator' ) ) {
+			if ( false === strpos( $redirect_to, 'easy-dropbox-integration' ) ) {
 				return false;
 			}
 		} else {

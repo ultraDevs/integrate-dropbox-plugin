@@ -2,21 +2,21 @@
 /**
  * File Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
-namespace ultraDevs\DropboxIntegrator\App;
+namespace ultraDevs\EasyDropBoxIntegration\App;
 
-use ultraDevs\DropboxIntegrator\App\Traits\Singleton;
-use ultraDevs\DropboxIntegrator\App\Account;
-use ultraDevs\DropboxIntegrator\App\Client;
-use ultraDevs\DropboxIntegrator\App\FileAbstract;
-use ultraDevs\DropboxIntegrator\Helper;
+use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
+use ultraDevs\EasyDropBoxIntegration\App\Account;
+use ultraDevs\EasyDropBoxIntegration\App\Client;
+use ultraDevs\EasyDropBoxIntegration\App\FileAbstract;
+use ultraDevs\EasyDropBoxIntegration\Helper;
 
 /**
  * File Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class File extends FileAbstract {

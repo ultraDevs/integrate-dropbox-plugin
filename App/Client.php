@@ -2,24 +2,24 @@
 /**
  * Client Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 
-namespace ultraDevs\DropboxIntegrator\App;
+namespace ultraDevs\EasyDropBoxIntegration\App;
 
-use ultraDevs\DropboxIntegrator\App\Account;
-use ultraDevs\DropboxIntegrator\App\Authorization;
+use ultraDevs\EasyDropBoxIntegration\App\Account;
+use ultraDevs\EasyDropBoxIntegration\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
-use ultraDevs\DropboxIntegrator\App\Traits\Singleton;
-use ultraDevs\DropboxIntegrator\Helper;
+use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
+use ultraDevs\EasyDropBoxIntegration\Helper;
 
 /**
  * Client Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class Client {
@@ -135,14 +135,14 @@ class Client {
 			$this->client = new Dropbox(
 				$this->get_app( $account ),
 				array(
-					'persistent_data_store' => new SessionPersistentDataStore( 'easy-dropbox-integrator' ),
+					'persistent_data_store' => new SessionPersistentDataStore( 'easy-dropbox-integration' ),
 				)
 			);
 
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to start Dropbox Client: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+				__( 'Failed to start Dropbox Client: %s', 'easy-dropbox-integration' ), $e->getMessage() )
 			);
 			return $e;
 		}
@@ -212,9 +212,9 @@ class Client {
 		try {
 			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ), $filter );
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to get folder: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+				__( 'Failed to get folder: %s', 'easy-dropbox-integration' ), $e->getMessage() )
 			);
 			return false;
 		}
@@ -351,9 +351,9 @@ class Client {
 
 			// echo $preview->getContents();
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to get file preview: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+				__( 'Failed to get file preview: %s', 'easy-dropbox-integration' ), $e->getMessage() )
 			);
 
 			exit();
@@ -377,9 +377,9 @@ class Client {
 			try {
 				$file = API::get_instance( $this->account['id'] )->get_file( $req_path );
 			} catch ( \Exception $e ) {
-				error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+				error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Failed to get file: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+					__( 'Failed to get file: %s', 'easy-dropbox-integration' ), $e->getMessage() )
 				);
 				return false;
 			}
@@ -478,7 +478,7 @@ class Client {
 	public function get_auth_url( $params = array() ) {
 		$auth_helper = $this->client->getAuthHelper();
 
-		$redirect_uri = admin_url( 'admin.php?page=easy-dropbox-integrator&action=authorization' );
+		$redirect_uri = admin_url( 'admin.php?page=easy-dropbox-integration&action=authorization' );
 
 		$encoded_redirect = strtr( base64_encode( $redirect_uri ), '+/=', '-_~' );
 
@@ -511,7 +511,7 @@ class Client {
 				'id'      => $account->getAccountId(),
 				'name'    => $account->getDisplayName(),
 				'email'   => $account->getEmail(),
-				'photo'   => $account->getProfilePhotoUrl() ? $account->getProfilePhotoUrl() : DROPBOX_INTEGRATOR_ASSETS . 'images/dropbox-logo.png',
+				'photo'   => $account->getProfilePhotoUrl() ? $account->getProfilePhotoUrl() : EASY_DROPBOX_INTEGRATION_ASSETS . 'images/dropbox-logo.png',
 				'root_id' => $root_info['root_namespace_id'],
 				'lost'    => false,
 				'storage' => $this->get_storage_space_info(),
@@ -527,9 +527,9 @@ class Client {
 			$authorization->set_access_token( $access_token );
 
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to generate access token: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+				__( 'Failed to generate access token: %s', 'easy-dropbox-integration' ), $e->getMessage() )
 			);
 
 			return new \WP_Error( 'broke', 'failed_to_generate_access_token', $e->getMessage() );
@@ -553,7 +553,7 @@ class Client {
 		$active_token = Account::get_token( $account['id'] );
 
 		if ( empty( $refresh_token ) ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . __( 'No refresh token found!', 'easy-dropbox-integrator' ) );
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . __( 'No refresh token found!', 'easy-dropbox-integration' ) );
 
 			$authorization->set_valid_token( false );
 			$authorization->revoke_token();
@@ -575,9 +575,9 @@ class Client {
 				Account::update_account( $account );
 			}
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error refreshing token: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+				__( 'Error refreshing token: %s', 'easy-dropbox-integration' ), $e->getMessage() )
 			);
 
 			$authorization->set_valid_token( false );

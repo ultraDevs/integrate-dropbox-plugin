@@ -2,16 +2,16 @@
 /**
  * Account Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 
-namespace ultraDevs\DropboxIntegrator\App;
+namespace ultraDevs\EasyDropBoxIntegration\App;
 
 /**
  * Account Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class Account {
@@ -23,7 +23,7 @@ class Account {
 	 * @return array
 	 */
 	public static function get_accounts( $id = null ) {
-		$accounts = get_option( 'easy_dropbox_intregrator_accounts', array() );
+		$accounts = get_option( 'easy_dropbox_intregration_accounts', array() );
 		if ( $id ) {
 			return ! empty( $accounts[ $id ] ) ? $accounts[ $id ] : '';
 		}
@@ -88,7 +88,7 @@ class Account {
 		$accounts = self::get_accounts();
 
 		$accounts[ $data['id'] ] = $data;
-		return update_option( 'easy_dropbox_intregrator_accounts', $accounts );
+		return update_option( 'easy_dropbox_intregration_accounts', $accounts );
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Account {
 			count( $accounts ) ? self::set_active_account( array_key_first( $accounts ) ) : self::set_active_account( null );
 		}
 
-		$status = update_option( 'easy_dropbox_intregrator_accounts', $accounts );
+		$status = update_option( 'easy_dropbox_intregration_accounts', $accounts );
 
 		return $status ? $removed_account : false;
 	}
@@ -130,7 +130,7 @@ class Account {
 			$account_id     = ! empty( $active_account ) ? $active_account['id'] : null;
 		}
 
-		$tokens = get_option( 'easy_dropbox_intregrator_tokens', array() );
+		$tokens = get_option( 'easy_dropbox_intregration_tokens', array() );
 
 		return ! empty( $tokens[ $account_id ] ) ? $tokens[ $account_id ] : array();
 	}

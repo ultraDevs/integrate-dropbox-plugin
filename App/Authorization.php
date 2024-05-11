@@ -2,19 +2,19 @@
 /**
  * Authorization Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 
-namespace ultraDevs\DropboxIntegrator\App;
+namespace ultraDevs\EasyDropBoxIntegration\App;
 
-use ultraDevs\DropboxIntegrator\App\Client;
-use ultraDevs\DropboxIntegrator\App\Account;
+use ultraDevs\EasyDropBoxIntegration\App\Client;
+use ultraDevs\EasyDropBoxIntegration\App\Account;
 
 /**
  * Authorization Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class Authorization {
@@ -38,7 +38,7 @@ class Authorization {
 	 *
 	 * @var string
 	 */
-	public $tokens_key = 'easy_dropbox_intregrator_tokens';
+	public $tokens_key = 'easy_dropbox_intregration_tokens';
 
 	/**
 	 * Is Valid Token?
@@ -170,14 +170,14 @@ class Authorization {
 	 * @return boolean
 	 */
 	public function revoke_token( $account = null ) {
-		error_log( DROPBOX_INTEGRATOR_ERROR . __( 'Authorization Lost', 'easy-dropbox-integrator' ) );
+		error_log( EASY_DROPBOX_INTEGRATION_ERROR . __( 'Authorization Lost', 'easy-dropbox-integration' ) );
 
 		try {
 			$this->get_client( $account )->getAuthHelper()->revokeAccessToken();
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error revoking token: %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+				__( 'Error revoking token: %s', 'easy-dropbox-integration' ), $e->getMessage() )
 			);
 		}
 

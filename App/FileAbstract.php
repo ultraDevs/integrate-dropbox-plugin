@@ -2,16 +2,16 @@
 /**
  * File Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
-namespace ultraDevs\DropboxIntegrator\App;
-use ultraDevs\DropboxIntegrator\Helper;
+namespace ultraDevs\EasyDropBoxIntegration\App;
+use ultraDevs\EasyDropBoxIntegration\Helper;
 
 /**
  * Abstract File Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 abstract class FileAbstract {

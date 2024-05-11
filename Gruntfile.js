@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 	const pluginDesc = pkg.description;
 	const pluginConst = pkg.name.toUpperCase().replace( /-/g, '_' );
 	const pluginFName = pkg.name.replace( /-/g, '_' );
-	const pluginNameSpace = 'ultraDevs\DropboxIntegrator';
+	const pluginNameSpace = 'ultraDevs\EasyDropBoxIntegration';
 	const pluginPName = pkg.name.split('-').map(word => word.charAt(0).toUpperCase() + word.substring(1) ).join('');
 
 	const buildPath = 'build/' + pluginSlug + '/';
@@ -173,7 +173,7 @@ module.exports = function(grunt) {
 						to: pluginConst
 					},
 					{
-						from: 'ultraDevs\DropboxIntegrator',
+						from: 'ultraDevs\EasyDropBoxIntegration',
 						to: pluginNameSpace
 					},
 					{

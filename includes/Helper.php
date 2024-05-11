@@ -2,19 +2,19 @@
 /**
  * Helper Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 
-namespace ultraDevs\DropboxIntegrator;
+namespace ultraDevs\EasyDropBoxIntegration;
 
-use ultraDevs\DropboxIntegrator\App\Client;
-use ultraDevs\DropboxIntegrator\App\FileAbstract;
+use ultraDevs\EasyDropBoxIntegration\App\Client;
+use ultraDevs\EasyDropBoxIntegration\App\FileAbstract;
 
 /**
  * Helper Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class Helper {
@@ -293,7 +293,7 @@ class Helper {
 
 		$breadcrumbs = array();
 		$breadcrumbs[] = array(
-			'name' => __( 'All Files', 'easy-dropbox-integrator' ),
+			'name' => __( 'All Files', 'easy-dropbox-integration' ),
 			'path' => '/',
 		);
 

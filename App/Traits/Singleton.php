@@ -2,15 +2,15 @@
 /**
  * Singleton Trait
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
-namespace ultraDevs\DropboxIntegrator\App\Traits;
+namespace ultraDevs\EasyDropBoxIntegration\App\Traits;
 
 /**
  * Singleton Trait
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 trait Singleton {

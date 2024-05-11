@@ -15,8 +15,8 @@ class ComposerStaticInit60d036d89daa8a92905d086cad68b7b1
     public static $prefixLengthsPsr4 = array (
         'u' => 
         array (
-            'ultraDevs\\DropboxIntegrator\\App\\' => 32,
-            'ultraDevs\\DropboxIntegrator\\' => 28,
+            'ultraDevs\\EasyDropBoxIntegration\\App\\' => 32,
+            'ultraDevs\\EasyDropBoxIntegration\\' => 28,
         ),
         'S' => 
         array (
@@ -26,11 +26,11 @@ class ComposerStaticInit60d036d89daa8a92905d086cad68b7b1
     );
 
     public static $prefixDirsPsr4 = array (
-        'ultraDevs\\DropboxIntegrator\\App\\' => 
+        'ultraDevs\\EasyDropBoxIntegration\\App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
-        'ultraDevs\\DropboxIntegrator\\' => 
+        'ultraDevs\\EasyDropBoxIntegration\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),

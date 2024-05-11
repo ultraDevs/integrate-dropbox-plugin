@@ -2,25 +2,25 @@
 /**
  * API Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 
-namespace ultraDevs\DropboxIntegrator\App;
+namespace ultraDevs\EasyDropBoxIntegration\App;
 
 use Kunnu\Dropbox\Models\FolderMetadata;
 use Kunnu\Dropbox\Models\SharedLinkSettings;
-use ultraDevs\DropboxIntegrator\App\Traits\Singleton;
-use ultraDevs\DropboxIntegrator\App\Account;
-use ultraDevs\DropboxIntegrator\App\Client;
-use ultraDevs\DropboxIntegrator\App\File;
-use ultraDevs\DropboxIntegrator\Helper;
+use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
+use ultraDevs\EasyDropBoxIntegration\App\Account;
+use ultraDevs\EasyDropBoxIntegration\App\Client;
+use ultraDevs\EasyDropBoxIntegration\App\File;
+use ultraDevs\EasyDropBoxIntegration\Helper;
 
 
 /**
  * API Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class API {
@@ -77,9 +77,9 @@ class API {
 			$file_data = $this->client->getMetadata( $id, $params );
 
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage() )
 			);
 
 			throw new \Exception( esc_html( $e->getMessage() ) ); 
@@ -128,9 +128,9 @@ class API {
 				}
 
 			} catch ( \Exception $e ) {
-				error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+				error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage() )
+					__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage() )
 				);
 				return false;
 			}
@@ -231,9 +231,9 @@ class API {
 		try {
 			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
 			));
 			return false;
 		}
@@ -249,9 +249,9 @@ class API {
 		try {
 			$preview = Client::get_instance()->get_client()->preview( $id );
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
 			));
 			return false;
 		}
@@ -278,9 +278,9 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->move( $target, $new_name, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -302,9 +302,9 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->delete( $target );
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -325,9 +325,9 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->delete( $target );
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -357,9 +357,9 @@ class API {
 			// dump( $file );
 			// $file = new File( $file );
 		} catch ( \Exception $e ) {
-			error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
+				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -395,9 +395,9 @@ class API {
 
 				// $link = $link[0];
 			} else {
-				error_log( DROPBOX_INTEGRATOR_ERROR . sprintf(
+				error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Error : %s', 'easy-dropbox-integrator' ), $e->getMessage()
+					__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
 				));
 				return $e->getMessage();
 			}

@@ -1,5 +1,5 @@
 {
-    "name": "ultradevs/easy-dropbox-integrator",
+    "name": "ultradevs/easy-dropbox-integration",
     "description": "StickyList",
     "authors": [
         {
@@ -10,8 +10,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "ultraDevs\\DropboxIntegrator\\": "includes/",
-            "ultraDevs\\DropboxIntegrator\\App\\": "app/"
+            "ultraDevs\\EasyDropBoxIntegration\\": "includes/",
+            "ultraDevs\\EasyDropBoxIntegration\\App\\": "app/"
 
         },
         "files": [ "includes/functions.php" ]

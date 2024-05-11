@@ -2,18 +2,18 @@
 /**
  * Files Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 
-namespace ultraDevs\DropboxIntegrator\App;
+namespace ultraDevs\EasyDropBoxIntegration\App;
 
-use ultraDevs\DropboxIntegrator\App\Traits\Singleton;
+use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
 
 /**
  * Files Class
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  * @since 1.0.0
  */
 class Files {
@@ -47,7 +47,7 @@ class Files {
 	public function __construct( $account_id = null ) {
 		global $wpdb;
 
-		$this->table = $wpdb->prefix . 'easy_dropbox_intregrator_files';
+		$this->table = $wpdb->prefix . 'easy_dropbox_intregration_files';
 
 		if ( empty( $account_id ) ) {
 			$active_account = Account::get_active_account();

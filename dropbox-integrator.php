@@ -2,21 +2,19 @@
 /** بسم الله الرحمن الرحيم  **
  * Main Plugin File
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  */
 
-use ultraDevs\DropboxIntegrator\App\API;
-
 /**
- * Plugin Name:       Easy Dropbox Integrator - Browse, Upload, Manage Your Dropbox Files from Your Website
- * Plugin URI:        https://ultradevs.com/easy-dropbox-integrator/
- * Description:       Easy Dropbox Integrator - Browse, Upload, Manage Your Dropbox Files from Your Website Easily.
+ * Plugin Name:       Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website
+ * Plugin URI:        https://ultradevs.com/easy-dropbox-integration/
+ * Description:       Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website Easily.
  * Version: 1.0.0
  * Author:            ultradevs
  * Author URI:        https://ultradevs.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       easy-dropbox-integrator
+ * Text Domain:       easy-dropbox-integration
  * Domain Path:       /languages
  */
 
@@ -24,32 +22,32 @@ use ultraDevs\DropboxIntegrator\App\API;
 defined( 'ABSPATH' ) || exit( 'bYe bYe!' );
 
 // Constant.
-define( 'DROPBOX_INTEGRATOR_VERSION', '1.0.0' );
-define( 'DROPBOX_INTEGRATOR_NAME', 'Easy Dropbox Integrator' );
-define( 'DROPBOX_INTEGRATOR_DIR_PATH', plugin_dir_path( __FILE__ ) );
-define( 'DROPBOX_INTEGRATOR_DIR_URL', plugin_dir_url( __FILE__ ) );
-define( 'DROPBOX_INTEGRATOR_ASSETS', DROPBOX_INTEGRATOR_DIR_URL . 'assets/' );
-define( 'DROPBOX_INTEGRATOR_CACHE_DIR', WP_CONTENT_DIR . '/easy-dropbox-integrator-cache/' );
-define( 'DROPBOX_INTEGRATOR_CACHE_DIR_URL', content_url() . '/easy-dropbox-integrator-cache/' );
-define( 'DROPBOX_INTEGRATOR_MENU_SLUG', 'easy-dropbox-integrator' );
-define( 'DROPBOX_INTEGRATOR_ERROR', '[ Easy Dropbox Integrator ] - ' );
-define( 'DROPBOX_INTEGRATOR_DEV_MODE', true );
+define( 'EASY_DROPBOX_INTEGRATION_VERSION', '1.0.0' );
+define( 'EASY_DROPBOX_INTEGRATION_NAME', 'Easy DropBox Integration' );
+define( 'EASY_DROPBOX_INTEGRATION_DIR_PATH', plugin_dir_path( __FILE__ ) );
+define( 'EASY_DROPBOX_INTEGRATION_DIR_URL', plugin_dir_url( __FILE__ ) );
+define( 'EASY_DROPBOX_INTEGRATION_ASSETS', EASY_DROPBOX_INTEGRATION_DIR_URL . 'assets/' );
+define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR', WP_CONTENT_DIR . '/easy-dropbox-integration-cache/' );
+define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR_URL', content_url() . '/easy-dropbox-integration-cache/' );
+define( 'EASY_DROPBOX_INTEGRATION_MENU_SLUG', 'easy-dropbox-integration' );
+define( 'EASY_DROPBOX_INTEGRATION_ERROR', '[ Easy DropBox Integration ] - ' );
+define( 'EASY_DROPBOX_INTEGRATION_DEV_MODE', true );
 
 
 /**
  * Require Composer Autoload
  */
-require_once DROPBOX_INTEGRATOR_DIR_PATH . 'vendor/autoload.php';
+require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'vendor/autoload.php';
 
 /**
  * Require DropBox SDK
  */
-require_once DROPBOX_INTEGRATOR_DIR_PATH . 'dropbox/kunalvarma05/dropbox-php-sdk/vendor/autoload.php';
+require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'dropbox/kunalvarma05/dropbox-php-sdk/vendor/autoload.php';
 
 /**
  * Integrate Dropbox class
  */
-final class DropboxIntegrator {
+final class EasyDropBoxIntegration {
 
 	/**
 	 * Constructor
@@ -62,13 +60,13 @@ final class DropboxIntegrator {
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
-		do_action( 'dropbox_integrator_loaded' );
+		do_action( 'easy_dropbox_integration_loaded' );
 	}
 
 	/**
 	 * Begin execution of the plugin
 	 *
-	 * @return \DropboxIntegrator
+	 * @return \EasyDropBoxIntegration
 	 */
 	public static function run() {
 		/**
@@ -91,25 +89,25 @@ final class DropboxIntegrator {
 	public function init() {
 
 		// Ajax Class.
-		new ultraDevs\DropboxIntegrator\Ajax();
+		new ultraDevs\EasyDropBoxIntegration\Ajax();
 
 		// Assets Manager Class.
-		$assets_manager = new ultraDevs\DropboxIntegrator\Assets_Manager();
+		$assets_manager = new ultraDevs\EasyDropBoxIntegration\Assets_Manager();
 
 		// Activate.
-		$activate = new ultraDevs\DropboxIntegrator\Activate();
+		$activate = new ultraDevs\EasyDropBoxIntegration\Activate();
 
 		// Review Class.
-		$review = new ultraDevs\DropboxIntegrator\Review();
+		$review = new ultraDevs\EasyDropBoxIntegration\Review();
 
 		// Menu.
-		$menu = new ultraDevs\DropboxIntegrator\Admin\Menu();
+		$menu = new ultraDevs\EasyDropBoxIntegration\Admin\Menu();
 
 		// App.
-		new ultraDevs\DropboxIntegrator\App\App();
+		new ultraDevs\EasyDropBoxIntegration\App\App();
 
 		// Rest API.
-		new ultraDevs\DropboxIntegrator\Rest_API();
+		new ultraDevs\EasyDropBoxIntegration\Rest_API();
 
 		if ( is_admin() ) {
 
@@ -141,7 +139,7 @@ final class DropboxIntegrator {
 	 * @return void
 	 */
 	public function activate() {
-		$activate = new ultraDevs\DropboxIntegrator\Activate();
+		$activate = new ultraDevs\EasyDropBoxIntegration\Activate();
 		$activate->run();
 	}
 
@@ -167,8 +165,8 @@ final class DropboxIntegrator {
 			$categories,
 			array(
 				array(
-					'slug'  => 'easy-dropbox-integrator',
-					'title' => __( 'Integrate Dropbox', 'easy-dropbox-integrator' ),
+					'slug'  => 'easy-dropbox-integration',
+					'title' => __( 'Easy Dropbox Integration', 'easy-dropbox-integration' ),
 				),
 			)
 		);
@@ -182,7 +180,7 @@ final class DropboxIntegrator {
 	 * @return void
 	 */
 	public function load_text_domain() {
-		load_plugin_textdomain( 'easy-dropbox-integrator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'easy-dropbox-integration', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -193,7 +191,7 @@ final class DropboxIntegrator {
 	 */
 	public function plugin_action_links( $links ) {
 
-		$links[] = '<a href="' . admin_url( 'admin.php?page=' . DROPBOX_INTEGRATOR_MENU_SLUG ) . '">' . __( 'Settings', 'easy-dropbox-integrator' ) . '</a>';
+		$links[] = '<a href="' . admin_url( 'admin.php?page=' . EASY_DROPBOX_INTEGRATION_MENU_SLUG ) . '">' . __( 'Settings', 'easy-dropbox-integration' ) . '</a>';
 
 		return $links;
 
@@ -202,16 +200,16 @@ final class DropboxIntegrator {
 }
 
 /**
- * Check if dropbox_integrator doesn't exist
+ * Check if easy_dropbox_integration doesn't exist
  */
-if ( ! function_exists( 'dropbox_integrator' ) ) {
+if ( ! function_exists( 'easy_dropbox_integration' ) ) {
 	/**
 	 * Load Integrate Dropbox
 	 *
-	 * @return DropboxIntegrator
+	 * @return EasyDropBoxIntegration
 	 */
-	function dropbox_integrator() {
-		return DropboxIntegrator::run();
+	function easy_dropbox_integration() {
+		return EasyDropBoxIntegration::run();
 	}
 }
-dropbox_integrator();
+easy_dropbox_integration();

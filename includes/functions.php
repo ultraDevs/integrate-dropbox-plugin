@@ -2,14 +2,14 @@
 /**
  * Functions here
  *
- * @package DropboxIntegrator
+ * @package EasyDropBoxIntegration
  */
 
 /**
  * Check if Pro Version Installed
  */
 function udpb_has_pro() {
-	return defined( 'DROPBOX_INTEGRATOR_PRO_VERSION' );
+	return defined( 'EASY_DROPBOX_INTEGRATION_PRO_VERSION' );
 }
 
 /**
@@ -20,7 +20,7 @@ function udpb_has_pro() {
  * @return mixed
  */
 function idb_get_settings( $key = null, $default = null ) {
-	$settings = get_option( 'easy_dropbox_intregrator_settings', array() );
+	$settings = get_option( 'easy_dropbox_intregration_settings', array() );
 
 	if ( ! isset( $settings['notificationEmail'] ) ) {
 		$settings['notificationEmail'] = get_option( 'admin_email' );
