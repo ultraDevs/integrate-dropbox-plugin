@@ -111,6 +111,8 @@ final class EasyDropBoxIntegration {
 
 		if ( is_admin() ) {
 
+			add_action( 'admin_enqueue_scripts', array( $assets_manager, 'admin_assets' ) );
+
 			// Activation_Redirect.
 			add_action( 'admin_init', array( $activate, 'activation_redirect' ) );
 

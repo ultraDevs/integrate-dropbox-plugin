@@ -12,7 +12,7 @@ const Content = (props) => {
 	} = EDBIData;
 
     // const settingsData = useSelect( ( select ) => {
-    //     return select( 'edbi-settings' ).getSettings();
+    //     return select( 'edbi-page' ).getSettings();
     // })
 
     return (

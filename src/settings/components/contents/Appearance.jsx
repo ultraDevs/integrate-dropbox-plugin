@@ -25,7 +25,7 @@ const Appearance = (props) => {
 
     return (
         <>
-            <div className='edbi-settings__content__accounts'>
+            <div className='edbi-page__content__accounts'>
                 <button onClick={ handleAccountChange }>Add Account</button>
             </div>
         </>

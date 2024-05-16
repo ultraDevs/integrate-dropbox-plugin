@@ -29,11 +29,15 @@ class Assets_Manager {
 	 * Enqueue Admin Styles and Scripts
 	 *
 	 */
-	public function admin_assets() {
+	public function admin_assets( $hook ) {
 
-		$this->file_browser_assets();
+		if ( strpos( $hook, 'easy-dropbox-integration' ) === false ) {
+			return;
+		}
 
-		$this->settings_assets();
+		// Enqueue Styles.
+		wp_enqueue_style( 'edbi-admin', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/common/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+
 	}
 
 	/**

@@ -96,7 +96,7 @@ const ShortCodes = (props) => {
     console.log(accounts)
     return (
         <>
-            <div className='edbi-settings__content__accounts'>
+            <div className='edbi-shortcodes'>
                 
             </div>
         </>

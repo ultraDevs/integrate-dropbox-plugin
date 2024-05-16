@@ -12,8 +12,8 @@ const Header = (props) => {
 	}
 
 	return (
-		<div className='edbi-settings__header'>
-			<div className='flex items-center edbi-settings__header__left'>
+		<div className='edbi-page__header'>
+			<div className='flex items-center edbi-page__header__left'>
 				<i className='dashicons dashicons-admin-generic'></i>
 				<h2>
 					{
@@ -22,7 +22,7 @@ const Header = (props) => {
 					<span>v{version}</span>
 				</h2>
 			</div>
-			<div className='edbi-settings__header__right'>
+			<div className='edbi-page__header__right'>
 				<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={saveSettings}>
 					<i className='dashicons dashicons-saved'></i>{ ' ' }
 					Save Changes

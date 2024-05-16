@@ -109,15 +109,6 @@ module.exports = function(grunt) {
 				}]
 			}
 		},
-		autoprefixer:{
-			dist:{
-				files:{
-					'assets/css/admin.min.css':'assets/css/admin.min.css',
-					'assets/css/editor.common.css':'assets/css/editor.common.min.css',
-					'assets/css/frontend.min.css':'assets/css/frontend.min.css',
-				}
-			}
-		},
 		watch: {
 			css: {
 				files: 'assets/sass/*.scss',

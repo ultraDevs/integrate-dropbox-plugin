@@ -14,17 +14,17 @@ const App = () => {
 	const [ formData, setFormData ] = useState({});
 
 	return (
-		<div className='edbi-settings'>
+		<div className='edbi-page'>
 			<Header
 				formData={formData}
 				setFormData={setFormData}
 			/>
-			<div className='edbi-settings__body'>
+			<div className='edbi-page__body'>
 				<Sidebar
 					activeItem={activeItem}
 					setActiveItem={setActiveItem}
 				/>
-				<div className='edbi-settings__content'>
+				<div className='edbi-page__content'>
 					<Content
 						activeItem={activeItem}
 						formData={formData}

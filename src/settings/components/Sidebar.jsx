@@ -28,16 +28,16 @@ const Sidebar = ( props ) => {
 
     return (
 		<>
-			<div className="edbi-settings__l">
-				<div className="edbi-settings__sidebar">
-					<div className="edbi-settings__sidebar__content">
-						<div className="edbi-settings__sidebar__items">
+			<div className="edbi-page__l">
+				<div className="edbi-page__sidebar">
+					<div className="edbi-page__sidebar__content">
+						<div className="edbi-page__sidebar__items">
 							{
 								items.map( ( item, index ) => (
 									<div
 										key={ index }
-										className={ classNames( 'edbi-settings__sidebar__item', {
-											'edbi-settings__sidebar__item--active': activeItem === item.slug,
+										className={ classNames( 'edbi-page__sidebar__item', {
+											'edbi-page__sidebar__item--active': activeItem === item.slug,
 										} ) }
 										onClick={ () => {
 											setActiveItem( item.slug );

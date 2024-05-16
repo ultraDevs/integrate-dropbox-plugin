@@ -76,21 +76,21 @@ const Accounts = (props) => {
     console.log(accounts)
     return (
         <>
-            <div className='edbi-settings__content__accounts'>
-                <div className='edbi-settings__content__accounts__list'>
+            <div className='edbi-accounts'>
+                <div className='edbi-accounts__list'>
                     {
                         Object.keys(accounts).map((account, index) => {
                             const accountData = accounts[account];
                             return (
-                                <div key={index} className='edbi-settings__content__accounts__item'>
-                                    <div key={index} className='edbi-settings__content__accounts__item__avatar'>
+                                <div key={index} className='edbi-accounts__item'>
+                                    <div key={index} className='edbi-accounts__item__avatar'>
                                         <img src={accountData.photo} alt={accountData.name} />
                                     </div>
-                                    <div className='edbi-settings__content__accounts__item__info'>
+                                    <div className='edbi-accounts__item__info'>
                                         <h3>{accountData.name}</h3>
                                         <p>{accountData.email}</p>
                                     </div>
-                                    <div className='edbi-settings__content__accounts__item__actions'>
+                                    <div className='edbi-accounts__item__actions'>
                                         <button
                                             onClick={() => {
                                                 removeAccount(account)
@@ -105,7 +105,7 @@ const Accounts = (props) => {
                     }
                 </div>
                 <button
-                    className='edbi-settings__content__accounts__add'
+                    className='edbi-accounts__add'
                     onClick={() => {
                         window.open(
                             EDBIData.authUrl,
