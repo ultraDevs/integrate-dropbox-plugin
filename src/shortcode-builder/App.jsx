@@ -20,8 +20,8 @@ const App = () => {
 				formData={formData}
 				setFormData={setFormData}
 			/>
-			<div className='edbi-page__body'>
-				<div className='flex-1 px-5 py-6'>
+			<div className='edbi-page__con'>
+				<div className='px-5 py-6'>
 					<ShortCodes />
 				{/* <Sidebar
 					activeItem={activeItem}

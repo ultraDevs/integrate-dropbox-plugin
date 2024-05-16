@@ -96,7 +96,7 @@ const ShortCodes = (props) => {
     console.log(accounts)
     return (
         <>
-            <div className='edbi-shortcodes'>
+            <div className='overflow-x-scroll edbi-shortcodes'>
                 <div className='flex items-center justify-between edbi-shortcodes__header'>
                     <h3>All ShortCodes</h3>
                 </div>
