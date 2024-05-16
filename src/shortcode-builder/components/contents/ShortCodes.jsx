@@ -97,7 +97,51 @@ const ShortCodes = (props) => {
     return (
         <>
             <div className='edbi-shortcodes'>
-                
+                <div className='flex items-center justify-between edbi-shortcodes__header'>
+                    <h3>All ShortCodes</h3>
+                </div>
+                <table className='edbi-shortcodes__lists'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>ShortCode</th>
+                            <th>Created</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+
+                            Object.keys(shortCodes).length === 0 ? (
+                                <div className='edbi-shortcodes__lists__item'>
+                                    <p>No Shortcodes found</p>
+                                </div>
+                            ) : (
+                                <>
+                                    { 
+                                        Object.keys(shortCodes).map((key) => {
+                                            const item = shortCodes[key];
+                                            return (
+                                                <tr className='edbi-shortcodes__list' key={key}>
+                                                    <td><h4>{item.id}</h4></td>
+                                                    <td><h4>{item.title}</h4></td>
+                                                    <td><h4>{item.title}</h4></td>
+                                                    <td><h4>{item.title}</h4></td>
+                                                    <td><h4>{item.title}</h4></td>
+                                                    <td><h4>{item.title}</h4></td>
+                                                    <td><h4>{item.title}</h4></td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                            }
+                    </tbody>
+                </table>
             </div>
         </>
     )

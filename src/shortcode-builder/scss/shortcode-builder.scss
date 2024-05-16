@@ -1,3 +1,22 @@
-.edbi-shortcode-builder {
+.edbi-shortcodes {
 
+    &__lists {
+        border-spacing: 0 15px;
+        width: 100%;
+        thead {
+            background-color: #e5e5e5;
+            th {
+                @apply text-sm text-gray-500 font-medium p-4;
+            }
+        }
+
+        tbody {
+            @apply bg-white;
+            tr {
+                td {
+                    @apply p-4 text-center;
+                }
+            }
+        }
+    }
 }
