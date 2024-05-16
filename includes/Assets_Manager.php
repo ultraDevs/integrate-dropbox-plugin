@@ -68,6 +68,27 @@ class Assets_Manager {
 	}
 
 	/**
+	 * Shortcode Builder Assets
+	 *
+	 * Shortcode Builder Page Styles and Scripts
+	 */
+	public function shortcode_builder_assets() {
+		wp_enqueue_style( 'idb-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+
+		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' : array();
+
+		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
+
+		wp_enqueue_script( 'idb-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
+
+		wp_localize_script(
+			'idb-shortcode-builder',
+			'IDBData',
+			$this->localization_data()
+		);
+	}
+
+	/**
 	 * File Browser Assets
 	 *
 	 * Enqueue File Browser Styles and Scripts
@@ -105,11 +126,11 @@ class Assets_Manager {
 			'authUrl'       => $auth_url,
 			'accounts'      => Account::get_accounts(),
 			'activeAccount' => Account::get_active_account(),
-			'ajaxNonce'     => wp_create_nonce( 'idb_ajax_nonce' ),
+			'ajaxNonce'     => wp_create_nonce( 'edbi_ajax_nonce' ),
 			'loadingImg' => EASY_DROPBOX_INTEGRATION_ASSETS . 'images/loading/Spin.svg'
 		);
 
-		return apply_filters( 'idb_localization_data', $localization_data );
+		return apply_filters( 'edbi_localization_data', $localization_data );
 	}
 
 }

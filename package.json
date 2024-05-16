@@ -9,7 +9,9 @@
         "start:file-browser": "wp-scripts start src/file-browser/index.js --output-path=assets/admin/file-browser/",
         "build:file-browser": "wp-scripts build src/file-browser/index.js --output-path=assets/admin/file-browser/",
         "start:settings": "wp-scripts start src/settings/index.js --output-path=assets/admin/settings/",
-        "build:settings": "wp-scripts build src/settings/index.js --output-path=assets/admin/settings/"
+        "build:settings": "wp-scripts build src/settings/index.js --output-path=assets/admin/settings/",
+        "start:shortcode-builder": "wp-scripts start src/shortcode-builder/index.js --output-path=assets/admin/shortcode-builder/",
+        "build:shortcode-builder": "wp-scripts build src/shortcode-builder/index.js --output-path=assets/admin/shortcode-builder/"
     },
     "repository": {
         "type": "git",

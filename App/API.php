@@ -70,7 +70,7 @@ class API {
 			// $id = Helper::clean_path( $id );
 		}
 
-		// do_action( 'idb_log_event', $account_id, $file );
+		// do_action( 'edbi_log_event', $account_id, $file );
 
 
 		try {
@@ -242,9 +242,9 @@ class API {
 	}
 
 	public function get_preview( $id, $params = [] ) {
-		do_action( 'idb_api_before_file_preview', $this->account_id, $id, $params );
+		do_action( 'edbi_api_before_file_preview', $this->account_id, $id, $params );
 
-		$params = apply_filters( 'idb_file_preview_params', $params );
+		$params = apply_filters( 'edbi_file_preview_params', $params );
 
 		try {
 			$preview = Client::get_instance()->get_client()->preview( $id );
@@ -256,7 +256,7 @@ class API {
 			return false;
 		}
 
-		do_action( 'idb_api_after_file_preview', $this->account_id, $id, $params );
+		do_action( 'edbi_api_after_file_preview', $this->account_id, $id, $params );
 
 		return $preview;
 	}
@@ -371,7 +371,7 @@ class API {
 		// $path = Helper::clean_path( $path );
 
 		$default_shared_link_params = apply_filters(
-			'idb_default_shared_link_params',
+			'edbi_default_shared_link_params',
 			[
 				'audience' => 'public',
 				'access' => 'viewer',

@@ -59,18 +59,22 @@ class Menu {
 	 * Register Admin Menu
 	 */
 	public static function register_menu() {
-		self::$menu = add_menu_page( __( 'Dashboard - Integrate Dropbox', 'easy-dropbox-integration' ), __( 'Dropbox', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
+		self::$menu = add_menu_page( __( 'Dashboard - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'DropBox', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
 
-		add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'File Browser - Integrate Dropbox', 'easy-dropbox-integration' ), __( 'File Browser', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
+		add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'File Browser - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'File Browser', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
+
+		// Shortcode Builder.
+		$shortcode_builder = add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'Shortcode Builder - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'Shortcode Builder', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG . '-shortcode-builder', array( __CLASS__, 'render_shortcode_builder_page' ) );
 
 		// Settings.
-		$settings = add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'Settings - Integrate Dropbox', 'easy-dropbox-integration' ), __( 'Settings', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
+		$settings = add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'Settings - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'Settings', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
 
 		// Assets Manager Class.
 		$assets_manager = new Assets_Manager();
 
 		add_action( 'admin_print_scripts-' . self::$menu , array( $assets_manager, 'file_browser_assets' ) );
 		add_action( 'admin_print_scripts-' . $settings , array( $assets_manager, 'settings_assets' ) );
+		add_action( 'admin_print_scripts-' . $shortcode_builder , array( $assets_manager, 'shortcode_builder_assets' ) );
 	}
 
 	/**
@@ -85,6 +89,13 @@ class Menu {
 	 */
 	public static function render_settings_page() {
 		echo '<div id="idb-settings"></div>';
+	}
+
+	/**
+	 * Render Shortcode Builder
+	 */
+	public static function render_shortcode_builder_page() {
+		echo '<div id="idb-shortcode-builder"></div>';
 	}
 
 	public function handle_authorization() {

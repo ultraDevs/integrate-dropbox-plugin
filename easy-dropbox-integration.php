@@ -149,7 +149,7 @@ final class EasyDropBoxIntegration {
 	 * @return void
 	 */
 	public function deactivate() {
-		unset( $_COOKIE['idb_active_account'] );
+		unset( $_COOKIE['edbi_active_account'] );
 	}
 
 	/**

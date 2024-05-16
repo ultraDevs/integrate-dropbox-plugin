@@ -38,15 +38,15 @@ class Account {
 	public static function get_active_account() {
 		$accounts = self::get_accounts();
 
-		// check if cookie is set for idb_active_account.
-		$active_account = isset( $_COOKIE['idb_active_account'] ) ? $_COOKIE['idb_active_account'] : null;
+		// check if cookie is set for edbi_active_account.
+		$active_account = isset( $_COOKIE['edbi_active_account'] ) ? $_COOKIE['edbi_active_account'] : null;
 
 		if ( ! empty( $active_account ) ) {
 			$active_account = str_replace( '\\"', '"', $active_account );
 			$account        = json_decode( $active_account, true );
 
 			if ( ! empty( $account['id'] ) && empty( $accounts[ $account['id'] ] ) ) {
-				setcookie( 'idb_active_account', '', time() - 3600, '/' );
+				setcookie( 'edbi_active_account', '', time() - 3600, '/' );
 			} else {
 				return $account;
 			}
@@ -73,12 +73,12 @@ class Account {
 
 		if ( ! empty( $accounts[ $account_id ] ) ) {
 			$account = $accounts[ $account_id ];
-			setcookie( 'idb_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'edbi_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} elseif ( ! empty( $accounts ) ) {
 			$account = array_shift( $accounts );
-			setcookie( 'idb_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'edbi_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} else {
-			setcookie( 'idb_active_account', '', time() - 3600, '/' );
+			setcookie( 'edbi_active_account', '', time() - 3600, '/' );
 		}
 
 		return $account;

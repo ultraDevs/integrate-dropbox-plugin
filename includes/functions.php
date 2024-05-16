@@ -19,7 +19,7 @@ function udpb_has_pro() {
  * @param mixed $default Default value.
  * @return mixed
  */
-function idb_get_settings( $key = null, $default = null ) {
+function edbi_get_settings( $key = null, $default = null ) {
 	$settings = get_option( 'easy_dropbox_intregration_settings', array() );
 
 	if ( ! isset( $settings['notificationEmail'] ) ) {

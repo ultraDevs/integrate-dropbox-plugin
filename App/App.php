@@ -62,7 +62,7 @@ class App {
 
 		$this->account_id = $account_id;
 
-		// add_filter( 'idb_root_id', array( 'ultraDevs\EasyDropBoxIntegration\App\Account', 'get_root_id' ), 10, 1 );
+		// add_filter( 'edbi_root_id', array( 'ultraDevs\EasyDropBoxIntegration\App\Account', 'get_root_id' ), 10, 1 );
 	}
 
 	/**

@@ -33,7 +33,7 @@ class Activate {
 	 * Settings Data
 	 */
 	public function settings_data() {
-		update_option( 'easy_dropbox_intregration_settings', idb_get_settings() );
+		update_option( 'easy_dropbox_intregration_settings', edbi_get_settings() );
 	}
 
 	/**
@@ -86,9 +86,10 @@ class Activate {
 	public function create_tables() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$table_name      = $wpdb->prefix . 'easy_dropbox_intregration_files';
+		$table_files      = $wpdb->prefix . 'easy_dropbox_intregration_files';
+		$table_shortcodes = $wpdb->prefix . 'easy_dropbox_intregration_shortcodes';
 
-		$sql = "CREATE TABLE IF NOT EXISTS $table_name (
+		$sql_files = "CREATE TABLE IF NOT EXISTS $table_files (
 			id varchar(255) NOT NULL,
 			`name` text NOT NULL,
 			`path` text NOT NULL,
@@ -99,8 +100,21 @@ class Activate {
 			PRIMARY KEY  (id)
 		) $charset_collate;";
 
+
+		$sql_shortcodes = "CREATE TABLE IF NOT EXISTS $table_shortcodes (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			`title` varchar(255) NOT NULL,
+			`config` LONGTEXT NULL,
+			`locations` LONGTEXT NULL,
+			`status` varchar(255) NULL DEFAULT 'active',
+			`created_at` datetime NOT NULL,
+			`updated_at` datetime NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
+
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		dbDelta( $sql );
+		dbDelta( $sql_files );
+		dbDelta( $sql_shortcodes );
 	}
 }
