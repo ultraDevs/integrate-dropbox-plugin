@@ -38,7 +38,7 @@ ul {
 	z-index: 9999999;
 }
 
-.idb-file-browser {
+.edbi-file-browser {
 	* {
 		box-sizing: border-box;
 	}
@@ -127,7 +127,7 @@ ul {
 					h3 {
 						@apply text-base font-medium text-[#222] mb-2 p-3 border-b-[1px] border-gray-200 text-center;
 					}
-					.idb-file-browser__header__right__user__info {
+					.edbi-file-browser__header__right__user__info {
 						@apply cursor-pointer p-3 border-b-[1px] border-gray-200;
 
 						&--active {

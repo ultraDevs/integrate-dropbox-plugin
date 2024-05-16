@@ -36,9 +36,9 @@ export const generateDataAttributes = (file) => {
 
     let attributes = {};
 
-    const activeAccount = IDBData?.activeAccount;
+    const activeAccount = EDBIData?.activeAccount;
 
-    const filePreview = `${IDBData.ajaxUrl}?action=edbi_file_preview&account_id=${activeAccount['id']}&nonce=${IDBData?.ajaxNonce}&file=${file.id}`;
+    const filePreview = `${EDBIData.ajaxUrl}?action=edbi_file_preview&account_id=${activeAccount['id']}&nonce=${EDBIData?.ajaxNonce}&file=${file.id}`;
 
     // If item.ext is mp4, webm, or ogg, we will add the video attribute
     if (['mp4', 'webm', 'ogg'].includes(file.ext)) {

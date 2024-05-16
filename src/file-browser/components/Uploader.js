@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from '@wordpress/element';
 import { dispatch, useSelect } from '@wordpress/data';
 
 const Uploader = () => {
-	const { activeAccount } = IDBData;
+	const { activeAccount } = EDBIData;
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
 	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
 
@@ -36,7 +36,7 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
+		document.querySelector('.edbi-file-browser__upload__inner').style.border =
 			'2px dashed #ff0000';
 	};
 
@@ -44,7 +44,7 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
+		document.querySelector('.edbi-file-browser__upload__inner').style.border =
 			'2px dashed #000000';
 	};
 
@@ -52,7 +52,7 @@ const Uploader = () => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		document.querySelector('.idb-file-browser__upload__inner').style.border =
+		document.querySelector('.edbi-file-browser__upload__inner').style.border =
 			'2px dashed #000000';
 
 		// Handle the drop here.
@@ -64,14 +64,14 @@ const Uploader = () => {
 		// Prepare the data to be sent to the server
 		const data = new FormData();
 		data.append('action', 'edbi_upload');
-		data.append('nonce', IDBData.ajaxNonce);
+		data.append('nonce', EDBIData.ajaxNonce);
 		data.append('path', currentPath);
 		data.append('account_id', activeAccount['id']);
 		data.append('file', file);
 
 		// Send the data to the server
 		jQuery.ajax({
-			url: IDBData.ajaxUrl,
+			url: EDBIData.ajaxUrl,
 			type: 'POST',
 			data: data,
 			processData: false,
@@ -141,13 +141,13 @@ const Uploader = () => {
 
 	return (
 		<div
-			className='idb-file-browser__upload'
+			className='edbi-file-browser__upload'
 			onDragOver={handleDragOver}
 			onDragEnd={handleDragEnd}
 			onDrop={handleDrop}
 		>
-			<div className='idb-file-browser__upload__inner'>
-				<div className='idb-file-browser__upload__inner__header'>
+			<div className='edbi-file-browser__upload__inner'>
+				<div className='edbi-file-browser__upload__inner__header'>
 					<h3>Uploader</h3>
 					<span
 						onClick={() => {
@@ -157,7 +157,7 @@ const Uploader = () => {
 						<i className='dashicons dashicons-no'></i>
 					</span>
 				</div>
-				<div className='idb-file-browser__upload__inner__dropzone'>
+				<div className='edbi-file-browser__upload__inner__dropzone'>
 					<p>Drag and drop files here</p>
 					<p>OR</p>
 					<div className='flex items-center justify-center gap-3'>
@@ -189,9 +189,9 @@ const Uploader = () => {
 					/>
 				</div>
 			</div>
-			{/* <div className='idb-file-browser__upload-progress'>
-				<div className='idb-file-browser__upload-progress__details'>
-					<div className='idb-file-browser__upload-progress__details__file_icon'>
+			{/* <div className='edbi-file-browser__upload-progress'>
+				<div className='edbi-file-browser__upload-progress__details'>
+					<div className='edbi-file-browser__upload-progress__details__file_icon'>
 						<svg
 							className='w-8 h-8 '
 							viewBox='0 0 24 24'
@@ -217,16 +217,16 @@ const Uploader = () => {
 							</g>
 						</svg>
 					</div>
-					<div className='idb-file-browser__upload-progress__details__content'>
-						<h3 className='idb-file-browser__upload-progress__details__content__title'>
+					<div className='edbi-file-browser__upload-progress__details__content'>
+						<h3 className='edbi-file-browser__upload-progress__details__content__title'>
 							File uploading...
 						</h3>
-						<p className='idb-file-browser__upload-progress__details__content__file-size'>
+						<p className='edbi-file-browser__upload-progress__details__content__file-size'>
 							12.0 MB
 						</p>
 					</div>
 				</div>
-				<div className='idb-file-browser__upload-progress__check-icon'>
+				<div className='edbi-file-browser__upload-progress__check-icon'>
 					<svg
 						className='w-6 h-6 '
 						viewBox='0 0 24 24'
@@ -252,9 +252,9 @@ const Uploader = () => {
 				</div>
 			</div> */}
 			{uploadQueue.length !== 0 && uploadQueue.map((file, index) => (
-			<div key={index} className='idb-file-browser__upload-progress'>
-				<div className='idb-file-browser__upload-progress__details'>
-					<div className='idb-file-browser__upload-progress__details__file_icon'>
+			<div key={index} className='edbi-file-browser__upload-progress'>
+				<div className='edbi-file-browser__upload-progress__details'>
+					<div className='edbi-file-browser__upload-progress__details__file_icon'>
 						<svg
 							className='w-8 h-8 '
 							viewBox='0 0 24 24'
@@ -280,17 +280,17 @@ const Uploader = () => {
 							</g>
 						</svg>
 					</div>
-					<div className='idb-file-browser__upload-progress__details__content'>
-						<h3 className='idb-file-browser__upload-progress__details__content__title'>
+					<div className='edbi-file-browser__upload-progress__details__content'>
+						<h3 className='edbi-file-browser__upload-progress__details__content__title'>
 							{file?.name}
 						</h3>
-						<p className='idb-file-browser__upload-progress__details__content__file-size'>
+						<p className='edbi-file-browser__upload-progress__details__content__file-size'>
 							{bytesToMB(file?.size)} MB
 						</p>
 					</div>
 				</div>
 				{progressBar !== 100 ? (
-					<div className='idb-file-browser__upload-progress__check-icon'>
+					<div className='edbi-file-browser__upload-progress__check-icon'>
 						<div className='flex flex-col w-[200px] gap-2'>
 							<div
 								className={`flex h-3 w-full  items-center justify-center rounded-full bg-sky-300`}
@@ -307,7 +307,7 @@ const Uploader = () => {
 						</div>
 					</div>
 				) : (
-					<div className='idb-file-browser__upload-progress__check-icon'>
+					<div className='edbi-file-browser__upload-progress__check-icon'>
 						<svg
 							className='w-6 h-6 '
 							viewBox='0 0 24 24'

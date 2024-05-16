@@ -31,7 +31,7 @@ const Browser = () => {
 	const [activeItem, setActiveItem] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 
-	const { activeAccount } = IDBData;
+	const { activeAccount } = EDBIData;
 
 	const [data, setData] = useState([]);
 
@@ -113,7 +113,7 @@ const Browser = () => {
 						wp.ajax
 							.post('edbi_rename', {
 								account_id: activeAccount['id'],
-								nonce: IDBData?.ajaxNonce,
+								nonce: EDBIData?.ajaxNonce,
 								old_name: item.name,
 								new_name: document.getElementById('swal-rename-input').value,
 							})
@@ -158,7 +158,7 @@ const Browser = () => {
 					wp.ajax
 						.post('edbi_delete', {
 							account_id: activeAccount['id'],
-							nonce: IDBData?.ajaxNonce,
+							nonce: EDBIData?.ajaxNonce,
 							path: item.path,
 						})
 						.then((response) => {
@@ -254,18 +254,18 @@ const Browser = () => {
 				</Item>
 			</Menu>
 
-			<div className='idb-file-browser__content'>
+			<div className='edbi-file-browser__content'>
 				{
 					activeAccount.length === 0 ? (
 						<>
-							<div className='idb-notice'>
+							<div className='edbi-notice'>
 								<h3>No Accounts</h3>
 								<p>Please Add your account to continue</p>
 
 								<button
 									onClick={() => {
 										window.open(
-											IDBData.authUrl,
+											EDBIData.authUrl,
 											'_blank',
 											'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
 										);
@@ -279,26 +279,26 @@ const Browser = () => {
 					) : (
 						<>
 							{isLoading ? (
-								<div className='idb-file-browser__loading'>
-									<div className='idb-file-browser__loading__spinner'>
-										<div className='idb-file-browser__loading__spinner--bounce1'></div>
-										<div className='idb-file-browser__loading__spinner--bounce2'></div>
-										<div className='idb-file-browser__loading__spinner--bounce3'></div>
+								<div className='edbi-file-browser__loading'>
+									<div className='edbi-file-browser__loading__spinner'>
+										<div className='edbi-file-browser__loading__spinner--bounce1'></div>
+										<div className='edbi-file-browser__loading__spinner--bounce2'></div>
+										<div className='edbi-file-browser__loading__spinner--bounce3'></div>
 									</div>
 								</div>
 							) : (
 								''
 							)}
 
-							<div className='idb-file-browser__file-list'>
+							<div className='edbi-file-browser__file-list'>
 								{previousPath && (
 									<div
-										className='idb-file-browser__file-list__item idb-file-browser__file-list__prev idb-file-browser__file-list__item--folder'
+										className='edbi-file-browser__file-list__item edbi-file-browser__file-list__prev edbi-file-browser__file-list__item--folder'
 										onClick={() => {
 											setPath(previousPath);
 										}}
 									>
-										<div className='idb-file-browser__file-list__item__info'>
+										<div className='edbi-file-browser__file-list__item__info'>
 											<i class='dashicons dashicons-arrow-left-alt2'></i>
 											<span>Previous Folder</span>
 										</div>
@@ -310,8 +310,8 @@ const Browser = () => {
 										return (
 											<div
 												className={classnames(
-													'idb-file-browser__file-list__item',
-													'idb-file-browser__file-list__item--folder'
+													'edbi-file-browser__file-list__item',
+													'edbi-file-browser__file-list__item--folder'
 												)}
 												key={index}
 												onClick={(e) => {
@@ -327,7 +327,7 @@ const Browser = () => {
 													});
 												}}
 											>
-												<div className='idb-file-browser__file-list__item__info'>
+												<div className='edbi-file-browser__file-list__item__info'>
 													<i class='dashicons dashicons-open-folder'></i>
 													<span>{item.name}</span>
 												</div>
@@ -346,7 +346,7 @@ const Browser = () => {
 										galleryId={'nature'}
 										autoplayFirstVideo={false}
 										// elementClassNames={'gallery'}
-										elementClassNames={'idb-file-browser__file-list'}
+										elementClassNames={'edbi-file-browser__file-list'}
 										mobileSettings={{
 											controls: true,
 											showCloseIcon: true,
@@ -359,8 +359,8 @@ const Browser = () => {
 											return (
 												<a
 													className={classnames(
-														'idb-file-browser__file-list__item',
-														'idb-file-browser__file-list__item--file',
+														'edbi-file-browser__file-list__item',
+														'edbi-file-browser__file-list__item--file',
 														'gallery-item'
 													)}
 													{
@@ -380,11 +380,11 @@ const Browser = () => {
 													}}
 												>
 													{item.can_preview && item.thumbnail ? (
-														<div className='idb-file-browser__file-list__item__thumb'>
+														<div className='edbi-file-browser__file-list__item__thumb'>
 															<img src={item.thumbnail} />
 														</div>
 													) : (
-														<div className='idb-file-browser__file-list__item__icon'>
+														<div className='edbi-file-browser__file-list__item__icon'>
 															<span
 																className={classnames(
 																	'dashicons',
@@ -393,7 +393,7 @@ const Browser = () => {
 															></span>
 														</div>
 													)}
-													<div className='idb-file-browser__file-list__item__info'>
+													<div className='edbi-file-browser__file-list__item__info'>
 														<i
 															class={classnames('dashicons', getIcon(item.ext))}
 														></i>
@@ -413,7 +413,7 @@ const Browser = () => {
 				}
 			</div>
 
-			{/* <div className='idb-file-browser__preview'>
+			{/* <div className='edbi-file-browser__preview'>
 				<LightGallery
 					ref={lightGallery}
 					plugins={[lgZoom, lgThumbnail, lgVideo]}

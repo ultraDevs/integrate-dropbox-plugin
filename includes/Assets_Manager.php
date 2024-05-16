@@ -52,17 +52,17 @@ class Assets_Manager {
 	 * Enqueue Settings Page Styles and Scripts
 	 */
 	public function settings_assets() {
-		wp_enqueue_style( 'idb-settings', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/settings/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_enqueue_style( 'edbi-settings', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/settings/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
 
 		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/settings/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/settings/index.asset.php' : array();
 
 		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
 
-		wp_enqueue_script( 'idb-settings', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/settings/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
+		wp_enqueue_script( 'edbi-settings', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/settings/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
 
 		wp_localize_script(
-			'idb-settings',
-			'IDBData',
+			'edbi-settings',
+			'EDBIData',
 			$this->localization_data()
 		);
 	}
@@ -73,17 +73,17 @@ class Assets_Manager {
 	 * Shortcode Builder Page Styles and Scripts
 	 */
 	public function shortcode_builder_assets() {
-		wp_enqueue_style( 'idb-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_enqueue_style( 'edbi-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
 
 		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' : array();
 
 		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
 
-		wp_enqueue_script( 'idb-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
+		wp_enqueue_script( 'edbi-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
 
 		wp_localize_script(
-			'idb-shortcode-builder',
-			'IDBData',
+			'edbi-shortcode-builder',
+			'EDBIData',
 			$this->localization_data()
 		);
 	}
@@ -94,17 +94,17 @@ class Assets_Manager {
 	 * Enqueue File Browser Styles and Scripts
 	 */
 	public function file_browser_assets() {
-		wp_enqueue_style( 'idb-file-browser', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/file-browser/index.css', array( 'wp-components' ), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_enqueue_style( 'edbi-file-browser', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/file-browser/index.css', array( 'wp-components' ), EASY_DROPBOX_INTEGRATION_VERSION );
 
 		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/file-browser/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/file-browser/index.asset.php' : array();
 
 		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
 
-		wp_enqueue_script( 'idb-file-browser', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/file-browser/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
+		wp_enqueue_script( 'edbi-file-browser', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/file-browser/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
 
 		wp_localize_script(
-			'idb-file-browser',
-			'IDBData',
+			'edbi-file-browser',
+			'EDBIData',
 			$this->localization_data()
 		);
 	}

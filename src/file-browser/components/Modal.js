@@ -7,7 +7,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
 	const [previewData, setPreviewData] = useState('');
 	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
 
-	const { activeAccount, loadingImg } = IDBData;
+	const { activeAccount, loadingImg } = EDBIData;
 
 	const handleClose = () => {
 		setShowModal(false);
@@ -19,7 +19,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
             wp.ajax
 			.post('edbi_file_preview', {
 				account_id: activeAccount['id'],
-				nonce: IDBData?.ajaxNonce,
+				nonce: EDBIData?.ajaxNonce,
 				file: item.path,
 			})
 			.then((response) => {
@@ -36,8 +36,8 @@ const Modal = ({ showModal, item, setShowModal }) => {
 	return (
 		<>
 			{showModal && (
-				<div className='idb-modal'>
-					<div className='flex items-center justify-between px-6 idb-modal__header'>
+				<div className='edbi-modal'>
+					<div className='flex items-center justify-between px-6 edbi-modal__header'>
 						<div>
 							<h3 className='text-2xl text-white'>{item.name}</h3>
 						</div>
@@ -67,7 +67,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
 							</svg>
 						</div>
 					</div>
-					<div className='idb-modal__content'>
+					<div className='edbi-modal__content'>
 						<img src={previewData || loadingImg} alt={item.name} />
 					</div>
 				</div>

@@ -7,7 +7,7 @@ import { useSelect, dispatch } from '@wordpress/data';
 import { showAlert } from '../../utils/alertHelper';
 
 const Header = () => {
-	const { activeAccount, accounts } = IDBData;
+	const { activeAccount, accounts } = EDBIData;
 
 	const breadcrumbs = useSelect((select) => select('dropbox-browser').getData('breadcrumbs'));
 	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
@@ -70,7 +70,7 @@ const Header = () => {
 				wp.ajax
 					.post('edbi_create_folder', {
 						account_id: activeAccount['id'],
-						nonce: IDBData?.ajaxNonce,
+						nonce: EDBIData?.ajaxNonce,
 						path: currentPath,
 						name: document.getElementById('swal-new-folder-input').value,
 					})
@@ -97,8 +97,8 @@ const Header = () => {
 	};
 
 	return (
-		<div className='idb-file-browser__header'>
-			<nav className='flex idb-file-browser__header__breadcrumb' aria-label='Breadcrumb'>
+		<div className='edbi-file-browser__header'>
+			<nav className='flex edbi-file-browser__header__breadcrumb' aria-label='Breadcrumb'>
 				<ol>
 					<li>
 						<a href='#'>
@@ -147,41 +147,41 @@ const Header = () => {
 					})}
 				</ol>
 			</nav>
-			<div className='idb-file-browser__header__right'>
-				{/* <div className='idb-file-browser__header__right__search idb-file-browser__header__right__btn'>
-					<img src={IDBData.assets + 'images/search.svg'} />
+			<div className='edbi-file-browser__header__right'>
+				{/* <div className='edbi-file-browser__header__right__search edbi-file-browser__header__right__btn'>
+					<img src={EDBIData.assets + 'images/search.svg'} />
 				</div> */}
 				<div
-					className='idb-file-browser__header__right__refresh idb-file-browser__header__right__btn'
+					className='edbi-file-browser__header__right__refresh edbi-file-browser__header__right__btn'
 					onClick={() => {
 						dispatch('dropbox-browser').setData('refresh', !refresh);
 						dispatch('dropbox-browser').setData('isLoading', true);
 					}}
 				>
-					<img src={IDBData.assets + 'images/refresh.svg'} />
+					<img src={EDBIData.assets + 'images/refresh.svg'} />
 				</div>
 
 				<DropdownPopover
 					className='relative'
 					btnData={{
 						className:
-							'idb-file-browser__header__right__filter idb-file-browser__header__right__btn relative',
-						icon: IDBData.assets + 'images/filter.svg',
+							'edbi-file-browser__header__right__filter edbi-file-browser__header__right__btn relative',
+						icon: EDBIData.assets + 'images/filter.svg',
 						contentClass: 'min-w-[200px]',
 					}}
 					content={
 						<>
-							<div className='idb-file-browser__header__right__filter__content'>
-								<div className='idb-file-browser__header__right__filter__content__title'>
+							<div className='edbi-file-browser__header__right__filter__content'>
+								<div className='edbi-file-browser__header__right__filter__content__title'>
 									Filter by
 								</div>
-								<div className='idb-file-browser__header__right__filter__content__options'>
+								<div className='edbi-file-browser__header__right__filter__content__options'>
 									<ul>
 										<li
 											className={classnames(
-												'idb-file-browser__header__right__filter__content__options__item',
+												'edbi-file-browser__header__right__filter__content__options__item',
 												{
-													'idb-file-browser__header__right__filter__content__options__item--active':
+													'edbi-file-browser__header__right__filter__content__options__item--active':
 														filter === 'name',
 												}
 											)}
@@ -191,9 +191,9 @@ const Header = () => {
 										</li>
 										<li
 											className={classnames(
-												'idb-file-browser__header__right__filter__content__options__item',
+												'edbi-file-browser__header__right__filter__content__options__item',
 												{
-													'idb-file-browser__header__right__filter__content__options__item--active':
+													'edbi-file-browser__header__right__filter__content__options__item--active':
 														filter === 'size',
 												}
 											)}
@@ -203,9 +203,9 @@ const Header = () => {
 										</li>
 										<li
 											className={classnames(
-												'idb-file-browser__header__right__filter__content__options__item',
+												'edbi-file-browser__header__right__filter__content__options__item',
 												{
-													'idb-file-browser__header__right__filter__content__options__item--active':
+													'edbi-file-browser__header__right__filter__content__options__item--active':
 														filter === 'modified',
 												}
 											)}
@@ -216,16 +216,16 @@ const Header = () => {
 									</ul>
 								</div>
 								<hr />
-								<div className='idb-file-browser__header__right__filter__content__title'>
+								<div className='edbi-file-browser__header__right__filter__content__title'>
 									Sort Direction
 								</div>
-								<div className='idb-file-browser__header__right__filter__content__options'>
+								<div className='edbi-file-browser__header__right__filter__content__options'>
 									<ul>
 										<li
 											className={classnames(
-												'idb-file-browser__header__right__filter__content__options__item',
+												'edbi-file-browser__header__right__filter__content__options__item',
 												{
-													'idb-file-browser__header__right__filter__content__options__item--active':
+													'edbi-file-browser__header__right__filter__content__options__item--active':
 														sortDirection === 'asc',
 												}
 											)}
@@ -235,9 +235,9 @@ const Header = () => {
 										</li>
 										<li
 											className={classnames(
-												'idb-file-browser__header__right__filter__content__options__item',
+												'edbi-file-browser__header__right__filter__content__options__item',
 												{
-													'idb-file-browser__header__right__filter__content__options__item--active':
+													'edbi-file-browser__header__right__filter__content__options__item--active':
 														sortDirection === 'desc',
 												}
 											)}
@@ -256,13 +256,13 @@ const Header = () => {
 					className='relative'
 					btnData={{
 						className:
-							'idb-file-browser__header__right__more idb-file-browser__header__right__btn relative',
-						icon: IDBData.assets + 'images/more.svg',
+							'edbi-file-browser__header__right__more edbi-file-browser__header__right__btn relative',
+						icon: EDBIData.assets + 'images/more.svg',
 						contentClass: 'min-w-[200px]',
 					}}
 					content={
 						<>
-							<div className='idb-file-browser__header__right__more__content'>
+							<div className='edbi-file-browser__header__right__more__content'>
 								<ul>
 									<li onClick={() => handleCreateFolder()}>New Folder</li>
 									<li onClick={ () => dispatch('dropbox-browser').setData('showUploader', true) }>Upload</li>
@@ -278,19 +278,19 @@ const Header = () => {
 					className='relative'
 					btnData={{
 						className:
-							'idb-file-browser__header__right__user idb-file-browser__header__right__btn relative',
+							'edbi-file-browser__header__right__user edbi-file-browser__header__right__btn relative',
 						contentClass: 'min-w-[200px]',
 					}}
 					btnContent={
 						<>
 							{accounts ? (
-								<div className='idb-file-browser__header__right__user__info'>
+								<div className='edbi-file-browser__header__right__user__info'>
 									<img src={aAccount.photo} alt={aAccount.name} />
-									<div className='idb-file-browser__header__right__user__info__more'>
-										<div className='idb-file-browser__header__right__user__info__more__name'>
+									<div className='edbi-file-browser__header__right__user__info__more'>
+										<div className='edbi-file-browser__header__right__user__info__more__name'>
 											{aAccount.name}
 										</div>
-										<div className='idb-file-browser__header__right__user__info__more__email'>
+										<div className='edbi-file-browser__header__right__user__info__more__email'>
 											{aAccount.email}
 										</div>
 									</div>
@@ -299,7 +299,7 @@ const Header = () => {
 								<button
 									onClick={() => {
 										window.open(
-											IDBData.authUrl,
+											EDBIData.authUrl,
 											'_blank',
 											'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
 										);
@@ -313,7 +313,7 @@ const Header = () => {
 					}
 					content={
 						<>
-							<div className='idb-file-browser__header__right__user__content'>
+							<div className='edbi-file-browser__header__right__user__content'>
 								{accounts && (
 									<>
 										<h3>Switch Account</h3>
@@ -323,9 +323,9 @@ const Header = () => {
 												<>
 													<div
 														className={classnames(
-															'idb-file-browser__header__right__user__info',
+															'edbi-file-browser__header__right__user__info',
 															account.id === aAccount.id
-																? 'idb-file-browser__header__right__user__info--active'
+																? 'edbi-file-browser__header__right__user__info--active'
 																: ''
 														)}
 														onClick={() => {
@@ -337,11 +337,11 @@ const Header = () => {
 															src={account.photo}
 															alt={account.name}
 														/>
-														<div className='idb-file-browser__header__right__user__info__more'>
-															<div className='idb-file-browser__header__right__user__info__more__name'>
+														<div className='edbi-file-browser__header__right__user__info__more'>
+															<div className='edbi-file-browser__header__right__user__info__more__name'>
 																{account.name}
 															</div>
-															<div className='idb-file-browser__header__right__user__info__more__email'>
+															<div className='edbi-file-browser__header__right__user__info__more__email'>
 																{account.email}
 															</div>
 														</div>
@@ -351,11 +351,11 @@ const Header = () => {
 										})}
 									</>
 								)}
-								<div className='idb-file-browser__header__right__user__content__add'>
+								<div className='edbi-file-browser__header__right__user__content__add'>
 									<button
 										onClick={() => {
 											window.open(
-												IDBData.authUrl,
+												EDBIData.authUrl,
 												'_blank',
 												'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
 											);

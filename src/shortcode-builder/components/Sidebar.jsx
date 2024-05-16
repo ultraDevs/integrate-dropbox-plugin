@@ -10,34 +10,49 @@ const Sidebar = ( props ) => {
 
 	const {
 		activeAccount,
-	} = IDBData;
+	} = EDBIData;
 
 	const items = [
 		{
-			slug: 'accounts',
-			label: __( 'Accounts', 'easy-dropbox-integration' ),
+			slug: 'types',
+			label: __( 'Types', 'easy-dropbox-integration' ),
 			icon: 'dashicons-admin-users'
 		},
+		{
+			slug: 'source',
+			label: __( 'Source', 'easy-dropbox-integration' ),
+			icon: 'dashicons-admin-appearance'
+		},
 		// {
-		// 	slug: 'appearance',
-		// 	label: __( 'Appearance', 'easy-dropbox-integration' ),
-		// 	icon: 'dashicons-admin-appearance'
+		// 	slug: 'filters',
+		// 	label: __( 'Filters', 'easy-dropbox-integration' ),
+		// 	icon: 'dashicons-admin-site'
+		// },
+		{
+			slug: 'advanced',
+			label: __( 'Advanced', 'easy-dropbox-integration' ),
+			icon: 'dashicons-admin-generic'
+		},
+		// {
+		// 	slug: 'permission',
+		// 	label: __( 'Permission', 'easy-dropbox-integration' ),
+		// 	icon: 'dashicons-admin-generic'
 		// },
 	];
 	
 
     return (
 		<>
-			<div className="idb-settings__l">
-				<div className="idb-settings__sidebar">
-					<div className="idb-settings__sidebar__content">
-						<div className="idb-settings__sidebar__items">
+			<div className="edbi-settings__l">
+				<div className="edbi-settings__sidebar">
+					<div className="edbi-settings__sidebar__content">
+						<div className="edbi-settings__sidebar__items">
 							{
 								items.map( ( item, index ) => (
 									<div
 										key={ index }
-										className={ classNames( 'idb-settings__sidebar__item', {
-											'idb-settings__sidebar__item--active': activeItem === item.slug,
+										className={ classNames( 'edbi-settings__sidebar__item', {
+											'edbi-settings__sidebar__item--active': activeItem === item.slug,
 										} ) }
 										onClick={ () => {
 											setActiveItem( item.slug );

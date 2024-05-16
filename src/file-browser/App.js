@@ -15,10 +15,10 @@ import 'lightgallery/css/lightgallery-bundle.css';
 
 const App = () => {
 	return (
-		<div className='idb-file-browser'>
+		<div className='edbi-file-browser'>
 			<Contexify />
 			<Header />
-			<div className='idb-file-browser__body'>
+			<div className='edbi-file-browser__body'>
 				<Sidebar />
 				<Browser />
 			</div>

@@ -1,13 +1,34 @@
-import React from '@wordpress/element'
+import React, {
+    useState,
+    useEffect
+} from '@wordpress/element'
 import { showAlert } from '../../../utils/alertHelper';
 
-const Accounts = (props) => {
+const ShortCodes = (props) => {
     const { formData, setFormData } = props;
+    const [ shortCodes, setShortCodes ] = useState({});
 
     const {
         accounts,
         activeAccount,
     } = EDBIData;
+
+    useEffect(() => {
+        wp.ajax
+            .post('edbi_get_shortcodes', {
+                account_id: activeAccount?.id,
+                nonce: EDBIData?.ajaxNonce,
+            })
+            .then((response) => {
+                setShortCodes(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    } , []);
+
+    console.log(shortCodes)
+
 
     const handleAccountChange = (e) => {
         const { name, value } = e.target;
@@ -37,12 +58,11 @@ const Accounts = (props) => {
                 // })
 
                 wp.ajax
-                    .post('edbi_remove_account', {
+                    .post('edbi_get_shortcodes', {
                         account_id: account,
                         nonce: EDBIData?.ajaxNonce,
                     })
                     .then((response) => {
-                        delete accounts[account];
                         setFormData({
                             ...formData,
                             accounts
@@ -77,46 +97,10 @@ const Accounts = (props) => {
     return (
         <>
             <div className='edbi-settings__content__accounts'>
-                <div className='edbi-settings__content__accounts__list'>
-                    {
-                        Object.keys(accounts).map((account, index) => {
-                            const accountData = accounts[account];
-                            return (
-                                <div key={index} className='edbi-settings__content__accounts__item'>
-                                    <div key={index} className='edbi-settings__content__accounts__item__avatar'>
-                                        <img src={accountData.photo} alt={accountData.name} />
-                                    </div>
-                                    <div className='edbi-settings__content__accounts__item__info'>
-                                        <h3>{accountData.name}</h3>
-                                        <p>{accountData.email}</p>
-                                    </div>
-                                    <div className='edbi-settings__content__accounts__item__actions'>
-                                        <button
-                                            onClick={() => {
-                                                removeAccount(account)
-                                            }}
-                                        >
-                                        Remove
-                                        </button>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <button
-                    className='edbi-settings__content__accounts__add'
-                    onClick={() => {
-                        window.open(
-                            EDBIData.authUrl,
-                            '_blank',
-                            'width=600,height=600,toolbar=yes,scrollbars=yes,resizable=yes'
-                        );
-                    }}
-                >Add Account</button>
+                
             </div>
         </>
     )
 }
 
-export default Accounts
+export default ShortCodes

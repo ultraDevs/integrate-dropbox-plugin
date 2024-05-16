@@ -3,4 +3,4 @@ import App from './App';
 // import './store/settingsData';
 
 
-render(<App />, document.getElementById('idb-shortcode-builder'));
+render(<App />, document.getElementById('edbi-shortcode-builder'));

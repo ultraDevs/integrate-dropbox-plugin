@@ -9,46 +9,46 @@ const Sidebar = () => {
 
 	const {
 		activeAccount,
-	} = IDBData;
+	} = EDBIData;
 	
 	const [aItem, setItem] = useState('dropbox');
 
 	const items = [
 		{
 			name: __( 'My Dropbox', 'easy-dropbox-integration' ),
-			img: IDBData.assets + "images/dropbox.svg",
+			img: EDBIData.assets + "images/dropbox.svg",
 			slug: 'dropbox',
 		},
 		// {
 		// 	name: __( 'Shared with me', 'easy-dropbox-integration' ),
-		// 	img: IDBData.assets + "images/dropbox.svg",
+		// 	img: EDBIData.assets + "images/dropbox.svg",
 		// },
 	];
     return (
 		<>
-			<div className="idb-file-browser__l">
-				<div className="idb-file-browser__sidebar">
-					<div className="idb-file-browser__sidebar__content">
-						<div className="idb-file-browser__sidebar__upload">
+			<div className="edbi-file-browser__l">
+				<div className="edbi-file-browser__sidebar">
+					<div className="edbi-file-browser__sidebar__content">
+						<div className="edbi-file-browser__sidebar__upload">
 							<button
 								onClick={ () => dispatch('dropbox-browser').setData('showUploader', true) }
 								className="ud-c-btn ud-c-btn--secondary"
 							>
 								<img
-									src={IDBData.assets + "images/upload.svg"}
+									src={EDBIData.assets + "images/upload.svg"}
 								/>
 								<span>Upload Files</span>
 							</button>
 						</div>
-						<div className="idb-file-browser__sidebar__items">
+						<div className="edbi-file-browser__sidebar__items">
 							{items.map((item, index) => {
 								return (
 									<div
 										key={index}
 										className={classNames(
-											"idb-file-browser__sidebar__item",
+											"edbi-file-browser__sidebar__item",
 											{
-												"idb-file-browser__sidebar__item--active":
+												"edbi-file-browser__sidebar__item--active":
 													item.slug === aItem,
 											}
 										)}
@@ -60,23 +60,23 @@ const Sidebar = () => {
 								);
 							})}
 						</div>
-						<div className="idb-file-browser__sidebar__storage-info">
-							<div className="idb-file-browser__sidebar__storage-info__img">
+						<div className="edbi-file-browser__sidebar__storage-info">
+							<div className="edbi-file-browser__sidebar__storage-info__img">
 								<img
-									src={IDBData.assets + "images/storage.svg"}
+									src={EDBIData.assets + "images/storage.svg"}
 								/>
 							</div>
-							<div className="idb-file-browser__sidebar__storage-info__more">
-								<div className="idb-file-browser__sidebar__storage-info__more__progress">
+							<div className="edbi-file-browser__sidebar__storage-info__more">
+								<div className="edbi-file-browser__sidebar__storage-info__more__progress">
 									<div
-										className="idb-file-browser__sidebar__storage-info__more__progress__bar"
+										className="edbi-file-browser__sidebar__storage-info__more__progress__bar"
 										style={{
 											width: `${activeAccount?.storage?.percent}%`,
 										}}
 									></div>
 								</div>
 								{activeAccount.storage && (
-									<div className="idb-file-browser__sidebar__storage-info__more__text">
+									<div className="edbi-file-browser__sidebar__storage-info__more__text">
 										{formatBytes(
 											activeAccount?.storage?.used
 										)}{" "}

@@ -15,7 +15,7 @@ module.exports = {
 
 	entry: {
 		// 'pb-blocks-editor': path.resolve( process.cwd(), 'src/index.js' ),
-		'idb-admin-settings': path.resolve( process.cwd(), 'src/settings/index.js' ),
+		'edbi-admin-settings': path.resolve( process.cwd(), 'src/settings/index.js' ),
 		'admin-settings': path.resolve( process.cwd(), 'src/settings/scss/admin.scss' ),
 
 		// 'admin': path.resolve( process.cwd(), 'src/index.js' ),

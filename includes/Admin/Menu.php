@@ -81,21 +81,21 @@ class Menu {
 	 * Main View
 	 */
 	public static function render_file_browser_page() {
-		echo '<div id="idb-file-browser"></div>';
+		echo '<div id="edbi-file-browser"></div>';
 	}
 
 	/**
 	 * Render Settings
 	 */
 	public static function render_settings_page() {
-		echo '<div id="idb-settings"></div>';
+		echo '<div id="edbi-settings"></div>';
 	}
 
 	/**
 	 * Render Shortcode Builder
 	 */
 	public static function render_shortcode_builder_page() {
-		echo '<div id="idb-shortcode-builder"></div>';
+		echo '<div id="edbi-shortcode-builder"></div>';
 	}
 
 	public function handle_authorization() {

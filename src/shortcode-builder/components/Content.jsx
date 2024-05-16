@@ -1,6 +1,6 @@
 import React from '@wordpress/element'
 import { useSelect, dispatch } from '@wordpress/data'
-import Accounts from './contents/Accounts';
+import ShortCodes from './contents/ShortCodes';
 import Appearance from './contents/Appearance';
 
 const Content = (props) => {
@@ -9,21 +9,23 @@ const Content = (props) => {
 
     const {
 		activeAccount,
-	} = IDBData;
-
-    // const settingsData = useSelect( ( select ) => {
-    //     return select( 'idb-settings' ).getSettings();
-    // })
+	} = EDBIData;
 
     return (
         <div>
-            {activeItem === 'accounts' && (
-                <Accounts
+            {activeItem === 'types' && (
+                <ShortCodes
                     formData={formData}
                     setFormData={setFormData}
                 />
             )}
-            {activeItem === 'appearance' && (
+            {activeItem === 'source' && (
+                <Appearance
+                    formData={formData}
+                    setFormData={setFormData}
+                />
+            )}
+            {activeItem === 'advanced' && (
                 <Appearance
                     formData={formData}
                     setFormData={setFormData}

@@ -6,31 +6,33 @@ import Sidebar from './components/Sidebar';
 
 import './scss/settings.scss';
 import 'sweetalert2/src/sweetalert2.scss'
+import ShortCodes from './components/contents/ShortCodes';
 
 const App = () => {
 	const hash = window.location.hash;
 	const hashValue = hash.replace('#', '');
-	const [ activeItem, setActiveItem ] = useState(hashValue || 'accounts');
+	const [ activeItem, setActiveItem ] = useState(hashValue || 'types');
 	const [ formData, setFormData ] = useState({});
 
 	return (
-		<div className='idb-settings'>
+		<div className='edbi-settings'>
 			<Header
 				formData={formData}
 				setFormData={setFormData}
 			/>
-			<div className='idb-settings__body'>
-				<Sidebar
+			<div className='edbi-settings__body'>
+				<ShortCodes />
+				{/* <Sidebar
 					activeItem={activeItem}
 					setActiveItem={setActiveItem}
 				/>
-				<div className='idb-settings__content'>
+				<div className='edbi-settings__content'>
 					<Content
 						activeItem={activeItem}
 						formData={formData}
 						setFormData={setFormData}
 					/>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

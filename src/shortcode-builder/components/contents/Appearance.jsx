@@ -5,7 +5,7 @@ const Appearance = (props) => {
 
     const {
         accounts 
-    } = IDBData;
+    } = EDBIData;
 
     const handleAccountChange = (e) => {
         const { name, value } = e.target;
@@ -25,7 +25,7 @@ const Appearance = (props) => {
 
     return (
         <>
-            <div className='idb-settings__content__accounts'>
+            <div className='edbi-settings__content__accounts'>
                 <button onClick={ handleAccountChange }>Add Account</button>
             </div>
         </>

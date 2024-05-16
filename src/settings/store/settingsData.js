@@ -17,7 +17,7 @@ const actions = {
 	},
 };
 
-const store = createReduxStore('idb-settings', {
+const store = createReduxStore('edbi-settings', {
 	reducer(state = DEFAULT_STATE, action) {
 		switch (action.type) {
 			case 'SET_DATA':

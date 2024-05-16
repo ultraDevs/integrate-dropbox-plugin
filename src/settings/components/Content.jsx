@@ -9,10 +9,10 @@ const Content = (props) => {
 
     const {
 		activeAccount,
-	} = IDBData;
+	} = EDBIData;
 
     // const settingsData = useSelect( ( select ) => {
-    //     return select( 'idb-settings' ).getSettings();
+    //     return select( 'edbi-settings' ).getSettings();
     // })
 
     return (
