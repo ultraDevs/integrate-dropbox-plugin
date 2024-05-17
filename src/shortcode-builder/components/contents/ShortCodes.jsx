@@ -5,7 +5,7 @@ import React, {
 import { showAlert } from '../../../utils/alertHelper';
 
 const ShortCodes = (props) => {
-    const { formData, setFormData } = props;
+    const { currentTab, setCurrentTab } = props;
     const [ shortCodes, setShortCodes ] = useState({});
 
     const {
@@ -27,19 +27,7 @@ const ShortCodes = (props) => {
             });
     } , []);
 
-    console.log(shortCodes)
-
-
-    const handleAccountChange = (e) => {
-        const { name, value } = e.target;
-
-        setFormData({
-            ...formData,
-            accounts
-        })
-    }
-
-    const removeAccount = (account) => {
+    const removeShortCode = (shortcode) => {
         showAlert({
             title: 'Remove Account',
             text: 'Are you sure you want to remove this account?',
@@ -95,7 +83,7 @@ const ShortCodes = (props) => {
 
     console.log(accounts)
     return (
-        <>
+        <div className='px-5 py-6'>
             <div className='overflow-x-scroll edbi-shortcodes'>
                 <div className='flex items-center justify-between edbi-shortcodes__header'>
                     <h3>All ShortCodes</h3>
@@ -132,7 +120,26 @@ const ShortCodes = (props) => {
                                                     <td><h4>{item.title}</h4></td>
                                                     <td><h4>{item.title}</h4></td>
                                                     <td><h4>{item.title}</h4></td>
-                                                    <td><h4>{item.title}</h4></td>
+                                                    <td>
+                                                        <div className='flex items-center justify-center w-full gap-3'>
+                                                            <button className='' title={
+                                                                'Edit'
+                                                            } onClick={() => {
+                                                                setCurrentTab('edit');
+                                                            }
+                                                            }>
+                                                                <span class="dashicons dashicons-edit"></span>
+                                                            </button>
+                                                            <button className='' onClick={() => removeShortCode(item.id)}>
+                                                                <span class="dashicons dashicons-trash"></span>
+                                                            </button>
+                                                            <button className='' title={
+                                                                'Duplicate'
+                                                            }>
+                                                                <span class="dashicons dashicons-admin-page"></span>
+                                                            </button>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             )
                                         })
@@ -143,7 +150,7 @@ const ShortCodes = (props) => {
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     )
 }
 

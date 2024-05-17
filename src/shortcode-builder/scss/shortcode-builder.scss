@@ -1,10 +1,10 @@
 .edbi-shortcodes {
 
     &__lists {
-        border-spacing: 0 15px;
+        // border-spacing: 0 15px;
         width: 100%;
         thead {
-            background-color: #e5e5e5;
+            background-color: #e7e7e7;
             th {
                 @apply text-sm text-gray-500 font-medium p-4;
             }
@@ -14,7 +14,7 @@
             @apply bg-white;
             tr {
                 td {
-                    @apply p-4 text-center;
+                    @apply p-4 text-center text-sm;
                 }
             }
         }

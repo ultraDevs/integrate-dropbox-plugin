@@ -3,12 +3,10 @@ import { __ } from '@wordpress/i18n';
 
 const Header = (props) => {
 	const { activeAccount, accounts, version } = EDBIData;
-    const { formData, setFormData, title } = props;
+    const { currentTab, setCurrentTab, title, type } = props;
 
-	console.log('header formdaa', formData);
 
 	const saveSettings = () => {
-		console.log('saveSettings', formData);
 	}
 
 	return (
@@ -23,9 +21,11 @@ const Header = (props) => {
 				</h2>
 			</div>
 			<div className='edbi-page__header__right'>
-				<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={saveSettings}>
-					<i className='dashicons dashicons-saved'></i>{ ' ' }
-					Save Changes
+				<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
+					() => setCurrentTab('create')
+				}>
+					<i className='mr-2 dashicons dashicons-plus-alt'></i>
+					Add New ShortCode
 				</button>
 			</div>
 		</div>
