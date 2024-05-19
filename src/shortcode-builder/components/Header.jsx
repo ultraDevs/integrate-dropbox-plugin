@@ -1,5 +1,6 @@
 import React from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { setActiveTabWithParam } from '../../utils';
 
 const Header = (props) => {
 	const { activeAccount, accounts, version } = EDBIData;
@@ -20,9 +21,18 @@ const Header = (props) => {
 					<span>v{version}</span>
 				</h2>
 			</div>
+			{
+				'create' === type && (
+					<div className='ml-5 bg-white'>
+						<form>
+							<input type='text' placeholder='Enter ShortCode Title' className='px-3 py-3 bg-white border-b border-gray-200' />
+						</form>
+					</div>
+				)
+			}
 			<div className='edbi-page__header__right'>
 				<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
-					() => setCurrentTab('create')
+					() => setActiveTabWithParam('create', setCurrentTab)
 				}>
 					<i className='mr-2 dashicons dashicons-plus-alt'></i>
 					Add New ShortCode

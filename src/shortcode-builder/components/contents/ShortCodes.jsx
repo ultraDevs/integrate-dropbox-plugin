@@ -3,6 +3,7 @@ import React, {
     useEffect
 } from '@wordpress/element'
 import { showAlert } from '../../../utils/alertHelper';
+import { setActiveTabWithParam } from '../../../utils';
 
 const ShortCodes = (props) => {
     const { currentTab, setCurrentTab } = props;
@@ -125,7 +126,7 @@ const ShortCodes = (props) => {
                                                             <button className='' title={
                                                                 'Edit'
                                                             } onClick={() => {
-                                                                setCurrentTab('edit');
+                                                                setActiveTabWithParam('edit', setCurrentTab, item.id)
                                                             }
                                                             }>
                                                                 <span class="dashicons dashicons-edit"></span>
