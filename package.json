@@ -12,10 +12,10 @@
         "build:settings": "wp-scripts build src/settings/index.js --output-path=assets/admin/settings/",
         "start:shortcode-builder": "wp-scripts start src/shortcode-builder/index.js --output-path=assets/admin/shortcode-builder/",
         "build:shortcode-builder": "wp-scripts build src/shortcode-builder/index.js --output-path=assets/admin/shortcode-builder/",
-        "start:admin:page": "wp-scripts start src/scss/index.js --output-path=assets/admin/common/",
-        "build:admin:page": "wp-scripts build src/scss/index.js --output-path=assets/admin/common/",
-        "start:all": "npm-run-all --parallel start:file-browser start:settings start:shortcode-builder start:admin:page",
-        "build:all": "npm-run-all --parallel build:file-browser build:settings build:shortcode-builder build:admin:page"
+        "start:admin:common": "wp-scripts start src/scss/index.js --output-path=assets/admin/common/",
+        "build:admin:common": "wp-scripts build src/scss/index.js --output-path=assets/admin/common/",
+        "start:all": "npm-run-all --parallel start:file-browser start:settings start:shortcode-builder start:admin:common",
+        "build:all": "npm-run-all --parallel build:file-browser build:settings build:shortcode-builder build:admin:common"
     },
     "repository": {
         "type": "git",

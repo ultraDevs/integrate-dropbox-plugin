@@ -15,16 +15,30 @@ const App = () => {
 	const hashValue = hash.replace('#', '');
 	const [ activeItem, setActiveItem ] = useState(hashValue || 'types');
 	const [ formData, setFormData ] = useState({});
+	const [ save, setSave ] = useState(false);
+	const [shortCodeConfig, setShortCodeConfig] = useState({
+		type: 'image-gallery',
+		source: null,
+		settings: {
+			container: {
+				width: '100%',
+				height: null,
+			},
+			sorting: {
+				sortBy: 'name',
+				sortOrder: 'asc',
+			},
+			imgLayout: 'justified',
+		}
+	});
 
 	const [ currentTab, setCurrentTab ] = useState('shortcodes');
 	
 	useEffect(() => {
-		// if url has id param then set current tab to edit
-		if (window.location.search.includes('id')) {
+		if (window.location.search.includes('edit')) {
 			setCurrentTab('edit');
 		}
 
-		// if url has create param then set current tab to create
 		if (window.location.search.includes('create')) {
 			setCurrentTab('create');
 		}
@@ -38,6 +52,8 @@ const App = () => {
 				type={currentTab}
 				currentTab={currentTab}
 				setCurrentTab={setCurrentTab}
+				save={save}
+				setSave={setSave}
 			/>
 			<div className={
 				'shortcodes' === currentTab ? 'edbi-page__con' : 'edbi-page__body'
@@ -57,6 +73,10 @@ const App = () => {
 							setActiveItem={setActiveItem}
 							formData={formData}
 							setFormData={setFormData}
+							save={save}
+							setSave={setSave}
+							shortCodeConfig={shortCodeConfig}
+							setShortCodeConfig={setShortCodeConfig}
 						/>
 					)
 				}
@@ -67,6 +87,8 @@ const App = () => {
 							setActiveItem={setActiveItem}
 							formData={formData}
 							setFormData={setFormData}
+							save={save}
+							setSave={setSave}
 						/>
 					)
 				}

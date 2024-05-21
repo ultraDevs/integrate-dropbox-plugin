@@ -8,6 +8,11 @@ const EditShortCode = (props) => {
 
     const { activeItem, setActiveItem, formData, setFormData } = props;
 
+    // get edit params
+    const params = new URLSearchParams(window.location.search);
+    const editId = params.get('edit');
+
+
     const {
 		activeAccount,
 	} = EDBIData;

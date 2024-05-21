@@ -1,16 +1,54 @@
-import React from '@wordpress/element'
+import React, { useState } from '@wordpress/element'
 import { useSelect, dispatch } from '@wordpress/data'
-import ShortCodes from './contents/ShortCodes';
 import Appearance from './contents/Appearance';
 import Sidebar from './Sidebar';
+import { __ } from '@wordpress/i18n';
+import classNames from 'classnames';
 
 const CreateShortCode = (props) => {
 
-    const { formData, setFormData, activeItem, setActiveItem } = props;
+    const [ type, setType ] = useState( 'image-gallery' );
+
+    const {
+        formData,
+        setFormData,
+        activeItem,
+        setActiveItem,
+        save,
+        setSave,
+        shortCodeConfig,
+        setShortCodeConfig
+    } = props;
 
     const {
 		activeAccount,
 	} = EDBIData;
+
+
+    const updateShortCodeConfig = (key, value) => {
+        setShortCodeConfig({
+            ...shortCodeConfig,
+            [key]: value
+        });
+    }
+
+    const types = [
+        {
+            label: __( 'Image Gallery', 'easy-dropbox-integration' ),
+            value: 'image-gallery',
+            desc: __( 'Display images in a gallery', 'easy-dropbox-integration' ),
+            icon: 'format-gallery'
+        },
+        {
+            label: __( 'File Browser', 'easy-dropbox-integration' ),
+            value: 'file-browser',
+            desc: __( 'Let users browse files', 'easy-dropbox-integration' ),
+            icon: 'open-folder'
+        }
+    ];
+
+    console.log('config', shortCodeConfig);
+
 
     return (
         <>
@@ -21,7 +59,37 @@ const CreateShortCode = (props) => {
             <div className='edbi-page__content'>
                 
                 {activeItem === 'types' && (
-                    <h3>Types</h3>
+                    <div className='flex flex-wrap'>
+                        {
+                            types.map( item => {
+                                return (
+                                    <div
+                                        key={item.value}
+                                        className={
+                                            classNames(
+                                                'edbi-info-box edbi-info-box--types',
+                                                item.value === type ? 'edbi-info-box--active' : ''
+                                            )
+                                        }
+                                        onClick={
+                                            () => {
+                                                setType(item.value);
+                                                updateShortCodeConfig('type', item.value);
+                                            }
+                                        }
+                                    >
+                                        <div className='edbi-info-box__icon'>
+                                            <i className={`dashicons dashicons-${item.icon}`}></i>
+                                        </div>
+                                        <div className='edbi-info-box__content'>
+                                            <h3>{item.label}</h3>
+                                            <p>{item.desc}</p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 )}
                 {activeItem === 'source' && (
                     <Appearance

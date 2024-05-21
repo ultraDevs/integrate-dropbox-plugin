@@ -16,12 +16,12 @@ const Sidebar = ( props ) => {
 		{
 			slug: 'types',
 			label: __( 'Types', 'easy-dropbox-integration' ),
-			icon: 'dashicons-admin-users'
+			icon: 'dashicons-admin-home'
 		},
 		{
 			slug: 'source',
 			label: __( 'Source', 'easy-dropbox-integration' ),
-			icon: 'dashicons-admin-appearance'
+			icon: 'dashicons-database'
 		},
 		// {
 		// 	slug: 'filters',
@@ -31,7 +31,7 @@ const Sidebar = ( props ) => {
 		{
 			slug: 'advanced',
 			label: __( 'Advanced', 'easy-dropbox-integration' ),
-			icon: 'dashicons-admin-generic'
+			icon: 'dashicons-admin-settings'
 		},
 		// {
 		// 	slug: 'permission',

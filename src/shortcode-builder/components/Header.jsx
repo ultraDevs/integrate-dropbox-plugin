@@ -4,7 +4,7 @@ import { setActiveTabWithParam } from '../../utils';
 
 const Header = (props) => {
 	const { activeAccount, accounts, version } = EDBIData;
-    const { currentTab, setCurrentTab, title, type } = props;
+    const { currentTab, setCurrentTab, title, type, save, setSave } = props;
 
 
 	const saveSettings = () => {
@@ -23,20 +23,64 @@ const Header = (props) => {
 			</div>
 			{
 				'create' === type && (
-					<div className='ml-5 bg-white'>
+					<div className='ml-5 bg-white edbi-shortcodes-create'>
 						<form>
-							<input type='text' placeholder='Enter ShortCode Title' className='px-3 py-3 bg-white border-b border-gray-200' />
+							<input type='text' placeholder='Enter ShortCode Title' />
 						</form>
 					</div>
 				)
 			}
 			<div className='edbi-page__header__right'>
-				<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
-					() => setActiveTabWithParam('create', setCurrentTab)
-				}>
-					<i className='mr-2 dashicons dashicons-plus-alt'></i>
-					Add New ShortCode
-				</button>
+				{
+					( 'create' === type || 'edit' === type ) ? (
+						<>
+							<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
+								() => {
+									setActiveTabWithParam('shortcodes', setCurrentTab);
+								}
+							}>
+								<i className='mr-2 dashicons dashicons-arrow-left-alt'></i>
+								Back
+							</button>
+							<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
+								() => setSave(!save)
+							}>
+								<i className='mr-2 dashicons dashicons-saved'></i>
+								Save
+							</button>
+							{/* {
+								'create' === type && (
+									<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
+										saveSettings
+									}>
+										<i className='mr-2 dashicons dashicons-plus-alt'></i>
+										Save
+									</button>
+								)
+							}
+
+							{
+								'update' === type && (
+									<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
+										saveSettings
+									}>
+										<i className='mr-2 dashicons dashicons-plus-alt'></i>
+										Update
+									</button>
+								)
+							} */}
+						</>
+					) : (
+						<button className='px-5 py-3 text-sm text-white rounded-md bg-secondary' onClick={
+							() => setActiveTabWithParam('create', setCurrentTab)
+						}>
+							<i className='mr-2 dashicons dashicons-plus-alt'></i>
+							Add New ShortCode
+						</button>
+					)
+				}
+
+
 			</div>
 		</div>
 	);
