@@ -74,6 +74,7 @@ class Menu {
 
 		add_action( 'admin_print_scripts-' . self::$menu , array( $assets_manager, 'file_browser_assets' ) );
 		add_action( 'admin_print_scripts-' . $settings , array( $assets_manager, 'settings_assets' ) );
+		add_action( 'admin_print_scripts-' . $shortcode_builder , array( $assets_manager, 'file_browser_assets' ) );
 		add_action( 'admin_print_scripts-' . $shortcode_builder , array( $assets_manager, 'shortcode_builder_assets' ) );
 	}
 

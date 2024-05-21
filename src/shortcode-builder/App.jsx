@@ -2,7 +2,6 @@ import React, { useState } from '@wordpress/element';
 
 import CreateShortCode from './components/CreateShortCode';
 import Header from './components/Header';
-import Sidebar from './components/Sidebar';
 
 import './scss/shortcode-builder.scss';
 import 'sweetalert2/src/sweetalert2.scss'
@@ -20,7 +19,11 @@ const App = () => {
 	const [shortCodeTitle, setShortCodeTitle] = useState('');
 	const [shortCodeConfig, setShortCodeConfig] = useState({
 		type: 'image-gallery',
-		source: null,
+		source: {
+			all: false,
+			privateFiles: false,
+			items: [],
+		},
 		settings: {
 			container: {
 				width: '100%',
