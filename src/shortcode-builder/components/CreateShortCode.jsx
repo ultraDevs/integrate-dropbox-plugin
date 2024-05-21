@@ -17,7 +17,9 @@ const CreateShortCode = (props) => {
         save,
         setSave,
         shortCodeConfig,
-        setShortCodeConfig
+        setShortCodeConfig,
+        shortCodeTitle,
+        setShortCodeTitle
     } = props;
 
     const {
@@ -48,6 +50,10 @@ const CreateShortCode = (props) => {
     ];
 
     console.log('config', shortCodeConfig);
+
+    console.log('type', type)
+
+    console.log('title', shortCodeTitle)
 
 
     return (

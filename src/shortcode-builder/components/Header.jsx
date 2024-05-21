@@ -4,7 +4,7 @@ import { setActiveTabWithParam } from '../../utils';
 
 const Header = (props) => {
 	const { activeAccount, accounts, version } = EDBIData;
-    const { currentTab, setCurrentTab, title, type, save, setSave } = props;
+    const { currentTab, setCurrentTab, title, type, save, setSave, shortCodeTitle, setShortCodeTitle } = props;
 
 
 	const saveSettings = () => {
@@ -25,7 +25,18 @@ const Header = (props) => {
 				'create' === type && (
 					<div className='ml-5 bg-white edbi-shortcodes-create'>
 						<form>
-							<input type='text' placeholder='Enter ShortCode Title' />
+							<input
+								type='text'
+								placeholder={
+									__( 'Enter ShortCode Title', 'easy-dropbox-integration')
+								}
+								value={
+									shortCodeTitle || __( 'ShortCode Title', 'easy-dropbox-integration' )
+								}
+								onChange={
+									(e) => setShortCodeTitle(e.target.value)
+								}
+							/>
 						</form>
 					</div>
 				)

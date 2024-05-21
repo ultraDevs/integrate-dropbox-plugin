@@ -16,6 +16,8 @@ const App = () => {
 	const [ activeItem, setActiveItem ] = useState(hashValue || 'types');
 	const [ formData, setFormData ] = useState({});
 	const [ save, setSave ] = useState(false);
+
+	const [shortCodeTitle, setShortCodeTitle] = useState('');
 	const [shortCodeConfig, setShortCodeConfig] = useState({
 		type: 'image-gallery',
 		source: null,
@@ -45,7 +47,6 @@ const App = () => {
 	}, []);
 
 
-
 	return (
 		<div className='edbi-page'>
 			<Header
@@ -54,6 +55,8 @@ const App = () => {
 				setCurrentTab={setCurrentTab}
 				save={save}
 				setSave={setSave}
+				shortCodeTitle={shortCodeTitle}
+				setShortCodeTitle={setShortCodeTitle}
 			/>
 			<div className={
 				'shortcodes' === currentTab ? 'edbi-page__con' : 'edbi-page__body'
@@ -77,6 +80,8 @@ const App = () => {
 							setSave={setSave}
 							shortCodeConfig={shortCodeConfig}
 							setShortCodeConfig={setShortCodeConfig}
+							shortCodeTitle={shortCodeTitle}
+							setShortCodeTitle={setShortCodeTitle}
 						/>
 					)
 				}
@@ -89,6 +94,8 @@ const App = () => {
 							setFormData={setFormData}
 							save={save}
 							setSave={setSave}
+							shortCodeTitle={shortCodeTitle}
+							setShortCodeTitle={setShortCodeTitle}
 						/>
 					)
 				}

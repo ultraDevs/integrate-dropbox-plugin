@@ -6,7 +6,7 @@ import Sidebar from './Sidebar';
 
 const EditShortCode = (props) => {
 
-    const { activeItem, setActiveItem, formData, setFormData } = props;
+    const { activeItem, setActiveItem, formData, setFormData, shortCodeTitle, setShortCodeTitle } = props;
 
     // get edit params
     const params = new URLSearchParams(window.location.search);
