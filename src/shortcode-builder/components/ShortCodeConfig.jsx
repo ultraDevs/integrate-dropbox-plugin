@@ -80,13 +80,18 @@ const ShortCodeConfig = (props) => {
 		}
 	}, []);
 
-	const folders = entries.filter((item) => {
-		return item.is_dir ? item : '';
-	});
+    let folders = [];
+    let files = [];
 
-	const files = entries.filter((item) => {
-		return item.is_file ? item : '';
-	});
+	if ( entries.length ) {
+        folders = entries.filter((item) => {
+            return item.is_dir ? item : '';
+        });
+    
+        files = entries.filter((item) => {
+            return item.is_file ? item : '';
+        });
+    }
 
     console.log('config', shortCodeConfig);
 
@@ -139,7 +144,7 @@ const ShortCodeConfig = (props) => {
                     </div>
                 )}
                 {activeItem === 'source' && (
-                    <div>
+                    <div className='p-3 border border-gray-100'>
                         <div className='edbi-file-browser__file-list'>
                             {/* {previousPath && (
                                 <div
@@ -183,58 +188,58 @@ const ShortCodeConfig = (props) => {
                                             </div>
                                         </div>
                                     );
-                                })}
-							</div>
+                                }
+                            )}
+						</div>
 
-							{files.length ? (
-								<>
-									<div
-                                        className='edbi-file-browser__file-list'
-									>
-										{files.map((item, index) => {
-											return (
-												<a
-													className={classNames(
-														'edbi-file-browser__file-list__item',
-														'edbi-file-browser__file-list__item--file',
-														'gallery-item'
-													)}
-													key={index}
-													// onClick={() => {
-													// 	setActiveItem(item);
-													// 	filePreview(item);
-													// }}
-												>
-													{item.can_preview && item.thumbnail ? (
-														<div className='edbi-file-browser__file-list__item__thumb'>
-															<img src={item.thumbnail} />
-														</div>
-													) : (
-														<div className='edbi-file-browser__file-list__item__icon'>
-															<span
-																className={classNames(
-																	'dashicons',
-																	getIcon(item.ext)
-																)}
-															></span>
-														</div>
-													)}
-													<div className='edbi-file-browser__file-list__item__info'>
-														<i
-															class={classNames('dashicons', getIcon(item.ext))}
-														></i>
-														<span>{item.name}</span>
-													</div>
-												</a>
-											);
-										})}
-									{/* </div> */}
-									</div>
-								</>
-							) : (
-								''
-							)}
-
+                        {files.length ? (
+                            <>
+                                <div
+                                    className='edbi-file-browser__file-list'
+                                >
+                                    {files.map((item, index) => {
+                                        return (
+                                            <a
+                                                className={classNames(
+                                                    'edbi-file-browser__file-list__item',
+                                                    'edbi-file-browser__file-list__item--file',
+                                                    'gallery-item'
+                                                )}
+                                                key={index}
+                                                // onClick={() => {
+                                                // 	setActiveItem(item);
+                                                // 	filePreview(item);
+                                                // }}
+                                            >
+                                                {item.can_preview && item.thumbnail ? (
+                                                    <div className='edbi-file-browser__file-list__item__thumb'>
+                                                        <img src={item.thumbnail} />
+                                                    </div>
+                                                ) : (
+                                                    <div className='edbi-file-browser__file-list__item__icon'>
+                                                        <span
+                                                            className={classNames(
+                                                                'dashicons',
+                                                                getIcon(item.ext)
+                                                            )}
+                                                        ></span>
+                                                    </div>
+                                                )}
+                                                <div className='edbi-file-browser__file-list__item__info'>
+                                                    <i
+                                                        class={classNames('dashicons', getIcon(item.ext))}
+                                                    ></i>
+                                                    <span>{item.name}</span>
+                                                </div>
+                                            </a>
+                                        );
+                                    })}
+                                {/* </div> */}
+                                </div>
+                            </>
+                        ) : (
+                            ''
+                        )}
                     </div>
                 )}
                 {activeItem === 'advanced' && (

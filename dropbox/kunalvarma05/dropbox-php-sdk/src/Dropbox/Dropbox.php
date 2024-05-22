@@ -264,6 +264,11 @@ class Dropbox
         //Access Token
         $accessToken = $this->getAccessToken() ? $this->getAccessToken() : $accessToken;
 
+        if ( $this->getOAuth2Client()->isAccessTokenExpired() ) {
+            do_action( 'edbi_refresh_token', \ultraDevs\EasyDropBoxIntegration\App\Account::get_active_account() );
+            $accessToken = $this->getAccessToken();
+        }
+
         //Make a DropboxRequest object
         $request = new DropboxRequest($method, $endpoint, $accessToken, $endpointType, $params);
 
