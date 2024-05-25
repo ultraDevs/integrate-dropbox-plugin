@@ -69,7 +69,7 @@ class Ajax {
 		foreach ( $this->ajax_actions as $action => $nopriv ) {
 			add_action( 'wp_ajax_edbi_' . $action, array( $this, 'start_process' ) );
 			if ( $nopriv ) {
-				add_action( 'wp_ajax_nopriv_edbi_' . $action, array( $this, $action ) );
+				add_action( 'wp_ajax_nopriv_edbi_' . $action, array( $this, 'start_process' ) );
 			}
 		}
 	}
@@ -94,6 +94,12 @@ class Ajax {
 		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
 		if ( ! wp_verify_nonce( $nonce, 'edbi_ajax_nonce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'easy-dropbox-integration' ) ) );
+		}
+
+		// Ignore shortcode ajax request.
+		if ( strpos( $action, 'shortcode' ) !== false ) {
+			$this->$action();
+			return;
 		}
 
 		// $this->current_path = sanitize_text_field( $_REQUEST['path'] );
@@ -365,18 +371,23 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function create_shortcode() {
-		$name = sanitize_text_field( $_POST['name'] );
-		$shortcode = sanitize_text_field( $_POST['shortcode'] );
+		$title = sanitize_text_field( $_POST['title'] );
+		$config = sanitize_text_field( $_POST['config'] );
 
-		if ( empty( $name ) ) {
-			wp_send_json_error( array( 'message' => __( 'Name is required', 'easy-dropbox-integration' ) ) );
+		if ( empty( $title ) ) {
+			wp_send_json_error( array( 'message' => __( 'Title is required', 'easy-dropbox-integration' ) ) );
 		}
 
-		if ( empty( $shortcode ) ) {
-			wp_send_json_error( array( 'message' => __( 'Shortcode is required', 'easy-dropbox-integration' ) ) );
+		if ( empty( $config ) ) {
+			wp_send_json_error( array( 'message' => __( 'Shortcode Config is required', 'easy-dropbox-integration' ) ) );
 		}
 
-		$create = Shortcode_Builder::get_instance()->create_shortcode( $name, $shortcode );
+		$create = Shortcode_Builder::get_instance()->add_shortcode( [
+			'title'  => $title,
+			'config' => serialize( $config ),
+			'created_at' => current_time( 'mysql' ),
+			'updated_at' => current_time( 'mysql' ),
+		] );
 
 		if ( ! $create) {
 			wp_send_json_error( array(
@@ -397,22 +408,26 @@ class Ajax {
 	 */
 	public function update_shortcode() {
 		$id = sanitize_text_field( $_POST['id'] );
-		$name = sanitize_text_field( $_POST['name'] );
-		$shortcode = sanitize_text_field( $_POST['shortcode'] );
+		$title = sanitize_text_field( $_POST['name'] );
+		$config = sanitize_text_field( $_POST['config'] );
 
 		if ( empty( $id ) ) {
 			wp_send_json_error( array( 'message' => __( 'ID is required', 'easy-dropbox-integration' ) ) );
 		}
 
-		if ( empty( $name ) ) {
-			wp_send_json_error( array( 'message' => __( 'Name is required', 'easy-dropbox-integration' ) ) );
+		if ( empty( $title ) ) {
+			wp_send_json_error( array( 'message' => __( 'Title is required', 'easy-dropbox-integration' ) ) );
 		}
 
-		if ( empty( $shortcode ) ) {
-			wp_send_json_error( array( 'message' => __( 'Shortcode is required', 'easy-dropbox-integration' ) ) );
+		if ( empty( $config ) ) {
+			wp_send_json_error( array( 'message' => __( 'Shortcode Config is required', 'easy-dropbox-integration' ) ) );
 		}
 
-		$update = Shortcode_Builder::get_instance()->update_shortcode( $id, $name, $shortcode );
+		$update = Shortcode_Builder::get_instance()->update_shortcode( $id, [
+			'title'  => $title,
+			'config' => serialize( $config ),
+			'updated_at' => current_time( 'mysql' ),
+		]);
 
 		if ( ! $update) {
 			wp_send_json_error( array(

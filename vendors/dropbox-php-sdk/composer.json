@@ -1,0 +1,23 @@
+{
+    "name": "kunalvarma05/dropbox-php-sdk",
+    "description": "Dropbox PHP API V2 SDK (Unofficial)",
+    "keywords" : ["dropbox", "sdk", "api", "client", "php", "unofficial"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kunal Varma",
+            "email": "kunalvarma05@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "7.8.1",
+        "illuminate/collections": "^8.83.27"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kunnu\\Dropbox\\": "src/Dropbox"
+        }
+    },
+    "require-dev": {
+    }
+}

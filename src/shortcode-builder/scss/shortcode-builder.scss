@@ -27,4 +27,47 @@
             @apply w-full py-2 px-4 border border-gray-300 rounded-md;
         }
     }
+
+
+    
+}
+
+
+.edbi-shortcode {
+    // Builder.
+    &-builder {
+        &__browser {
+
+            @apply w-full md:w-[78%] h-full bg-white rounded-md shadow-md overflow-hidden; //  lg:w-[70%] xl:w-[60%] 2xl:w-[50%]
+
+            .edbi-file-browser__header {
+                position: unset;
+                z-index: unset;
+            }
+        }
+        &__selected-items {
+            @apply w-full md:w-[20%] bg-white rounded-md shadow-md overflow-hidden sticky top-14; // lg:w-[30%] xl:w-[40%] 2xl:w-[50%]
+            &__list {
+                &__item {
+                    @apply flex items-center justify-between p-2 border-b border-gray-200 cursor-pointer transition-all duration-300 ease-in-out gap-2;
+                    &__thumb {
+                        img {
+                            @apply h-12 w-12 object-cover;
+                            min-width: 48px;
+                        }
+                    }
+                    &__info {
+                        @apply overflow-hidden;
+                        p {
+                            @apply text-[15px] font-medium text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis;
+                        }
+                    }
+                    .dashicons {
+                        @apply text-2xl;
+                        line-height: 1.25rem;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -42,7 +42,7 @@ require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'vendor/autoload.php';
 /**
  * Require DropBox SDK
  */
-require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'dropbox/kunalvarma05/dropbox-php-sdk/vendor/autoload.php';
+require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'vendors/dropbox-php-sdk/vendor/autoload.php';
 
 /**
  * Integrate Dropbox class
@@ -53,9 +53,8 @@ final class EasyDropBoxIntegration {
 	 * Constructor
 	 */
 	public function __construct() {
-
+		add_action( 'init', array( $this, 'session_start' ) );
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
-
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 		add_action( 'init', array( $this, 'load_text_domain' ) );
@@ -152,6 +151,17 @@ final class EasyDropBoxIntegration {
 	 */
 	public function deactivate() {
 		unset( $_COOKIE['edbi_active_account'] );
+	}
+
+	/**
+	 * Session Start
+	 *
+	 * @return void
+	 */
+	public function session_start() {
+		if ( ! session_id() ) {
+			session_start();
+		}
 	}
 
 	/**

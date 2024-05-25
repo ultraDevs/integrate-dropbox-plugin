@@ -1,4 +1,5 @@
 import React, { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import CreateShortCode from './components/CreateShortCode';
 import Header from './components/Header';
@@ -9,6 +10,7 @@ import ShortCodes from './components/contents/ShortCodes';
 import { useEffect } from 'react';
 import EditShortCode from './components/EditShortCode';
 
+
 const App = () => {
 	const hash = window.location.hash;
 	const hashValue = hash.replace('#', '');
@@ -16,7 +18,9 @@ const App = () => {
 	const [ formData, setFormData ] = useState({});
 	const [ save, setSave ] = useState(false);
 
-	const [shortCodeTitle, setShortCodeTitle] = useState('');
+	const [shortCodeTitle, setShortCodeTitle] = useState(
+		__('ShortCode Title', 'easy-dropbox-integration')
+	);
 	const [shortCodeConfig, setShortCodeConfig] = useState({
 		type: 'image-gallery',
 		source: {
@@ -85,6 +89,7 @@ const App = () => {
 							setShortCodeConfig={setShortCodeConfig}
 							shortCodeTitle={shortCodeTitle}
 							setShortCodeTitle={setShortCodeTitle}
+							actionType="create"
 						/>
 					)
 				}
@@ -99,6 +104,7 @@ const App = () => {
 							setSave={setSave}
 							shortCodeTitle={shortCodeTitle}
 							setShortCodeTitle={setShortCodeTitle}
+							actionType="edit"
 						/>
 					)
 				}

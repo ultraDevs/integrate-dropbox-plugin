@@ -8,10 +8,6 @@
 
 namespace ultraDevs\EasyDropBoxIntegration\App;
 
-if ( ! session_id() ) {
-	session_start();
-}
-
 use Kunnu\Dropbox\Models\FileMetadata;
 use Kunnu\Dropbox\Models\FolderMetadata;
 use ultraDevs\EasyDropBoxIntegration\App\Client;
