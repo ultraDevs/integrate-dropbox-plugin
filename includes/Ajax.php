@@ -382,9 +382,12 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Shortcode Config is required', 'easy-dropbox-integration' ) ) );
 		}
 
+		$base_64 = base64_decode( $config );
+		$decoded_config = json_decode( $base_64, true );
+
 		$create = Shortcode_Builder::get_instance()->add_shortcode( [
 			'title'  => $title,
-			'config' => serialize( $config ),
+			'config' => serialize( $decoded_config ),
 			'created_at' => current_time( 'mysql' ),
 			'updated_at' => current_time( 'mysql' ),
 		] );
@@ -423,9 +426,12 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Shortcode Config is required', 'easy-dropbox-integration' ) ) );
 		}
 
+		$base_64 = base64_decode( $config );
+		$decoded_config = json_decode( $base_64, true );
+
 		$update = Shortcode_Builder::get_instance()->update_shortcode( $id, [
 			'title'  => $title,
-			'config' => serialize( $config ),
+			'config' => serialize( $decoded_config ),
 			'updated_at' => current_time( 'mysql' ),
 		]);
 
@@ -455,16 +461,11 @@ class Ajax {
 
 		$delete = Shortcode_Builder::get_instance()->delete_shortcode( $id );
 
-		if ( ! $delete) {
-			wp_send_json_error( array(
-				'message' => __( 'Failed to delete Shortcode!', 'easy-dropbox-integration' ),
-			) );
-		}
-
 		wp_send_json_success( [
 			'message' => __( 'Shortcode deleted successfully!', 'easy-dropbox-integration' ),
 			'data'    => $delete,
 		]);
+		
 	}
 
 	/**

@@ -8,6 +8,7 @@ import { getIcon } from '../../file-browser/helper/common';
 import Header from '../../file-browser/components/Header';
 
 import { useSelect, dispatch } from '@wordpress/data';
+import { showAlert } from '../../utils/alertHelper';
 
 
 
@@ -67,12 +68,12 @@ const ShortCodeConfig = (props) => {
             desc: __( 'Display images in a gallery', 'easy-dropbox-integration' ),
             icon: 'format-gallery'
         },
-        {
-            label: __( 'File Browser', 'easy-dropbox-integration' ),
-            value: 'file-browser',
-            desc: __( 'Let users browse files', 'easy-dropbox-integration' ),
-            icon: 'open-folder'
-        }
+        // {
+        //     label: __( 'File Browser', 'easy-dropbox-integration' ),
+        //     value: 'file-browser',
+        //     desc: __( 'Let users browse files', 'easy-dropbox-integration' ),
+        //     icon: 'open-folder'
+        // }
     ];
 
     useEffect(() => {
@@ -112,32 +113,70 @@ const ShortCodeConfig = (props) => {
 
     useEffect(() => {
         if (save) {
+            const jsonString = JSON.stringify(shortCodeConfig);
+            const base64String = btoa(jsonString);
             if ( 'edit' === actionType ) {
                 wp.ajax
                 .post('edbi_update_shortcode', {
                     id,
                     title: shortCodeTitle,
-                    config: btoa(JSON.stringify(shortCodeConfig)),
+                    config: base64String,
                     nonce: ajaxNonce,
                 }).then((response) => {
                     console.log(response)
                     setSave(!save);
+
+                    showAlert({
+                        title: __('Shortcode Updated', 'easy-dropbox-integration'),
+                        text: __('Shortcode has been updated successfully', 'easy-dropbox-integration'),
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonText: 'Ok',
+                        // confirmButtonColor: '#007bff',
+                    });
                 })
                 .catch((error) => {
                     console.error(error);
+
+                    showAlert({
+                        title: __('Error', 'easy-dropbox-integration'),
+                        text: __('An error occurred while updating the shortcode', 'easy-dropbox-integration'),
+                        icon: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Ok',
+                        // confirmButtonColor: '#007bff',
+                    });
                 });
             } else {
                 wp.ajax
                 .post('edbi_create_shortcode', {
                     title: shortCodeTitle,
-                    config: btoa(JSON.stringify(shortCodeConfig)),
+                    config: base64String,
                     nonce: ajaxNonce,
                 }).then((response) => {
                     console.log(response)
                     setSave(!save);
+
+                    showAlert({
+                        title: __('Shortcode Created', 'easy-dropbox-integration'),
+                        text: __('Shortcode has been created successfully', 'easy-dropbox-integration'),
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonText: 'Ok',
+                        // confirmButtonColor: '#007bff',
+                    });
                 })
                 .catch((error) => {
                     console.error(error);
+
+                    showAlert({
+                        title: __('Error', 'easy-dropbox-integration'),
+                        text: __('An error occurred while creating the shortcode', 'easy-dropbox-integration'),
+                        icon: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Ok',
+                        // confirmButtonColor: '#007bff',
+                    });
                 });
             }
         }
@@ -152,6 +191,9 @@ const ShortCodeConfig = (props) => {
         });
     
         files = entries.filter((item) => {
+            if ( 'image-gallery' === type ) {
+                return item.is_file && item.ext.match(/(jpg|jpeg|png|gif)$/i) ? item : '';
+            }
             return item.is_file ? item : '';
         });
     }

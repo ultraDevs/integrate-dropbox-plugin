@@ -78,7 +78,7 @@
 }
 
 .edbi-info-box {
-	@apply bg-white p-6 rounded-md shadow-sm transition-all duration-300 ease-in-out;
+	@apply bg-white p-6 rounded-md shadow-sm transition-all duration-300 ease-in-out border border-solid;
 	&__icon {
 		@apply bg-gray-100 flex items-center justify-center rounded-full h-12 w-12 mb-3 transition-all duration-300 ease-in-out;
 		i {
@@ -109,7 +109,7 @@
 
 
 	&--types {
-		@apply flex relative flex-col items-center justify-center m-2 overflow-hidden shadow-md rounded-md cursor-pointer border-[#f7f7f7] border-[1px] text-center;
+		@apply flex relative flex-col items-center justify-center m-2 overflow-hidden shadow-md rounded-md cursor-pointer border-[1px] text-center;
 		width: calc(25% - 1rem);
 		&:hover {
 			@apply border-secondary;

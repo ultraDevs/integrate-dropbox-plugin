@@ -47,6 +47,13 @@ class Shortcode_Builder {
 		$query = "SELECT * FROM {$this->table_name}";
 		$shortcodes = $wpdb->get_results( $query, ARRAY_A );
 
+		// Get Shortcode type from config column and add it to the array.
+		foreach ( $shortcodes as $key => $shortcode ) {
+			$config = maybe_unserialize( $shortcode['config'] );
+
+			$shortcodes[ $key ]['type'] = ucwords( str_replace( '-', ' ', $config['type'] ) );
+		}
+
 		return $shortcodes;
 	}
 
@@ -116,6 +123,33 @@ class Shortcode_Builder {
 		$wpdb->update( $this->table_name, $data, array( 'id' => $id ) );
 
 		return $wpdb->insert_id;
+	}
+
+	/**
+	 * Duplicate Shortcode
+	 *
+	 * @param int $id Shortcode ID.
+	 *
+	 * @return int
+	 */
+	public function duplicate_shortcode( $id ) {
+		$shortcode = $this->get_shortcode( $id );
+
+		if ( empty( $shortcode ) ) {
+			return 0;
+		}
+
+		unset( $shortcode['id'] );
+
+		$shortcode['title'] = $shortcode['title'] . ' - Copy';
+
+		$shortcode['created_at'] = current_time( 'mysql' );
+		$shortcode['updated_at'] = current_time( 'mysql' );
+
+		$insert_id = $this->add_shortcode( $shortcode );
+		$shortcode['id'] = $insert_id;
+
+		return $shortcode;
 	}
 
 	/**
@@ -203,28 +237,5 @@ class Shortcode_Builder {
 		}
 
 		return $shortcode['title'];
-	}
-
-	/**
-	 * Duplicate Shortcode
-	 *
-	 * @param int $id Shortcode ID.
-	 *
-	 * @return int
-	 */
-	public function duplicate_shortcode( $id ) {
-		$shortcode = $this->get_shortcode( $id );
-
-		if ( empty( $shortcode ) ) {
-			return 0;
-		}
-
-		$shortcode['title'] = $shortcode['title'] . ' - Copy';
-		$shortcode['created_at'] = current_time( 'mysql' );
-		$shortcode['updated_at'] = current_time( 'mysql' );
-
-		$new_id = $this->add_shortcode( $shortcode );
-
-		return $new_id;
 	}
 }

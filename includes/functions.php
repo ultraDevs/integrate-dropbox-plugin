@@ -42,7 +42,7 @@ function edbi_get_settings( $key = null, $default = null ) {
 }
 
 
-function ud_vd() {
+function edbi_vd() {
 	$args = func_get_args();
 	echo '
 		<style>
