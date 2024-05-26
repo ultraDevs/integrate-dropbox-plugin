@@ -22,7 +22,7 @@ const Header = (props) => {
 				</h2>
 			</div>
 			{
-				'create' === type && (
+				( 'create' === type || 'edit' === type ) && (
 					<div className='ml-5 bg-white edbi-shortcodes-create'>
 						<form>
 							<input

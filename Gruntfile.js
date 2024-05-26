@@ -1,12 +1,6 @@
 module.exports = function(grunt) {
 	const pkg = grunt.file.readJSON('package.json');
-	const pluginName = 'Integrate Dropbox';
 	const pluginSlug = pkg.name;
-	const pluginDesc = pkg.description;
-	const pluginConst = pkg.name.toUpperCase().replace( /-/g, '_' );
-	const pluginFName = pkg.name.replace( /-/g, '_' );
-	const pluginNameSpace = 'ultraDevs\EasyDropBoxIntegration';
-	const pluginPName = pkg.name.split('-').map(word => word.charAt(0).toUpperCase() + word.substring(1) ).join('');
 
 	const buildPath = 'build/' + pluginSlug + '/';
 
@@ -23,7 +17,7 @@ module.exports = function(grunt) {
         makepot: {
             target: {
                 options: {
-                    exclude: [ 'vendor/*', 'build/.*', 'node_modules/*', 'assets/*', 'src/*'],
+                    exclude: [ 'vendor/*', 'vendors/*', 'build/.*', 'node_modules/*', 'assets/*' ],
                     mainFile: pkg.main,
                     domainPath: '/languages/',
                     potFilename: pkg.name + '.pot',
@@ -40,7 +34,7 @@ module.exports = function(grunt) {
         },
 		jshint: {
 			files: [
-				'assets/js/*.js',
+				'assets/frontend/js/*.js',
 			],
 			options: {
 				expr: true,
@@ -59,9 +53,9 @@ module.exports = function(grunt) {
 					report: 'gzip'
 				},
 				files: {
-					'assets/js/frontend.min.js' : 'assets/js/frontend.min.js',
-					'assets/js/admin.min.js' : 'assets/js/admin.min.js',
-					'assets/js/editor.min.js' : 'assets/js/editor.min.js',
+					'assets/frontend/js/frontend.min.js' : 'assets/frontend/js/frontend.min.js',
+					'assets/frontend/js/admin.min.js' : 'assets/frontend/js/admin.min.js',
+					'assets/frontend/js/editor.min.js' : 'assets/frontend/js/editor.min.js',
 				}
 			},
 			dev: {
@@ -72,9 +66,9 @@ module.exports = function(grunt) {
 					mangle: false
 				},
 				files: {
-					'assets/js/frontend.min.js' : 'assets/js/frontend.min.js',
-					'assets/js/editor.min.js' : 'assets/js/editor.min.js',
-					'assets/js/admin.min.js' : 'assets/js/admin.min.js',
+					'assets/frontend/js/frontend.min.js' : 'assets/frontend/js/frontend.min.js',
+					'assets/frontend/js/editor.min.js' : 'assets/frontend/js/editor.min.js',
+					'assets/frontend/js/admin.min.js' : 'assets/frontend/js/admin.min.js',
 				}
 			}
 		},
@@ -86,11 +80,11 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'assets/sass',
+					cwd: 'assets/frontend/scss',
 					src: [
 						'*.scss'
 					],
-					dest: 'assets/css',
+					dest: 'assets/frontend/css',
 					ext: '.min.css'
 				}],
 			},
@@ -100,22 +94,22 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'assets/sass',
+					cwd: 'assets/frontend/scss',
 					src: [
 						'*.scss'
 					],
-					dest: 'assets/css',
+					dest: 'assets/frontend/css',
 					ext: '.css'
 				}]
 			}
 		},
 		watch: {
 			css: {
-				files: 'assets/sass/*.scss',
+				files: 'assets/frontend/scss/*.scss',
 				tasks: [ 'sass', 'autoprefixer' ]
 			},
 			scripts: {
-				files: ['assets/js/*.js'],
+				files: ['assets/frontend/js/*.js'],
 				tasks: ['uglify'],
 				options: {
 					spawn: false,
@@ -123,73 +117,6 @@ module.exports = function(grunt) {
 			},
 		},
 
-		rename: {
-			main: {
-				files: [
-					{
-						src: [ 'sticky-list.php' ],
-						dest: pluginSlug + '.php'
-					},
-				]
-			}
-		},
-
-		replace: {
-			main: {
-				src: [
-					'*.php',
-					'**/*.php',
-					'!node_modules/**',
-					'!vendor/**',
-					'!languages/**',
-					'!build/**'
-				],
-				// dest: 'build/text/',
-				overwrite: true,
-				replacements: [
-					{
-						from: /(Version:\s+)(\d+(\.\d+){0,3})([^\n^\.\d]?.*?)(\n)/,
-						to: 'Version: <%= pkg.version %>\n'
-					},
-					{
-						from: 'Sticky List',
-						to: pluginName
-					},
-					{
-						from: 'Sticky List Description',
-						to: pluginDesc
-					},
-					{
-						from: 'STICKY_LIST',
-						to: pluginConst
-					},
-					{
-						from: 'ultraDevs\EasyDropBoxIntegration',
-						to: pluginNameSpace
-					},
-					{
-						from: 'sticky_list',
-						to: pluginFName
-					},
-					{
-						from: 'StickyList',
-						to: pluginPName
-					},
-					{
-						from: 'sticky-list',
-						to: pluginSlug
-					},
-					{
-						from: 'sticky_list',
-						to: pluginFName
-					},
-					{
-						from: 'bdpg',
-						to: pluginFName
-					}
-				]
-			},
-		},
 
 		copy: {
             main: {
@@ -205,22 +132,20 @@ module.exports = function(grunt) {
 					'!*.map',
 					'!*.zip',
                     '!Gruntfile.js',
-                    '!package.json',
+                    // '!package.json',
 					'!readme.md',
 					'!codesniffer.ruleset.xml',
 					'!ruleset.xml',
-                    '!composer.json',
                     '!composer.lock',
                     '!package-lock.json',
                     '!phpcs.xml.dist',
-                    '!phpcs.xml',
                     '!node_modules/**',
                     '!.git/**',
                     '!bin/**',
 					'!src/**',
 					'!.dev/**',
 					'!build/**',
-					'!assets/*.scss',
+					// '!assets/*.scss',
 					'!assets/**/*.map',
 					'!*~',
 					'!cmnd.txt',
@@ -255,7 +180,6 @@ module.exports = function(grunt) {
 		
 	});
 
-	grunt.loadNpmTasks( 'grunt-text-replace' );
 	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-sass' );
@@ -270,11 +194,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-rename' );
 
     grunt.registerTask( 'i18n', [ 'makepot' ] );
-    grunt.registerTask( 'replaceText', [ 'rename', 'replace' ] );
 	grunt.registerTask( 'readme', [ 'wp_readme_to_markdown' ] );
-	// grunt.registerTask( 'watch', [
-	// 	'watch'
-	// ]);
+	grunt.registerTask( 'watch', [
+		'watch'
+	]);
 	grunt.registerTask( 'dev', [
 		'jshint',
 		'uglify:dev',

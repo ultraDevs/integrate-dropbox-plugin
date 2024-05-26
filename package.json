@@ -12,8 +12,8 @@
         "build:settings": "wp-scripts build src/settings/index.js --output-path=assets/admin/settings/",
         "start:shortcode-builder": "wp-scripts start src/shortcode-builder/index.js --output-path=assets/admin/shortcode-builder/",
         "build:shortcode-builder": "wp-scripts build src/shortcode-builder/index.js --output-path=assets/admin/shortcode-builder/",
-        "start:admin:common": "wp-scripts start src/scss/index.js --output-path=assets/admin/common/",
-        "build:admin:common": "wp-scripts build src/scss/index.js --output-path=assets/admin/common/",
+        "start:admin:common": "wp-scripts start src/common/index.js --output-path=assets/admin/common/",
+        "build:admin:common": "wp-scripts build src/common/index.js --output-path=assets/admin/common/",
         "start:all": "npm-run-all --parallel start:file-browser start:settings start:shortcode-builder start:admin:common",
         "build:all": "npm-run-all --parallel build:file-browser build:settings build:shortcode-builder build:admin:common"
     },
@@ -41,7 +41,6 @@
         "grunt-contrib-sass": "^2.0.0",
         "grunt-contrib-uglify": "^5.2.2",
         "grunt-contrib-watch": "^1.1.0",
-        "grunt-text-replace": "^0.4.0",
         "grunt-wp-i18n": "^1.0.3",
         "grunt-wp-readme-to-markdown": "^2.1.0",
         "mini-css-extract-plugin": "^2.7.2",

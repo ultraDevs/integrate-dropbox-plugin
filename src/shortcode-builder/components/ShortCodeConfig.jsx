@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from '@wordpress/element'
-import Appearance from './contents/Appearance';
+import { TextControl, ButtonGroup, Button, RangeControl, CheckboxControl } from '@wordpress/components';
 import Sidebar from './Sidebar';
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
@@ -14,19 +14,7 @@ import { showAlert } from '../../utils/alertHelper';
 
 const ShortCodeConfig = (props) => {
 
-    const [ type, setType ] = useState( 'image-gallery' );
-	const [entries, setEntries] = useState([]);
-    const filter = useSelect((select) => select('dropbox-browser').getData('filter'));
-	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
-	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
-	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
-	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
-	const showUploader = useSelect((select) => select('dropbox-browser').getData('showUploader'));
-    const [selectedItems, setSelectedItems] = useState([]);
-
     const {
-        formData,
-        setFormData,
         activeItem,
         setActiveItem,
         save,
@@ -38,52 +26,56 @@ const ShortCodeConfig = (props) => {
         actionType,
     } = props;
 
+    const [ type, setType ] = useState( 'image-gallery' );
+	const [entries, setEntries] = useState([]);
+    const filter = useSelect((select) => select('dropbox-browser').getData('filter'));
+	const refresh = useSelect((select) => select('dropbox-browser').getData('refresh'));
+	const isLoading = useSelect((select) => select('dropbox-browser').getData('isLoading'));
+	const currentPath = useSelect((select) => select('dropbox-browser').getData('current_path'));
+	const previousPath = useSelect((select) => select('dropbox-browser').getData('previous_path'));
+	const showUploader = useSelect((select) => select('dropbox-browser').getData('showUploader'));
+    const [selectedItems, setSelectedItems] = useState(shortCodeConfig.source.items || []);
+
+    // get edit params
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('edit');
+
     const {
 		activeAccount,
         ajaxNonce
 	} = EDBIData;
 
-    const setPath = (path) => {
-		dispatch('dropbox-browser').setData('isLoading', true);
-		dispatch('dropbox-browser').setData('current_path', path);
-		// if ( '/' === path ) {
-		// 	dispatch('dropbox-browser').setData('previous_path', '/');
-		// } else {
-		// 	dispatch('dropbox-browser').setData('current_path', path);
-		// }
-	};
+    useEffect(() => {
+        console.log('shortCodeTitle', shortCodeTitle)
+        if ( shortCodeTitle === 'ShortCode Title' ) {
+            // get shortcode data from server.
+            wp.ajax.post(
+            'edbi_get_shortcode',
+            {
+                id,
+                nonce: ajaxNonce
+            }).then( (response) => {
+                if ( response ) {
+                    setShortCodeTitle( response.title );
+                    const parsedConfig = JSON.parse( response.config );
+                    setShortCodeConfig( parsedConfig );
 
-
-    const updateShortCodeConfig = (key, value) => {
-        setShortCodeConfig({
-            ...shortCodeConfig,
-            [key]: value
-        });
-    }
-
-    const types = [
-        {
-            label: __( 'Image Gallery', 'easy-dropbox-integration' ),
-            value: 'image-gallery',
-            desc: __( 'Display images in a gallery', 'easy-dropbox-integration' ),
-            icon: 'format-gallery'
-        },
-        // {
-        //     label: __( 'File Browser', 'easy-dropbox-integration' ),
-        //     value: 'file-browser',
-        //     desc: __( 'Let users browse files', 'easy-dropbox-integration' ),
-        //     icon: 'open-folder'
-        // }
-    ];
+                    setSelectedItems( parsedConfig.source.items || [] );
+                }
+            });
+        }
+    }, [shortCodeTitle, shortCodeConfig]);
 
     useEffect(() => {
-        setShortCodeConfig({
-            ...shortCodeConfig,
-            source: {
-                ...shortCodeConfig.source,
-                items: selectedItems
-            }
-        });
+        if ( selectedItems.length !== 0 ) {
+            setShortCodeConfig({
+                ...shortCodeConfig,
+                source: {
+                    ...shortCodeConfig.source,
+                    items: selectedItems
+                }
+            });
+        }
     }, [selectedItems]);
 
     useEffect(() => {
@@ -182,6 +174,38 @@ const ShortCodeConfig = (props) => {
         }
     }, [save]);
 
+    const setPath = (path) => {
+		dispatch('dropbox-browser').setData('isLoading', true);
+		dispatch('dropbox-browser').setData('current_path', path);
+		// if ( '/' === path ) {
+		// 	dispatch('dropbox-browser').setData('previous_path', '/');
+		// } else {
+		// 	dispatch('dropbox-browser').setData('current_path', path);
+		// }
+	};
+
+    const updateShortCodeConfig = (key, value) => {
+        setShortCodeConfig({
+            ...shortCodeConfig,
+            [key]: value
+        });
+    }
+
+    const types = [
+        {
+            label: __( 'Image Gallery', 'easy-dropbox-integration' ),
+            value: 'image-gallery',
+            desc: __( 'Display images in a gallery', 'easy-dropbox-integration' ),
+            icon: 'format-gallery'
+        },
+        // {
+        //     label: __( 'File Browser', 'easy-dropbox-integration' ),
+        //     value: 'file-browser',
+        //     desc: __( 'Let users browse files', 'easy-dropbox-integration' ),
+        //     icon: 'open-folder'
+        // }
+    ];
+
     let folders = [];
     let files = [];
 
@@ -199,6 +223,7 @@ const ShortCodeConfig = (props) => {
     }
 
 
+    console.log('title', shortCodeTitle);
     console.log('config', shortCodeConfig);
 
 
@@ -312,19 +337,23 @@ const ShortCodeConfig = (props) => {
                                         className='edbi-file-browser__file-list'
                                     >
                                         {files.map((item, index) => {
+                                            const exists = selectedItems.filter((selectedItem) => {
+                                                return selectedItem.id === item.id;
+                                            });
                                             return (
                                                 <a
                                                     className={classNames(
                                                         'edbi-file-browser__file-list__item',
                                                         'edbi-file-browser__file-list__item--file',
-                                                        'gallery-item'
+                                                        'gallery-item',
+                                                        // selectedItems.filter( selectedItem ) => {
+                                                        //     return selectedItem.id === item.id
+                                                        // } 
+                                                        exists.length ? 'edbi-file-browser__file-list__item--exist' : ''
                                                     )}
                                                     key={index}
                                                     onClick={() => {
-                                                        // Check if already exists in selected items then remove.
-                                                        const exists = selectedItems.filter((selectedItem) => {
-                                                            return selectedItem.id === item.id;
-                                                        });
+                                                        
 
                                                         if (exists.length) {
                                                             setSelectedItems(
@@ -419,10 +448,98 @@ const ShortCodeConfig = (props) => {
                     </div>
                 )}
                 {activeItem === 'advanced' && (
-                    <Appearance
-                        formData={formData}
-                        setFormData={setFormData}
-                    />
+                    <div className='edbi-shortcode-builder__advanced'>
+                        <div className='edbi-shortcode-builder__advanced__item'>
+                            <h3>Module Container</h3>
+                            <div className='edbi-shortcode-builder__advanced__item__fields'>
+                                <div className='edbi-shortcode-builder__advanced__item__field'>
+                                    <TextControl
+                                        label={__('Width', 'easy-dropbox-integration')}
+                                        value={shortCodeConfig.settings.container.width}
+                                        onChange={(value) => {
+                                            updateShortCodeConfig('settings', {
+                                                ...shortCodeConfig.settings,
+                                                container: {
+                                                    ...shortCodeConfig.settings.container,
+                                                    width: value
+                                                }
+                                            });
+                                        }}
+                                    />
+                                </div>
+                                <div className='edbi-shortcode-builder__advanced__item__field'>
+                                    <TextControl
+                                        label={__('Height', 'easy-dropbox-integration')}
+                                        value={shortCodeConfig.settings.container.height}
+                                        onChange={(value) => {
+                                            updateShortCodeConfig('settings', {
+                                                ...shortCodeConfig.settings,
+                                                container: {
+                                                    ...shortCodeConfig.settings.container,
+                                                    height: value
+                                                }
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            'image-gallery' === type && (
+                                <>
+                                    <div className='edbi-shortcode-builder__advanced__item'>
+                                        <h3>Image Layout</h3>
+                                        <div className='edbi-shortcode-builder__advanced__item__fields'>
+                                            <div className='edbi-shortcode-builder__advanced__item__field'>
+                                                <ButtonGroup>
+                                                    <Button
+                                                        isPrimary={shortCodeConfig.settings.imgLayout === 'justified'}
+                                                        onClick={() => {
+                                                            updateShortCodeConfig('settings', {
+                                                                ...shortCodeConfig.settings,
+                                                                imgLayout: 'justified'
+                                                            });
+                                                        }}
+                                                        disabled
+                                                    >
+                                                        {__('Justified', 'easy-dropbox-integration')}
+                                                    </Button>
+                                                    <Button
+                                                        isPrimary={shortCodeConfig.settings.imgLayout === 'masonry'}
+                                                        onClick={() => {
+                                                            updateShortCodeConfig('settings', {
+                                                                ...shortCodeConfig.settings,
+                                                                imgLayout: 'masonry'
+                                                            });
+                                                        }}
+                                                        disabled
+                                                    >
+                                                        {__('Masonry', 'easy-dropbox-integration')}
+                                                    </Button>
+                                                    <Button
+                                                        isPrimary={shortCodeConfig.settings.imgLayout === 'grid'}
+                                                        onClick={() => {
+                                                            updateShortCodeConfig('settings', {
+                                                                ...shortCodeConfig.settings,
+                                                                imgLayout: 'grid'
+                                                            });
+                                                        }}
+                                                    >
+                                                        {__('Grid', 'easy-dropbox-integration')}
+                                                    </Button>
+                                                </ButtonGroup>
+                                                <p>
+                                                    {
+                                                        __( 'Image Gallery Layout',  'easy-dropbox-integration')
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )
+                        }
+                    </div>
                 )}
             </div>
         </>

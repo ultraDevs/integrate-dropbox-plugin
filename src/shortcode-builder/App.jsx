@@ -15,12 +15,12 @@ const App = () => {
 	const hash = window.location.hash;
 	const hashValue = hash.replace('#', '');
 	const [ activeItem, setActiveItem ] = useState(hashValue || 'types');
-	const [ formData, setFormData ] = useState({});
 	const [ save, setSave ] = useState(false);
 
 	const [shortCodeTitle, setShortCodeTitle] = useState(
 		__('ShortCode Title', 'easy-dropbox-integration')
 	);
+
 	const [shortCodeConfig, setShortCodeConfig] = useState({
 		type: 'image-gallery',
 		source: {
@@ -37,11 +37,16 @@ const App = () => {
 				sortBy: 'name',
 				sortOrder: 'asc',
 			},
-			imgLayout: 'justified',
+			imgLayout: 'grid',
 		}
 	});
 
 	const [ currentTab, setCurrentTab ] = useState('shortcodes');
+
+	const {
+		activeAccount,
+        ajaxNonce
+	} = EDBIData;
 	
 	useEffect(() => {
 		if (window.location.search.includes('edit')) {
@@ -51,7 +56,7 @@ const App = () => {
 		if (window.location.search.includes('create')) {
 			setCurrentTab('create');
 		}
-	}, []);
+	}, [currentTab]);
 
 
 	return (
@@ -73,6 +78,8 @@ const App = () => {
 						<ShortCodes
 							currentTab={currentTab}
 							setCurrentTab={setCurrentTab}
+							setShortCodeConfig={setShortCodeConfig}
+							setShortCodeTitle={setShortCodeTitle}
 						/>
 					)
 				}
@@ -81,8 +88,6 @@ const App = () => {
 						<CreateShortCode
 							activeItem={activeItem}
 							setActiveItem={setActiveItem}
-							formData={formData}
-							setFormData={setFormData}
 							save={save}
 							setSave={setSave}
 							shortCodeConfig={shortCodeConfig}
@@ -98,10 +103,10 @@ const App = () => {
 						<EditShortCode
 							activeItem={activeItem}
 							setActiveItem={setActiveItem}
-							formData={formData}
-							setFormData={setFormData}
 							save={save}
 							setSave={setSave}
+							shortCodeConfig={shortCodeConfig}
+							setShortCodeConfig={setShortCodeConfig}
 							shortCodeTitle={shortCodeTitle}
 							setShortCodeTitle={setShortCodeTitle}
 							actionType="edit"

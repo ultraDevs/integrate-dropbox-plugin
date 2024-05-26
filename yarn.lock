@@ -6527,11 +6527,6 @@ grunt-legacy-util@~2.0.1:
     underscore.string "~3.3.5"
     which "~2.0.2"
 
-grunt-text-replace@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npmjs.org/grunt-text-replace/-/grunt-text-replace-0.4.0.tgz"
-  integrity sha1-252c5Z4v5J2id+nbwZXD4Rz7FsI=
-
 grunt-wp-i18n@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/grunt-wp-i18n/-/grunt-wp-i18n-1.0.3.tgz"

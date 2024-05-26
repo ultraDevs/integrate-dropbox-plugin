@@ -17,7 +17,7 @@
 }
 
 @import './uploader';
-@import '../../scss/notice';
+@import '../../common/notice';
 
 #wpcontent {
 	padding-left: 0px !important;
@@ -103,6 +103,7 @@ ul {
 							&--active {
 								@apply text-[#222] font-medium;
 							}
+							
 						}
 					}
 				}
@@ -230,6 +231,12 @@ ul {
 			@apply flex relative justify-center m-2 overflow-hidden shadow-md rounded-md cursor-pointer border-[#f7f7f7] border-[1px];
 			aspect-ratio: 1/1;
 			width: calc(20% - 1rem);
+			&--exist {
+				@apply text-white font-medium border border-solid border-secondary;
+				.edbi-file-browser__file-list__item__info {
+					@apply bg-secondary;
+				}
+			}
 			&--file {
 				@apply flex-col justify-end;
 				// img {

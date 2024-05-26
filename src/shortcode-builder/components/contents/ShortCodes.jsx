@@ -7,7 +7,7 @@ import { showAlert } from '../../../utils/alertHelper';
 import { setActiveTabWithParam } from '../../../utils';
 
 const ShortCodes = (props) => {
-    const { currentTab, setCurrentTab } = props;
+    const { currentTab, setCurrentTab, setShortCodeConfig, setShortCodeTitle } = props;
     const [ shortCodes, setShortCodes ] = useState({});
 
     const {
@@ -41,8 +41,8 @@ const ShortCodes = (props) => {
 
     const removeShortCode = (shortcode) => {
         showAlert({
-            title: 'Remove Account',
-            text: 'Are you sure you want to remove this account?',
+            title: 'Remove Shortcode',
+            text: 'Are you sure you want to remove this Shortcode?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Remove',
@@ -163,7 +163,11 @@ const ShortCodes = (props) => {
                                                 <tr className='edbi-shortcodes__list' key={key}>
                                                     <td><h4>{item.id}</h4></td>
                                                     <td><h4>{item.title}</h4></td>
-                                                    <td><h4>{item.type}</h4></td>
+                                                    <td><h4>
+                                                        {
+                                                            item?.type?.replace('-', ' ').toLowerCase().replace(/(?<= )[^\s]|^./g, a => a.toUpperCase())
+                                                        }
+                                                    </h4></td>
                                                     <td>
                                                         <div
                                                             className='flex items-center justify-center gap-3 p-2 bg-gray-200 edbi-shortcodes__list__shortcode'
@@ -191,6 +195,8 @@ const ShortCodes = (props) => {
                                                             <button className='' title={
                                                                 'Edit'
                                                             } onClick={() => {
+                                                                setShortCodeTitle(item.title);
+                                                                setShortCodeConfig(JSON.parse(item.config));
                                                                 setActiveTabWithParam('edit', setCurrentTab, item.id)
                                                             }
                                                             }>

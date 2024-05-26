@@ -108,6 +108,9 @@ final class EasyDropBoxIntegration {
 		// Rest API.
 		new ultraDevs\EasyDropBoxIntegration\Rest_API();
 
+		// Shortcode.
+		$shortcode = new ultraDevs\EasyDropBoxIntegration\Shortcode();
+
 		if ( is_admin() ) {
 
 			add_action( 'admin_enqueue_scripts', array( $assets_manager, 'admin_assets' ) );
@@ -127,6 +130,8 @@ final class EasyDropBoxIntegration {
 		} else {
 			// Frontend Assets.
 			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
+
+			$shortcode->register();
 		}
 
 	}

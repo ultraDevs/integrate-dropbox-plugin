@@ -334,6 +334,9 @@ class Ajax {
 	 */
 	public function get_shortcodes() {
 		$shortcodes = Shortcode_Builder::get_instance()->get_shortcodes();
+		foreach( $shortcodes as $i => $shortcode ) {
+			$shortcodes[$i]['config'] = wp_json_encode( unserialize( $shortcode['config'] ) );
+		}
 
 		wp_send_json_success( $shortcodes );
 	}
@@ -351,6 +354,7 @@ class Ajax {
 		}
 
 		$shortcode = Shortcode_Builder::get_instance()->get_shortcode( $id );
+		$shortcode['config'] = wp_json_encode( unserialize( $shortcode['config'] ) );
 
 		if ( !$shortcode ) {
 			return new \WP_REST_Response(
@@ -411,7 +415,7 @@ class Ajax {
 	 */
 	public function update_shortcode() {
 		$id = sanitize_text_field( $_POST['id'] );
-		$title = sanitize_text_field( $_POST['name'] );
+		$title = sanitize_text_field( $_POST['title'] );
 		$config = sanitize_text_field( $_POST['config'] );
 
 		if ( empty( $id ) ) {
@@ -435,16 +439,19 @@ class Ajax {
 			'updated_at' => current_time( 'mysql' ),
 		]);
 
-		if ( ! $update) {
-			wp_send_json_error( array(
-				'message' => __( 'Failed to update Shortcode!', 'easy-dropbox-integration' ),
-			) );
+		if ( $update ) {
+			return wp_send_json_success( [
+				'message' => __( 'Shortcode updated successfully!', 'easy-dropbox-integration' ),
+				'data'    => $update,
+			]);
+			
 		}
 
-		wp_send_json_success( [
-			'message' => __( 'Shortcode updated successfully!', 'easy-dropbox-integration' ),
-			'data'    => $update,
-		]);
+		wp_send_json_error( array(
+			'message' => __( 'Failed to update Shortcode!', 'easy-dropbox-integration' ),
+		) );
+
+		
 	}
 
 	/**

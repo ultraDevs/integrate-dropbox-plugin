@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://www.ultradevs.com/contact\n"
-"POT-Creation-Date: 2024-04-16 10:37:35+00:00\n"
+"POT-Creation-Date: 2024-05-26 05:13:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,55 +24,74 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: App/API.php:92 App/API.php:135 App/API.php:238 App/API.php:265
-#: App/API.php:289 App/API.php:312 App/API.php:344
+#: app/API.php:82 app/API.php:133 app/API.php:236 app/API.php:254
+#: app/API.php:283 app/API.php:307 app/API.php:330 app/API.php:362
+#: app/API.php:400
 #. translators: %s: Error Message
 msgid "Error : %s"
 msgstr ""
 
-#: App/Authorization.php:173
+#: app/Authorization.php:173
 msgid "Authorization Lost"
 msgstr ""
 
-#: App/Authorization.php:180
+#: app/Authorization.php:180
 #. translators: %s: Error Message
 msgid "Error revoking token: %s"
 msgstr ""
 
-#: App/Client.php:145
+#: app/Client.php:145
 #. translators: %s: Error Message
 msgid "Failed to start Dropbox Client: %s"
 msgstr ""
 
-#: App/Client.php:217
+#: app/Client.php:217
 #. translators: %s: Error Message
 msgid "Failed to get folder: %s"
 msgstr ""
 
-#: App/Client.php:362
+#: app/Client.php:356
+#. translators: %s: Error Message
+msgid "Failed to get file preview: %s"
+msgstr ""
+
+#: app/Client.php:382
+#. translators: %s: Error Message
+msgid "Failed to get file: %s"
+msgstr ""
+
+#: app/Client.php:532
 #. translators: %s: Error Message
 msgid "Failed to generate access token: %s"
 msgstr ""
 
-#: App/Client.php:386
+#: app/Client.php:556
 msgid "No refresh token found!"
 msgstr ""
 
-#: App/Client.php:410
+#: app/Client.php:580
 #. translators: %s: Error Message
 msgid "Error refreshing token: %s"
 msgstr ""
 
-#: includes/Admin/Menu.php:62
-msgid "Dashboard - Integrate Dropbox"
+#: easy-dropbox-integration.php:186
+msgid "Easy Dropbox Integration"
+msgstr ""
+
+#: easy-dropbox-integration.php:211 includes/Admin/Menu.php:70
+msgid "Settings"
 msgstr ""
 
 #: includes/Admin/Menu.php:62
-msgid "Dropbox"
+msgid "Dashboard - Easy DropBox Integration"
+msgstr ""
+
+#: includes/Admin/Menu.php:62
+msgid "DropBox"
 msgstr ""
 
 #: includes/Admin/Menu.php:64
-msgid "File Browser - Integrate Dropbox"
+msgid "File Browser - Easy DropBox Integration"
 msgstr ""
 
 #: includes/Admin/Menu.php:64
@@ -80,96 +99,149 @@ msgid "File Browser"
 msgstr ""
 
 #: includes/Admin/Menu.php:67
-msgid "Settings - Integrate Dropbox"
+msgid "Shortcode Builder - Easy DropBox Integration"
 msgstr ""
 
-#: includes/Admin/Menu.php:67 easy-dropbox-integration.php:188
-msgid "Settings"
+#: includes/Admin/Menu.php:67
+msgid "Shortcode Builder"
 msgstr ""
 
-#: includes/Ajax.php:82
+#: includes/Admin/Menu.php:70
+msgid "Settings - Easy DropBox Integration"
+msgstr ""
+
+#: includes/Ajax.php:91
 msgid "Invalid Action"
 msgstr ""
 
-#: includes/Ajax.php:87
+#: includes/Ajax.php:96
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/Ajax.php:98
+#: includes/Ajax.php:113
 msgid "Account ID is required"
 msgstr ""
 
-#: includes/Ajax.php:107 includes/Rest_API.php:190 includes/Rest_API.php:246
+#: includes/Ajax.php:122 includes/Rest_API.php:190 includes/Rest_API.php:246
 #: includes/Rest_API.php:307 includes/Rest_API.php:368
 msgid "Account is not active."
 msgstr ""
 
-#: includes/Ajax.php:127
+#: includes/Ajax.php:142
 msgid "Failed to remove account!"
 msgstr ""
 
-#: includes/Ajax.php:132
+#: includes/Ajax.php:147
 msgid "Account removed successfully!"
 msgstr ""
 
-#: includes/Ajax.php:147
+#: includes/Ajax.php:162 includes/Ajax.php:311
 msgid "File is required"
 msgstr ""
 
-#: includes/Ajax.php:157 includes/Rest_API.php:380
+#: includes/Ajax.php:171 includes/Rest_API.php:380
 msgid "File not found."
 msgstr ""
 
-#: includes/Ajax.php:177
+#: includes/Ajax.php:191
 msgid "Old Name is required"
 msgstr ""
 
-#: includes/Ajax.php:182
+#: includes/Ajax.php:196
 msgid "New name is required"
 msgstr ""
 
-#: includes/Ajax.php:186
+#: includes/Ajax.php:200
 msgid "Old name and new name can not be same"
 msgstr ""
 
-#: includes/Ajax.php:193
+#: includes/Ajax.php:207
 msgid "File/Folder not renamed"
 msgstr ""
 
-#: includes/Ajax.php:198
+#: includes/Ajax.php:212
 msgid "Renamed Successfully"
 msgstr ""
 
-#: includes/Ajax.php:215
+#: includes/Ajax.php:229
 msgid "Folder name is required"
 msgstr ""
 
-#: includes/Ajax.php:222
+#: includes/Ajax.php:236
 msgid "Failed to create Folder!"
 msgstr ""
 
-#: includes/Ajax.php:227
+#: includes/Ajax.php:241
 msgid "Folder created successfully!"
 msgstr ""
 
-#: includes/Ajax.php:242
+#: includes/Ajax.php:256
 msgid "Path is required"
 msgstr ""
 
-#: includes/Ajax.php:250
+#: includes/Ajax.php:264
 msgid "Failed to delete!"
 msgstr ""
 
-#: includes/Ajax.php:255
+#: includes/Ajax.php:269
 msgid "Deleted successfully!"
 msgstr ""
 
-#: includes/Ajax.php:278
+#: includes/Ajax.php:292
 msgid "Failed to upload!"
 msgstr ""
 
-#: includes/Ajax.php:283
+#: includes/Ajax.php:297
 msgid "Uploaded successfully!"
+msgstr ""
+
+#: includes/Ajax.php:320
+msgid "Thumbnail not found."
+msgstr ""
+
+#: includes/Ajax.php:353 includes/Ajax.php:422 includes/Ajax.php:466
+#: includes/Ajax.php:487
+msgid "ID is required"
+msgstr ""
+
+#: includes/Ajax.php:363
+msgid "Shortcode not found."
+msgstr ""
+
+#: includes/Ajax.php:382 includes/Ajax.php:426
+msgid "Title is required"
+msgstr ""
+
+#: includes/Ajax.php:386 includes/Ajax.php:430
+msgid "Shortcode Config is required"
+msgstr ""
+
+#: includes/Ajax.php:401
+msgid "Failed to create Shortcode!"
+msgstr ""
+
+#: includes/Ajax.php:406
+msgid "Shortcode created successfully!"
+msgstr ""
+
+#: includes/Ajax.php:444
+msgid "Shortcode updated successfully!"
+msgstr ""
+
+#: includes/Ajax.php:451
+msgid "Failed to update Shortcode!"
+msgstr ""
+
+#: includes/Ajax.php:472
+msgid "Shortcode deleted successfully!"
+msgstr ""
+
+#: includes/Ajax.php:494
+msgid "Failed to duplicate Shortcode!"
+msgstr ""
+
+#: includes/Ajax.php:499
+msgid "Shortcode duplicated successfully!"
 msgstr ""
 
 #: includes/Helper.php:296
@@ -218,8 +290,4 @@ msgstr ""
 
 #: includes/Review.php:172
 msgid "I already did"
-msgstr ""
-
-#: easy-dropbox-integration.php:163
-msgid "Integrate Dropbox"
 msgstr ""

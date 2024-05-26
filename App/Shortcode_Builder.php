@@ -51,7 +51,7 @@ class Shortcode_Builder {
 		foreach ( $shortcodes as $key => $shortcode ) {
 			$config = maybe_unserialize( $shortcode['config'] );
 
-			$shortcodes[ $key ]['type'] = ucwords( str_replace( '-', ' ', $config['type'] ) );
+			$shortcodes[ $key ]['type'] = esc_html( $config['type'] );
 		}
 
 		return $shortcodes;
@@ -120,9 +120,9 @@ class Shortcode_Builder {
 
 		$data = wp_parse_args( $data, $default );
 
-		$wpdb->update( $this->table_name, $data, array( 'id' => $id ) );
+		$update = $wpdb->update( $this->table_name, $data, array( 'id' => $id ) );
 
-		return $wpdb->insert_id;
+		return $update;
 	}
 
 	/**
