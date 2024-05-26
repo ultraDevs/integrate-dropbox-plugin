@@ -96,6 +96,11 @@ class Ajax {
 			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'easy-dropbox-integration' ) ) );
 		}
 
+		// Check if user has permission.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action', 'easy-dropbox-integration' ) ) );
+		}
+
 		// Ignore shortcode ajax request.
 		if ( strpos( $action, 'shortcode' ) !== false ) {
 			$this->$action();
