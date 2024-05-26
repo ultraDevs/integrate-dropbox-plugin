@@ -1,6 +1,6 @@
 {
     "name": "ultradevs/easy-dropbox-integration",
-    "description": "StickyList",
+    "description": "Easy Dropbox Integration",
     "authors": [
         {
             "name": "mhimon",
@@ -17,7 +17,11 @@
         "files": [ "includes/functions.php" ]
     },
     "require": {
+        "kunalvarma05/dropbox-php-sdk": "dev-master"
     },
-    "require-dev": {
+    "config": {
+        "preferred-install": {
+            "kunalvarma05/dropbox-php-sdk": "dist"
+        }
     }
 }

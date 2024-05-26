@@ -106,9 +106,9 @@ module.exports = function(grunt) {
 		watch: {
 			css: {
 				files: 'assets/frontend/scss/*.scss',
-				tasks: [ 'sass', 'autoprefixer' ]
+				tasks: [ 'sass' ]
 			},
-			scripts: {
+			js: {
 				files: ['assets/frontend/js/*.js'],
 				tasks: ['uglify'],
 				options: {
@@ -196,9 +196,10 @@ module.exports = function(grunt) {
 
     grunt.registerTask( 'i18n', [ 'makepot' ] );
 	grunt.registerTask( 'readme', [ 'wp_readme_to_markdown' ] );
-	grunt.registerTask( 'watch', [
-		'watch'
-	]);
+	// grunt.registerTask( 'watch', [
+	// 	'watch:css',
+	// 	'watch:js'
+	// ]);
 	grunt.registerTask( 'dev', [
 		'jshint',
 		'uglify:dev',

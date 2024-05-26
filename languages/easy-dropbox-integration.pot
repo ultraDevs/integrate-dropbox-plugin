@@ -1,33 +1,54 @@
-# Copyright (C) 2024
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2024 ultradevs
+# This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://www.ultradevs.com/contact\n"
-"POT-Creation-Date: 2024-05-26 05:16:00+00:00\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/easy-dropbox-integration\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
-"Language: en\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Country: United States\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: "
-"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
-"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
-"X-Poedit-Basepath: ../\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-Bookmarks: \n"
-"X-Textdomain-Support: yes\n"
-"X-Generator: grunt-wp-i18n 1.0.3\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-05-26T10:09:18+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.10.0\n"
+"X-Domain: easy-dropbox-integration\n"
 
-#: app/API.php:82 app/API.php:133 app/API.php:236 app/API.php:254
-#: app/API.php:283 app/API.php:307 app/API.php:330 app/API.php:362
-#: app/API.php:400
+#. Plugin Name of the plugin
+#: easy-dropbox-integration.php
+msgid "Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: easy-dropbox-integration.php
+msgid "https://ultradevs.com/easy-dropbox-integration/"
+msgstr ""
+
+#. Description of the plugin
+#: easy-dropbox-integration.php
+msgid "Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website Easily."
+msgstr ""
+
+#. Author of the plugin
+#: easy-dropbox-integration.php
+msgid "ultradevs"
+msgstr ""
+
+#. Author URI of the plugin
+#: easy-dropbox-integration.php
+msgid "https://ultradevs.com"
+msgstr ""
+
 #. translators: %s: Error Message
+#: app/API.php:82
+#: app/API.php:133
+#: app/API.php:236
+#: app/API.php:254
+#: app/API.php:283
+#: app/API.php:307
+#: app/API.php:330
+#: app/API.php:362
+#: app/API.php:400
 msgid "Error : %s"
 msgstr ""
 
@@ -35,50 +56,58 @@ msgstr ""
 msgid "Authorization Lost"
 msgstr ""
 
-#: app/Authorization.php:180
 #. translators: %s: Error Message
+#: app/Authorization.php:180
 msgid "Error revoking token: %s"
 msgstr ""
 
-#: app/Client.php:145
 #. translators: %s: Error Message
+#: app/Client.php:145
 msgid "Failed to start Dropbox Client: %s"
 msgstr ""
 
-#: app/Client.php:217
 #. translators: %s: Error Message
+#: app/Client.php:217
 msgid "Failed to get folder: %s"
 msgstr ""
 
-#: app/Client.php:356
 #. translators: %s: Error Message
+#: app/Client.php:356
 msgid "Failed to get file preview: %s"
 msgstr ""
 
-#: app/Client.php:382
 #. translators: %s: Error Message
+#: app/Client.php:382
 msgid "Failed to get file: %s"
 msgstr ""
 
-#: app/Client.php:532
 #. translators: %s: Error Message
+#: app/Client.php:537
 msgid "Failed to generate access token: %s"
 msgstr ""
 
-#: app/Client.php:556
+#: app/Client.php:561
 msgid "No refresh token found!"
 msgstr ""
 
-#: app/Client.php:580
 #. translators: %s: Error Message
+#: app/Client.php:585
 msgid "Error refreshing token: %s"
 msgstr ""
 
-#: easy-dropbox-integration.php:186
+#: easy-dropbox-integration.php:26
+msgid "Easy DropBox Integration"
+msgstr ""
+
+#: easy-dropbox-integration.php:178
 msgid "Easy Dropbox Integration"
 msgstr ""
 
-#: easy-dropbox-integration.php:211 includes/Admin/Menu.php:70
+#: easy-dropbox-integration.php:203
+#: includes/Admin/Menu.php:70
+#: assets/admin/settings/index.js:148
+#: src/settings/components/Header.jsx:20
+#: assets/admin/settings/index.js:96
 msgid "Settings"
 msgstr ""
 
@@ -122,8 +151,11 @@ msgstr ""
 msgid "Account ID is required"
 msgstr ""
 
-#: includes/Ajax.php:122 includes/Rest_API.php:190 includes/Rest_API.php:246
-#: includes/Rest_API.php:307 includes/Rest_API.php:368
+#: includes/Ajax.php:122
+#: includes/Rest_API.php:190
+#: includes/Rest_API.php:246
+#: includes/Rest_API.php:307
+#: includes/Rest_API.php:368
 msgid "Account is not active."
 msgstr ""
 
@@ -135,11 +167,13 @@ msgstr ""
 msgid "Account removed successfully!"
 msgstr ""
 
-#: includes/Ajax.php:162 includes/Ajax.php:311
+#: includes/Ajax.php:162
+#: includes/Ajax.php:311
 msgid "File is required"
 msgstr ""
 
-#: includes/Ajax.php:171 includes/Rest_API.php:380
+#: includes/Ajax.php:171
+#: includes/Rest_API.php:380
 msgid "File not found."
 msgstr ""
 
@@ -199,7 +233,9 @@ msgstr ""
 msgid "Thumbnail not found."
 msgstr ""
 
-#: includes/Ajax.php:353 includes/Ajax.php:422 includes/Ajax.php:466
+#: includes/Ajax.php:353
+#: includes/Ajax.php:422
+#: includes/Ajax.php:466
 #: includes/Ajax.php:487
 msgid "ID is required"
 msgstr ""
@@ -208,11 +244,13 @@ msgstr ""
 msgid "Shortcode not found."
 msgstr ""
 
-#: includes/Ajax.php:382 includes/Ajax.php:426
+#: includes/Ajax.php:382
+#: includes/Ajax.php:426
 msgid "Title is required"
 msgstr ""
 
-#: includes/Ajax.php:386 includes/Ajax.php:430
+#: includes/Ajax.php:386
+#: includes/Ajax.php:430
 msgid "Shortcode Config is required"
 msgstr ""
 
@@ -248,14 +286,18 @@ msgstr ""
 msgid "All Files"
 msgstr ""
 
-#: includes/Rest_API.php:117 includes/Rest_API.php:166
-#: includes/Rest_API.php:222 includes/Rest_API.php:283
+#: includes/Rest_API.php:117
+#: includes/Rest_API.php:166
+#: includes/Rest_API.php:222
+#: includes/Rest_API.php:283
 #: includes/Rest_API.php:344
 msgid "Account ID is required."
 msgstr ""
 
-#: includes/Rest_API.php:129 includes/Rest_API.php:178
-#: includes/Rest_API.php:234 includes/Rest_API.php:295
+#: includes/Rest_API.php:129
+#: includes/Rest_API.php:178
+#: includes/Rest_API.php:234
+#: includes/Rest_API.php:295
 #: includes/Rest_API.php:356
 msgid "Account not found."
 msgstr ""
@@ -272,22 +314,283 @@ msgstr ""
 msgid "File/Folder not renamed."
 msgstr ""
 
-#: includes/Review.php:119
 #. translators: %1$s Plugin Name.
-msgid ""
-"Hey, we noticed you have been using %1$s for more than 3 days now - that's "
-"awesome! <br> Could you please do us a BIG favor and give it a rating on "
-"WordPress.org to help us do more great work and boost our motivation?"
+#: includes/Review.php:119
+msgid "Hey, we noticed you have been using %1$s for more than 3 days now - that's awesome! <br> Could you please do us a BIG favor and give it a rating on WordPress.org to help us do more great work and boost our motivation?"
 msgstr ""
 
-#: includes/Review.php:164
+#: includes/Review.php:174
 msgid "Yes, you deserve it"
 msgstr ""
 
-#: includes/Review.php:168
+#: includes/Review.php:178
 msgid "No, maybe later"
 msgstr ""
 
-#: includes/Review.php:172
+#: includes/Review.php:182
 msgid "I already did"
+msgstr ""
+
+#: assets/admin/file-browser/index.js:929
+#: src/file-browser/components/Sidebar.js:18
+#: assets/admin/file-browser/index.js:1029
+msgid "My Dropbox"
+msgstr ""
+
+#: assets/admin/settings/index.js:198
+#: src/settings/components/Sidebar.jsx:18
+#: assets/admin/settings/index.js:130
+msgid "Accounts"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:481
+#: assets/admin/shortcode-builder/index.js:681
+#: src/shortcode-builder/App.jsx:21
+#: src/shortcode-builder/components/Header.jsx:34
+#: assets/admin/shortcode-builder/index.js:555
+#: assets/admin/shortcode-builder/index.js:727
+msgid "ShortCode Title"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:676
+#: src/shortcode-builder/components/Header.jsx:19
+#: assets/admin/shortcode-builder/index.js:712
+msgid "ShortCode Builder"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:680
+#: src/shortcode-builder/components/Header.jsx:31
+#: assets/admin/shortcode-builder/index.js:724
+msgid "Enter ShortCode Title"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:840
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:122
+#: assets/admin/shortcode-builder/index.js:916
+msgid "Shortcode Updated"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:841
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:123
+#: assets/admin/shortcode-builder/index.js:917
+msgid "Shortcode has been updated successfully"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:850
+#: assets/admin/shortcode-builder/index.js:877
+#: assets/admin/shortcode-builder/index.js:1273
+#: assets/admin/shortcode-builder/index.js:1314
+#: assets/admin/shortcode-builder/index.js:1344
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:31
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:78
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:113
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:134
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:165
+#: assets/admin/shortcode-builder/index.js:928
+#: assets/admin/shortcode-builder/index.js:959
+#: assets/admin/shortcode-builder/index.js:1452
+#: assets/admin/shortcode-builder/index.js:1499
+#: assets/admin/shortcode-builder/index.js:1534
+msgid "Error"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:851
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:135
+#: assets/admin/shortcode-builder/index.js:929
+msgid "An error occurred while updating the shortcode"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:867
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:153
+#: assets/admin/shortcode-builder/index.js:947
+msgid "Shortcode Created"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:868
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:154
+#: assets/admin/shortcode-builder/index.js:948
+msgid "Shortcode has been created successfully"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:878
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:166
+#: assets/admin/shortcode-builder/index.js:960
+msgid "An error occurred while creating the shortcode"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:904
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:196
+#: assets/admin/shortcode-builder/index.js:990
+msgid "Image Gallery"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:906
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:198
+#: assets/admin/shortcode-builder/index.js:992
+msgid "Display images in a gallery"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1078
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:457
+#: assets/admin/shortcode-builder/index.js:1251
+msgid "Width"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1092
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:472
+#: assets/admin/shortcode-builder/index.js:1266
+msgid "Height"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1118
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:505
+#: assets/admin/shortcode-builder/index.js:1299
+msgid "Justified"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1127
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:517
+#: assets/admin/shortcode-builder/index.js:1311
+msgid "Masonry"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1135
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:528
+#: assets/admin/shortcode-builder/index.js:1322
+msgid "Grid"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1135
+#: src/shortcode-builder/components/ShortCodeConfig.jsx:533
+#: assets/admin/shortcode-builder/index.js:1327
+msgid "Image Gallery Layout"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1178
+#: src/shortcode-builder/components/Sidebar.jsx:18
+#: assets/admin/shortcode-builder/index.js:1361
+msgid "Types"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1182
+#: src/shortcode-builder/components/Sidebar.jsx:23
+#: assets/admin/shortcode-builder/index.js:1366
+msgid "Source"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1192
+#: src/shortcode-builder/components/Sidebar.jsx:33
+#: assets/admin/shortcode-builder/index.js:1376
+msgid "Advanced"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1274
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:32
+#: assets/admin/shortcode-builder/index.js:1453
+msgid "An error occurred while fetching ShortCodes"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1305
+#: assets/admin/shortcode-builder/index.js:1335
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:67
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:103
+#: assets/admin/shortcode-builder/index.js:1488
+#: assets/admin/shortcode-builder/index.js:1524
+msgid "Success"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1306
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:68
+#: assets/admin/shortcode-builder/index.js:1489
+msgid "Shortcode removed successfully"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1315
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:79
+#: assets/admin/shortcode-builder/index.js:1500
+msgid "An error occurred while removing Shortcode"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1336
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:104
+#: assets/admin/shortcode-builder/index.js:1525
+msgid "Shortcode duplicated successfully"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1345
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:114
+#: assets/admin/shortcode-builder/index.js:1535
+msgid "An error occurred while duplicating Shortcode"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1361
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:128
+#: assets/admin/shortcode-builder/index.js:1549
+msgid "ShortCodes"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1363
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:130
+#: assets/admin/shortcode-builder/index.js:1551
+msgid " Items"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1365
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:137
+#: assets/admin/shortcode-builder/index.js:1558
+msgid "ID"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1365
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:138
+#: assets/admin/shortcode-builder/index.js:1559
+msgid "Title"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1365
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:139
+#: assets/admin/shortcode-builder/index.js:1560
+msgid "Type"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1365
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:140
+#: assets/admin/shortcode-builder/index.js:1561
+msgid "ShortCode"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1365
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:141
+#: assets/admin/shortcode-builder/index.js:1562
+msgid "Created"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1365
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:142
+#: assets/admin/shortcode-builder/index.js:1563
+msgid "Status"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1365
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:143
+#: assets/admin/shortcode-builder/index.js:1564
+msgid "Actions"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1367
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:153
+#: assets/admin/shortcode-builder/index.js:1574
+msgid "No ShortCodes found"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1378
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:178
+#: assets/admin/shortcode-builder/index.js:1599
+msgid "Shortcode Copied"
+msgstr ""
+
+#: assets/admin/shortcode-builder/index.js:1407
+#: src/shortcode-builder/components/contents/ShortCodes.jsx:211
+#: assets/admin/shortcode-builder/index.js:1632
+msgid "Duplicate"
 msgstr ""

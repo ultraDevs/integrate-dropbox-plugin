@@ -11,6 +11,7 @@ namespace ultraDevs\EasyDropBoxIntegration;
 use ultraDevs\EasyDropBoxIntegration\Admin\Dashboard;
 use ultraDevs\EasyDropBoxIntegration\App\Account;
 use ultraDevs\EasyDropBoxIntegration\App\Client;
+use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
 use ultraDevs\EasyDropBoxIntegration\Helper;
 
 /**
@@ -22,6 +23,7 @@ use ultraDevs\EasyDropBoxIntegration\Helper;
  * @since 1.0.0
  */
 class Assets_Manager {
+	use Singleton;
 
 	/**
 	 * Admin Assets
@@ -46,8 +48,12 @@ class Assets_Manager {
 	 * Enqueue Frontend Styles and Scripts
 	 */
 	public function frontend_assets() {
-		// wp_enqueue_style( 'ud-id-frontend', EASY_DROPBOX_INTEGRATION_ASSETS . 'css/frontend.css', '', EASY_DROPBOX_INTEGRATION_VERSION );
-		// wp_enqueue_script( 'ud-id-frontend', EASY_DROPBOX_INTEGRATION_ASSETS . 'js/frontend.js', array( 'jquery' ), EASY_DROPBOX_INTEGRATION_VERSION, true );
+
+		$css_version = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/css/edbi.css' ) ? filemtime( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/css/edbi.css' ) : EASY_DROPBOX_INTEGRATION_VERSION;
+		// $js_version  = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/js/edbi.js' ) ? filemtime( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/js/edbi.js' ) : EASY_DROPBOX_INTEGRATION_VERSION;
+
+		wp_enqueue_style( 'ud-id-frontend', EASY_DROPBOX_INTEGRATION_ASSETS . 'frontend/css/edbi.css', '', $css_version );
+		// wp_enqueue_script( 'ud-id-frontend', EASY_DROPBOX_INTEGRATION_ASSETS . 'frontend/js/edbi.js', array( 'jquery' ), $js_version, true );
 	}
 
 	/**

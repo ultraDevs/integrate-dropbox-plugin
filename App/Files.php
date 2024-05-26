@@ -47,7 +47,7 @@ class Files {
 	public function __construct( $account_id = null ) {
 		global $wpdb;
 
-		$this->table = $wpdb->prefix . 'easy_dropbox_integration_files';
+		$this->table = $wpdb->prefix . 'easy_dropbox_intregration_files';
 
 		if ( empty( $account_id ) ) {
 			$active_account = Account::get_active_account();
@@ -76,11 +76,9 @@ class Files {
 	public function get_files( $path ) {
 		global $wpdb;
 
-
 		if ( empty( $path ) ) {
 			$path = 'files_dir';
 		}
-
 
 		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE path = %s AND account_id = %s", $this->get_table(), $path, $this->account_id ), ARRAY_A );
 

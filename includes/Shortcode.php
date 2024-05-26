@@ -9,6 +9,7 @@ namespace ultraDevs\EasyDropBoxIntegration;
 
 use ultraDevs\EasyDropBoxIntegration\App\Shortcode_Builder;
 use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
+use ultraDevs\EasyDropBoxIntegration\Assets_Manager;
 
 /**
  * Shortcode Class
@@ -59,6 +60,11 @@ class Shortcode {
         if ( empty( $id ) ) {
             return '';
         }
+
+        // Assets.
+        $assets_manager = Assets_Manager::get_instance();
+		add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
+
 
         $shortcode = Shortcode_Builder::get_instance()->get_shortcode( $id );
 

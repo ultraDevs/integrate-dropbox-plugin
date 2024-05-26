@@ -49,7 +49,6 @@ function edbi_get_settings( $key = null, $default = null ) {
  * @return mixed
  */
 function edbi_sanitize_text_or_array_field( $array_or_string ) {
-	// var_dump( $array_or_string );
     if( is_string( $array_or_string ) ) {
         $array_or_string = sanitize_text_field( $array_or_string );
     } elseif ( is_array( $array_or_string ) ) {
@@ -59,7 +58,6 @@ function edbi_sanitize_text_or_array_field( $array_or_string ) {
             }
             else {
                 $value = sanitize_text_field( $value );
-				// $value = $value;
             }
         }
     }

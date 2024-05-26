@@ -40,11 +40,6 @@ define( 'EASY_DROPBOX_INTEGRATION_DEV_MODE', true );
 require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'vendor/autoload.php';
 
 /**
- * Require DropBox SDK
- */
-require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'vendors/dropbox-php-sdk/vendor/autoload.php';
-
-/**
  * Integrate Dropbox class
  */
 final class EasyDropBoxIntegration {
@@ -91,7 +86,7 @@ final class EasyDropBoxIntegration {
 		new ultraDevs\EasyDropBoxIntegration\Ajax();
 
 		// Assets Manager Class.
-		$assets_manager = new ultraDevs\EasyDropBoxIntegration\Assets_Manager();
+		$assets_manager = ( new ultraDevs\EasyDropBoxIntegration\Assets_Manager )::get_instance();
 
 		// Activate.
 		$activate = new ultraDevs\EasyDropBoxIntegration\Activate();
@@ -128,9 +123,6 @@ final class EasyDropBoxIntegration {
 			$review->register();
 
 		} else {
-			// Frontend Assets.
-			add_action( 'wp_enqueue_scripts', array( $assets_manager, 'frontend_assets' ) );
-
 			$shortcode->register();
 		}
 

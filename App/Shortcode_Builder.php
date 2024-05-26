@@ -43,8 +43,8 @@ class Shortcode_Builder {
 
         // @TODO: Add pagination, Cache.
 
-        $query = $wpdb->prepare("SELECT * FROM {$this->table_name}");
-        $shortcodes = $wpdb->get_results($query, ARRAY_A);
+        // $query = ;
+        $shortcodes = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->table_name}" ), ARRAY_A );
 
         // Get Shortcode type from config column and add it to the array.
         foreach ($shortcodes as $key => $shortcode) {
