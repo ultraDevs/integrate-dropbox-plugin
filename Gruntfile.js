@@ -13,25 +13,7 @@ module.exports = function(grunt) {
                 }
             },
 		},
-		// Generate POT files.
-        makepot: {
-            target: {
-                options: {
-                    exclude: [ 'vendor/*', 'vendors/*', 'build/.*', 'node_modules/*', 'assets/*' ],
-                    mainFile: pkg.main,
-                    domainPath: '/languages/',
-                    potFilename: pkg.name + '.pot',
-                    type: 'wp-plugin',
-                    updateTimestamp: true,
-                    potHeaders: {
-                        'report-msgid-bugs-to': 'https://www.ultradevs.com/contact',
-                        'language-team': 'LANGUAGE <EMAIL@ADDRESS>',
-                        poedit: true,
-                        'x-poedit-keywordslist': true
-                    }
-                }
-            }
-        },
+		
 		jshint: {
 			files: [
 				'assets/frontend/js/*.js',
@@ -190,11 +172,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-compress' );
-	grunt.loadNpmTasks( 'grunt-wp-i18n' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks( 'grunt-contrib-rename' );
 
-    grunt.registerTask( 'i18n', [ 'makepot' ] );
 	grunt.registerTask( 'readme', [ 'wp_readme_to_markdown' ] );
 	// grunt.registerTask( 'watch', [
 	// 	'watch:css',
@@ -212,12 +192,10 @@ module.exports = function(grunt) {
 		'uglify:dist',
 		'sass:dev',
 		'sass:dist',
-		'makepot',
 		'readme',
 		'watch'
 	]);
 	grunt.registerTask('release', [
-		'makepot',
 		'readme',
 		'clean:zip',
 		'copy:main',

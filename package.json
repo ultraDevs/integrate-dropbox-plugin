@@ -41,7 +41,6 @@
         "grunt-contrib-sass": "^2.0.0",
         "grunt-contrib-uglify": "^5.2.2",
         "grunt-contrib-watch": "^1.1.0",
-        "grunt-wp-i18n": "^1.0.3",
         "grunt-wp-readme-to-markdown": "^2.1.0",
         "mini-css-extract-plugin": "^2.7.2",
         "node-sass": "^9.0.0",
