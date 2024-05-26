@@ -23,7 +23,7 @@ class Account {
 	 * @return array
 	 */
 	public static function get_accounts( $id = null ) {
-		$accounts = get_option( 'easy_dropbox_intregration_accounts', array() );
+		$accounts = get_option( 'easy_dropbox_integration_accounts', array() );
 		if ( $id ) {
 			return ! empty( $accounts[ $id ] ) ? $accounts[ $id ] : '';
 		}
@@ -39,10 +39,22 @@ class Account {
 		$accounts = self::get_accounts();
 
 		// check if cookie is set for edbi_active_account.
-		$active_account = isset( $_COOKIE['edbi_active_account'] ) ? $_COOKIE['edbi_active_account'] : null;
+		$active_account = isset( $_COOKIE['edbi_active_account'] ) ? wp_strip_all_tags( $_COOKIE['edbi_active_account'] ): null;
 
 		if ( ! empty( $active_account ) ) {
-			$active_account = str_replace( '\\"', '"', $active_account );
+			$active_account = str_replace(
+				[
+					"\/",
+					"\\\"",
+					"%3A",
+				],
+				[
+					"/",
+					"\"",
+					":",
+				],
+				$active_account
+			);
 			$account        = json_decode( $active_account, true );
 
 			if ( ! empty( $account['id'] ) && empty( $accounts[ $account['id'] ] ) ) {
@@ -54,6 +66,7 @@ class Account {
 
 		// if cookie is not set, get the first account.
 		$account = array_shift( $accounts );
+
 		if ( ! empty( $account ) ) {
 			return $account;
 		}
@@ -88,7 +101,7 @@ class Account {
 		$accounts = self::get_accounts();
 
 		$accounts[ $data['id'] ] = $data;
-		return update_option( 'easy_dropbox_intregration_accounts', $accounts );
+		return update_option( 'easy_dropbox_integration_accounts', $accounts );
 	}
 
 	/**
@@ -112,7 +125,7 @@ class Account {
 			count( $accounts ) ? self::set_active_account( array_key_first( $accounts ) ) : self::set_active_account( null );
 		}
 
-		$status = update_option( 'easy_dropbox_intregration_accounts', $accounts );
+		$status = update_option( 'easy_dropbox_integration_accounts', $accounts );
 
 		return $status ? $removed_account : false;
 	}
@@ -130,7 +143,7 @@ class Account {
 			$account_id     = ! empty( $active_account ) ? $active_account['id'] : null;
 		}
 
-		$tokens = get_option( 'easy_dropbox_intregration_tokens', array() );
+		$tokens = get_option( 'easy_dropbox_integration_tokens', array() );
 
 		return ! empty( $tokens[ $account_id ] ) ? $tokens[ $account_id ] : array();
 	}

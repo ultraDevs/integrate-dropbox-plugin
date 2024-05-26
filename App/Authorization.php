@@ -38,7 +38,7 @@ class Authorization {
 	 *
 	 * @var string
 	 */
-	public $tokens_key = 'easy_dropbox_intregration_tokens';
+	public $tokens_key = 'easy_dropbox_integration_tokens';
 
 	/**
 	 * Is Valid Token?

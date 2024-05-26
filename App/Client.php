@@ -479,6 +479,9 @@ class Client {
 		$auth_helper = $this->client->getAuthHelper();
 
 		$redirect_uri = admin_url( 'admin.php?page=easy-dropbox-integration&action=authorization' );
+		$redirect_uri .= sprintf( '&site_url=%s', site_url() );
+		// Nonce.
+		$redirect_uri .= sprintf( '&nonce=%s', wp_create_nonce( 'edbi_authorization' ) );
 
 		$encoded_redirect = strtr( base64_encode( $redirect_uri ), '+/=', '-_~' );
 
@@ -492,9 +495,11 @@ class Client {
 	 */
 	public function create_access_token() {
 
+		// We don't need nonce as already verified in process_authorization.
+
 		try {
-			$code  = $_REQUEST['code'];
-			$state = $_REQUEST['state'];
+			$code  = sanitize_text_field( $_REQUEST['code'] );
+			$state = sanitize_text_field( $_REQUEST['state'] );
 
 			// Fetch access token.
 			$access_token = $this->get_client()->getAuthHelper()->getAccessToken( $code, $state, $this->redirect_uri );
@@ -511,7 +516,7 @@ class Client {
 				'id'      => $account->getAccountId(),
 				'name'    => $account->getDisplayName(),
 				'email'   => $account->getEmail(),
-				'photo'   => $account->getProfilePhotoUrl() ? $account->getProfilePhotoUrl() : EASY_DROPBOX_INTEGRATION_ASSETS . 'images/dropbox-logo.png',
+				'photo'   => $account->getProfilePhotoUrl() ? esc_url( $account->getProfilePhotoUrl() ) : EASY_DROPBOX_INTEGRATION_ASSETS . 'images/dropbox-logo.png',
 				'root_id' => $root_info['root_namespace_id'],
 				'lost'    => false,
 				'storage' => $this->get_storage_space_info(),

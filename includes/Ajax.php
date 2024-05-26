@@ -278,7 +278,7 @@ class Ajax {
 	 */
 	public function upload() {
 		$path 	 = sanitize_text_field( $_POST['path'] );
-		$file = $_FILES['file'];
+		$file = edbi_sanitize_text_or_array_field( $_FILES['file'] );
 
 		$file_name = $file['name'];
 

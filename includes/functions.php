@@ -20,7 +20,7 @@ function udpb_has_pro() {
  * @return mixed
  */
 function edbi_get_settings( $key = null, $default = null ) {
-	$settings = get_option( 'easy_dropbox_intregration_settings', array() );
+	$settings = get_option( 'easy_dropbox_integration_settings', array() );
 
 	if ( ! isset( $settings['notificationEmail'] ) ) {
 		$settings['notificationEmail'] = get_option( 'admin_email' );
@@ -41,6 +41,31 @@ function edbi_get_settings( $key = null, $default = null ) {
 	return isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
 }
 
+/**
+ * Recursive sanitation for text or array
+ * 
+ * @param $array_or_string (array|string)
+ * @since  0.1
+ * @return mixed
+ */
+function edbi_sanitize_text_or_array_field( $array_or_string ) {
+	// var_dump( $array_or_string );
+    if( is_string( $array_or_string ) ) {
+        $array_or_string = sanitize_text_field( $array_or_string );
+    } elseif ( is_array( $array_or_string ) ) {
+        foreach ( $array_or_string as $key => &$value ) {
+            if ( is_array( $value ) ) {
+                $value = edbi_sanitize_text_or_array_field($value);
+            }
+            else {
+                $value = sanitize_text_field( $value );
+				// $value = $value;
+            }
+        }
+    }
+
+    return $array_or_string;
+}
 
 function edbi_vd() {
 	$args = func_get_args();

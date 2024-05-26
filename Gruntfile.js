@@ -132,6 +132,7 @@ module.exports = function(grunt) {
 					'!*.map',
 					'!*.zip',
                     '!Gruntfile.js',
+					'!/app/AuthorizeApp.php',
                     // '!package.json',
 					'!readme.md',
 					'!codesniffer.ruleset.xml',

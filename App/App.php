@@ -67,10 +67,18 @@ class App {
 	 * @return void
 	 */
 	public function process_authorization() {
+
+		$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : null;
+
+		if ( ! wp_verify_nonce( $nonce, 'edbi_authorization' ) ) {
+			error_log( EASY_DROPBOX_INTEGRATION_NAME . ' - Authorization nonce verification failed.' );
+			return false;
+		}
+
 		$redirect = admin_url( 'admin.php?page=easy-dropbox-integration' );
 
 		if ( ! empty( $_REQUEST['state'] ) ) {
-			$state     = strtr( $_REQUEST['state'], '-_~', '+/=' );
+			$state     = strtr( sanitize_text_field( $_REQUEST['state'] ), '-_~', '+/=' );
 			$url_state = null;
 			$split_pos = strpos( $state, '|' );
 
@@ -84,7 +92,17 @@ class App {
 				return false;
 			}
 		} else {
-			echo '<script type="text/javascript">window.opener.parent.location.href="' . esc_attr( $redirect ) . '"; window.close();</script>';
+			add_action(
+				'admin_print_scripts',
+				function() use ( $redirect ) {
+					echo "<script type='text/javascript'>\n";
+					echo "window.opener.parent.location.href='" . esc_url( $redirect ) . "';\n";
+					echo "window.close();\n";
+					echo '</script>';
+				}
+			);
+
+			echo '<script type="text/javascript">console.log("hola 1");</script>';
 		}
 
 		// @ TODO -
@@ -94,7 +112,27 @@ class App {
 			$client->create_access_token();
 		}
 
-		echo '<script type="text/javascript">window.opener.parent.location.href="' . esc_attr( $redirect ) . '"; window.close();</script>';
+		add_action(
+			'admin_print_scripts',
+			function() use ( $redirect ) {
+				echo "<script type='text/javascript'>\n";
+				echo "window.opener.parent.location.href='" . esc_url( $redirect ) . "';\n";
+				echo "window.close();\n";
+				echo '</script>';
+			}
+		);
+
+		add_action(
+			'admin_print_scripts',
+			function() {
+				echo '<script type="text/javascript">console.log("hola 2");</script>';
+			}
+		);
+
+		if ( ! did_action( 'admin_print_scripts' ) ) {
+			do_action( 'admin_print_scripts' );
+		}
+
 
 		exit();
 	}

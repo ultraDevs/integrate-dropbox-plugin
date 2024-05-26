@@ -121,7 +121,7 @@ class Assets_Manager {
 	public function localization_data() {
 		$client   = new Client();
 		$auth_url = $client->get_auth_url( [ 'prompt' => 'login' ] );
-
+		
 		$localization_data = array(
 			'version'       => EASY_DROPBOX_INTEGRATION_VERSION,
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),

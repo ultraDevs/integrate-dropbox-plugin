@@ -583,7 +583,7 @@ class Helper {
 	 */
 	public static function normalize_string ($str = '')
 	{
-		$str = strip_tags($str); 
+		$str = wp_strip_all_tags($str); 
 		$str = preg_replace('/[\r\n\t ]+/', ' ', $str);
 		$str = preg_replace('/[\"\*\/\:\<\>\?\'\|]+/', ' ', $str);
 		// $str = strtolower($str);

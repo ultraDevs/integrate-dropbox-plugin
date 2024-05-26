@@ -50,7 +50,7 @@ class Review {
 
 			$action = sanitize_text_field( wp_unslash( $_GET['integrate_dropbox_admin_action'] ) );
 
-			if ( wp_verify_nonce( wp_unslash( $_GET['_nonce'] ), 'integrate_dropbox_admin_action_nonce' ) ) { // @codingStandardsIgnoreLine.
+			if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_nonce'] ) ), 'integrate_dropbox_admin_action_nonce' ) ) { // @codingStandardsIgnoreLine.
 				switch ( $action ) {
 					case 'review_already_did':
 						Helper::update_option( 'integrate_dropbox_review_already_did', 'yes' );
@@ -152,7 +152,17 @@ class Review {
 			}
 		</style>
 		<div class="ud-review-notice notice notice-info is-dismissible">
-			<p><?php echo $notice_msg; // @codingStandardsIgnoreLine. ?></p>
+			<p>
+				<?php
+					echo wp_kses(
+						$notice_msg,
+						array(
+							'strong' => array(),
+							'br'     => array(),
+						)
+					);
+				?>
+			</p>
 			<p>
 				<strong>Mahbub Hasan Imon</strong>
 				<br>

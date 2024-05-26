@@ -33,18 +33,18 @@ class Activate {
 	 * Settings Data
 	 */
 	public function settings_data() {
-		update_option( 'easy_dropbox_intregration_settings', edbi_get_settings() );
+		update_option( 'easy_dropbox_integration_settings', edbi_get_settings() );
 	}
 
 	/**
 	 * Save Plugin's Data
 	 */
 	public function plugin_data() {
-		Helper::update_option( 'easy_dropbox_intregration_version', EASY_DROPBOX_INTEGRATION_VERSION );
+		Helper::update_option( 'easy_dropbox_integration_version', EASY_DROPBOX_INTEGRATION_VERSION );
 
-		$installed_time = Helper::get_option( 'easy_dropbox_intregration_installed_datetime', false );
+		$installed_time = Helper::get_option( 'easy_dropbox_integration_installed_datetime', false );
 		if ( ! $installed_time ) {
-			Helper::update_option( 'easy_dropbox_intregration_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
+			Helper::update_option( 'easy_dropbox_integration_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
 		}
 	}
 
@@ -53,9 +53,9 @@ class Activate {
 	 */
 	public function activation_redirect() {
 
-		if ( get_option( 'easy_dropbox_intregration_do_activation_redirect', false ) ) {
+		if ( get_option( 'easy_dropbox_integration_do_activation_redirect', false ) ) {
 
-			delete_option( 'easy_dropbox_intregration_do_activation_redirect' );
+			delete_option( 'easy_dropbox_integration_do_activation_redirect' );
 			wp_safe_redirect( admin_url( 'admin.php?page=' . EASY_DROPBOX_INTEGRATION_MENU_SLUG ) );
 			exit();
 		}
@@ -86,8 +86,8 @@ class Activate {
 	public function create_tables() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$table_files      = $wpdb->prefix . 'easy_dropbox_intregration_files';
-		$table_shortcodes = $wpdb->prefix . 'easy_dropbox_intregration_shortcodes';
+		$table_files      = $wpdb->prefix . 'easy_dropbox_integration_files';
+		$table_shortcodes = $wpdb->prefix . 'easy_dropbox_integration_shortcodes';
 
 		$sql_files = "CREATE TABLE IF NOT EXISTS $table_files (
 			id varchar(255) NOT NULL,

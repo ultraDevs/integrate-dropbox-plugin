@@ -23,12 +23,12 @@ defined( 'ABSPATH' ) || exit( 'bYe bYe!' );
 
 // Constant.
 define( 'EASY_DROPBOX_INTEGRATION_VERSION', '1.0.0' );
-define( 'EASY_DROPBOX_INTEGRATION_NAME', 'Easy DropBox Integration' );
+define( 'EASY_DROPBOX_INTEGRATION_NAME', __( 'Easy DropBox Integration', 'easy-dropbox-integration' ) );
 define( 'EASY_DROPBOX_INTEGRATION_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'EASY_DROPBOX_INTEGRATION_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'EASY_DROPBOX_INTEGRATION_ASSETS', EASY_DROPBOX_INTEGRATION_DIR_URL . 'assets/' );
-define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR', WP_CONTENT_DIR . '/easy-dropbox-integration-cache/' );
-define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR_URL', content_url() . '/easy-dropbox-integration-cache/' );
+define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR', WP_CONTENT_DIR . '/uploads/easy-dropbox-integration-cache/' );
+define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR_URL', content_url() . '/uploads/easy-dropbox-integration-cache/' );
 define( 'EASY_DROPBOX_INTEGRATION_MENU_SLUG', 'easy-dropbox-integration' );
 define( 'EASY_DROPBOX_INTEGRATION_ERROR', '[ Easy DropBox Integration ] - ' );
 define( 'EASY_DROPBOX_INTEGRATION_DEV_MODE', true );
@@ -230,3 +230,6 @@ if ( ! function_exists( 'easy_dropbox_integration' ) ) {
 	}
 }
 easy_dropbox_integration();
+
+
+// echo esc_url( 'https:\/\/dl-web.dropbox.com\/account_photo\/get\/pid_uphoto%3AAAAAAFzgsynQ8G9YAm3yDdYgAdioxvU4AYYw2N-C0xXzwRCfzs1oMY5pRDgQS2zJD7bV_WTg-v3RY-D_c6Ez?size=128x128&vers=1558710916897');
