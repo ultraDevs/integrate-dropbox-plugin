@@ -65,7 +65,6 @@
         "react-contexify": "^6.0.0",
         "react-dom": "^18.2.0",
         "sass": "^1.58.3",
-        "sweetalert2": "^11.10.7",
         "tailwindcss": "^3.2.7"
     }
 }

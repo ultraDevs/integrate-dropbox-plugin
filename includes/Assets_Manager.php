@@ -33,6 +33,10 @@ class Assets_Manager {
 	 */
 	public function admin_assets( $hook ) {
 
+		// Register sweetalert2.
+		wp_register_script( 'sweetalert2', EASY_DROPBOX_INTEGRATION_ASSETS . 'vendors/sweetalert2/js/sweetalert2.min.js', array( 'jquery' ), EASY_DROPBOX_INTEGRATION_VERSION, true );
+		wp_register_style( 'sweetalert2', EASY_DROPBOX_INTEGRATION_ASSETS . 'vendors/sweetalert2/css/sweetalert2.min.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+
 		if ( strpos( $hook, 'easy-dropbox-integration' ) === false ) {
 			return;
 		}
@@ -62,6 +66,11 @@ class Assets_Manager {
 	 * Enqueue Settings Page Styles and Scripts
 	 */
 	public function settings_assets() {
+
+		// Sweetalert2.
+		wp_enqueue_script( 'sweetalert2' );
+		wp_enqueue_style( 'sweetalert2' );
+
 		wp_enqueue_style( 'edbi-settings', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/settings/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
 
 		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/settings/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/settings/index.asset.php' : array();
@@ -83,6 +92,11 @@ class Assets_Manager {
 	 * Shortcode Builder Page Styles and Scripts
 	 */
 	public function shortcode_builder_assets() {
+
+		// Sweetalert2.
+		wp_enqueue_script( 'sweetalert2' );
+		wp_enqueue_style( 'sweetalert2' );
+
 		wp_enqueue_style( 'edbi-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
 
 		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' : array();
@@ -104,6 +118,11 @@ class Assets_Manager {
 	 * Enqueue File Browser Styles and Scripts
 	 */
 	public function file_browser_assets() {
+
+		// Sweetalert2.
+		wp_enqueue_script( 'sweetalert2' );
+		wp_enqueue_style( 'sweetalert2' );
+
 		wp_enqueue_style( 'edbi-file-browser', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/file-browser/index.css', array( 'wp-components' ), EASY_DROPBOX_INTEGRATION_VERSION );
 
 		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/file-browser/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/file-browser/index.asset.php' : array();

@@ -5,7 +5,6 @@ import CreateShortCode from './components/CreateShortCode';
 import Header from './components/Header';
 
 import './scss/shortcode-builder.scss';
-import 'sweetalert2/src/sweetalert2.scss'
 import ShortCodes from './components/contents/ShortCodes';
 import { useEffect } from 'react';
 import EditShortCode from './components/EditShortCode';

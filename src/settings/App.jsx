@@ -5,7 +5,6 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 
 import './scss/settings.scss';
-import 'sweetalert2/src/sweetalert2.scss'
 
 const App = () => {
 	const hash = window.location.hash;

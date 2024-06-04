@@ -4,7 +4,6 @@ import Browser from './components/Browser';
 import { Contexify } from './components/Contexify';
 
 import './scss/admin.scss';
-import 'sweetalert2/src/sweetalert2.scss'
 
 // import styles
 import 'lightgallery/css/lightgallery-bundle.css';
