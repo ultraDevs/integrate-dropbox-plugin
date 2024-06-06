@@ -2,21 +2,21 @@
 /**
  * Menu
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\Admin;
+namespace ultraDevs\IDBWP\Admin;
 
-use ultraDevs\IntegrateDropBoxWP\App\App;
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\Helper;
-use ultraDevs\IntegrateDropBoxWP\Assets_Manager;
+use ultraDevs\IDBWP\App\App;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\Helper;
+use ultraDevs\IDBWP\Assets_Manager;
 
 /**
  * Menu Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Menu {

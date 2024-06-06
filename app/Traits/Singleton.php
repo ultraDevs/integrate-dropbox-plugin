@@ -2,15 +2,15 @@
 /**
  * Singleton Trait
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
-namespace ultraDevs\IntegrateDropBoxWP\App\Traits;
+namespace ultraDevs\IDBWP\App\Traits;
 
 /**
  * Singleton Trait
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 trait Singleton {

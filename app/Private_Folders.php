@@ -2,16 +2,16 @@
 /**
  * Private_Folders Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
 /**
  * Private_Folders Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Private_Folders {

@@ -4,7 +4,7 @@
  *
  * Fired when the plugin is uninstallad
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

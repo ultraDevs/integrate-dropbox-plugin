@@ -265,7 +265,7 @@ class Dropbox
         $accessToken = $this->getAccessToken() ? $this->getAccessToken() : $accessToken;
 
         if ( $this->getOAuth2Client()->isAccessTokenExpired() ) {
-            do_action( 'idbwp_refresh_token', \ultraDevs\IntegrateDropBoxWP\App\Account::get_active_account() );
+            do_action( 'idbwp_refresh_token', \ultraDevs\IDBWP\App\Account::get_active_account() );
             $accessToken = $this->getAccessToken();
         }
 

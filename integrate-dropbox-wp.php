@@ -2,7 +2,7 @@
 /** بسم الله الرحمن الرحيم  **
  * Main Plugin File
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  */
 
 /**
@@ -60,7 +60,7 @@ final class Integrate_DropBox_WP_Core {
 	/**
 	 * Begin execution of the plugin
 	 *
-	 * @return \IntegrateDropBoxWP
+	 * @return \IDBWP
 	 */
 	public static function run() {
 		/**
@@ -83,28 +83,28 @@ final class Integrate_DropBox_WP_Core {
 	public function init() {
 
 		// Ajax Class.
-		new ultraDevs\IntegrateDropBoxWP\Ajax();
+		new ultraDevs\IDBWP\Ajax();
 
 		// Assets Manager Class.
-		$assets_manager = ( new ultraDevs\IntegrateDropBoxWP\Assets_Manager )::get_instance();
+		$assets_manager = ( new ultraDevs\IDBWP\Assets_Manager )::get_instance();
 
 		// Activate.
-		$activate = new ultraDevs\IntegrateDropBoxWP\Activate();
+		$activate = new ultraDevs\IDBWP\Activate();
 
 		// Review Class.
-		$review = new ultraDevs\IntegrateDropBoxWP\Review();
+		$review = new ultraDevs\IDBWP\Review();
 
 		// Menu.
-		$menu = new ultraDevs\IntegrateDropBoxWP\Admin\Menu();
+		$menu = new ultraDevs\IDBWP\Admin\Menu();
 
 		// App.
-		new ultraDevs\IntegrateDropBoxWP\App\App();
+		new ultraDevs\IDBWP\App\App();
 
 		// Rest API.
-		new ultraDevs\IntegrateDropBoxWP\Rest_API();
+		new ultraDevs\IDBWP\Rest_API();
 
 		// Shortcode.
-		$shortcode = new ultraDevs\IntegrateDropBoxWP\Shortcode();
+		$shortcode = new ultraDevs\IDBWP\Shortcode();
 
 		if ( is_admin() ) {
 
@@ -137,7 +137,7 @@ final class Integrate_DropBox_WP_Core {
 	 * @return void
 	 */
 	public function activate() {
-		$activate = new ultraDevs\IntegrateDropBoxWP\Activate();
+		$activate = new ultraDevs\IDBWP\Activate();
 		$activate->run();
 	}
 

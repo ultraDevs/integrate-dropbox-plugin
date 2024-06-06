@@ -2,18 +2,18 @@
 /**
  * Activate
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP;
+namespace ultraDevs\IDBWP;
 
-use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IDBWP\Helper;
 
 /**
  * Activate Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Activate {

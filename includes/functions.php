@@ -2,7 +2,7 @@
 /**
  * Functions here
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  */
 
 /**

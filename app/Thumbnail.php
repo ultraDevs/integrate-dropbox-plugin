@@ -2,19 +2,19 @@
 /**
  * Thumbnail Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
-use ultraDevs\IntegrateDropBoxWP\App\Account;
-use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IDBWP\App\Account;
+use ultraDevs\IDBWP\Helper;
 
 /**
  * Thumbnail Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Thumbnail {

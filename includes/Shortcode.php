@@ -2,19 +2,19 @@
 /**
  * Shortcode Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
-namespace ultraDevs\IntegrateDropBoxWP;
+namespace ultraDevs\IDBWP;
 
-use ultraDevs\IntegrateDropBoxWP\App\Shortcode_Builder;
-use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
-use ultraDevs\IntegrateDropBoxWP\Assets_Manager;
+use ultraDevs\IDBWP\App\Shortcode_Builder;
+use ultraDevs\IDBWP\App\Traits\Singleton;
+use ultraDevs\IDBWP\Assets_Manager;
 
 /**
  * Shortcode Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Shortcode {

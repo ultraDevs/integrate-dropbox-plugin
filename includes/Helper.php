@@ -2,19 +2,19 @@
 /**
  * Helper Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP;
+namespace ultraDevs\IDBWP;
 
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\App\FileAbstract;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\App\FileAbstract;
 
 /**
  * Helper Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Helper {

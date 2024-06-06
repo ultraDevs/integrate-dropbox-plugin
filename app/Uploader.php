@@ -2,16 +2,16 @@
 /**
  * Uploader Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
 /**
  * Uploader Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Uploader {

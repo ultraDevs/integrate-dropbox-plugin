@@ -2,25 +2,25 @@
 /**
  * Class for handling Ajax
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP;
+namespace ultraDevs\IDBWP;
 
-use ultraDevs\IntegrateDropBoxWP\App\Account;
-use ultraDevs\IntegrateDropBoxWP\App\API;
-use ultraDevs\IntegrateDropBoxWP\App\App;
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\App\Shortcode_Builder;
-use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IDBWP\App\Account;
+use ultraDevs\IDBWP\App\API;
+use ultraDevs\IDBWP\App\App;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\App\Shortcode_Builder;
+use ultraDevs\IDBWP\Helper;
 
 /**
  * Manage All Ajax Request
  *
  * This class is for managing Ajax
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Ajax {

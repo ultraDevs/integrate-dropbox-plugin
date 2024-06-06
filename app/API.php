@@ -2,25 +2,25 @@
 /**
  * API Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
 use Kunnu\Dropbox\Models\FolderMetadata;
 use Kunnu\Dropbox\Models\SharedLinkSettings;
-use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
-use ultraDevs\IntegrateDropBoxWP\App\Account;
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\App\File;
-use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IDBWP\App\Traits\Singleton;
+use ultraDevs\IDBWP\App\Account;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\App\File;
+use ultraDevs\IDBWP\Helper;
 
 
 /**
  * API Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class API {

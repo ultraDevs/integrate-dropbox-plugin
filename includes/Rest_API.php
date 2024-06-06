@@ -2,23 +2,23 @@
 /**
  * REST API Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP;
+namespace ultraDevs\IDBWP;
 
-use ultraDevs\IntegrateDropBoxWP\App\Account;
-use ultraDevs\IntegrateDropBoxWP\App\API;
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\App\FileBrowser;
+use ultraDevs\IDBWP\App\Account;
+use ultraDevs\IDBWP\App\API;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\App\FileBrowser;
 
 /**
  * Manage REST API Requests
  *
  * This class is for managing REST API
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class REST_API {

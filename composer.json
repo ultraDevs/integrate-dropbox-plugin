@@ -10,8 +10,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "ultraDevs\\IntegrateDropBoxWP\\": "includes/",
-            "ultraDevs\\IntegrateDropBoxWP\\App\\": "app/"
+            "ultraDevs\\IDBWP\\": "includes/",
+            "ultraDevs\\IDBWP\\App\\": "app/"
 
         },
         "files": [ "includes/functions.php" ]

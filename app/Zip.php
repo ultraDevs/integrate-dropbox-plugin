@@ -2,16 +2,16 @@
 /**
  * Zip Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
 /**
  * Zip Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Zip {

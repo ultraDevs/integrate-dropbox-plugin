@@ -2,21 +2,21 @@
 /**
  * File Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
-use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
-use ultraDevs\IntegrateDropBoxWP\App\Account;
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\App\FileAbstract;
-use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IDBWP\App\Traits\Singleton;
+use ultraDevs\IDBWP\App\Account;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\App\FileAbstract;
+use ultraDevs\IDBWP\Helper;
 
 /**
  * File Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class File extends FileAbstract {

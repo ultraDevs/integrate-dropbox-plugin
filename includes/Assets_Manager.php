@@ -2,24 +2,24 @@
 /**
  * Assets Manager Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP;
+namespace ultraDevs\IDBWP;
 
-use ultraDevs\IntegrateDropBoxWP\Admin\Dashboard;
-use ultraDevs\IntegrateDropBoxWP\App\Account;
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
-use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IDBWP\Admin\Dashboard;
+use ultraDevs\IDBWP\App\Account;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\App\Traits\Singleton;
+use ultraDevs\IDBWP\Helper;
 
 /**
  * Manage All Assets
  *
  * This class is for managing Assets
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Assets_Manager {

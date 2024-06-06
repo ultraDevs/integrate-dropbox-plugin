@@ -2,24 +2,24 @@
 /**
  * Client Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
-use ultraDevs\IntegrateDropBoxWP\App\Account;
-use ultraDevs\IntegrateDropBoxWP\App\Authorization;
+use ultraDevs\IDBWP\App\Account;
+use ultraDevs\IDBWP\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
-use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
-use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IDBWP\App\Traits\Singleton;
+use ultraDevs\IDBWP\Helper;
 
 /**
  * Client Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class Client {

@@ -2,23 +2,23 @@
 /**
  * App Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\IntegrateDropBoxWP\App;
+namespace ultraDevs\IDBWP\App;
 
 use Kunnu\Dropbox\Models\FileMetadata;
 use Kunnu\Dropbox\Models\FolderMetadata;
-use ultraDevs\IntegrateDropBoxWP\App\Client;
-use ultraDevs\IntegrateDropBoxWP\Helper;
-use ultraDevs\IntegrateDropBoxWP\App\Files;
-use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
+use ultraDevs\IDBWP\App\Client;
+use ultraDevs\IDBWP\Helper;
+use ultraDevs\IDBWP\App\Files;
+use ultraDevs\IDBWP\App\Traits\Singleton;
 
 /**
  * App Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 class App {
@@ -58,7 +58,7 @@ class App {
 
 		$this->account_id = $account_id;
 
-		// add_filter( 'idbwp_root_id', array( 'ultraDevs\IntegrateDropBoxWP\App\Account', 'get_root_id' ), 10, 1 );
+		// add_filter( 'idbwp_root_id', array( 'ultraDevs\IDBWP\App\Account', 'get_root_id' ), 10, 1 );
 	}
 
 	/**

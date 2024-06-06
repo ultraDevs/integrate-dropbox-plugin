@@ -2,16 +2,16 @@
 /**
  * File Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
-namespace ultraDevs\IntegrateDropBoxWP\App;
-use ultraDevs\IntegrateDropBoxWP\Helper;
+namespace ultraDevs\IDBWP\App;
+use ultraDevs\IDBWP\Helper;
 
 /**
  * Abstract File Class
  *
- * @package IntegrateDropBoxWP
+ * @package IDBWP
  * @since 1.0.0
  */
 abstract class FileAbstract {
