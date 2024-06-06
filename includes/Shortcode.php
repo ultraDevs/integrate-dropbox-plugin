@@ -2,19 +2,19 @@
 /**
  * Shortcode Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
-namespace ultraDevs\EasyDropBoxIntegration;
+namespace ultraDevs\IntegrateDropBoxWP;
 
-use ultraDevs\EasyDropBoxIntegration\App\Shortcode_Builder;
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
-use ultraDevs\EasyDropBoxIntegration\Assets_Manager;
+use ultraDevs\IntegrateDropBoxWP\App\Shortcode_Builder;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\Assets_Manager;
 
 /**
  * Shortcode Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Shortcode {
@@ -35,7 +35,7 @@ class Shortcode {
      * Register Shortcode
      */
     public function register() {
-        add_shortcode( 'easy_dropbox_integration', array( $this, 'render_shortcode' ) );
+        add_shortcode( 'integrate_dropbox_wp', array( $this, 'render_shortcode' ) );
     }
 
     /**
@@ -52,7 +52,7 @@ class Shortcode {
                 'id' => '',
             ),
             $atts,
-            'easy_dropbox_integration'
+            'integrate_dropbox_wp'
         );
 
         $id = intval( $atts['id'] );

@@ -2,24 +2,24 @@
 /**
  * File Browser Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
-use ultraDevs\EasyDropBoxIntegration\App\Account;
-use ultraDevs\EasyDropBoxIntegration\App\Authorization;
+use ultraDevs\IntegrateDropBoxWP\App\Account;
+use ultraDevs\IntegrateDropBoxWP\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
-use ultraDevs\EasyDropBoxIntegration\Helper;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\Helper;
 
 /**
  * File Browser Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class FileBrowser {

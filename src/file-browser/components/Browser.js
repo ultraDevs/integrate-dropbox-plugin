@@ -111,7 +111,7 @@ const Browser = () => {
 				}).then((result) => {
 					if (result.isConfirmed) {
 						wp.ajax
-							.post('edbi_rename', {
+							.post('idbwp_rename', {
 								account_id: activeAccount['id'],
 								nonce: EDBIData?.ajaxNonce,
 								old_name: item.name,
@@ -156,7 +156,7 @@ const Browser = () => {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					wp.ajax
-						.post('edbi_delete', {
+						.post('idbwp_delete', {
 							account_id: activeAccount['id'],
 							nonce: EDBIData?.ajaxNonce,
 							path: item.path,

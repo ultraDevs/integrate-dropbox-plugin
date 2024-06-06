@@ -15,12 +15,12 @@ const Sidebar = ( props ) => {
 	const items = [
 		{
 			slug: 'accounts',
-			label: __( 'Accounts', 'easy-dropbox-integration' ),
+			label: __( 'Accounts', 'integrate-dropbox-wp' ),
 			icon: 'dashicons-admin-users'
 		},
 		// {
 		// 	slug: 'appearance',
-		// 	label: __( 'Appearance', 'easy-dropbox-integration' ),
+		// 	label: __( 'Appearance', 'integrate-dropbox-wp' ),
 		// 	icon: 'dashicons-admin-appearance'
 		// },
 	];

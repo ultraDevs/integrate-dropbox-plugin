@@ -2,16 +2,16 @@
 /**
  * Download Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
 /**
  * Download Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Download {

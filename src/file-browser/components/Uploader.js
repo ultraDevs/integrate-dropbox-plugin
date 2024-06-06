@@ -63,7 +63,7 @@ const Uploader = () => {
 	const startUpload = (file) => {
 		// Prepare the data to be sent to the server
 		const data = new FormData();
-		data.append('action', 'edbi_upload');
+		data.append('action', 'idbwp_upload');
 		data.append('nonce', EDBIData.ajaxNonce);
 		data.append('path', currentPath);
 		data.append('account_id', activeAccount['id']);

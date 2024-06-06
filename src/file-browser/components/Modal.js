@@ -17,7 +17,7 @@ const Modal = ({ showModal, item, setShowModal }) => {
 	useEffect(() => {
         if (showModal && item) {
             wp.ajax
-			.post('edbi_file_preview', {
+			.post('idbwp_file_preview', {
 				account_id: activeAccount['id'],
 				nonce: EDBIData?.ajaxNonce,
 				file: item.path,

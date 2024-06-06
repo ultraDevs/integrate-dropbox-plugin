@@ -179,7 +179,7 @@ const Browser = () => {
           confirmButtonText: 'Rename'
         }).then(result => {
           if (result.isConfirmed) {
-            wp.ajax.post('edbi_rename', {
+            wp.ajax.post('idbwp_rename', {
               account_id: activeAccount['id'],
               nonce: EDBIData?.ajaxNonce,
               old_name: item.name,
@@ -221,7 +221,7 @@ const Browser = () => {
           confirmButtonText: 'Yes, delete it!'
         }).then(result => {
           if (result.isConfirmed) {
-            wp.ajax.post('edbi_delete', {
+            wp.ajax.post('idbwp_delete', {
               account_id: activeAccount['id'],
               nonce: EDBIData?.ajaxNonce,
               path: item.path
@@ -614,7 +614,7 @@ const Header = () => {
       confirmButtonText: 'Create'
     }).then(result => {
       if (result.isConfirmed) {
-        wp.ajax.post('edbi_create_folder', {
+        wp.ajax.post('idbwp_create_folder', {
           account_id: activeAccount['id'],
           nonce: EDBIData?.ajaxNonce,
           path: currentPath,
@@ -839,7 +839,7 @@ const Modal = ({
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (showModal && item) {
-      wp.ajax.post('edbi_file_preview', {
+      wp.ajax.post('idbwp_file_preview', {
         account_id: activeAccount['id'],
         nonce: EDBIData?.ajaxNonce,
         file: item.path
@@ -924,12 +924,12 @@ const Sidebar = () => {
   } = EDBIData;
   const [aItem, setItem] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('dropbox');
   const items = [{
-    name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('My Dropbox', 'easy-dropbox-integration'),
+    name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('My Dropbox', 'integrate-dropbox-wp'),
     img: EDBIData.assets + "images/dropbox.svg",
     slug: 'dropbox'
   }
   // {
-  // 	name: __( 'Shared with me', 'easy-dropbox-integration' ),
+  // 	name: __( 'Shared with me', 'integrate-dropbox-wp' ),
   // 	img: EDBIData.assets + "images/dropbox.svg",
   // },
   ];
@@ -1058,7 +1058,7 @@ const Uploader = () => {
   const startUpload = file => {
     // Prepare the data to be sent to the server
     const data = new FormData();
-    data.append('action', 'edbi_upload');
+    data.append('action', 'idbwp_upload');
     data.append('nonce', EDBIData.ajaxNonce);
     data.append('path', currentPath);
     data.append('account_id', activeAccount['id']);
@@ -1283,7 +1283,7 @@ const generateDataAttributes = file => {
 
   let attributes = {};
   const activeAccount = EDBIData?.activeAccount;
-  const filePreview = `${EDBIData.ajaxUrl}?action=edbi_file_preview&account_id=${activeAccount['id']}&nonce=${EDBIData?.ajaxNonce}&file=${file.id}`;
+  const filePreview = `${EDBIData.ajaxUrl}?action=idbwp_file_preview&account_id=${activeAccount['id']}&nonce=${EDBIData?.ajaxNonce}&file=${file.id}`;
 
   // If item.ext is mp4, webm, or ogg, we will add the video attribute
   if (['mp4', 'webm', 'ogg'].includes(file.ext)) {

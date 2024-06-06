@@ -2,18 +2,18 @@
 /**
  * Files Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
 
 /**
  * Files Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Files {

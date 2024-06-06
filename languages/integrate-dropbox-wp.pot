@@ -2,40 +2,40 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/easy-dropbox-integration\n"
+"Project-Id-Version: Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your Website 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/integrate-dropbox-wp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-26T10:09:18+00:00\n"
+"POT-Creation-Date: 2024-06-06T05:21:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
-"X-Domain: easy-dropbox-integration\n"
+"X-Domain: integrate-dropbox-wp\n"
 
 #. Plugin Name of the plugin
-#: easy-dropbox-integration.php
-msgid "Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website"
+#: integrate-dropbox-wp.php
+msgid "Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your Website"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: easy-dropbox-integration.php
-msgid "https://ultradevs.com/easy-dropbox-integration/"
+#: integrate-dropbox-wp.php
+msgid "https://ultradevs.com/integrate-dropbox-wp/"
 msgstr ""
 
 #. Description of the plugin
-#: easy-dropbox-integration.php
-msgid "Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website Easily."
+#: integrate-dropbox-wp.php
+msgid "Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your Website Easily."
 msgstr ""
 
 #. Author of the plugin
-#: easy-dropbox-integration.php
+#: integrate-dropbox-wp.php
 msgid "ultradevs"
 msgstr ""
 
 #. Author URI of the plugin
-#: easy-dropbox-integration.php
+#: integrate-dropbox-wp.php
 msgid "https://ultradevs.com"
 msgstr ""
 
@@ -95,24 +95,8 @@ msgstr ""
 msgid "Error refreshing token: %s"
 msgstr ""
 
-#: easy-dropbox-integration.php:26
-msgid "Easy DropBox Integration"
-msgstr ""
-
-#: easy-dropbox-integration.php:178
-msgid "Easy Dropbox Integration"
-msgstr ""
-
-#: easy-dropbox-integration.php:203
-#: includes/Admin/Menu.php:70
-#: assets/admin/settings/index.js:148
-#: src/settings/components/Header.jsx:20
-#: assets/admin/settings/index.js:96
-msgid "Settings"
-msgstr ""
-
 #: includes/Admin/Menu.php:62
-msgid "Dashboard - Easy DropBox Integration"
+msgid "Dashboard - Integrate DropBox WP"
 msgstr ""
 
 #: includes/Admin/Menu.php:62
@@ -120,7 +104,7 @@ msgid "DropBox"
 msgstr ""
 
 #: includes/Admin/Menu.php:64
-msgid "File Browser - Easy DropBox Integration"
+msgid "File Browser - Integrate DropBox WP"
 msgstr ""
 
 #: includes/Admin/Menu.php:64
@@ -128,7 +112,7 @@ msgid "File Browser"
 msgstr ""
 
 #: includes/Admin/Menu.php:67
-msgid "Shortcode Builder - Easy DropBox Integration"
+msgid "Shortcode Builder - Integrate DropBox WP"
 msgstr ""
 
 #: includes/Admin/Menu.php:67
@@ -136,7 +120,15 @@ msgid "Shortcode Builder"
 msgstr ""
 
 #: includes/Admin/Menu.php:70
-msgid "Settings - Easy DropBox Integration"
+msgid "Settings - Integrate DropBox WP"
+msgstr ""
+
+#: includes/Admin/Menu.php:70
+#: integrate-dropbox-wp.php:203
+#: assets/admin/settings/index.js:146
+#: src/settings/components/Header.jsx:20
+#: assets/admin/settings/index.js:95
+msgid "Settings"
 msgstr ""
 
 #: includes/Ajax.php:91
@@ -147,11 +139,15 @@ msgstr ""
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/Ajax.php:113
+#: includes/Ajax.php:101
+msgid "You do not have permission to perform this action"
+msgstr ""
+
+#: includes/Ajax.php:118
 msgid "Account ID is required"
 msgstr ""
 
-#: includes/Ajax.php:122
+#: includes/Ajax.php:127
 #: includes/Rest_API.php:190
 #: includes/Rest_API.php:246
 #: includes/Rest_API.php:307
@@ -159,126 +155,126 @@ msgstr ""
 msgid "Account is not active."
 msgstr ""
 
-#: includes/Ajax.php:142
+#: includes/Ajax.php:147
 msgid "Failed to remove account!"
 msgstr ""
 
-#: includes/Ajax.php:147
+#: includes/Ajax.php:152
 msgid "Account removed successfully!"
 msgstr ""
 
-#: includes/Ajax.php:162
-#: includes/Ajax.php:311
+#: includes/Ajax.php:167
+#: includes/Ajax.php:316
 msgid "File is required"
 msgstr ""
 
-#: includes/Ajax.php:171
+#: includes/Ajax.php:176
 #: includes/Rest_API.php:380
 msgid "File not found."
 msgstr ""
 
-#: includes/Ajax.php:191
+#: includes/Ajax.php:196
 msgid "Old Name is required"
 msgstr ""
 
-#: includes/Ajax.php:196
+#: includes/Ajax.php:201
 msgid "New name is required"
 msgstr ""
 
-#: includes/Ajax.php:200
+#: includes/Ajax.php:205
 msgid "Old name and new name can not be same"
 msgstr ""
 
-#: includes/Ajax.php:207
+#: includes/Ajax.php:212
 msgid "File/Folder not renamed"
 msgstr ""
 
-#: includes/Ajax.php:212
+#: includes/Ajax.php:217
 msgid "Renamed Successfully"
 msgstr ""
 
-#: includes/Ajax.php:229
+#: includes/Ajax.php:234
 msgid "Folder name is required"
 msgstr ""
 
-#: includes/Ajax.php:236
+#: includes/Ajax.php:241
 msgid "Failed to create Folder!"
 msgstr ""
 
-#: includes/Ajax.php:241
+#: includes/Ajax.php:246
 msgid "Folder created successfully!"
 msgstr ""
 
-#: includes/Ajax.php:256
+#: includes/Ajax.php:261
 msgid "Path is required"
 msgstr ""
 
-#: includes/Ajax.php:264
+#: includes/Ajax.php:269
 msgid "Failed to delete!"
 msgstr ""
 
-#: includes/Ajax.php:269
+#: includes/Ajax.php:274
 msgid "Deleted successfully!"
 msgstr ""
 
-#: includes/Ajax.php:292
+#: includes/Ajax.php:297
 msgid "Failed to upload!"
 msgstr ""
 
-#: includes/Ajax.php:297
+#: includes/Ajax.php:302
 msgid "Uploaded successfully!"
 msgstr ""
 
-#: includes/Ajax.php:320
+#: includes/Ajax.php:325
 msgid "Thumbnail not found."
 msgstr ""
 
-#: includes/Ajax.php:353
-#: includes/Ajax.php:422
-#: includes/Ajax.php:466
-#: includes/Ajax.php:487
+#: includes/Ajax.php:358
+#: includes/Ajax.php:427
+#: includes/Ajax.php:471
+#: includes/Ajax.php:492
 msgid "ID is required"
 msgstr ""
 
-#: includes/Ajax.php:363
+#: includes/Ajax.php:368
 msgid "Shortcode not found."
 msgstr ""
 
-#: includes/Ajax.php:382
-#: includes/Ajax.php:426
+#: includes/Ajax.php:387
+#: includes/Ajax.php:431
 msgid "Title is required"
 msgstr ""
 
-#: includes/Ajax.php:386
-#: includes/Ajax.php:430
+#: includes/Ajax.php:391
+#: includes/Ajax.php:435
 msgid "Shortcode Config is required"
 msgstr ""
 
-#: includes/Ajax.php:401
+#: includes/Ajax.php:406
 msgid "Failed to create Shortcode!"
 msgstr ""
 
-#: includes/Ajax.php:406
+#: includes/Ajax.php:411
 msgid "Shortcode created successfully!"
 msgstr ""
 
-#: includes/Ajax.php:444
+#: includes/Ajax.php:449
 msgid "Shortcode updated successfully!"
 msgstr ""
 
-#: includes/Ajax.php:451
+#: includes/Ajax.php:456
 msgid "Failed to update Shortcode!"
 msgstr ""
 
-#: includes/Ajax.php:472
+#: includes/Ajax.php:477
 msgid "Shortcode deleted successfully!"
 msgstr ""
 
-#: includes/Ajax.php:494
+#: includes/Ajax.php:499
 msgid "Failed to duplicate Shortcode!"
 msgstr ""
 
-#: includes/Ajax.php:499
+#: includes/Ajax.php:504
 msgid "Shortcode duplicated successfully!"
 msgstr ""
 
@@ -331,266 +327,271 @@ msgstr ""
 msgid "I already did"
 msgstr ""
 
-#: assets/admin/file-browser/index.js:929
+#: integrate-dropbox-wp.php:26
+#: integrate-dropbox-wp.php:178
+msgid "Integrate DropBox WP"
+msgstr ""
+
+#: assets/admin/file-browser/index.js:927
 #: src/file-browser/components/Sidebar.js:18
-#: assets/admin/file-browser/index.js:1029
+#: assets/admin/file-browser/index.js:1028
 msgid "My Dropbox"
 msgstr ""
 
-#: assets/admin/settings/index.js:198
+#: assets/admin/settings/index.js:196
 #: src/settings/components/Sidebar.jsx:18
-#: assets/admin/settings/index.js:130
+#: assets/admin/settings/index.js:129
 msgid "Accounts"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:481
-#: assets/admin/shortcode-builder/index.js:681
-#: src/shortcode-builder/App.jsx:21
+#: assets/admin/shortcode-builder/index.js:479
+#: assets/admin/shortcode-builder/index.js:679
+#: src/shortcode-builder/App.jsx:20
 #: src/shortcode-builder/components/Header.jsx:34
-#: assets/admin/shortcode-builder/index.js:555
-#: assets/admin/shortcode-builder/index.js:727
+#: assets/admin/shortcode-builder/index.js:554
+#: assets/admin/shortcode-builder/index.js:726
 msgid "ShortCode Title"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:676
+#: assets/admin/shortcode-builder/index.js:674
 #: src/shortcode-builder/components/Header.jsx:19
-#: assets/admin/shortcode-builder/index.js:712
+#: assets/admin/shortcode-builder/index.js:711
 msgid "ShortCode Builder"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:680
+#: assets/admin/shortcode-builder/index.js:678
 #: src/shortcode-builder/components/Header.jsx:31
-#: assets/admin/shortcode-builder/index.js:724
+#: assets/admin/shortcode-builder/index.js:723
 msgid "Enter ShortCode Title"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:840
+#: assets/admin/shortcode-builder/index.js:838
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:122
-#: assets/admin/shortcode-builder/index.js:916
+#: assets/admin/shortcode-builder/index.js:915
 msgid "Shortcode Updated"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:841
+#: assets/admin/shortcode-builder/index.js:839
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:123
-#: assets/admin/shortcode-builder/index.js:917
+#: assets/admin/shortcode-builder/index.js:916
 msgid "Shortcode has been updated successfully"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:850
-#: assets/admin/shortcode-builder/index.js:877
-#: assets/admin/shortcode-builder/index.js:1273
-#: assets/admin/shortcode-builder/index.js:1314
-#: assets/admin/shortcode-builder/index.js:1344
+#: assets/admin/shortcode-builder/index.js:848
+#: assets/admin/shortcode-builder/index.js:875
+#: assets/admin/shortcode-builder/index.js:1271
+#: assets/admin/shortcode-builder/index.js:1312
+#: assets/admin/shortcode-builder/index.js:1342
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:31
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:78
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:113
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:134
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:165
-#: assets/admin/shortcode-builder/index.js:928
-#: assets/admin/shortcode-builder/index.js:959
-#: assets/admin/shortcode-builder/index.js:1452
-#: assets/admin/shortcode-builder/index.js:1499
-#: assets/admin/shortcode-builder/index.js:1534
+#: assets/admin/shortcode-builder/index.js:927
+#: assets/admin/shortcode-builder/index.js:958
+#: assets/admin/shortcode-builder/index.js:1451
+#: assets/admin/shortcode-builder/index.js:1498
+#: assets/admin/shortcode-builder/index.js:1533
 msgid "Error"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:851
+#: assets/admin/shortcode-builder/index.js:849
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:135
-#: assets/admin/shortcode-builder/index.js:929
+#: assets/admin/shortcode-builder/index.js:928
 msgid "An error occurred while updating the shortcode"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:867
+#: assets/admin/shortcode-builder/index.js:865
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:153
-#: assets/admin/shortcode-builder/index.js:947
+#: assets/admin/shortcode-builder/index.js:946
 msgid "Shortcode Created"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:868
+#: assets/admin/shortcode-builder/index.js:866
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:154
-#: assets/admin/shortcode-builder/index.js:948
+#: assets/admin/shortcode-builder/index.js:947
 msgid "Shortcode has been created successfully"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:878
+#: assets/admin/shortcode-builder/index.js:876
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:166
-#: assets/admin/shortcode-builder/index.js:960
+#: assets/admin/shortcode-builder/index.js:959
 msgid "An error occurred while creating the shortcode"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:904
+#: assets/admin/shortcode-builder/index.js:902
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:196
-#: assets/admin/shortcode-builder/index.js:990
+#: assets/admin/shortcode-builder/index.js:989
 msgid "Image Gallery"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:906
+#: assets/admin/shortcode-builder/index.js:904
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:198
-#: assets/admin/shortcode-builder/index.js:992
+#: assets/admin/shortcode-builder/index.js:991
 msgid "Display images in a gallery"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1078
+#: assets/admin/shortcode-builder/index.js:1076
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:457
-#: assets/admin/shortcode-builder/index.js:1251
+#: assets/admin/shortcode-builder/index.js:1250
 msgid "Width"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1092
+#: assets/admin/shortcode-builder/index.js:1090
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:472
-#: assets/admin/shortcode-builder/index.js:1266
+#: assets/admin/shortcode-builder/index.js:1265
 msgid "Height"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1118
+#: assets/admin/shortcode-builder/index.js:1116
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:505
-#: assets/admin/shortcode-builder/index.js:1299
+#: assets/admin/shortcode-builder/index.js:1298
 msgid "Justified"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1127
+#: assets/admin/shortcode-builder/index.js:1125
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:517
-#: assets/admin/shortcode-builder/index.js:1311
+#: assets/admin/shortcode-builder/index.js:1310
 msgid "Masonry"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1135
+#: assets/admin/shortcode-builder/index.js:1133
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:528
-#: assets/admin/shortcode-builder/index.js:1322
+#: assets/admin/shortcode-builder/index.js:1321
 msgid "Grid"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1135
+#: assets/admin/shortcode-builder/index.js:1133
 #: src/shortcode-builder/components/ShortCodeConfig.jsx:533
-#: assets/admin/shortcode-builder/index.js:1327
+#: assets/admin/shortcode-builder/index.js:1326
 msgid "Image Gallery Layout"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1178
+#: assets/admin/shortcode-builder/index.js:1176
 #: src/shortcode-builder/components/Sidebar.jsx:18
-#: assets/admin/shortcode-builder/index.js:1361
+#: assets/admin/shortcode-builder/index.js:1360
 msgid "Types"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1182
+#: assets/admin/shortcode-builder/index.js:1180
 #: src/shortcode-builder/components/Sidebar.jsx:23
-#: assets/admin/shortcode-builder/index.js:1366
+#: assets/admin/shortcode-builder/index.js:1365
 msgid "Source"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1192
+#: assets/admin/shortcode-builder/index.js:1190
 #: src/shortcode-builder/components/Sidebar.jsx:33
-#: assets/admin/shortcode-builder/index.js:1376
+#: assets/admin/shortcode-builder/index.js:1375
 msgid "Advanced"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1274
+#: assets/admin/shortcode-builder/index.js:1272
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:32
-#: assets/admin/shortcode-builder/index.js:1453
+#: assets/admin/shortcode-builder/index.js:1452
 msgid "An error occurred while fetching ShortCodes"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1305
-#: assets/admin/shortcode-builder/index.js:1335
+#: assets/admin/shortcode-builder/index.js:1303
+#: assets/admin/shortcode-builder/index.js:1333
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:67
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:103
-#: assets/admin/shortcode-builder/index.js:1488
-#: assets/admin/shortcode-builder/index.js:1524
+#: assets/admin/shortcode-builder/index.js:1487
+#: assets/admin/shortcode-builder/index.js:1523
 msgid "Success"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1306
+#: assets/admin/shortcode-builder/index.js:1304
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:68
-#: assets/admin/shortcode-builder/index.js:1489
+#: assets/admin/shortcode-builder/index.js:1488
 msgid "Shortcode removed successfully"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1315
+#: assets/admin/shortcode-builder/index.js:1313
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:79
-#: assets/admin/shortcode-builder/index.js:1500
+#: assets/admin/shortcode-builder/index.js:1499
 msgid "An error occurred while removing Shortcode"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1336
+#: assets/admin/shortcode-builder/index.js:1334
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:104
-#: assets/admin/shortcode-builder/index.js:1525
+#: assets/admin/shortcode-builder/index.js:1524
 msgid "Shortcode duplicated successfully"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1345
+#: assets/admin/shortcode-builder/index.js:1343
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:114
-#: assets/admin/shortcode-builder/index.js:1535
+#: assets/admin/shortcode-builder/index.js:1534
 msgid "An error occurred while duplicating Shortcode"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1361
+#: assets/admin/shortcode-builder/index.js:1359
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:128
-#: assets/admin/shortcode-builder/index.js:1549
+#: assets/admin/shortcode-builder/index.js:1548
 msgid "ShortCodes"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1363
+#: assets/admin/shortcode-builder/index.js:1361
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:130
-#: assets/admin/shortcode-builder/index.js:1551
+#: assets/admin/shortcode-builder/index.js:1550
 msgid " Items"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1365
+#: assets/admin/shortcode-builder/index.js:1363
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:137
-#: assets/admin/shortcode-builder/index.js:1558
+#: assets/admin/shortcode-builder/index.js:1557
 msgid "ID"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1365
+#: assets/admin/shortcode-builder/index.js:1363
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:138
-#: assets/admin/shortcode-builder/index.js:1559
+#: assets/admin/shortcode-builder/index.js:1558
 msgid "Title"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1365
+#: assets/admin/shortcode-builder/index.js:1363
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:139
-#: assets/admin/shortcode-builder/index.js:1560
+#: assets/admin/shortcode-builder/index.js:1559
 msgid "Type"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1365
+#: assets/admin/shortcode-builder/index.js:1363
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:140
-#: assets/admin/shortcode-builder/index.js:1561
+#: assets/admin/shortcode-builder/index.js:1560
 msgid "ShortCode"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1365
+#: assets/admin/shortcode-builder/index.js:1363
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:141
-#: assets/admin/shortcode-builder/index.js:1562
+#: assets/admin/shortcode-builder/index.js:1561
 msgid "Created"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1365
+#: assets/admin/shortcode-builder/index.js:1363
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:142
-#: assets/admin/shortcode-builder/index.js:1563
+#: assets/admin/shortcode-builder/index.js:1562
 msgid "Status"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1365
+#: assets/admin/shortcode-builder/index.js:1363
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:143
-#: assets/admin/shortcode-builder/index.js:1564
+#: assets/admin/shortcode-builder/index.js:1563
 msgid "Actions"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1367
+#: assets/admin/shortcode-builder/index.js:1365
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:153
-#: assets/admin/shortcode-builder/index.js:1574
+#: assets/admin/shortcode-builder/index.js:1573
 msgid "No ShortCodes found"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1378
+#: assets/admin/shortcode-builder/index.js:1376
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:178
-#: assets/admin/shortcode-builder/index.js:1599
+#: assets/admin/shortcode-builder/index.js:1598
 msgid "Shortcode Copied"
 msgstr ""
 
-#: assets/admin/shortcode-builder/index.js:1407
+#: assets/admin/shortcode-builder/index.js:1405
 #: src/shortcode-builder/components/contents/ShortCodes.jsx:211
-#: assets/admin/shortcode-builder/index.js:1632
+#: assets/admin/shortcode-builder/index.js:1631
 msgid "Duplicate"
 msgstr ""

@@ -2,19 +2,19 @@
 /** بسم الله الرحمن الرحيم  **
  * Main Plugin File
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  */
 
 /**
- * Plugin Name:       Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website
- * Plugin URI:        https://ultradevs.com/easy-dropbox-integration/
- * Description:       Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website Easily.
+ * Plugin Name:       Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your Website
+ * Plugin URI:        https://ultradevs.com/integrate-dropbox-wp/
+ * Description:       Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your Website Easily.
  * Version: 1.0.0
  * Author:            ultradevs
  * Author URI:        https://ultradevs.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       easy-dropbox-integration
+ * Text Domain:       integrate-dropbox-wp
  * Domain Path:       /languages
  */
 
@@ -22,27 +22,27 @@
 defined( 'ABSPATH' ) || exit( 'bYe bYe!' );
 
 // Constant.
-define( 'EASY_DROPBOX_INTEGRATION_VERSION', '1.0.0' );
-define( 'EASY_DROPBOX_INTEGRATION_NAME', __( 'Easy DropBox Integration', 'easy-dropbox-integration' ) );
-define( 'EASY_DROPBOX_INTEGRATION_DIR_PATH', plugin_dir_path( __FILE__ ) );
-define( 'EASY_DROPBOX_INTEGRATION_DIR_URL', plugin_dir_url( __FILE__ ) );
-define( 'EASY_DROPBOX_INTEGRATION_ASSETS', EASY_DROPBOX_INTEGRATION_DIR_URL . 'assets/' );
-define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR', WP_CONTENT_DIR . '/uploads/easy-dropbox-integration-cache/' );
-define( 'EASY_DROPBOX_INTEGRATION_CACHE_DIR_URL', content_url() . '/uploads/easy-dropbox-integration-cache/' );
-define( 'EASY_DROPBOX_INTEGRATION_MENU_SLUG', 'easy-dropbox-integration' );
-define( 'EASY_DROPBOX_INTEGRATION_ERROR', '[ Easy DropBox Integration ] - ' );
-define( 'EASY_DROPBOX_INTEGRATION_DEV_MODE', true );
+define( 'IDBWP_VERSION', '1.0.0' );
+define( 'IDBWP_NAME', __( 'Integrate DropBox WP', 'integrate-dropbox-wp' ) );
+define( 'IDBWP_DIR_PATH', plugin_dir_path( __FILE__ ) );
+define( 'IDBWP_DIR_URL', plugin_dir_url( __FILE__ ) );
+define( 'IDBWP_ASSETS', IDBWP_DIR_URL . 'assets/' );
+define( 'IDBWP_CACHE_DIR', WP_CONTENT_DIR . '/uploads/integrate-dropbox-wp-cache/' );
+define( 'IDBWP_CACHE_DIR_URL', content_url() . '/uploads/integrate-dropbox-wp-cache/' );
+define( 'IDBWP_MENU_SLUG', 'integrate-dropbox-wp' );
+define( 'IDBWP_ERROR', '[ Integrate DropBox WP ] - ' );
+define( 'IDBWP_DEV_MODE', true );
 
 
 /**
  * Require Composer Autoload
  */
-require_once EASY_DROPBOX_INTEGRATION_DIR_PATH . 'vendor/autoload.php';
+require_once IDBWP_DIR_PATH . 'vendor/autoload.php';
 
 /**
  * Integrate Dropbox class
  */
-final class EasyDropBoxIntegration {
+final class Integrate_DropBox_WP_Core {
 
 	/**
 	 * Constructor
@@ -54,13 +54,13 @@ final class EasyDropBoxIntegration {
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 		add_action( 'init', array( $this, 'load_text_domain' ) );
 
-		do_action( 'easy_dropbox_integration_loaded' );
+		do_action( 'idbwp_loaded' );
 	}
 
 	/**
 	 * Begin execution of the plugin
 	 *
-	 * @return \EasyDropBoxIntegration
+	 * @return \IntegrateDropBoxWP
 	 */
 	public static function run() {
 		/**
@@ -83,28 +83,28 @@ final class EasyDropBoxIntegration {
 	public function init() {
 
 		// Ajax Class.
-		new ultraDevs\EasyDropBoxIntegration\Ajax();
+		new ultraDevs\IntegrateDropBoxWP\Ajax();
 
 		// Assets Manager Class.
-		$assets_manager = ( new ultraDevs\EasyDropBoxIntegration\Assets_Manager )::get_instance();
+		$assets_manager = ( new ultraDevs\IntegrateDropBoxWP\Assets_Manager )::get_instance();
 
 		// Activate.
-		$activate = new ultraDevs\EasyDropBoxIntegration\Activate();
+		$activate = new ultraDevs\IntegrateDropBoxWP\Activate();
 
 		// Review Class.
-		$review = new ultraDevs\EasyDropBoxIntegration\Review();
+		$review = new ultraDevs\IntegrateDropBoxWP\Review();
 
 		// Menu.
-		$menu = new ultraDevs\EasyDropBoxIntegration\Admin\Menu();
+		$menu = new ultraDevs\IntegrateDropBoxWP\Admin\Menu();
 
 		// App.
-		new ultraDevs\EasyDropBoxIntegration\App\App();
+		new ultraDevs\IntegrateDropBoxWP\App\App();
 
 		// Rest API.
-		new ultraDevs\EasyDropBoxIntegration\Rest_API();
+		new ultraDevs\IntegrateDropBoxWP\Rest_API();
 
 		// Shortcode.
-		$shortcode = new ultraDevs\EasyDropBoxIntegration\Shortcode();
+		$shortcode = new ultraDevs\IntegrateDropBoxWP\Shortcode();
 
 		if ( is_admin() ) {
 
@@ -137,7 +137,7 @@ final class EasyDropBoxIntegration {
 	 * @return void
 	 */
 	public function activate() {
-		$activate = new ultraDevs\EasyDropBoxIntegration\Activate();
+		$activate = new ultraDevs\IntegrateDropBoxWP\Activate();
 		$activate->run();
 	}
 
@@ -147,7 +147,7 @@ final class EasyDropBoxIntegration {
 	 * @return void
 	 */
 	public function deactivate() {
-		unset( $_COOKIE['edbi_active_account'] );
+		unset( $_COOKIE['idbwp_active_account'] );
 	}
 
 	/**
@@ -174,8 +174,8 @@ final class EasyDropBoxIntegration {
 			$categories,
 			array(
 				array(
-					'slug'  => 'easy-dropbox-integration',
-					'title' => __( 'Easy Dropbox Integration', 'easy-dropbox-integration' ),
+					'slug'  => 'integrate-dropbox-wp',
+					'title' => __( 'Integrate DropBox WP', 'integrate-dropbox-wp' ),
 				),
 			)
 		);
@@ -189,7 +189,7 @@ final class EasyDropBoxIntegration {
 	 * @return void
 	 */
 	public function load_text_domain() {
-		load_plugin_textdomain( 'easy-dropbox-integration', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'integrate-dropbox-wp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -200,7 +200,7 @@ final class EasyDropBoxIntegration {
 	 */
 	public function plugin_action_links( $links ) {
 
-		$links[] = '<a href="' . admin_url( 'admin.php?page=' . EASY_DROPBOX_INTEGRATION_MENU_SLUG ) . '">' . __( 'Settings', 'easy-dropbox-integration' ) . '</a>';
+		$links[] = '<a href="' . admin_url( 'admin.php?page=' . IDBWP_MENU_SLUG ) . '">' . __( 'Settings', 'integrate-dropbox-wp' ) . '</a>';
 
 		return $links;
 
@@ -209,19 +209,19 @@ final class EasyDropBoxIntegration {
 }
 
 /**
- * Check if easy_dropbox_integration doesn't exist
+ * Check if integrate_dropbox_wp doesn't exist
  */
-if ( ! function_exists( 'easy_dropbox_integration' ) ) {
+if ( ! function_exists( 'integrate_dropbox_wp' ) ) {
 	/**
 	 * Load Integrate Dropbox
 	 *
-	 * @return EasyDropBoxIntegration
+	 * @return Integrate_DropBox_WP_Core
 	 */
-	function easy_dropbox_integration() {
-		return EasyDropBoxIntegration::run();
+	function integrate_dropbox_wp() {
+		return Integrate_DropBox_WP_Core::run();
 	}
 }
-easy_dropbox_integration();
+integrate_dropbox_wp();
 
 
 // echo esc_url( 'https:\/\/dl-web.dropbox.com\/account_photo\/get\/pid_uphoto%3AAAAAAFzgsynQ8G9YAm3yDdYgAdioxvU4AYYw2N-C0xXzwRCfzs1oMY5pRDgQS2zJD7bV_WTg-v3RY-D_c6Ez?size=128x128&vers=1558710916897');

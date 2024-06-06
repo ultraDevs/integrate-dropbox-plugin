@@ -15,27 +15,27 @@ const Sidebar = ( props ) => {
 	const items = [
 		{
 			slug: 'types',
-			label: __( 'Types', 'easy-dropbox-integration' ),
+			label: __( 'Types', 'integrate-dropbox-wp' ),
 			icon: 'dashicons-admin-home'
 		},
 		{
 			slug: 'source',
-			label: __( 'Source', 'easy-dropbox-integration' ),
+			label: __( 'Source', 'integrate-dropbox-wp' ),
 			icon: 'dashicons-database'
 		},
 		// {
 		// 	slug: 'filters',
-		// 	label: __( 'Filters', 'easy-dropbox-integration' ),
+		// 	label: __( 'Filters', 'integrate-dropbox-wp' ),
 		// 	icon: 'dashicons-admin-site'
 		// },
 		{
 			slug: 'advanced',
-			label: __( 'Advanced', 'easy-dropbox-integration' ),
+			label: __( 'Advanced', 'integrate-dropbox-wp' ),
 			icon: 'dashicons-admin-settings'
 		},
 		// {
 		// 	slug: 'permission',
-		// 	label: __( 'Permission', 'easy-dropbox-integration' ),
+		// 	label: __( 'Permission', 'integrate-dropbox-wp' ),
 		// 	icon: 'dashicons-admin-generic'
 		// },
 	];

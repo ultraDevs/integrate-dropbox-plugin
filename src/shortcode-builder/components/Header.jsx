@@ -16,7 +16,7 @@ const Header = (props) => {
 				<i className='dashicons dashicons-admin-generic'></i>
 				<h2>
 					{
-						title || __( 'ShortCode Builder', 'easy-dropbox-integration' )
+						title || __( 'ShortCode Builder', 'integrate-dropbox-wp' )
 					}
 					<span>v{version}</span>
 				</h2>
@@ -28,10 +28,10 @@ const Header = (props) => {
 							<input
 								type='text'
 								placeholder={
-									__( 'Enter ShortCode Title', 'easy-dropbox-integration')
+									__( 'Enter ShortCode Title', 'integrate-dropbox-wp')
 								}
 								value={
-									shortCodeTitle || __( 'ShortCode Title', 'easy-dropbox-integration' )
+									shortCodeTitle || __( 'ShortCode Title', 'integrate-dropbox-wp' )
 								}
 								onChange={
 									(e) => setShortCodeTitle(e.target.value)

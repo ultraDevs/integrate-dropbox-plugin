@@ -2,18 +2,18 @@
 /**
  * Activate
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration;
+namespace ultraDevs\IntegrateDropBoxWP;
 
-use ultraDevs\EasyDropBoxIntegration\Helper;
+use ultraDevs\IntegrateDropBoxWP\Helper;
 
 /**
  * Activate Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Activate {
@@ -33,18 +33,18 @@ class Activate {
 	 * Settings Data
 	 */
 	public function settings_data() {
-		update_option( 'easy_dropbox_integration_settings', edbi_get_settings() );
+		update_option( 'idbwp_settings', idbwp_get_settings() );
 	}
 
 	/**
 	 * Save Plugin's Data
 	 */
 	public function plugin_data() {
-		Helper::update_option( 'easy_dropbox_integration_version', EASY_DROPBOX_INTEGRATION_VERSION );
+		Helper::update_option( 'idbwp_version', IDBWP_VERSION );
 
-		$installed_time = Helper::get_option( 'easy_dropbox_integration_installed_datetime', false );
+		$installed_time = Helper::get_option( 'idbwp_installed_datetime', false );
 		if ( ! $installed_time ) {
-			Helper::update_option( 'easy_dropbox_integration_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
+			Helper::update_option( 'idbwp_installed_datetime', current_time( 'timestamp' ) ); // phpcs:ignore
 		}
 	}
 
@@ -53,10 +53,10 @@ class Activate {
 	 */
 	public function activation_redirect() {
 
-		if ( get_option( 'easy_dropbox_integration_do_activation_redirect', false ) ) {
+		if ( get_option( 'idbwp_do_activation_redirect', false ) ) {
 
-			delete_option( 'easy_dropbox_integration_do_activation_redirect' );
-			wp_safe_redirect( admin_url( 'admin.php?page=' . EASY_DROPBOX_INTEGRATION_MENU_SLUG ) );
+			delete_option( 'idbwp_do_activation_redirect' );
+			wp_safe_redirect( admin_url( 'admin.php?page=' . IDBWP_MENU_SLUG ) );
 			exit();
 		}
 	}
@@ -68,8 +68,8 @@ class Activate {
 	public function create_directories() {
 
 		$directories = array(
-			EASY_DROPBOX_INTEGRATION_CACHE_DIR,
-			EASY_DROPBOX_INTEGRATION_CACHE_DIR . 'thumbnails/',
+			IDBWP_CACHE_DIR,
+			IDBWP_CACHE_DIR . 'thumbnails/',
 		);
 
 		foreach ( $directories as $directory ) {
@@ -86,8 +86,8 @@ class Activate {
 	public function create_tables() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$table_files      = $wpdb->prefix . 'easy_dropbox_integration_files';
-		$table_shortcodes = $wpdb->prefix . 'easy_dropbox_integration_shortcodes';
+		$table_files      = $wpdb->prefix . 'idbwp_files';
+		$table_shortcodes = $wpdb->prefix . 'idbwp_shortcodes';
 
 		$sql_files = "CREATE TABLE IF NOT EXISTS $table_files (
 			id varchar(255) NOT NULL,

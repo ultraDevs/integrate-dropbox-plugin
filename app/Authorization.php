@@ -2,19 +2,19 @@
 /**
  * Authorization Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
-use ultraDevs\EasyDropBoxIntegration\App\Client;
-use ultraDevs\EasyDropBoxIntegration\App\Account;
+use ultraDevs\IntegrateDropBoxWP\App\Client;
+use ultraDevs\IntegrateDropBoxWP\App\Account;
 
 /**
  * Authorization Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Authorization {
@@ -38,7 +38,7 @@ class Authorization {
 	 *
 	 * @var string
 	 */
-	public $tokens_key = 'easy_dropbox_integration_tokens';
+	public $tokens_key = 'idbwp_tokens';
 
 	/**
 	 * Is Valid Token?
@@ -170,14 +170,14 @@ class Authorization {
 	 * @return boolean
 	 */
 	public function revoke_token( $account = null ) {
-		error_log( EASY_DROPBOX_INTEGRATION_ERROR . __( 'Authorization Lost', 'easy-dropbox-integration' ) );
+		error_log( IDBWP_ERROR . __( 'Authorization Lost', 'integrate-dropbox-wp' ) );
 
 		try {
 			$this->get_client( $account )->getAuthHelper()->revokeAccessToken();
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error revoking token: %s', 'easy-dropbox-integration' ), $e->getMessage() )
+				__( 'Error revoking token: %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 			);
 		}
 

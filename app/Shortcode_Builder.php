@@ -2,18 +2,18 @@
 /**
  * Shortcode_Builder Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
 
 /**
  * Shortcode_Builder Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Shortcode_Builder {
@@ -30,7 +30,7 @@ class Shortcode_Builder {
     private function __construct() {
         global $wpdb;
 
-        $this->table_name = $wpdb->prefix . 'easy_dropbox_integration_shortcodes';
+        $this->table_name = $wpdb->prefix . 'idbwp_shortcodes';
     }
 
     /**

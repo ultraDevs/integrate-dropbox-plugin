@@ -2,25 +2,25 @@
 /**
  * API Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
 use Kunnu\Dropbox\Models\FolderMetadata;
 use Kunnu\Dropbox\Models\SharedLinkSettings;
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
-use ultraDevs\EasyDropBoxIntegration\App\Account;
-use ultraDevs\EasyDropBoxIntegration\App\Client;
-use ultraDevs\EasyDropBoxIntegration\App\File;
-use ultraDevs\EasyDropBoxIntegration\Helper;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\App\Account;
+use ultraDevs\IntegrateDropBoxWP\App\Client;
+use ultraDevs\IntegrateDropBoxWP\App\File;
+use ultraDevs\IntegrateDropBoxWP\Helper;
 
 
 /**
  * API Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class API {
@@ -70,16 +70,16 @@ class API {
 			// $id = Helper::clean_path( $id );
 		}
 
-		// do_action( 'edbi_log_event', $account_id, $file );
+		// do_action( 'idbwp_log_event', $account_id, $file );
 
 
 		try {
 			$file_data = $this->client->getMetadata( $id, $params );
 
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage() )
+				__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 			);
 
 			throw new \Exception( esc_html( $e->getMessage() ) ); 
@@ -128,9 +128,9 @@ class API {
 				}
 
 			} catch ( \Exception $e ) {
-				error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+				error_log( IDBWP_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage() )
+					__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 				);
 				return false;
 			}
@@ -231,9 +231,9 @@ class API {
 		try {
 			$folder = Client::get_instance()->get_client()->createFolder( $folder_path, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
+				__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage()
 			));
 			return false;
 		}
@@ -242,21 +242,21 @@ class API {
 	}
 
 	public function get_preview( $id, $params = [] ) {
-		do_action( 'edbi_api_before_file_preview', $this->account_id, $id, $params );
+		do_action( 'idbwp_api_before_file_preview', $this->account_id, $id, $params );
 
-		$params = apply_filters( 'edbi_file_preview_params', $params );
+		$params = apply_filters( 'idbwp_file_preview_params', $params );
 
 		try {
 			$preview = Client::get_instance()->get_client()->preview( $id );
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
+				__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage()
 			));
 			return false;
 		}
 
-		do_action( 'edbi_api_after_file_preview', $this->account_id, $id, $params );
+		do_action( 'idbwp_api_after_file_preview', $this->account_id, $id, $params );
 
 		return $preview;
 	}
@@ -278,9 +278,9 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->move( $target, $new_name, $params['auto_rename'] );
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
+				__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -302,9 +302,9 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->delete( $target );
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
+				__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -325,9 +325,9 @@ class API {
 		try {
 			$file = Client::get_instance()->get_client()->delete( $target );
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
+				__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -357,9 +357,9 @@ class API {
 			// dump( $file );
 			// $file = new File( $file );
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
+				__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage()
 			));
 			return $e->getMessage();
 		}
@@ -371,7 +371,7 @@ class API {
 		// $path = Helper::clean_path( $path );
 
 		$default_shared_link_params = apply_filters(
-			'edbi_default_shared_link_params',
+			'idbwp_default_shared_link_params',
 			[
 				'audience' => 'public',
 				'access' => 'viewer',
@@ -395,9 +395,9 @@ class API {
 
 				// $link = $link[0];
 			} else {
-				error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+				error_log( IDBWP_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Error : %s', 'easy-dropbox-integration' ), $e->getMessage()
+					__( 'Error : %s', 'integrate-dropbox-wp' ), $e->getMessage()
 				));
 				return $e->getMessage();
 			}

@@ -4,7 +4,7 @@
  *
  * Fired when the plugin is uninstallad
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

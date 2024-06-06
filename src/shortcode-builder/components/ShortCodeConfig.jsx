@@ -50,7 +50,7 @@ const ShortCodeConfig = (props) => {
         if ( shortCodeTitle === 'ShortCode Title' ) {
             // get shortcode data from server.
             wp.ajax.post(
-            'edbi_get_shortcode',
+            'idbwp_get_shortcode',
             {
                 id,
                 nonce: ajaxNonce
@@ -109,7 +109,7 @@ const ShortCodeConfig = (props) => {
             const base64String = btoa(jsonString);
             if ( 'edit' === actionType ) {
                 wp.ajax
-                .post('edbi_update_shortcode', {
+                .post('idbwp_update_shortcode', {
                     id,
                     title: shortCodeTitle,
                     config: base64String,
@@ -119,8 +119,8 @@ const ShortCodeConfig = (props) => {
                     setSave(!save);
 
                     showAlert({
-                        title: __('Shortcode Updated', 'easy-dropbox-integration'),
-                        text: __('Shortcode has been updated successfully', 'easy-dropbox-integration'),
+                        title: __('Shortcode Updated', 'integrate-dropbox-wp'),
+                        text: __('Shortcode has been updated successfully', 'integrate-dropbox-wp'),
                         icon: 'success',
                         showCancelButton: false,
                         confirmButtonText: 'Ok',
@@ -131,8 +131,8 @@ const ShortCodeConfig = (props) => {
                     console.error(error);
 
                     showAlert({
-                        title: __('Error', 'easy-dropbox-integration'),
-                        text: __('An error occurred while updating the shortcode', 'easy-dropbox-integration'),
+                        title: __('Error', 'integrate-dropbox-wp'),
+                        text: __('An error occurred while updating the shortcode', 'integrate-dropbox-wp'),
                         icon: 'error',
                         showCancelButton: false,
                         confirmButtonText: 'Ok',
@@ -141,7 +141,7 @@ const ShortCodeConfig = (props) => {
                 });
             } else {
                 wp.ajax
-                .post('edbi_create_shortcode', {
+                .post('idbwp_create_shortcode', {
                     title: shortCodeTitle,
                     config: base64String,
                     nonce: ajaxNonce,
@@ -150,8 +150,8 @@ const ShortCodeConfig = (props) => {
                     setSave(!save);
 
                     showAlert({
-                        title: __('Shortcode Created', 'easy-dropbox-integration'),
-                        text: __('Shortcode has been created successfully', 'easy-dropbox-integration'),
+                        title: __('Shortcode Created', 'integrate-dropbox-wp'),
+                        text: __('Shortcode has been created successfully', 'integrate-dropbox-wp'),
                         icon: 'success',
                         showCancelButton: false,
                         confirmButtonText: 'Ok',
@@ -162,8 +162,8 @@ const ShortCodeConfig = (props) => {
                     console.error(error);
 
                     showAlert({
-                        title: __('Error', 'easy-dropbox-integration'),
-                        text: __('An error occurred while creating the shortcode', 'easy-dropbox-integration'),
+                        title: __('Error', 'integrate-dropbox-wp'),
+                        text: __('An error occurred while creating the shortcode', 'integrate-dropbox-wp'),
                         icon: 'error',
                         showCancelButton: false,
                         confirmButtonText: 'Ok',
@@ -193,15 +193,15 @@ const ShortCodeConfig = (props) => {
 
     const types = [
         {
-            label: __( 'Image Gallery', 'easy-dropbox-integration' ),
+            label: __( 'Image Gallery', 'integrate-dropbox-wp' ),
             value: 'image-gallery',
-            desc: __( 'Display images in a gallery', 'easy-dropbox-integration' ),
+            desc: __( 'Display images in a gallery', 'integrate-dropbox-wp' ),
             icon: 'format-gallery'
         },
         // {
-        //     label: __( 'File Browser', 'easy-dropbox-integration' ),
+        //     label: __( 'File Browser', 'integrate-dropbox-wp' ),
         //     value: 'file-browser',
-        //     desc: __( 'Let users browse files', 'easy-dropbox-integration' ),
+        //     desc: __( 'Let users browse files', 'integrate-dropbox-wp' ),
         //     icon: 'open-folder'
         // }
     ];
@@ -454,7 +454,7 @@ const ShortCodeConfig = (props) => {
                             <div className='edbi-shortcode-builder__advanced__item__fields'>
                                 <div className='edbi-shortcode-builder__advanced__item__field'>
                                     <TextControl
-                                        label={__('Width', 'easy-dropbox-integration')}
+                                        label={__('Width', 'integrate-dropbox-wp')}
                                         value={shortCodeConfig.settings.container.width}
                                         onChange={(value) => {
                                             updateShortCodeConfig('settings', {
@@ -469,7 +469,7 @@ const ShortCodeConfig = (props) => {
                                 </div>
                                 <div className='edbi-shortcode-builder__advanced__item__field'>
                                     <TextControl
-                                        label={__('Height', 'easy-dropbox-integration')}
+                                        label={__('Height', 'integrate-dropbox-wp')}
                                         value={shortCodeConfig.settings.container.height}
                                         onChange={(value) => {
                                             updateShortCodeConfig('settings', {
@@ -502,7 +502,7 @@ const ShortCodeConfig = (props) => {
                                                         }}
                                                         disabled
                                                     >
-                                                        {__('Justified', 'easy-dropbox-integration')}
+                                                        {__('Justified', 'integrate-dropbox-wp')}
                                                     </Button>
                                                     <Button
                                                         isPrimary={shortCodeConfig.settings.imgLayout === 'masonry'}
@@ -514,7 +514,7 @@ const ShortCodeConfig = (props) => {
                                                         }}
                                                         disabled
                                                     >
-                                                        {__('Masonry', 'easy-dropbox-integration')}
+                                                        {__('Masonry', 'integrate-dropbox-wp')}
                                                     </Button>
                                                     <Button
                                                         isPrimary={shortCodeConfig.settings.imgLayout === 'grid'}
@@ -525,12 +525,12 @@ const ShortCodeConfig = (props) => {
                                                             });
                                                         }}
                                                     >
-                                                        {__('Grid', 'easy-dropbox-integration')}
+                                                        {__('Grid', 'integrate-dropbox-wp')}
                                                     </Button>
                                                 </ButtonGroup>
                                                 <p>
                                                     {
-                                                        __( 'Image Gallery Layout',  'easy-dropbox-integration')
+                                                        __( 'Image Gallery Layout',  'integrate-dropbox-wp')
                                                     }
                                                 </p>
                                             </div>

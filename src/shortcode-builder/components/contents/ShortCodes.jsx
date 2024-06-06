@@ -18,7 +18,7 @@ const ShortCodes = (props) => {
     useEffect(() => {
 
         wp.ajax
-            .post('edbi_get_shortcodes', {
+            .post('idbwp_get_shortcodes', {
                 account_id: activeAccount?.id,
                 nonce: EDBIData?.ajaxNonce,
             })
@@ -28,8 +28,8 @@ const ShortCodes = (props) => {
             .catch((error) => {
                 console.error(error);
                 showAlert({
-                    title: __('Error', 'easy-dropbox-integration'),
-                    text: __('An error occurred while fetching ShortCodes', 'easy-dropbox-integration'),
+                    title: __('Error', 'integrate-dropbox-wp'),
+                    text: __('An error occurred while fetching ShortCodes', 'integrate-dropbox-wp'),
                     icon: 'error',
                     showCancelButton: false,
                     confirmButtonText: 'Ok',
@@ -53,7 +53,7 @@ const ShortCodes = (props) => {
             if (result.isConfirmed) {
 
                 wp.ajax
-                .post('edbi_delete_shortcode', {
+                .post('idbwp_delete_shortcode', {
                     nonce: EDBIData?.ajaxNonce,
                     id: shortcode
                 })
@@ -64,8 +64,8 @@ const ShortCodes = (props) => {
                     setShortCodes(newShortCodes);
 
                     showAlert({
-                        title: __('Success', 'easy-dropbox-integration'),
-                        text: __('Shortcode removed successfully', 'easy-dropbox-integration'),
+                        title: __('Success', 'integrate-dropbox-wp'),
+                        text: __('Shortcode removed successfully', 'integrate-dropbox-wp'),
                         icon: 'success',
                         showCancelButton: false,
                         confirmButtonText: 'Ok',
@@ -75,8 +75,8 @@ const ShortCodes = (props) => {
                     console.error(error);
 
                     showAlert({
-                        title: __('Error', 'easy-dropbox-integration'),
-                        text: __('An error occurred while removing Shortcode', 'easy-dropbox-integration'),
+                        title: __('Error', 'integrate-dropbox-wp'),
+                        text: __('An error occurred while removing Shortcode', 'integrate-dropbox-wp'),
                         icon: 'error',
                         showCancelButton: false,
                         confirmButtonText: 'Ok',
@@ -88,7 +88,7 @@ const ShortCodes = (props) => {
 
     const duplicateShortCode = (shortcode) => {
         wp.ajax
-        .post('edbi_duplicate_shortcode', {
+        .post('idbwp_duplicate_shortcode', {
             nonce: EDBIData?.ajaxNonce,
             id: shortcode
         })
@@ -100,8 +100,8 @@ const ShortCodes = (props) => {
             });
 
             showAlert({
-                title: __('Success', 'easy-dropbox-integration'),
-                text: __('Shortcode duplicated successfully', 'easy-dropbox-integration'),
+                title: __('Success', 'integrate-dropbox-wp'),
+                text: __('Shortcode duplicated successfully', 'integrate-dropbox-wp'),
                 icon: 'success',
                 showCancelButton: false,
                 confirmButtonText: 'Ok',
@@ -110,8 +110,8 @@ const ShortCodes = (props) => {
         .catch((error) => {
             console.error(error);
             showAlert({
-                title: __('Error', 'easy-dropbox-integration'),
-                text: __('An error occurred while duplicating Shortcode', 'easy-dropbox-integration'),
+                title: __('Error', 'integrate-dropbox-wp'),
+                text: __('An error occurred while duplicating Shortcode', 'integrate-dropbox-wp'),
                 icon: 'error',
                 showCancelButton: false,
                 confirmButtonText: 'Ok',
@@ -125,22 +125,22 @@ const ShortCodes = (props) => {
             <div className='overflow-x-scroll edbi-shortcodes'>
                 <div className='flex items-center justify-between edbi-shortcodes__header'>
                     <h3 className='flex items-center gap-4 mb-3 text-base font-bold text-black'>
-                        { __('ShortCodes', 'easy-dropbox-integration') }
+                        { __('ShortCodes', 'integrate-dropbox-wp') }
                         <span className='text-sm text-gray-600'>
-                            ({ Object.keys(shortCodes).length } { __(' Items', 'easy-dropbox-integration') } )
+                            ({ Object.keys(shortCodes).length } { __(' Items', 'integrate-dropbox-wp') } )
                         </span>
                     </h3>
                 </div>
                 <table className='edbi-shortcodes__lists'>
                     <thead>
                         <tr>
-                            <th>{ __( 'ID', 'easy-dropbox-integration') }</th>
-                            <th>{ __( 'Title', 'easy-dropbox-integration' ) }</th>
-                            <th>{ __( 'Type', 'easy-dropbox-integration' ) }</th>
-                            <th>{ __( 'ShortCode', 'easy-dropbox-integration' ) }</th>
-                            <th>{ __( 'Created', 'easy-dropbox-integration' ) }</th>
-                            <th>{ __( 'Status', 'easy-dropbox-integration' ) }</th>
-                            <th>{ __( 'Actions', 'easy-dropbox-integration' ) }</th>
+                            <th>{ __( 'ID', 'integrate-dropbox-wp') }</th>
+                            <th>{ __( 'Title', 'integrate-dropbox-wp' ) }</th>
+                            <th>{ __( 'Type', 'integrate-dropbox-wp' ) }</th>
+                            <th>{ __( 'ShortCode', 'integrate-dropbox-wp' ) }</th>
+                            <th>{ __( 'Created', 'integrate-dropbox-wp' ) }</th>
+                            <th>{ __( 'Status', 'integrate-dropbox-wp' ) }</th>
+                            <th>{ __( 'Actions', 'integrate-dropbox-wp' ) }</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -150,7 +150,7 @@ const ShortCodes = (props) => {
                                 <div className='edbi-shortcodes__lists__item'>
                                     <p>
                                         {
-                                            __('No ShortCodes found', 'easy-dropbox-integration')
+                                            __('No ShortCodes found', 'integrate-dropbox-wp')
                                         }
                                     </p>
                                 </div>
@@ -173,9 +173,9 @@ const ShortCodes = (props) => {
                                                             className='flex items-center justify-center gap-3 p-2 bg-gray-200 edbi-shortcodes__list__shortcode'
                                                             title='Click to copy shortcode'
                                                             onClick={() => {
-                                                                navigator.clipboard.writeText(`[easy_dropbox_integration id="${item.id}"]`);
+                                                                navigator.clipboard.writeText(`[integrate_dropbox_wp id="${item.id}"]`);
                                                                 showAlert({
-                                                                    title: __('Shortcode Copied', 'easy-dropbox-integration'),
+                                                                    title: __('Shortcode Copied', 'integrate-dropbox-wp'),
                                                                     icon: 'success',
                                                                     position: 'top-right',
                                                                     toast: true,
@@ -185,7 +185,7 @@ const ShortCodes = (props) => {
                                                             } }
                                                         >
                                                             <i class="dashicons dashicons-admin-page"></i>
-                                                            [easy_dropbox_integration id="{item.id}"]
+                                                            [integrate_dropbox_wp id="{item.id}"]
                                                         </div>
                                                     </td>
                                                     <td><h4>{item.created_at}</h4></td>
@@ -208,7 +208,7 @@ const ShortCodes = (props) => {
                                                             <button
                                                                 className=''
                                                                 title={
-                                                                    __( 'Duplicate', 'easy-dropbox-integration' )
+                                                                    __( 'Duplicate', 'integrate-dropbox-wp' )
                                                                 }
                                                                 onClick={() => duplicateShortCode(item.id)}
                                                             >

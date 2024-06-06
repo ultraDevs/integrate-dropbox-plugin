@@ -140,7 +140,7 @@ const Header = () => {
       confirmButtonText: 'Create'
     }).then(result => {
       if (result.isConfirmed) {
-        wp.ajax.post('edbi_create_folder', {
+        wp.ajax.post('idbwp_create_folder', {
           account_id: activeAccount['id'],
           nonce: EDBIData?.ajaxNonce,
           path: currentPath,
@@ -371,7 +371,7 @@ const generateDataAttributes = file => {
 
   let attributes = {};
   const activeAccount = EDBIData?.activeAccount;
-  const filePreview = `${EDBIData.ajaxUrl}?action=edbi_file_preview&account_id=${activeAccount['id']}&nonce=${EDBIData?.ajaxNonce}&file=${file.id}`;
+  const filePreview = `${EDBIData.ajaxUrl}?action=idbwp_file_preview&account_id=${activeAccount['id']}&nonce=${EDBIData?.ajaxNonce}&file=${file.id}`;
 
   // If item.ext is mp4, webm, or ogg, we will add the video attribute
   if (['mp4', 'webm', 'ogg'].includes(file.ext)) {
@@ -476,7 +476,7 @@ const App = () => {
   const hashValue = hash.replace('#', '');
   const [activeItem, setActiveItem] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(hashValue || 'types');
   const [save, setSave] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-  const [shortCodeTitle, setShortCodeTitle] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode Title', 'easy-dropbox-integration'));
+  const [shortCodeTitle, setShortCodeTitle] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode Title', 'integrate-dropbox-wp'));
   const [shortCodeConfig, setShortCodeConfig] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)({
     type: 'image-gallery',
     source: {
@@ -671,12 +671,12 @@ const Header = props => {
     className: "flex items-center edbi-page__header__left"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "dashicons dashicons-admin-generic"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode Builder', 'easy-dropbox-integration'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "v", version))), ('create' === type || 'edit' === type) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode Builder', 'integrate-dropbox-wp'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "v", version))), ('create' === type || 'edit' === type) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ml-5 bg-white edbi-shortcodes-create"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "text",
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Enter ShortCode Title', 'easy-dropbox-integration'),
-    value: shortCodeTitle || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode Title', 'easy-dropbox-integration'),
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Enter ShortCode Title', 'integrate-dropbox-wp'),
+    value: shortCodeTitle || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode Title', 'integrate-dropbox-wp'),
     onChange: e => setShortCodeTitle(e.target.value)
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "edbi-page__header__right"
@@ -776,7 +776,7 @@ const ShortCodeConfig = props => {
     console.log('shortCodeTitle', shortCodeTitle);
     if (shortCodeTitle === 'ShortCode Title') {
       // get shortcode data from server.
-      wp.ajax.post('edbi_get_shortcode', {
+      wp.ajax.post('idbwp_get_shortcode', {
         id,
         nonce: ajaxNonce
       }).then(response => {
@@ -826,7 +826,7 @@ const ShortCodeConfig = props => {
       const jsonString = JSON.stringify(shortCodeConfig);
       const base64String = btoa(jsonString);
       if ('edit' === actionType) {
-        wp.ajax.post('edbi_update_shortcode', {
+        wp.ajax.post('idbwp_update_shortcode', {
           id,
           title: shortCodeTitle,
           config: base64String,
@@ -835,8 +835,8 @@ const ShortCodeConfig = props => {
           console.log(response);
           setSave(!save);
           (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_10__.showAlert)({
-            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode Updated', 'easy-dropbox-integration'),
-            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode has been updated successfully', 'easy-dropbox-integration'),
+            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode Updated', 'integrate-dropbox-wp'),
+            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode has been updated successfully', 'integrate-dropbox-wp'),
             icon: 'success',
             showCancelButton: false,
             confirmButtonText: 'Ok'
@@ -845,8 +845,8 @@ const ShortCodeConfig = props => {
         }).catch(error => {
           console.error(error);
           (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_10__.showAlert)({
-            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Error', 'easy-dropbox-integration'),
-            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('An error occurred while updating the shortcode', 'easy-dropbox-integration'),
+            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Error', 'integrate-dropbox-wp'),
+            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('An error occurred while updating the shortcode', 'integrate-dropbox-wp'),
             icon: 'error',
             showCancelButton: false,
             confirmButtonText: 'Ok'
@@ -854,7 +854,7 @@ const ShortCodeConfig = props => {
           });
         });
       } else {
-        wp.ajax.post('edbi_create_shortcode', {
+        wp.ajax.post('idbwp_create_shortcode', {
           title: shortCodeTitle,
           config: base64String,
           nonce: ajaxNonce
@@ -862,8 +862,8 @@ const ShortCodeConfig = props => {
           console.log(response);
           setSave(!save);
           (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_10__.showAlert)({
-            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode Created', 'easy-dropbox-integration'),
-            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode has been created successfully', 'easy-dropbox-integration'),
+            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode Created', 'integrate-dropbox-wp'),
+            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Shortcode has been created successfully', 'integrate-dropbox-wp'),
             icon: 'success',
             showCancelButton: false,
             confirmButtonText: 'Ok'
@@ -872,8 +872,8 @@ const ShortCodeConfig = props => {
         }).catch(error => {
           console.error(error);
           (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_10__.showAlert)({
-            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Error', 'easy-dropbox-integration'),
-            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('An error occurred while creating the shortcode', 'easy-dropbox-integration'),
+            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Error', 'integrate-dropbox-wp'),
+            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('An error occurred while creating the shortcode', 'integrate-dropbox-wp'),
             icon: 'error',
             showCancelButton: false,
             confirmButtonText: 'Ok'
@@ -899,15 +899,15 @@ const ShortCodeConfig = props => {
     });
   };
   const types = [{
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Image Gallery', 'easy-dropbox-integration'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Image Gallery', 'integrate-dropbox-wp'),
     value: 'image-gallery',
-    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Display images in a gallery', 'easy-dropbox-integration'),
+    desc: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Display images in a gallery', 'integrate-dropbox-wp'),
     icon: 'format-gallery'
   }
   // {
-  //     label: __( 'File Browser', 'easy-dropbox-integration' ),
+  //     label: __( 'File Browser', 'integrate-dropbox-wp' ),
   //     value: 'file-browser',
-  //     desc: __( 'Let users browse files', 'easy-dropbox-integration' ),
+  //     desc: __( 'Let users browse files', 'integrate-dropbox-wp' ),
   //     icon: 'open-folder'
   // }
   ];
@@ -1073,7 +1073,7 @@ const ShortCodeConfig = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "edbi-shortcode-builder__advanced__item__field"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Width', 'easy-dropbox-integration'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Width', 'integrate-dropbox-wp'),
     value: shortCodeConfig.settings.container.width,
     onChange: value => {
       updateShortCodeConfig('settings', {
@@ -1087,7 +1087,7 @@ const ShortCodeConfig = props => {
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "edbi-shortcode-builder__advanced__item__field"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Height', 'easy-dropbox-integration'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Height', 'integrate-dropbox-wp'),
     value: shortCodeConfig.settings.container.height,
     onChange: value => {
       updateShortCodeConfig('settings', {
@@ -1113,7 +1113,7 @@ const ShortCodeConfig = props => {
       });
     },
     disabled: true
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Justified', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Justified', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
     isPrimary: shortCodeConfig.settings.imgLayout === 'masonry',
     onClick: () => {
       updateShortCodeConfig('settings', {
@@ -1122,7 +1122,7 @@ const ShortCodeConfig = props => {
       });
     },
     disabled: true
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Masonry', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Masonry', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
     isPrimary: shortCodeConfig.settings.imgLayout === 'grid',
     onClick: () => {
       updateShortCodeConfig('settings', {
@@ -1130,7 +1130,7 @@ const ShortCodeConfig = props => {
         imgLayout: 'grid'
       });
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Grid', 'easy-dropbox-integration'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Image Gallery Layout', 'easy-dropbox-integration')))))))));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Grid', 'integrate-dropbox-wp'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Image Gallery Layout', 'integrate-dropbox-wp')))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShortCodeConfig);
 
@@ -1173,26 +1173,26 @@ const Sidebar = props => {
   } = EDBIData;
   const items = [{
     slug: 'types',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Types', 'easy-dropbox-integration'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Types', 'integrate-dropbox-wp'),
     icon: 'dashicons-admin-home'
   }, {
     slug: 'source',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Source', 'easy-dropbox-integration'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Source', 'integrate-dropbox-wp'),
     icon: 'dashicons-database'
   },
   // {
   // 	slug: 'filters',
-  // 	label: __( 'Filters', 'easy-dropbox-integration' ),
+  // 	label: __( 'Filters', 'integrate-dropbox-wp' ),
   // 	icon: 'dashicons-admin-site'
   // },
   {
     slug: 'advanced',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Advanced', 'easy-dropbox-integration'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Advanced', 'integrate-dropbox-wp'),
     icon: 'dashicons-admin-settings'
   }
   // {
   // 	slug: 'permission',
-  // 	label: __( 'Permission', 'easy-dropbox-integration' ),
+  // 	label: __( 'Permission', 'integrate-dropbox-wp' ),
   // 	icon: 'dashicons-admin-generic'
   // },
   ];
@@ -1260,7 +1260,7 @@ const ShortCodes = props => {
     activeAccount
   } = EDBIData;
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    wp.ajax.post('edbi_get_shortcodes', {
+    wp.ajax.post('idbwp_get_shortcodes', {
       account_id: activeAccount?.id,
       nonce: EDBIData?.ajaxNonce
     }).then(response => {
@@ -1268,8 +1268,8 @@ const ShortCodes = props => {
     }).catch(error => {
       console.error(error);
       (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__.showAlert)({
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Error', 'easy-dropbox-integration'),
-        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('An error occurred while fetching ShortCodes', 'easy-dropbox-integration'),
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Error', 'integrate-dropbox-wp'),
+        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('An error occurred while fetching ShortCodes', 'integrate-dropbox-wp'),
         icon: 'error',
         showCancelButton: false,
         confirmButtonText: 'Ok'
@@ -1289,7 +1289,7 @@ const ShortCodes = props => {
       reverseButtons: true
     }).then(result => {
       if (result.isConfirmed) {
-        wp.ajax.post('edbi_delete_shortcode', {
+        wp.ajax.post('idbwp_delete_shortcode', {
           nonce: EDBIData?.ajaxNonce,
           id: shortcode
         }).then(response => {
@@ -1300,8 +1300,8 @@ const ShortCodes = props => {
           delete newShortCodes[shortcode];
           setShortCodes(newShortCodes);
           (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__.showAlert)({
-            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Success', 'easy-dropbox-integration'),
-            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Shortcode removed successfully', 'easy-dropbox-integration'),
+            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Success', 'integrate-dropbox-wp'),
+            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Shortcode removed successfully', 'integrate-dropbox-wp'),
             icon: 'success',
             showCancelButton: false,
             confirmButtonText: 'Ok'
@@ -1309,8 +1309,8 @@ const ShortCodes = props => {
         }).catch(error => {
           console.error(error);
           (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__.showAlert)({
-            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Error', 'easy-dropbox-integration'),
-            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('An error occurred while removing Shortcode', 'easy-dropbox-integration'),
+            title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Error', 'integrate-dropbox-wp'),
+            text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('An error occurred while removing Shortcode', 'integrate-dropbox-wp'),
             icon: 'error',
             showCancelButton: false,
             confirmButtonText: 'Ok'
@@ -1320,7 +1320,7 @@ const ShortCodes = props => {
     });
   };
   const duplicateShortCode = shortcode => {
-    wp.ajax.post('edbi_duplicate_shortcode', {
+    wp.ajax.post('idbwp_duplicate_shortcode', {
       nonce: EDBIData?.ajaxNonce,
       id: shortcode
     }).then(response => {
@@ -1330,8 +1330,8 @@ const ShortCodes = props => {
         [response.data.id]: response.data
       });
       (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__.showAlert)({
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Success', 'easy-dropbox-integration'),
-        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Shortcode duplicated successfully', 'easy-dropbox-integration'),
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Success', 'integrate-dropbox-wp'),
+        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Shortcode duplicated successfully', 'integrate-dropbox-wp'),
         icon: 'success',
         showCancelButton: false,
         confirmButtonText: 'Ok'
@@ -1339,8 +1339,8 @@ const ShortCodes = props => {
     }).catch(error => {
       console.error(error);
       (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__.showAlert)({
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Error', 'easy-dropbox-integration'),
-        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('An error occurred while duplicating Shortcode', 'easy-dropbox-integration'),
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Error', 'integrate-dropbox-wp'),
+        text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('An error occurred while duplicating Shortcode', 'integrate-dropbox-wp'),
         icon: 'error',
         showCancelButton: false,
         confirmButtonText: 'Ok'
@@ -1356,13 +1356,13 @@ const ShortCodes = props => {
     className: "flex items-center justify-between edbi-shortcodes__header"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
     className: "flex items-center gap-4 mb-3 text-base font-bold text-black"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCodes', 'easy-dropbox-integration'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCodes', 'integrate-dropbox-wp'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "text-sm text-gray-600"
-  }, "(", Object.keys(shortCodes).length, " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(' Items', 'easy-dropbox-integration'), " )"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
+  }, "(", Object.keys(shortCodes).length, " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(' Items', 'integrate-dropbox-wp'), " )"))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", {
     className: "edbi-shortcodes__lists"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ID', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Title', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Type', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Created', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Status', 'easy-dropbox-integration')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Actions', 'easy-dropbox-integration')))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, Object.keys(shortCodes).length === 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("thead", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ID', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Title', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Type', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('ShortCode', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Created', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Status', 'integrate-dropbox-wp')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("th", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Actions', 'integrate-dropbox-wp')))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, Object.keys(shortCodes).length === 0 ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "edbi-shortcodes__lists__item"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('No ShortCodes found', 'easy-dropbox-integration'))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, Object.keys(shortCodes).map(key => {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('No ShortCodes found', 'integrate-dropbox-wp'))) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, Object.keys(shortCodes).map(key => {
     const item = shortCodes[key];
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
       className: "edbi-shortcodes__list",
@@ -1371,9 +1371,9 @@ const ShortCodes = props => {
       className: "flex items-center justify-center gap-3 p-2 bg-gray-200 edbi-shortcodes__list__shortcode",
       title: "Click to copy shortcode",
       onClick: () => {
-        navigator.clipboard.writeText(`[easy_dropbox_integration id="${item.id}"]`);
+        navigator.clipboard.writeText(`[integrate_dropbox_wp id="${item.id}"]`);
         (0,_utils_alertHelper__WEBPACK_IMPORTED_MODULE_3__.showAlert)({
-          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Shortcode Copied', 'easy-dropbox-integration'),
+          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Shortcode Copied', 'integrate-dropbox-wp'),
           icon: 'success',
           position: 'top-right',
           toast: true,
@@ -1383,7 +1383,7 @@ const ShortCodes = props => {
       }
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
       class: "dashicons dashicons-admin-page"
-    }), "[easy_dropbox_integration id=\"", item.id, "\"]")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, item.created_at)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, item.status)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    }), "[integrate_dropbox_wp id=\"", item.id, "\"]")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, item.created_at)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, item.status)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "flex items-center justify-center w-full gap-3"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       className: "",
@@ -1402,7 +1402,7 @@ const ShortCodes = props => {
       class: "dashicons dashicons-trash"
     })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       className: "",
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Duplicate', 'easy-dropbox-integration'),
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Duplicate', 'integrate-dropbox-wp'),
       onClick: () => duplicateShortCode(item.id)
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
       class: "dashicons dashicons-admin-page"

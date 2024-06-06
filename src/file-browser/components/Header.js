@@ -68,7 +68,7 @@ const Header = () => {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				wp.ajax
-					.post('edbi_create_folder', {
+					.post('idbwp_create_folder', {
 						account_id: activeAccount['id'],
 						nonce: EDBIData?.ajaxNonce,
 						path: currentPath,

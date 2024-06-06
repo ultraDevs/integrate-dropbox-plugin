@@ -17,7 +17,7 @@ const App = () => {
 	const [ save, setSave ] = useState(false);
 
 	const [shortCodeTitle, setShortCodeTitle] = useState(
-		__('ShortCode Title', 'easy-dropbox-integration')
+		__('ShortCode Title', 'integrate-dropbox-wp')
 	);
 
 	const [shortCodeConfig, setShortCodeConfig] = useState({

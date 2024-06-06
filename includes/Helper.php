@@ -2,24 +2,24 @@
 /**
  * Helper Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration;
+namespace ultraDevs\IntegrateDropBoxWP;
 
-use ultraDevs\EasyDropBoxIntegration\App\Client;
-use ultraDevs\EasyDropBoxIntegration\App\FileAbstract;
+use ultraDevs\IntegrateDropBoxWP\App\Client;
+use ultraDevs\IntegrateDropBoxWP\App\FileAbstract;
 
 /**
  * Helper Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Helper {
 
-	protected static $cached_folder_key = 'edbi_cached_folders';
+	protected static $cached_folder_key = 'idbwp_cached_folders';
 
 	/**
 	 * Constructor
@@ -100,7 +100,7 @@ class Helper {
 	 * @return boolean
 	 */
 	public static function type() {
-		return apply_filters( 'type', 'Free' );
+		return apply_filters( 'idbwp_type', 'Free' );
 	}
 
 	/**
@@ -293,7 +293,7 @@ class Helper {
 
 		$breadcrumbs = array();
 		$breadcrumbs[] = array(
-			'name' => __( 'All Files', 'easy-dropbox-integration' ),
+			'name' => __( 'All Files', 'integrate-dropbox-wp' ),
 			'path' => '/',
 		);
 
@@ -336,7 +336,7 @@ class Helper {
 	 */
 	public static function can_preview_by_cloud( $extension ) {
 		$previewable = apply_filters(
-			'edbi_previewable_extensions',
+			'idbwp_previewable_extensions',
 			[
 				'pdf', 'txt', 'ai', 'eps', 'odp', 'odt', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsx', 'ppsm', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'rtf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'mp4', 'm4v', 'ogg', 'ogv', 'webmv', 'mp3', 'm4a', 'ogg', 'oga', 'wav', 'flac', 'paper', 'gdoc', 'gslides', 'gsheet'
 			]
@@ -367,7 +367,7 @@ class Helper {
 	 */
 	public static function can_create_thumbnail( $extension ) {
 		$extensions = apply_filters(
-			'edbi_thumbnail_extensions',
+			'idbwp_thumbnail_extensions',
 			['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'pdf', 'doc', 'docx', 'docm', 'ppt', 'pps', 'ppsm', 'ppsx', 'pptx', 'pptm', 'xls', 'xlsx', 'xlsm', 'odp', 'ods', 'odt', 'rtf', 'csv', '3fr', 'ai', 'arw', 'cr2', 'crw', 'dcr', 'dng', 'eps', 'erf', 'heic', 'kdc', 'mef', 'mos', 'mrw', 'nef', 'nrw', 'orf', 'pef', 'psd', 'raf', 'raw', 'rw2', 'rwl', 'sr2', 'svg', 'tif', 'tiff', 'x3f', '3gp', '3gpp', '3gpp2', 'asf', 'avi', 'dv', 'flv', 'm2t', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mts', 'oggtheora', 'ogv', 'rm', 'ts', 'vob', 'webm', 'wmv', 'paper', 'webp']
 		);
 

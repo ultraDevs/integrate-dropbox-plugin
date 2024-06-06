@@ -15,12 +15,12 @@ const Sidebar = () => {
 
 	const items = [
 		{
-			name: __( 'My Dropbox', 'easy-dropbox-integration' ),
+			name: __( 'My Dropbox', 'integrate-dropbox-wp' ),
 			img: EDBIData.assets + "images/dropbox.svg",
 			slug: 'dropbox',
 		},
 		// {
-		// 	name: __( 'Shared with me', 'easy-dropbox-integration' ),
+		// 	name: __( 'Shared with me', 'integrate-dropbox-wp' ),
 		// 	img: EDBIData.assets + "images/dropbox.svg",
 		// },
 	];

@@ -2,23 +2,23 @@
 /**
  * App Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
 use Kunnu\Dropbox\Models\FileMetadata;
 use Kunnu\Dropbox\Models\FolderMetadata;
-use ultraDevs\EasyDropBoxIntegration\App\Client;
-use ultraDevs\EasyDropBoxIntegration\Helper;
-use ultraDevs\EasyDropBoxIntegration\App\Files;
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\App\Client;
+use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IntegrateDropBoxWP\App\Files;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
 
 /**
  * App Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class App {
@@ -58,7 +58,7 @@ class App {
 
 		$this->account_id = $account_id;
 
-		// add_filter( 'edbi_root_id', array( 'ultraDevs\EasyDropBoxIntegration\App\Account', 'get_root_id' ), 10, 1 );
+		// add_filter( 'idbwp_root_id', array( 'ultraDevs\IntegrateDropBoxWP\App\Account', 'get_root_id' ), 10, 1 );
 	}
 
 	/**
@@ -70,12 +70,12 @@ class App {
 
 		$nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : null;
 
-		if ( ! wp_verify_nonce( $nonce, 'edbi_authorization' ) ) {
-			error_log( EASY_DROPBOX_INTEGRATION_NAME . ' - Authorization nonce verification failed.' );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_authorization' ) ) {
+			error_log( IDBWP_NAME . ' - Authorization nonce verification failed.' );
 			return false;
 		}
 
-		$redirect = admin_url( 'admin.php?page=easy-dropbox-integration' );
+		$redirect = admin_url( 'admin.php?page=integrate-dropbox-wp' );
 
 		if ( ! empty( $_REQUEST['state'] ) ) {
 			$state     = strtr( sanitize_text_field( $_REQUEST['state'] ), '-_~', '+/=' );
@@ -88,7 +88,7 @@ class App {
 
 			$redirect_to = base64_decode( $url_state );
 
-			if ( false === strpos( $redirect_to, 'easy-dropbox-integration' ) ) {
+			if ( false === strpos( $redirect_to, 'integrate-dropbox-wp' ) ) {
 				return false;
 			}
 		} else {

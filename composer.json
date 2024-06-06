@@ -1,6 +1,6 @@
 {
-    "name": "ultradevs/easy-dropbox-integration",
-    "description": "Easy Dropbox Integration",
+    "name": "ultradevs/integrate-dropbox-wp",
+    "description": "Integrate DropBox WP",
     "authors": [
         {
             "name": "mhimon",
@@ -10,8 +10,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "ultraDevs\\EasyDropBoxIntegration\\": "includes/",
-            "ultraDevs\\EasyDropBoxIntegration\\App\\": "app/"
+            "ultraDevs\\IntegrateDropBoxWP\\": "includes/",
+            "ultraDevs\\IntegrateDropBoxWP\\App\\": "app/"
 
         },
         "files": [ "includes/functions.php" ]

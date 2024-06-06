@@ -1,4 +1,4 @@
-=== Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your Website ===
+=== Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your Website ===
 Contributors: ultradevs, mhimon
 Donate link: https://ultradevs.com/donate
 Tags: dropbox, dropbox plugin, dropbox file manager, embed dropbox, dropbox
@@ -9,11 +9,11 @@ Requires PHP:      7.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
+Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
 
 == Description ==
 
-Easy DropBox Integration - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
+Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your WordPress Website
 
 ### Features
 - Browse Dropbox Files
@@ -42,7 +42,7 @@ Made With Love By [ultraDevs](https://ultradevs.com) ❤️
 
 ### Need Help?
 
-[Free Support](https://wordpress.org/support/plugin/easy-dropbox-integration/) | [Live Chat](https://web.facebook.com/hello.ultradevs) | [Documentation](https://ultradevs.com/docs/easy-dropbox-integration)  | [Video Tutorials](https://www.youtube.com/playlist?list=PL6-MOhUm73eiSSVHgAVnFFEvs6rO2sZyC)
+[Free Support](https://wordpress.org/support/plugin/integrate-dropbox-wp/) | [Live Chat](https://web.facebook.com/hello.ultradevs) | [Documentation](https://ultradevs.com/docs/integrate-dropbox-wp)  | [Video Tutorials](https://www.youtube.com/playlist?list=PL6-MOhUm73eiSSVHgAVnFFEvs6rO2sZyC)
 
 ### Join With US
 [Facebook - Community](https://web.facebook.com/groups/ultradevs/) | [Facebook - Page](https://web.facebook.com/hello.ultradevs) | [Youtube](https://www.youtube.com/channel/UCc2yL-QGQjscXpPx9Pp7J8w) | [Twitter](https://twitter.com/ultraDevsBD) | [Instagram](https://www.instagram.com/ultradevs/)
@@ -51,7 +51,7 @@ Made With Love By [ultraDevs](https://ultradevs.com) ❤️
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/easy-dropbox-integration` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/integrate-dropbox-wp` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 

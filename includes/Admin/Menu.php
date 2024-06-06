@@ -2,21 +2,21 @@
 /**
  * Menu
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\Admin;
+namespace ultraDevs\IntegrateDropBoxWP\Admin;
 
-use ultraDevs\EasyDropBoxIntegration\App\App;
-use ultraDevs\EasyDropBoxIntegration\App\Client;
-use ultraDevs\EasyDropBoxIntegration\Helper;
-use ultraDevs\EasyDropBoxIntegration\Assets_Manager;
+use ultraDevs\IntegrateDropBoxWP\App\App;
+use ultraDevs\IntegrateDropBoxWP\App\Client;
+use ultraDevs\IntegrateDropBoxWP\Helper;
+use ultraDevs\IntegrateDropBoxWP\Assets_Manager;
 
 /**
  * Menu Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Menu {
@@ -32,7 +32,7 @@ class Menu {
 	 *
 	 * @var string
 	 */
-	public static $icon = EASY_DROPBOX_INTEGRATION_ASSETS . 'images/sl.svg';
+	public static $icon = IDBWP_ASSETS . 'images/sl.svg';
 
 	/**
 	 * Register
@@ -42,8 +42,8 @@ class Menu {
 		add_action( 'admin_init', array( $this, 'handle_authorization' ) );
 
 		$menu_to_avoid = array(
-			EASY_DROPBOX_INTEGRATION_MENU_SLUG,
-			EASY_DROPBOX_INTEGRATION_MENU_SLUG . '-settings',
+			IDBWP_MENU_SLUG,
+			IDBWP_MENU_SLUG . '-settings',
 		);
 
 		if (
@@ -59,15 +59,15 @@ class Menu {
 	 * Register Admin Menu
 	 */
 	public static function register_menu() {
-		self::$menu = add_menu_page( __( 'Dashboard - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'DropBox', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
+		self::$menu = add_menu_page( __( 'Dashboard - Integrate DropBox WP', 'integrate-dropbox-wp' ), __( 'DropBox', 'integrate-dropbox-wp' ), 'manage_options', IDBWP_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ), Helper::get_icon(), 56 );
 
-		add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'File Browser - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'File Browser', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
+		add_submenu_page( IDBWP_MENU_SLUG, __( 'File Browser - Integrate DropBox WP', 'integrate-dropbox-wp' ), __( 'File Browser', 'integrate-dropbox-wp' ), 'manage_options', IDBWP_MENU_SLUG, array( __CLASS__, 'render_file_browser_page' ) );
 
 		// Shortcode Builder.
-		$shortcode_builder = add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'Shortcode Builder - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'Shortcode Builder', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG . '-shortcode-builder', array( __CLASS__, 'render_shortcode_builder_page' ) );
+		$shortcode_builder = add_submenu_page( IDBWP_MENU_SLUG, __( 'Shortcode Builder - Integrate DropBox WP', 'integrate-dropbox-wp' ), __( 'Shortcode Builder', 'integrate-dropbox-wp' ), 'manage_options', IDBWP_MENU_SLUG . '-shortcode-builder', array( __CLASS__, 'render_shortcode_builder_page' ) );
 
 		// Settings.
-		$settings = add_submenu_page( EASY_DROPBOX_INTEGRATION_MENU_SLUG, __( 'Settings - Easy DropBox Integration', 'easy-dropbox-integration' ), __( 'Settings', 'easy-dropbox-integration' ), 'manage_options', EASY_DROPBOX_INTEGRATION_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
+		$settings = add_submenu_page( IDBWP_MENU_SLUG, __( 'Settings - Integrate DropBox WP', 'integrate-dropbox-wp' ), __( 'Settings', 'integrate-dropbox-wp' ), 'manage_options', IDBWP_MENU_SLUG . '-settings', array( __CLASS__, 'render_settings_page' ) );
 
 		// Assets Manager Class.
 		$assets_manager = new Assets_Manager();

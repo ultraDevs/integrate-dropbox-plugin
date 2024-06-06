@@ -2,15 +2,15 @@
 /**
  * Singleton Trait
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
-namespace ultraDevs\EasyDropBoxIntegration\App\Traits;
+namespace ultraDevs\IntegrateDropBoxWP\App\Traits;
 
 /**
  * Singleton Trait
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 trait Singleton {

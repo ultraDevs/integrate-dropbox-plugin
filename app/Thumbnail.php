@@ -2,19 +2,19 @@
 /**
  * Thumbnail Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
-use ultraDevs\EasyDropBoxIntegration\App\Account;
-use ultraDevs\EasyDropBoxIntegration\Helper;
+use ultraDevs\IntegrateDropBoxWP\App\Account;
+use ultraDevs\IntegrateDropBoxWP\Helper;
 
 /**
  * Thumbnail Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Thumbnail {
@@ -75,8 +75,8 @@ class Thumbnail {
 		// Prepare account_id as a folder name.
 		$account_id = Helper::normalize_string( $account_id );
 
-		$this->thumbnails_location     = EASY_DROPBOX_INTEGRATION_CACHE_DIR . 'thumbnails/' . $account_id . '/';
-		$this->thumbnails_location_url = EASY_DROPBOX_INTEGRATION_CACHE_DIR_URL . 'thumbnails/' . $account_id . '/';
+		$this->thumbnails_location     = IDBWP_CACHE_DIR . 'thumbnails/' . $account_id . '/';
+		$this->thumbnails_location_url = IDBWP_CACHE_DIR_URL . 'thumbnails/' . $account_id . '/';
 
 		$this->size           = $size;
 

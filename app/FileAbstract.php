@@ -2,16 +2,16 @@
 /**
  * File Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
-namespace ultraDevs\EasyDropBoxIntegration\App;
-use ultraDevs\EasyDropBoxIntegration\Helper;
+namespace ultraDevs\IntegrateDropBoxWP\App;
+use ultraDevs\IntegrateDropBoxWP\Helper;
 
 /**
  * Abstract File Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 abstract class FileAbstract {

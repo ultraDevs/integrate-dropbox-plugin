@@ -37,7 +37,7 @@ const Accounts = (props) => {
                 // })
 
                 wp.ajax
-                    .post('edbi_remove_account', {
+                    .post('idbwp_remove_account', {
                         account_id: account,
                         nonce: EDBIData?.ajaxNonce,
                     })

@@ -143,7 +143,7 @@ const Header = props => {
     className: "flex items-center edbi-page__header__left"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "dashicons dashicons-admin-generic"
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Settings', 'easy-dropbox-integration'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "v", version))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Settings', 'integrate-dropbox-wp'), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "v", version))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "edbi-page__header__right"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "px-5 py-3 text-sm text-white rounded-md bg-secondary",
@@ -193,12 +193,12 @@ const Sidebar = props => {
   } = EDBIData;
   const items = [{
     slug: 'accounts',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Accounts', 'easy-dropbox-integration'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Accounts', 'integrate-dropbox-wp'),
     icon: 'dashicons-admin-users'
   }
   // {
   // 	slug: 'appearance',
-  // 	label: __( 'Appearance', 'easy-dropbox-integration' ),
+  // 	label: __( 'Appearance', 'integrate-dropbox-wp' ),
   // 	icon: 'dashicons-admin-appearance'
   // },
   ];
@@ -285,7 +285,7 @@ const Accounts = props => {
         //     accounts
         // })
 
-        wp.ajax.post('edbi_remove_account', {
+        wp.ajax.post('idbwp_remove_account', {
           account_id: account,
           nonce: EDBIData?.ajaxNonce
         }).then(response => {

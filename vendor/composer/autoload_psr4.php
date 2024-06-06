@@ -6,8 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ultraDevs\\EasyDropBoxIntegration\\App\\' => array($baseDir . '/app'),
-    'ultraDevs\\EasyDropBoxIntegration\\' => array($baseDir . '/includes'),
+    'ultraDevs\\IntegrateDropBoxWP\\App\\' => array($baseDir . '/app'),
+    'ultraDevs\\IntegrateDropBoxWP\\' => array($baseDir . '/includes'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),

@@ -2,24 +2,24 @@
 /**
  * Assets Manager Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration;
+namespace ultraDevs\IntegrateDropBoxWP;
 
-use ultraDevs\EasyDropBoxIntegration\Admin\Dashboard;
-use ultraDevs\EasyDropBoxIntegration\App\Account;
-use ultraDevs\EasyDropBoxIntegration\App\Client;
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
-use ultraDevs\EasyDropBoxIntegration\Helper;
+use ultraDevs\IntegrateDropBoxWP\Admin\Dashboard;
+use ultraDevs\IntegrateDropBoxWP\App\Account;
+use ultraDevs\IntegrateDropBoxWP\App\Client;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\Helper;
 
 /**
  * Manage All Assets
  *
  * This class is for managing Assets
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Assets_Manager {
@@ -34,15 +34,15 @@ class Assets_Manager {
 	public function admin_assets( $hook ) {
 
 		// Register sweetalert2.
-		wp_register_script( 'sweetalert2', EASY_DROPBOX_INTEGRATION_ASSETS . 'vendors/sweetalert2/js/sweetalert2.min.js', array( 'jquery' ), EASY_DROPBOX_INTEGRATION_VERSION, true );
-		wp_register_style( 'sweetalert2', EASY_DROPBOX_INTEGRATION_ASSETS . 'vendors/sweetalert2/css/sweetalert2.min.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_register_script( 'sweetalert2', IDBWP_ASSETS . 'vendors/sweetalert2/js/sweetalert2.min.js', array( 'jquery' ), IDBWP_VERSION, true );
+		wp_register_style( 'sweetalert2', IDBWP_ASSETS . 'vendors/sweetalert2/css/sweetalert2.min.css', array(), IDBWP_VERSION );
 
-		if ( strpos( $hook, 'easy-dropbox-integration' ) === false ) {
+		if ( strpos( $hook, 'integrate-dropbox-wp' ) === false ) {
 			return;
 		}
 
 		// Enqueue Styles.
-		wp_enqueue_style( 'edbi-admin', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/common/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_enqueue_style( 'edbi-admin', IDBWP_ASSETS . 'admin/common/index.css', array(), IDBWP_VERSION );
 
 	}
 
@@ -53,11 +53,11 @@ class Assets_Manager {
 	 */
 	public function frontend_assets() {
 
-		$css_version = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/css/edbi.css' ) ? filemtime( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/css/edbi.css' ) : EASY_DROPBOX_INTEGRATION_VERSION;
-		// $js_version  = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/js/edbi.js' ) ? filemtime( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/frontend/js/edbi.js' ) : EASY_DROPBOX_INTEGRATION_VERSION;
+		$css_version = file_exists( IDBWP_DIR_PATH . 'assets/frontend/css/edbi.css' ) ? filemtime( IDBWP_DIR_PATH . 'assets/frontend/css/edbi.css' ) : IDBWP_VERSION;
+		// $js_version  = file_exists( IDBWP_DIR_PATH . 'assets/frontend/js/edbi.js' ) ? filemtime( IDBWP_DIR_PATH . 'assets/frontend/js/edbi.js' ) : IDBWP_VERSION;
 
-		wp_enqueue_style( 'ud-id-frontend', EASY_DROPBOX_INTEGRATION_ASSETS . 'frontend/css/edbi.css', '', $css_version );
-		// wp_enqueue_script( 'ud-id-frontend', EASY_DROPBOX_INTEGRATION_ASSETS . 'frontend/js/edbi.js', array( 'jquery' ), $js_version, true );
+		wp_enqueue_style( 'ud-id-frontend', IDBWP_ASSETS . 'frontend/css/edbi.css', '', $css_version );
+		// wp_enqueue_script( 'ud-id-frontend', IDBWP_ASSETS . 'frontend/js/edbi.js', array( 'jquery' ), $js_version, true );
 	}
 
 	/**
@@ -71,13 +71,13 @@ class Assets_Manager {
 		wp_enqueue_script( 'sweetalert2' );
 		wp_enqueue_style( 'sweetalert2' );
 
-		wp_enqueue_style( 'edbi-settings', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/settings/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_enqueue_style( 'edbi-settings', IDBWP_ASSETS . 'admin/settings/index.css', array(), IDBWP_VERSION );
 
-		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/settings/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/settings/index.asset.php' : array();
+		$script_assets = file_exists( IDBWP_DIR_PATH . 'assets/admin/settings/index.asset.php' ) ? require IDBWP_DIR_PATH . 'assets/admin/settings/index.asset.php' : array();
 
 		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
 
-		wp_enqueue_script( 'edbi-settings', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/settings/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
+		wp_enqueue_script( 'edbi-settings', IDBWP_ASSETS . 'admin/settings/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : IDBWP_VERSION, true );
 
 		wp_localize_script(
 			'edbi-settings',
@@ -97,13 +97,13 @@ class Assets_Manager {
 		wp_enqueue_script( 'sweetalert2' );
 		wp_enqueue_style( 'sweetalert2' );
 
-		wp_enqueue_style( 'edbi-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.css', array(), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_enqueue_style( 'edbi-shortcode-builder', IDBWP_ASSETS . 'admin/shortcode-builder/index.css', array(), IDBWP_VERSION );
 
-		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' : array();
+		$script_assets = file_exists( IDBWP_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' ) ? require IDBWP_DIR_PATH . 'assets/admin/shortcode-builder/index.asset.php' : array();
 
 		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
 
-		wp_enqueue_script( 'edbi-shortcode-builder', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/shortcode-builder/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
+		wp_enqueue_script( 'edbi-shortcode-builder', IDBWP_ASSETS . 'admin/shortcode-builder/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : IDBWP_VERSION, true );
 
 		wp_localize_script(
 			'edbi-shortcode-builder',
@@ -123,13 +123,13 @@ class Assets_Manager {
 		wp_enqueue_script( 'sweetalert2' );
 		wp_enqueue_style( 'sweetalert2' );
 
-		wp_enqueue_style( 'edbi-file-browser', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/file-browser/index.css', array( 'wp-components' ), EASY_DROPBOX_INTEGRATION_VERSION );
+		wp_enqueue_style( 'edbi-file-browser', IDBWP_ASSETS . 'admin/file-browser/index.css', array( 'wp-components' ), IDBWP_VERSION );
 
-		$script_assets = file_exists( EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/file-browser/index.asset.php' ) ? require EASY_DROPBOX_INTEGRATION_DIR_PATH . 'assets/admin/file-browser/index.asset.php' : array();
+		$script_assets = file_exists( IDBWP_DIR_PATH . 'assets/admin/file-browser/index.asset.php' ) ? require IDBWP_DIR_PATH . 'assets/admin/file-browser/index.asset.php' : array();
 
 		$deps = array_merge( $script_assets['dependencies'], array( 'wp-util' ) );
 
-		wp_enqueue_script( 'edbi-file-browser', EASY_DROPBOX_INTEGRATION_ASSETS . 'admin/file-browser/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : EASY_DROPBOX_INTEGRATION_VERSION, true );
+		wp_enqueue_script( 'edbi-file-browser', IDBWP_ASSETS . 'admin/file-browser/index.js', $deps, $script_assets['version'] ? $script_assets['version'] : IDBWP_VERSION, true );
 
 		wp_localize_script(
 			'edbi-file-browser',
@@ -148,18 +148,18 @@ class Assets_Manager {
 		$auth_url = $client->get_auth_url( [ 'prompt' => 'login' ] );
 		
 		$localization_data = array(
-			'version'       => EASY_DROPBOX_INTEGRATION_VERSION,
+			'version'       => IDBWP_VERSION,
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-			'version'       => EASY_DROPBOX_INTEGRATION_VERSION,
-			'assets'        => EASY_DROPBOX_INTEGRATION_ASSETS,
+			'version'       => IDBWP_VERSION,
+			'assets'        => IDBWP_ASSETS,
 			'authUrl'       => $auth_url,
 			'accounts'      => Account::get_accounts(),
 			'activeAccount' => Account::get_active_account(),
-			'ajaxNonce'     => wp_create_nonce( 'edbi_ajax_nonce' ),
-			'loadingImg' => EASY_DROPBOX_INTEGRATION_ASSETS . 'images/loading/Spin.svg'
+			'ajaxNonce'     => wp_create_nonce( 'idbwp_ajax_nonce' ),
+			'loadingImg' => IDBWP_ASSETS . 'images/loading/Spin.svg'
 		);
 
-		return apply_filters( 'edbi_localization_data', $localization_data );
+		return apply_filters( 'idbwp_localization_data', $localization_data );
 	}
 
 }

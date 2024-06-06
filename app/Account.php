@@ -2,16 +2,16 @@
 /**
  * Account Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
 /**
  * Account Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Account {
@@ -23,7 +23,7 @@ class Account {
 	 * @return array
 	 */
 	public static function get_accounts( $id = null ) {
-		$accounts = get_option( 'easy_dropbox_integration_accounts', array() );
+		$accounts = get_option( 'idbwp_accounts', array() );
 		if ( $id ) {
 			return ! empty( $accounts[ $id ] ) ? $accounts[ $id ] : '';
 		}
@@ -38,8 +38,8 @@ class Account {
 	public static function get_active_account() {
 		$accounts = self::get_accounts();
 
-		// check if cookie is set for edbi_active_account.
-		$active_account = isset( $_COOKIE['edbi_active_account'] ) ? wp_strip_all_tags( $_COOKIE['edbi_active_account'] ): null;
+		// check if cookie is set for idbwp_active_account.
+		$active_account = isset( $_COOKIE['idbwp_active_account'] ) ? wp_strip_all_tags( $_COOKIE['idbwp_active_account'] ): null;
 
 		if ( ! empty( $active_account ) ) {
 			$active_account = str_replace(
@@ -58,7 +58,7 @@ class Account {
 			$account        = json_decode( $active_account, true );
 
 			if ( ! empty( $account['id'] ) && empty( $accounts[ $account['id'] ] ) ) {
-				setcookie( 'edbi_active_account', '', time() - 3600, '/' );
+				setcookie( 'idbwp_active_account', '', time() - 3600, '/' );
 			} else {
 				return $account;
 			}
@@ -86,12 +86,12 @@ class Account {
 
 		if ( ! empty( $accounts[ $account_id ] ) ) {
 			$account = $accounts[ $account_id ];
-			setcookie( 'edbi_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'idbwp_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} elseif ( ! empty( $accounts ) ) {
 			$account = array_shift( $accounts );
-			setcookie( 'edbi_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
+			setcookie( 'idbwp_active_account', wp_json_encode( $account ), time() + ( 30 * DAY_IN_SECONDS ), '/' );
 		} else {
-			setcookie( 'edbi_active_account', '', time() - 3600, '/' );
+			setcookie( 'idbwp_active_account', '', time() - 3600, '/' );
 		}
 
 		return $account;
@@ -101,7 +101,7 @@ class Account {
 		$accounts = self::get_accounts();
 
 		$accounts[ $data['id'] ] = $data;
-		return update_option( 'easy_dropbox_integration_accounts', $accounts );
+		return update_option( 'idbwp_accounts', $accounts );
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Account {
 			count( $accounts ) ? self::set_active_account( array_key_first( $accounts ) ) : self::set_active_account( null );
 		}
 
-		$status = update_option( 'easy_dropbox_integration_accounts', $accounts );
+		$status = update_option( 'idbwp_accounts', $accounts );
 
 		return $status ? $removed_account : false;
 	}
@@ -143,7 +143,7 @@ class Account {
 			$account_id     = ! empty( $active_account ) ? $active_account['id'] : null;
 		}
 
-		$tokens = get_option( 'easy_dropbox_integration_tokens', array() );
+		$tokens = get_option( 'idbwp_tokens', array() );
 
 		return ! empty( $tokens[ $account_id ] ) ? $tokens[ $account_id ] : array();
 	}

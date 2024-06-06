@@ -2,24 +2,24 @@
 /**
  * Client Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 
-namespace ultraDevs\EasyDropBoxIntegration\App;
+namespace ultraDevs\IntegrateDropBoxWP\App;
 
-use ultraDevs\EasyDropBoxIntegration\App\Account;
-use ultraDevs\EasyDropBoxIntegration\App\Authorization;
+use ultraDevs\IntegrateDropBoxWP\App\Account;
+use ultraDevs\IntegrateDropBoxWP\App\Authorization;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\Store\SessionPersistentDataStore;
-use ultraDevs\EasyDropBoxIntegration\App\Traits\Singleton;
-use ultraDevs\EasyDropBoxIntegration\Helper;
+use ultraDevs\IntegrateDropBoxWP\App\Traits\Singleton;
+use ultraDevs\IntegrateDropBoxWP\Helper;
 
 /**
  * Client Class
  *
- * @package EasyDropBoxIntegration
+ * @package IntegrateDropBoxWP
  * @since 1.0.0
  */
 class Client {
@@ -82,11 +82,11 @@ class Client {
 		}
 
 		// Callback for refresh token.
-		add_action( 'edbi_refresh_token', array( $this, 'refresh_token' ), 10, 1 );
+		add_action( 'idbwp_refresh_token', array( $this, 'refresh_token' ), 10, 1 );
 
-		$this->client_id    = apply_filters( 'edbi_client_id', 'mp6f0by845hzuzw' );
-		$this->app_secret   = apply_filters( 'edbi_app_secret', 'osnj0do9if83yrh' );
-		$this->redirect_uri = apply_filters( 'edbi_redirect_uri', 'https://oauth.ultradevs.com/dropbox-integrator-wp.php' );
+		$this->client_id    = apply_filters( 'idbwp_client_id', 'mp6f0by845hzuzw' );
+		$this->app_secret   = apply_filters( 'idbwp_app_secret', 'osnj0do9if83yrh' );
+		$this->redirect_uri = apply_filters( 'idbwp_redirect_uri', 'https://oauth.ultradevs.com/dropbox-integrator-wp.php' );
 
 		$this->get_client();
 	}
@@ -135,14 +135,14 @@ class Client {
 			$this->client = new Dropbox(
 				$this->get_app( $account ),
 				array(
-					'persistent_data_store' => new SessionPersistentDataStore( 'easy-dropbox-integration' ),
+					'persistent_data_store' => new SessionPersistentDataStore( 'integrate-dropbox-wp' ),
 				)
 			);
 
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to start Dropbox Client: %s', 'easy-dropbox-integration' ), $e->getMessage() )
+				__( 'Failed to start Dropbox Client: %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 			);
 			return $e;
 		}
@@ -212,9 +212,9 @@ class Client {
 		try {
 			$folder = API::get_instance( $this->account['id'] )->get_folder( $path, array( 'recursive' => $recursive, 'hierarchical' => $hierarchical ), $filter );
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to get folder: %s', 'easy-dropbox-integration' ), $e->getMessage() )
+				__( 'Failed to get folder: %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 			);
 			return false;
 		}
@@ -239,7 +239,7 @@ class Client {
 	 * @return bool
 	 */
 	public function is_allowed( $file ) {
-		$allowed = apply_filters( 'edbi_is_allowed', true, $file ); // @TODO : Sample filter.
+		$allowed = apply_filters( 'idbwp_is_allowed', true, $file ); // @TODO : Sample filter.
 
 		return $allowed;
 	}
@@ -277,7 +277,7 @@ class Client {
 
 		$file = $this->get_file( $id );
 
-		// do_action( 'edbi_log_event', 'File Preview ' . $file , $account_id, $path );
+		// do_action( 'idbwp_log_event', 'File Preview ' . $file , $account_id, $path );
 
 		if (
 			in_array( $file->get_extension(), array( 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'txt' ) )
@@ -351,9 +351,9 @@ class Client {
 
 			// echo $preview->getContents();
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to get file preview: %s', 'easy-dropbox-integration' ), $e->getMessage() )
+				__( 'Failed to get file preview: %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 			);
 
 			exit();
@@ -377,9 +377,9 @@ class Client {
 			try {
 				$file = API::get_instance( $this->account['id'] )->get_file( $req_path );
 			} catch ( \Exception $e ) {
-				error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+				error_log( IDBWP_ERROR . sprintf(
 					/* translators: %s: Error Message */
-					__( 'Failed to get file: %s', 'easy-dropbox-integration' ), $e->getMessage() )
+					__( 'Failed to get file: %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 				);
 				return false;
 			}
@@ -457,7 +457,7 @@ class Client {
 	// 	// 	'type'    => $file->get_extension(),
 	// 	// ]);
 
-	// 	do_action( 'edbi_log_event', $details, $account_id, $path );
+	// 	do_action( 'idbwp_log_event', $details, $account_id, $path );
 
 	// 	// Generate Preview for Media files.
 	// 	// if ( in_array( $details['.tag'], array( 'audio', 'video', 'image' ) ) ) {
@@ -478,10 +478,10 @@ class Client {
 	public function get_auth_url( $params = array() ) {
 		$auth_helper = $this->client->getAuthHelper();
 
-		$redirect_uri = admin_url( 'admin.php?page=easy-dropbox-integration&action=authorization' );
+		$redirect_uri = admin_url( 'admin.php?page=integrate-dropbox-wp&action=authorization' );
 		$redirect_uri .= sprintf( '&site_url=%s', site_url() );
 		// Nonce.
-		$redirect_uri .= sprintf( '&nonce=%s', wp_create_nonce( 'edbi_authorization' ) );
+		$redirect_uri .= sprintf( '&nonce=%s', wp_create_nonce( 'idbwp_authorization' ) );
 
 		$encoded_redirect = strtr( base64_encode( $redirect_uri ), '+/=', '-_~' );
 
@@ -516,7 +516,7 @@ class Client {
 				'id'      => $account->getAccountId(),
 				'name'    => $account->getDisplayName(),
 				'email'   => $account->getEmail(),
-				'photo'   => $account->getProfilePhotoUrl() ? esc_url( $account->getProfilePhotoUrl() ) : EASY_DROPBOX_INTEGRATION_ASSETS . 'images/dropbox-logo.png',
+				'photo'   => $account->getProfilePhotoUrl() ? esc_url( $account->getProfilePhotoUrl() ) : IDBWP_ASSETS . 'images/dropbox-logo.png',
 				'root_id' => $root_info['root_namespace_id'],
 				'lost'    => false,
 				'storage' => $this->get_storage_space_info(),
@@ -532,9 +532,9 @@ class Client {
 			$authorization->set_access_token( $access_token );
 
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Failed to generate access token: %s', 'easy-dropbox-integration' ), $e->getMessage() )
+				__( 'Failed to generate access token: %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 			);
 
 			return new \WP_Error( 'broke', 'failed_to_generate_access_token', $e->getMessage() );
@@ -558,7 +558,7 @@ class Client {
 		$active_token = Account::get_token( $account['id'] );
 
 		if ( empty( $refresh_token ) ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . __( 'No refresh token found!', 'easy-dropbox-integration' ) );
+			error_log( IDBWP_ERROR . __( 'No refresh token found!', 'integrate-dropbox-wp' ) );
 
 			$authorization->set_valid_token( false );
 			$authorization->revoke_token();
@@ -573,23 +573,23 @@ class Client {
 			$this->get_client()->setAccessToken( $token );
 
 			// Remove Authorization Lost Notice.
-			if ( $timestamp = wp_next_scheduled( 'edbi_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
-				wp_unschedule_event( $timestamp, 'edbi_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
+			if ( $timestamp = wp_next_scheduled( 'idbwp_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
+				wp_unschedule_event( $timestamp, 'idbwp_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
 
 				$account['is_lost'] = false;
 				Account::update_account( $account );
 			}
 		} catch ( \Exception $e ) {
-			error_log( EASY_DROPBOX_INTEGRATION_ERROR . sprintf(
+			error_log( IDBWP_ERROR . sprintf(
 				/* translators: %s: Error Message */
-				__( 'Error refreshing token: %s', 'easy-dropbox-integration' ), $e->getMessage() )
+				__( 'Error refreshing token: %s', 'integrate-dropbox-wp' ), $e->getMessage() )
 			);
 
 			$authorization->set_valid_token( false );
 
 			// Schedule Authorization Lost Notice.
-			if ( ! wp_next_scheduled( 'edbi_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
-				wp_schedule_event( time(), 'edbi_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
+			if ( ! wp_next_scheduled( 'idbwp_authorization_lost_notice', array( 'account_id' => $account['id'] ) ) ) {
+				wp_schedule_event( time(), 'idbwp_authorization_lost_notice', array( 'account_id' => $account['id'] ) );
 
 				$account['is_lost'] = true;
 				Account::update_account( $account );

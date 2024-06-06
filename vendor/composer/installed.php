@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'ultradevs/easy-dropbox-integration',
+        'name' => 'ultradevs/integrate-dropbox-wp',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
         'reference' => '1137bac5804cf1dd2975c50c93264651fe95f9db',
@@ -175,7 +175,7 @@
             ),
             'dev_requirement' => false,
         ),
-        'ultradevs/easy-dropbox-integration' => array(
+        'ultradevs/integrate-dropbox-wp' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'reference' => '1137bac5804cf1dd2975c50c93264651fe95f9db',
