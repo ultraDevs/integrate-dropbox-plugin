@@ -9,6 +9,7 @@ import Header from '../../file-browser/components/Header';
 
 import { useSelect, dispatch } from '@wordpress/data';
 import { showAlert } from '../../utils/alertHelper';
+import { encode } from 'js-base64';
 
 
 
@@ -106,7 +107,7 @@ const ShortCodeConfig = (props) => {
     useEffect(() => {
         if (save) {
             const jsonString = JSON.stringify(shortCodeConfig);
-            const base64String = btoa(jsonString);
+            const base64String = encode(jsonString);
             if ( 'edit' === actionType ) {
                 wp.ajax
                 .post('idbwp_update_shortcode', {

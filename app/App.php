@@ -75,8 +75,6 @@ class App {
 			return false;
 		}
 
-		$redirect = admin_url( 'admin.php?page=integrate-dropbox-wp' );
-
 		if ( ! empty( $_REQUEST['state'] ) ) {
 			$state     = strtr( sanitize_text_field( $_REQUEST['state'] ), '-_~', '+/=' );
 			$url_state = null;
@@ -92,17 +90,8 @@ class App {
 				return false;
 			}
 		} else {
-			add_action(
-				'admin_print_scripts',
-				function() use ( $redirect ) {
-					echo "<script type='text/javascript'>\n";
-					echo "window.opener.parent.location.href='" . esc_url( $redirect ) . "';\n";
-					echo "window.close();\n";
-					echo '</script>';
-				}
-			);
 
-			echo '<script type="text/javascript">console.log("hola 1");</script>';
+			add_action( 'admin_print_scripts', array( $this, 'redirect_inline_js' ) );
 		}
 
 		// @ TODO -
@@ -112,28 +101,21 @@ class App {
 			$client->create_access_token();
 		}
 
-		add_action(
-			'admin_print_scripts',
-			function() use ( $redirect ) {
-				echo "<script type='text/javascript'>\n";
-				echo "window.opener.parent.location.href='" . esc_url( $redirect ) . "';\n";
-				echo "window.close();\n";
-				echo '</script>';
-			}
-		);
-
-		add_action(
-			'admin_print_scripts',
-			function() {
-				echo '<script type="text/javascript">console.log("hola 2");</script>';
-			}
-		);
+		add_action( 'admin_print_scripts', array( $this, 'redirect_inline_js' ) );
 
 		if ( ! did_action( 'admin_print_scripts' ) ) {
 			do_action( 'admin_print_scripts' );
 		}
 
-
 		exit();
+	}
+
+	public function redirect_inline_js() {
+		$redirect = admin_url( 'admin.php?page=integrate-dropbox-wp' );
+
+		echo "<script type='text/javascript'>\n";
+		echo "window.opener.parent.location.href='" . esc_url( $redirect ) . "';\n";
+		echo "window.close();\n";
+		echo '</script>';
 	}
 }

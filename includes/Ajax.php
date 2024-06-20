@@ -140,6 +140,11 @@ class Ajax {
 	 */
 	public function remove_account() {
 
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$remove = Account::delete_account( $this->account_id );
 
 		if ( ! $remove ) {
@@ -160,6 +165,11 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function file_preview() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
 
 		$file    = sanitize_text_field( $_REQUEST['file'] );
 
@@ -188,6 +198,11 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function rename() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
 
 		$old_name    = sanitize_text_field( $_POST['old_name'] );
 		$new_name   = sanitize_text_field( $_POST['new_name'] );
@@ -226,6 +241,11 @@ class Ajax {
 	 */
 	public function create_folder() {
 
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$path       = sanitize_text_field( $_POST['path'] );
 		$name       = sanitize_text_field( $_POST['name'] );
 
@@ -255,6 +275,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function delete() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$path 	 = sanitize_text_field( $_POST['path'] );
 
 		if ( empty( $path ) ) {
@@ -282,6 +308,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function upload() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$path 	 = sanitize_text_field( $_POST['path'] );
 		$file = idbwp_sanitize_text_or_array_field( $_FILES['file'] );
 
@@ -310,6 +342,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function thumbnail() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$file    = sanitize_text_field( $_POST['file'] );
 
 		if ( empty( $file ) ) {
@@ -338,6 +376,11 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function get_shortcodes() {
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$shortcodes = Shortcode_Builder::get_instance()->get_shortcodes();
 		foreach( $shortcodes as $i => $shortcode ) {
 			$shortcodes[$i]['config'] = wp_json_encode( unserialize( $shortcode['config'] ) );
@@ -352,6 +395,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function get_shortcode() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$id = sanitize_text_field( $_POST['id'] );
 
 		if ( empty( $id ) ) {
@@ -380,6 +429,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function create_shortcode() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$title = sanitize_text_field( $_POST['title'] );
 		$config = sanitize_text_field( $_POST['config'] );
 
@@ -419,6 +474,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function update_shortcode() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$id = sanitize_text_field( $_POST['id'] );
 		$title = sanitize_text_field( $_POST['title'] );
 		$config = sanitize_text_field( $_POST['config'] );
@@ -465,6 +526,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function delete_shortcode() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$id = sanitize_text_field( $_POST['id'] );
 
 		if ( empty( $id ) ) {
@@ -486,6 +553,12 @@ class Ajax {
 	 * @since 1.0.0
 	 */
 	public function duplicate_shortcode() {
+
+		$nonce = sanitize_text_field( $_REQUEST['nonce'] );
+		if ( ! wp_verify_nonce( $nonce, 'idbwp_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'integrate-dropbox-wp' ) ) );
+		}
+
 		$id = sanitize_text_field( $_POST['id'] );
 
 		if ( empty( $id ) ) {

@@ -43,8 +43,7 @@ class Shortcode_Builder {
 
         // @TODO: Add pagination, Cache.
 
-        // $query = ;
-        $shortcodes = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->table_name}" ), ARRAY_A );
+        $shortcodes = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}idbwp_shortcodes", ARRAY_A );
 
         // Get Shortcode type from config column and add it to the array.
         foreach ($shortcodes as $key => $shortcode) {
@@ -66,8 +65,7 @@ class Shortcode_Builder {
     public function get_shortcode($id) {
         global $wpdb;
 
-        $query = $wpdb->prepare("SELECT * FROM {$this->table_name} WHERE id = %d", $id);
-        $shortcode = $wpdb->get_row($query, ARRAY_A);
+        $shortcode = $wpdb->get_row( $wpdb->prepare("SELECT * FROM {$wpdb->prefix}idbwp_shortcodes WHERE id = %d", $id ), ARRAY_A );
 
         return $shortcode;
     }

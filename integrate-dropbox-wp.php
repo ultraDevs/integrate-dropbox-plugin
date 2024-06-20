@@ -42,7 +42,7 @@ require_once IDBWP_DIR_PATH . 'vendor/autoload.php';
 /**
  * Integrate Dropbox class
  */
-final class Integrate_DropBox_WP_Core {
+final class IDBWP_Core {
 
 	/**
 	 * Constructor
@@ -91,8 +91,6 @@ final class Integrate_DropBox_WP_Core {
 		// Activate.
 		$activate = new ultraDevs\IDBWP\Activate();
 
-		// Review Class.
-		$review = new ultraDevs\IDBWP\Review();
 
 		// Menu.
 		$menu = new ultraDevs\IDBWP\Admin\Menu();
@@ -118,9 +116,6 @@ final class Integrate_DropBox_WP_Core {
 
 			// Plugin Action Links.
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
-
-			// Review Notice.
-			$review->register();
 
 		} else {
 			$shortcode->register();
@@ -215,13 +210,10 @@ if ( ! function_exists( 'integrate_dropbox_wp' ) ) {
 	/**
 	 * Load Integrate Dropbox
 	 *
-	 * @return Integrate_DropBox_WP_Core
+	 * @return IDBWP_Core
 	 */
 	function integrate_dropbox_wp() {
-		return Integrate_DropBox_WP_Core::run();
+		return IDBWP_Core::run();
 	}
 }
 integrate_dropbox_wp();
-
-
-// echo esc_url( 'https:\/\/dl-web.dropbox.com\/account_photo\/get\/pid_uphoto%3AAAAAAFzgsynQ8G9YAm3yDdYgAdioxvU4AYYw2N-C0xXzwRCfzs1oMY5pRDgQS2zJD7bV_WTg-v3RY-D_c6Ez?size=128x128&vers=1558710916897');

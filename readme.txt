@@ -26,6 +26,9 @@ Integrate DropBox WP - Browse, Upload, Manage Your Dropbox Files from Your WordP
 - Shortcode to upload files
 - and many more
 
+### Contribution & Public Repository
+This plugin is available on [GitHub](https://github.com/ultraDevs/integrate-dropbox-plugin) and we are looking for your contribution to make it better.
+
 
 ### External Libraries and Links Used
 We use the following external libraries and links in this plugin
